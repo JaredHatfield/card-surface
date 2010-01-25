@@ -1,0 +1,92 @@
+#summary System Requirements Specification.
+
+<wiki:toc max_depth="2"/>
+
+=Introduction=
+  # Product Purpose
+    # The product shall provide demonstrate a touch surface integrated with wireless mobile devices.
+    # This Software Requirements Specification document shall be intended for external customer approval.
+  # Product Scope
+    # Card Surface shall provide an interactive touch based card game experience.
+    # Card Surface shall utilize a touch surface for game play.
+    # Card Surface shall allow mobile devices to connect to a game for viewing private information.
+    # Card Surface shall include a server for managing game communications and game state.
+  # Definitions
+    # Client – the touch enabled application and hardware necessary for interacting with the game
+    # Server – the application that manages game play and user statistics
+    # Mobile Client – web based interface displayed on a portable device
+    # Seat Code – a randomly generated string that permits a user to join a table at a specific seat
+  # References
+    # Communication Protocol – defines client\server communication
+  # Overview
+This SRS contains all of the requirements needed to implement this system and its dependencies.  This document shall be formatted so that requirements are organized by system component.  Requirements listed below may necessitate additional debugging data outlined in an internal specification.
+ 
+2.	General Description
+The goal is to create an interactive touch based version of Blackjack that utilizes wireless mobile devices to display the user's face down card.  Any number of wireless devices could be used including: iPhone, iPod Touch, Droid, Palm Pre, BlackBerry, Zune HD, and other browser enabled portable devices.  The system should be able to support 7 players at a time.  Users will be able to log into the system with a username and password.  When playing a game, the interaction with the interface should be natural and mimic real life game play per technical limitations of the display interface.  Betting will be conducted in accordance with the standard game rules including a minimum bet and an optional maximum bet. 
+2.1.	Product Context
+2.1.1.	The product shall be fully independent and self-contained.
+2.1.2.	This product shall consist of two components: a server application and a client application.
+2.2.	Product Functions
+2.2.1.	This product shall, at a minimum, operate using the following three components.  Extensibility to these components as well as additional components not listed here will be allowed:
+2.2.1.1.	Client:  The client shall display the status of the game field, and send the server commands.
+2.2.1.2.	Server:  The server shall process all of the game logic and rules.
+2.2.1.3.	Mobile Client: The mobile client shall allow a user to manage their account settings and view private information about the game state.
+2.2.2.	Users shall be able to connect to tables with their mobile devices.
+2.2.3.	Tables shall be able to connect to the server.
+2.3.	User Characteristics
+2.3.1.	Card Surface shall expect users to be familiar with the rules of the game and standard betting procedure.
+2.3.2.	A user's account shall include a profile picture.
+2.3.3.	A user’s account shall include an account balance
+2.3.4.	A user’s game play history shall be tracked by the server.
+2.3.5.	A user shall be able to manage their account from a mobile client.
+2.4.	Constraints
+2.4.1.	The Card Surface client application shall be constrained by the number of touch points supported by the screen.
+2.4.2.	The Card Surface server application shall be running in order for the system to function.
+2.4.3.	Mobile Clients shall include a browser in order to be compatible with Card Surface.
+2.5.	Dependencies
+2.5.1.	This product shall require a TCP/IP network to function.
+2.5.2.	This product shall use XNA libraries for the client application.
+2.5.3.	This product shall use the Microsoft Surface SDK.
+ 
+3.	Specific Requirements
+3.1.	External Interface Requirements
+3.1.1.	Card Surface shall require a web interface on the Mobile Client.
+3.1.2.	Card Surface shall require a touch surface interface for the client application.
+3.2.	Functional Requirements
+3.2.1.	Client Application
+3.2.1.1.	The client application shall receive the state of the game from the server.
+3.2.1.2.	The client application shall submit a new game state to the server for approval.
+3.2.1.3.	The client application shall allow the users to play any game for which the server supports game rules.
+3.2.1.4.	The client application shall require the user to login with a mobile client to the server before joining a game.
+3.2.1.5.	Users shall enter a randomly generated seat code using their mobile client upon login to join a table.
+3.2.1.6.	Seat codes shall only be valid for a finite period of time after being displayed on the table.
+3.2.1.7.	The client application shall allow a user to select the server-supported game to be played on the table.
+3.2.1.8.	The client application shall transmit a player’s proposed actions to the server for validation.
+3.2.2.	Server Application
+3.2.2.1.	The server application shall perform all game logic.
+3.2.2.2.	The server application shall contain all components required by a client to play a game (excluding mobile clients).
+3.2.2.3.	The server application shall authenticate login credentials for users initiating game play.
+3.2.2.4.	The server application shall reject a user with invalid login credentials and deny that user from participating in a game.
+3.2.2.5.	Login credentials shall consist of a username, password, and seat code.
+3.2.2.6.	The server application shall validate all proposed actions against the game state and game rules.
+3.2.2.7.	The server application shall provide all game graphics to be downloaded by the client application.
+3.2.2.8.	The server application shall provide a list of all available games to the client application.
+3.2.2.9.	The server application shall determine the game state.
+3.2.2.10.	The server application shall save user game history to disk.
+3.2.2.11.	The server application shall provide the mobile client with the most current game state.
+3.3.	Performance Requirements
+3.3.1.1.	Card Surface interaction shall be natural and mimic real life game play per technical limitations of the display interface.
+3.3.1.2.	The server application shall respond to all protocol-defined communications from its authenticated client applications.
+3.3.1.3.	The client application shall respond to all protocol-defined communications from its connected server application.
+3.3.1.4.	The server application shall handle all protocol-defined communications in the order they were received from its authenticated client applications.
+3.4.	Design Constraints
+3.4.1.1.	The system shall be constrained by the hardware capabilities of the client table.
+3.5.	Quality Requirements 
+3.5.1.1.	The server application shall maintain a synchronized game state with each of its authenticated client applications.
+3.5.1.2.	The server application shall remain connected to its client applications for the duration of the games.
+3.5.1.3.	The server application and the client application shall ignore any messages not defined by the system protocol.
+3.6.	Other Requirements
+3.6.1.	Additional requirements may be added as time permits.
+ 
+4.	Appendices
+Appendices may be added as development progresses.
