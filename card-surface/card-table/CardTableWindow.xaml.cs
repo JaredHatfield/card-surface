@@ -20,12 +20,12 @@ namespace card_table
     /// <summary>
     /// Interaction logic for SurfaceWindow1.xaml
     /// </summary>
-    public partial class SurfaceWindow1 : SurfaceWindow
+    public partial class CardTableWindow : SurfaceWindow
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SurfaceWindow1()
+        public CardTableWindow()
         {
             InitializeComponent();
 
