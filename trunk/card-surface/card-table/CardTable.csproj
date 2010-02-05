@@ -4,8 +4,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B5B0718D-8526-4568-983A-DB09C6464007}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RootNamespace>card_table</RootNamespace>
-    <AssemblyName>card-table</AssemblyName>
+    <RootNamespace>CardTable</RootNamespace>
+    <AssemblyName>CardTable</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <WarningLevel>4</WarningLevel>
     <OutputType>winexe</OutputType>
@@ -116,6 +116,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

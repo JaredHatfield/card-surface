@@ -1,36 +1,35 @@
-#region Using directives
-
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Resources;
+// <copyright file="AssemblyInfo.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>AssemblyInfo for CardTable.</summary>
 using System.Globalization;
-using System.Windows;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
-#endregion
+using System.Windows;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("card_table")]
+[assembly: AssemblyTitle("CardTable")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("card_table")]
+[assembly: AssemblyProduct("CardTable")]
 [assembly: AssemblyCopyright("Copyright @  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 
-//In order to begin building localizable applications, set 
-//<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
-//inside a <PropertyGroup>.  For example, if you are using US english
-//in your source files, set the <UICulture> to en-US.  Then uncomment
-//the NeutralResourceLanguage attribute below.  Update the "en-US" in
-//the line below to match the UICulture setting in the project file.
+// In order to begin building localizable applications, set 
+// <UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
+// inside a <PropertyGroup>.  For example, if you are using US english
+// in your source files, set the <UICulture> to en-US.  Then uncomment
+// the NeutralResourceLanguage attribute below.  Update the "en-US" in
+// the line below to match the UICulture setting in the project file.
 
-//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
-
+// [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 // Specifies the location in which theme dictionaries are stored for types in an assembly.
 [assembly: ThemeInfo(
@@ -48,7 +47,6 @@ using System.Runtime.InteropServices;
     // Specifies the location of the system non-theme specific resource dictionary:
     //     Themes\generic.xaml
     ResourceDictionaryLocation.SourceAssembly)]
-
 
 // Version information for an assembly consists of the following four values:
 //

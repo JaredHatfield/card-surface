@@ -8,8 +8,8 @@
     <ProjectGuid>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>game_blackjack</RootNamespace>
-    <AssemblyName>game-blackjack</AssemblyName>
+    <RootNamespace>GameBlackjack</RootNamespace>
+    <AssemblyName>GameBlackjack</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

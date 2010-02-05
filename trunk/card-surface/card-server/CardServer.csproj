@@ -8,8 +8,8 @@
     <ProjectGuid>{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>card_server</RootNamespace>
-    <AssemblyName>card-server</AssemblyName>
+    <RootNamespace>CardServer</RootNamespace>
+    <AssemblyName>CardServer</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,6 +47,16 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
+      <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
+      <Name>GameBlackjack</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
