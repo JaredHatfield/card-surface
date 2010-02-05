@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardServer
+namespace GameBlackJack
 {
-    class Program
+    class Blackjack
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

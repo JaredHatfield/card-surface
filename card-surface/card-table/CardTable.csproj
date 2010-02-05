@@ -106,7 +106,7 @@
     <Content Include="Resources\iconPreview.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="card-table.xml" />
+    <Resource Include="CardTable.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowBackground.jpg" />
