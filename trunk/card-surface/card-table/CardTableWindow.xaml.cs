@@ -15,7 +15,7 @@ using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 
-namespace card_table
+namespace CardTable
 {
     /// <summary>
     /// Interaction logic for SurfaceWindow1.xaml

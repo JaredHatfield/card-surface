@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace card_table
+namespace CardTable
 {
     /// <summary>
     /// Interaction logic for App.xaml
