@@ -12,7 +12,7 @@ namespace CardServer
     /// <summary>
     /// Main application.
     /// </summary>
-    private class Program
+    public class Program
     {
         /// <summary>
         /// Main application.
