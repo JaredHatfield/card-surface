@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "card-surface", "card-surface\card-surface.csproj", "{63AD28B8-9EA2-46E9-8765-C1742DF44C0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "card-table", "card-table\card-table.csproj", "{B5B0718D-8526-4568-983A-DB09C6464007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "card-game", "card-game\card-game.csproj", "{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "card-server", "card-server\card-server.csproj", "{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -13,10 +17,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{63AD28B8-9EA2-46E9-8765-C1742DF44C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63AD28B8-9EA2-46E9-8765-C1742DF44C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63AD28B8-9EA2-46E9-8765-C1742DF44C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63AD28B8-9EA2-46E9-8765-C1742DF44C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B0718D-8526-4568-983A-DB09C6464007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B0718D-8526-4568-983A-DB09C6464007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B0718D-8526-4568-983A-DB09C6464007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B0718D-8526-4568-983A-DB09C6464007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
