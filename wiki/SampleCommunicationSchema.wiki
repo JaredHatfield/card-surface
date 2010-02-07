@@ -3,6 +3,7 @@
 = Game State =
 {{{
 <game>
+   <status turn="1" />
    <players>
       <player id=0 balance=400>
           <area>
