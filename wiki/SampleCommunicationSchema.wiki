@@ -4,5 +4,24 @@
 
 <game>
    <players>
+      <player id=0>
+          <area>
+          </area>
+          <hand>
+          </hand>
+      </player>
    </players>
+   <area>
+   </area>
+   <cards>
+   </cards>
 </game>
+
+= Card Collection =
+
+<cardcollection>
+   <card id=4 status="hidden" />
+   <card id=12 status="faceup" />
+   <card id=40 status="facedown" />
+   <card id=7 status="disabled" />
+</cardcollection>
