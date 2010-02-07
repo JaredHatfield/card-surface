@@ -35,6 +35,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,9 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="CardPile.cs" />
+    <Compile Include="Chip.cs" />
+    <Compile Include="ChipPile.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Pile.cs" />
+    <Compile Include="PhysicalObject.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayingArea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -62,6 +69,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

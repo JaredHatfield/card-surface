@@ -14,6 +14,31 @@ namespace CardGame
     /// </summary>
     public class Player
     {
-        // TODO: Implement Player
+        public enum SeatLocation { North, East, West, South, SouthEast, NorthEast, NorthWest, SouthWest };
+        private int balance;
+        private SeatLocation location;
+        private CardPile hand;
+        private PlayingArea playerArea;
+
+
+        public int Balance
+        {
+            get { return this.balance; }
+        }
+
+        public SeatLocation Location
+        {
+            get { return this.location; }
+        }
+
+        public CardPile Hand
+        {
+            get { return this.hand; }
+        }
+
+        public PlayingArea PlayerArea
+        {
+            get { return this.playerArea; }
+        }
     }
 }
