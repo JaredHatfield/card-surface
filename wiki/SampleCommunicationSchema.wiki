@@ -1,0 +1,8 @@
+#summary The Schema used for network communication
+
+= Game State =
+
+<game>
+   <players>
+   </players>
+</game>
