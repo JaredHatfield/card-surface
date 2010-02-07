@@ -69,4 +69,12 @@ Style: layout (displays cards for players to see), deck (where cards are drawn f
 </cardcollection>
 }}}
 
-= 
+= Commands =
+Commands sent from the table to the server
+
+<action table="1">
+   <command action="Hit">
+      <param name="player" value="1" />
+   </command>
+<action>
+
