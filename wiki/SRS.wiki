@@ -45,6 +45,8 @@ Foundation.<br/>
     `2.3.3.` A user’s account shall include an account balance.<br/>
     `2.3.4.` A user’s game play history shall be tracked by the server.<br/>
     `2.3.5.` A user shall be able to manage their account from a mobile client.<br/>
+    `2.3.6.` A user shall be identified by a unique username.<br/>
+    `2.3.7.` A user shall authenticate with the server using a hashed password mapped to their username.<br/>
   ==2.4. Constraints==
     `2.4.1.` The Card Surface client application shall be constrained by the number of touch points supported by the screen.<br/>
     `2.4.2.` The Card Surface server application shall be running in order for the system to function.<br/>
@@ -53,6 +55,7 @@ Foundation.<br/>
     `2.5.1.` This product shall require a TCP/IP network to function.<br/>
     `2.5.2.` This product shall use XNA libraries for the client application.<br/>
     `2.5.3.` This product shall use the Microsoft Surface SDK.<br/>
+    `2.5.4.` This product shall require Microsoft .NET 3.5.<br/>
  
 =3. Specific Requirements=
   ==3.1. External Interface Requirements==
@@ -68,6 +71,10 @@ Foundation.<br/>
       `3.2.1.6.` Seat codes shall only be valid for a finite period of time after being displayed on the table.<br/>
       `3.2.1.7.` The client application shall allow a user to select the server-supported game to be played on the table.<br/>
       `3.2.1.8.` The client application shall transmit a player’s proposed actions to the server for validation.<br/>
+      `3.2.1.9.` The client application shall support seven players and a dealer.<br/>
+      `3.2.1.10.` The client application shall contain default graphics needed for standard game play.<br/>
+      `3.2.1.11.` Based on Microsoft’s Surface SDK SP1 minimum requirements, the client application shall require
+Microsoft Windows Vista or newer to run.<br/>
     `3.2.2.` Server Application<br/>
       `3.2.2.1.` The server application shall perform all game logic.<br/>
       `3.2.2.2.` The server application shall contain all components required by a client to play a game (excluding mobile clients).<br/>
@@ -80,17 +87,22 @@ Foundation.<br/>
       `3.2.2.9.` The server application shall determine the game state.<br/>
       `3.2.2.10.` The server application shall save user game history to disk.<br/>
       `3.2.2.11.` The server application shall provide the mobile client with the most current game state.<br/>
+      `3.2.2.12.` The server application shall require Microsoft Windows XP or newer to run.<br/>
   ==3.3. Performance Requirements==
     `3.3.1.` Card Surface interaction shall be natural and mimic real life game play per technical limitations of the display interface.<br/>
     `3.3.2.` The server application shall respond to all protocol-defined communications from its authenticated client applications.<br/>
     `3.3.3.` The client application shall respond to all protocol-defined communications from its connected server application.<br/>
     `3.3.4.` The server application shall handle all protocol-defined communications in the order they were received from its authenticated client applications.<br/>
+    `3.3.5.` The server application shall accommodate up to 32 simultaneous mobile devices.<br/>
+    `3.3.6.` The server application shall accommodate up to 4 table instances.<br/>
   ==3.4. Design Constraints==
     `3.4.1.` The system shall be constrained by the hardware capabilities of the client table.<br/>
   ==3.5. Quality Requirements==
     `3.5.1.` The server application shall maintain a synchronized game state with each of its authenticated client applications.<br/>
     `3.5.2.` The server application shall remain connected to its client applications for the duration of the games.<br/>
     `3.5.3.` The server application and the client application shall ignore any messages not defined by the system protocol.<br/>
+    `3.5.4.` Any errors reported by the client or server shall be in plain English.<br/>
+    `3.5.5.` Any errors reported by the client or server shall be understood by the user.<br/>
   ==3.6. Other Requirements==
     `3.6.1.` Additional requirements may be added as time permits.<br/>
  
