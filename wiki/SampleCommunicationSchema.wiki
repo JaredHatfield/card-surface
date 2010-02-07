@@ -1,13 +1,24 @@
 #summary The Schema used for network communication
 
 = Game State =
-
+{{{
 <game>
    <players>
       <player id=0>
           <area>
+             <cardcollection id=0 playable="false" style="layout">
+                <card id=12 status="faceup" />
+             </cardcollection>
+             <cardcollection id=2 playable="false" style="layout">
+                <card id=16 status="faceup" />
+             </cardcollection>
           </area>
           <hand>
+             <cardcollection  playable="true" style="hand">
+                <card id=4 status="hidden" />
+                <card id=12 status="faceup" />
+                <card id=40 status="facedown" />
+             </cardcollection>
           </hand>
       </player>
    </players>
@@ -16,12 +27,21 @@
    <cards>
    </cards>
 </game>
+}}}
+
+= Chips =
+{{{
+
+}}}
 
 = Card Collection =
 
-<cardcollection>
+Playable: true or false if the pile of cards can be "edited".  The piles of cards that can be moved or modified.
+Style: layout (displays cards for players to see), deck (where cards are drawn from), discard, hand
+{{{
+<cardcollection playable="true" style="hand">
    <card id=4 status="hidden" />
    <card id=12 status="faceup" />
    <card id=40 status="facedown" />
-   <card id=7 status="disabled" />
 </cardcollection>
+}}}
