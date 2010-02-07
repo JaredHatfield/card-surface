@@ -26,6 +26,9 @@
                 <card id=40 status="facedown" />
              </cardcollection>
           </hand>
+          <commands>
+             <command name="Hit" action="Hit" />
+          </commands>
       </player>
    </players>
    <area>
@@ -65,3 +68,5 @@ Style: layout (displays cards for players to see), deck (where cards are drawn f
    <card id=40 status="facedown" />
 </cardcollection>
 }}}
+
+= 
