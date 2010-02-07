@@ -31,12 +31,17 @@
 
 = Chips =
 {{{
-
+<chips>
+   <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" />
+   <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" />
+   <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" />
+<chips>
 }}}
 
 = Card Collection =
 
 Playable: true or false if the pile of cards can be "edited".  The piles of cards that can be moved or modified.
+
 Style: layout (displays cards for players to see), deck (where cards are drawn from), discard, hand
 {{{
 <cardcollection playable="true" style="hand">
