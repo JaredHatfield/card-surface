@@ -11,6 +11,7 @@ namespace CardGame
 
     /// <summary>
     /// A collection of cards that the game uses.
+    /// The alphabet, the universal set, what we are working with!
     /// </summary>
     public class Deck
     {

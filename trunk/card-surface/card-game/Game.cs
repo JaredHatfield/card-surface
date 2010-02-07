@@ -14,6 +14,18 @@ namespace CardGame
     /// </summary>
     public class Game
     {
-        // TODO: Implement the Game class
+        /// <summary>
+        /// 
+        /// </summary>
+        private PlayingArea gamingArea;
+
+        /// <summary>
+        /// Gets the gaming area.
+        /// </summary>
+        /// <value>The gaming area.</value>
+        public PlayingArea GamingArea
+        {
+            get { return this.gamingArea; }
+        }
     }
 }
