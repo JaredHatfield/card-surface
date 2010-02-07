@@ -4,7 +4,7 @@
 {{{
 <game>
    <players>
-      <player id=0>
+      <player id=0 balance=400>
           <area>
              <cardcollection id=0 playable="false" style="layout">
                 <card id=12 status="faceup" />
@@ -12,6 +12,11 @@
              <cardcollection id=2 playable="false" style="layout">
                 <card id=16 status="faceup" />
              </cardcollection>
+             <chips>
+                <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" />
+                <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" />
+                <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" />
+             <chips>
           </area>
           <hand>
              <cardcollection  playable="true" style="hand">
@@ -23,9 +28,18 @@
       </player>
    </players>
    <area>
+      <chips>
+         <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" />
+         <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" />
+         <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" />
+      <chips>
+      <cardcollection id=0 playable="true" style="deck">
+         <card id=4 status="hidden" />
+         <card id=12 status="faceup" />
+         <card id=40 status="facedown" />
+      </cardcollection>
+      <cardcollection id=1 playable="false" style="discard" />
    </area>
-   <cards>
-   </cards>
 </game>
 }}}
 
