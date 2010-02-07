@@ -107,4 +107,4 @@ Microsoft Windows Vista or newer to run.<br/>
     `3.6.1.` Additional requirements may be added as time permits.<br/>
  
 =4. Appendices=
-Appendices may be added as development progresses.
+[SampleCommunicationSchema Sample Communication Schema]
