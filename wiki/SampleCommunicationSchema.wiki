@@ -4,6 +4,7 @@
 {{{
 <game>
    <status turn="1" />
+   <message value="Updated" />
    <players>
       <player id=0 balance=400>
           <area>
@@ -77,4 +78,3 @@ Commands sent from the table to the server
       <param name="player" value="1" />
    </command>
 <action>
-
