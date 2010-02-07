@@ -14,7 +14,7 @@
              <CardPile id=2 open="false" expandable="true">
                 <card id=16 status="faceup" moveable="false" />
              </CardPile>
-             <ChipPile>
+             <ChipPile open="false">
                 <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" moveable="false"  />
                 <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" moveable="false" />
                 <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" moveable="false" />
@@ -33,7 +33,7 @@
       </player>
    </players>
    <area>
-      <ChipPile>
+      <ChipPile open="true">
          <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" moveable="false" />
          <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" moveable="false" />
          <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" moveable="false" />
@@ -50,7 +50,7 @@
 
 = Chips =
 {{{
-<ChipPile>
+<ChipPile open="true">
    <chip guid="4jklrjklfu4jnkfu8943runf" value="50" color="blue" moveable="false" />
    <chip guid="d34jhdf7f45jkljf894lkfhd" value="20" color="red" moveable="false" />
    <chip guid="jkl98dfjr4jnkf89fj3udjdl" value="10" color="green" moveable="false" />
