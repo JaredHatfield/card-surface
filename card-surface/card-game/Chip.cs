@@ -6,9 +6,9 @@ namespace CardGame
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
-    using System.Drawing;
 
     /// <summary>
     /// A single chip.
@@ -16,14 +16,23 @@ namespace CardGame
     public class Chip : PhysicalObject
     {
         /// <summary>
-        /// 
+        /// The monetary value of the chip.
         /// </summary>
         private int amount;
 
         /// <summary>
-        /// 
+        /// The color of the chip.
         /// </summary>
         private Color chipColor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Chip"/> class.
+        /// </summary>
+        internal Chip()
+        {
+            this.amount = 10;
+            this.chipColor = Color.Blue;
+        }
 
         /// <summary>
         /// Gets or sets the amount.
@@ -31,8 +40,8 @@ namespace CardGame
         /// <value>The amount.</value>
         public int Amount
         {
-            get { return amount; }
-            set { amount = value; }
+            get { return this.amount; }
+            set { this.amount = value; }
         }
 
         /// <summary>

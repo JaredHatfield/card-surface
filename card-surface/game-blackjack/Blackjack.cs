@@ -13,7 +13,7 @@ namespace GameBlackJack
     /// <summary>
     /// The game of Blackjack.
     /// </summary>
-    public class Blackjack : Game
+    public class Blackjack
     {
         // TODO: Implement Blackjack game.
     }

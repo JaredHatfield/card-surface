@@ -15,9 +15,17 @@ namespace CardGame
     public class Game
     {
         /// <summary>
-        /// 
+        /// The center shared are of the game for cards and chips.
         /// </summary>
         private PlayingArea gamingArea;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Game"/> class.
+        /// </summary>
+        internal Game()
+        {
+            this.gamingArea = new PlayingArea();
+        }
 
         /// <summary>
         /// Gets the gaming area.
