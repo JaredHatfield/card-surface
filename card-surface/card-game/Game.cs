@@ -15,7 +15,7 @@ namespace CardGame
     public class Game
     {
         /// <summary>
-        /// The center shared are of the game for cards and chips.
+        /// The center shared area of the game for cards and chips.
         /// </summary>
         private PlayingArea gamingArea;
 

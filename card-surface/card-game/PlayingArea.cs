@@ -27,7 +27,7 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayingArea"/> class.
         /// </summary>
-        public PlayingArea()
+        internal PlayingArea()
         {
             this.chips = new List<ChipPile>();
             this.cards = new List<CardPile>();
