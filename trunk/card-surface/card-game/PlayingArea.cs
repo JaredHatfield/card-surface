@@ -1,7 +1,7 @@
 ﻿// <copyright file="PlayingArea.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>A playing area for chips and cards.</summary>
 namespace CardGame
 {
     using System;
@@ -10,19 +10,28 @@ namespace CardGame
     using System.Text;
 
     /// <summary>
-    /// 
+    /// A playing area for chips and cards.
     /// </summary>
     public class PlayingArea
     {
         /// <summary>
-        /// 
+        /// The piles of chips.
         /// </summary>
         private List<ChipPile> chips;
 
         /// <summary>
-        /// 
+        /// The piles of cards.
         /// </summary>
         private List<CardPile> cards;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayingArea"/> class.
+        /// </summary>
+        public PlayingArea()
+        {
+            this.chips = new List<ChipPile>();
+            this.cards = new List<CardPile>();
+        }
 
         /// <summary>
         /// Gets the chips.
@@ -41,7 +50,5 @@ namespace CardGame
         {
             get { return this.cards; }
         }
-
-
     }
 }
