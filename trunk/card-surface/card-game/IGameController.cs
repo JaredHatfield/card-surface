@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardAccount
+namespace CardGame
 {
-    public class AccountController
+    public interface IGameController
     {
-        private List<GameAccount> users;
 
     }
 }

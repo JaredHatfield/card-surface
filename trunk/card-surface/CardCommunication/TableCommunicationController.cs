@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardAccount
+namespace CardCommunication
 {
-    public class AccountController
+    public class TableCommunicationController : CommunicationController
     {
-        private List<GameAccount> users;
-
     }
 }

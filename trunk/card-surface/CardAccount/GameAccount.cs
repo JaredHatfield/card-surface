@@ -29,5 +29,21 @@ namespace CardAccount
             get { return this.password; }
         }
 
+        public string ProfileImage
+        {
+            get { return this.profileImage; }
+        }
+
+        public int Balance
+        {
+            get { return this.balance; }
+        }
+
+        public int GamesPlayed
+        {
+            get { return this.gamesPlayed; }
+        }
+
+
     }
 }
