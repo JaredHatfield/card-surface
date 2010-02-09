@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardAccount
+namespace CardCommunication.Messages
 {
-    public class AccountController
+    public class MessageGameState : Message
     {
-        private List<GameAccount> users;
-
     }
 }

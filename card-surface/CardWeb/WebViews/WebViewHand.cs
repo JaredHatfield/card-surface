@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardAccount
+namespace CardWeb.WebViews
 {
-    public class AccountController
+    public class WebViewHand : WebView
     {
-        private List<GameAccount> users;
-
     }
 }

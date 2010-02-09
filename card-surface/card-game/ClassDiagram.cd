@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CardGame.Card">
-    <Position X="0.5" Y="3.75" Width="1.5" />
+    <Position X="5.5" Y="3.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -28,28 +28,28 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Chip">
-    <Position X="2.75" Y="3.75" Width="1.5" />
+    <Position X="7.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAACAAAAAAAAAACAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Chip.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Deck">
-    <Position X="10.5" Y="1" Width="1.5" />
+    <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Deck.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Game">
-    <Position X="10.5" Y="4.5" Width="1.5" />
+    <Position X="12" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardGame.Player">
-    <Position X="8.75" Y="1" Width="1.5" />
+  <Class Name="CardGame.Player" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -65,52 +65,59 @@
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardGame.Properties.Resources" Collapsed="true">
-    <Position X="12.25" Y="2" Width="1.5" />
+  <Class Name="CardGame.Properties.Resources">
+    <Position X="12" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Properties.Settings" Collapsed="true">
-    <Position X="12.25" Y="1" Width="1.5" />
+    <Position X="13.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.CardPile">
-    <Position X="4.5" Y="4.25" Width="1.5" />
+    <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CardPile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.ChipPile">
-    <Position X="6.75" Y="4.25" Width="1.5" />
+    <Position X="2.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ChipPile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.PhysicalObject">
-    <Position X="1.75" Y="1" Width="1.5" />
+    <Position X="6.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAgA=</HashCode>
       <FileName>PhysicalObject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Pile">
-    <Position X="5.75" Y="1" Width="1.5" />
+    <Position X="1.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAACgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.PlayingArea">
-    <Position X="10.5" Y="2" Width="1.5" />
+    <Position X="10.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAABAAAAgAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PlayingArea.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Interface Name="CardGame.IGameController">
+    <Position X="10.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IGameController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
