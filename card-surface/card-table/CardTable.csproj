@@ -74,12 +74,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\SurfaceArea.cs" />
+    <Compile Include="Component\SurfaceAreaGame.cs" />
+    <Compile Include="Component\SurfaceAreaPlayer.cs" />
+    <Compile Include="Component\SurfaceBank.cs" />
+    <Compile Include="Component\SurfaceCard.cs" />
+    <Compile Include="Component\SurfaceChip.cs" />
+    <Compile Include="Component\SurfacePile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,6 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="CardTableWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
