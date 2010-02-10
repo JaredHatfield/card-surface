@@ -52,6 +52,9 @@ namespace CardTable.Component
     /// </summary>
     public partial class SurfaceBank : SurfaceControl
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="SurfaceBank"/> class.
+        /// </summary>
         static SurfaceBank()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SurfaceBank), new FrameworkPropertyMetadata(typeof(SurfaceBank)));

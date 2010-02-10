@@ -1,7 +1,7 @@
 ﻿// <copyright file="WebViewHand.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>View for displaying the users hand.</summary>
 namespace CardWeb.WebViews
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardWeb.WebViews
     using System.Text;
 
     /// <summary>
-    /// 
+    /// View for displaying the users hand.
     /// </summary>
     public class WebViewHand : WebView
     {

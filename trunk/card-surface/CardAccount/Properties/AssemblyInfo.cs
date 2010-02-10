@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿// <copyright file="AssemblyInfo.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>The AssemplyInfo.</summary>
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

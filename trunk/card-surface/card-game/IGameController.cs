@@ -10,10 +10,9 @@ namespace CardGame
     using System.Text;
 
     /// <summary>
-    /// 
+    /// The interface to the GameController used by other libraries to access instances of the Game class.
     /// </summary>
     public interface IGameController
     {
-
     }
 }

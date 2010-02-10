@@ -52,6 +52,9 @@ namespace CardTable.Component
     /// </summary>
     public partial class SurfaceAreaGame : SurfaceArea
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="SurfaceAreaGame"/> class.
+        /// </summary>
         static SurfaceAreaGame()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SurfaceAreaGame), new FrameworkPropertyMetadata(typeof(SurfaceAreaGame)));

@@ -1,7 +1,7 @@
 ﻿// <copyright file="GameAccount.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>An account for a user of the system.</summary>
 namespace CardAccount
 {
     using System;
@@ -10,35 +10,34 @@ namespace CardAccount
     using System.Text;
 
     /// <summary>
-    /// 
+    /// An account for a user of the system.
     /// </summary>
-    class GameAccount
+    public class GameAccount
     {
         /// <summary>
-        /// 
+        /// The account's username.
         /// </summary>
         private string username;
 
         /// <summary>
-        /// 
+        /// The account's password.
         /// </summary>
         private string password;
 
         /// <summary>
-        /// 
+        /// The account's profile picture.
         /// </summary>
         private string profileImage;
 
         /// <summary>
-        /// 
+        /// The account's balance.
         /// </summary>
         private int balance;
 
         /// <summary>
-        /// 
+        /// The number of games played on the account.
         /// </summary>
         private int gamesPlayed;
-
 
         /// <summary>
         /// Gets the username.
@@ -84,7 +83,5 @@ namespace CardAccount
         {
             get { return this.gamesPlayed; }
         }
-
-
     }
 }

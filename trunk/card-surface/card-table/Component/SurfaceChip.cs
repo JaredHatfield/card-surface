@@ -52,6 +52,9 @@ namespace CardTable.Component
     /// </summary>
     public partial class SurfaceChip : SurfaceControl
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="SurfaceChip"/> class.
+        /// </summary>
         static SurfaceChip()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SurfaceChip), new FrameworkPropertyMetadata(typeof(SurfaceChip)));

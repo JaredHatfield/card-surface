@@ -52,6 +52,9 @@ namespace CardTable.Component
     /// </summary>
     public partial class SurfaceArea : SurfaceControl
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="SurfaceArea"/> class.
+        /// </summary>
         static SurfaceArea()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SurfaceArea), new FrameworkPropertyMetadata(typeof(SurfaceArea)));

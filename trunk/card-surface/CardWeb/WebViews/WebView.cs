@@ -1,7 +1,7 @@
 ﻿// <copyright file="WebView.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>An abstract view for displaying a web page.</summary>
 namespace CardWeb.WebViews
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardWeb.WebViews
     using System.Text;
 
     /// <summary>
-    /// 
+    /// An abstract view for displaying a web page.
     /// </summary>
     public abstract class WebView
     {
