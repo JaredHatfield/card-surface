@@ -52,6 +52,9 @@ namespace CardTable.Component
     /// </summary>
     public partial class SurfacePile : SurfaceControl
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="SurfacePile"/> class.
+        /// </summary>
         static SurfacePile()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SurfacePile), new FrameworkPropertyMetadata(typeof(SurfacePile)));

@@ -1,7 +1,7 @@
 ﻿// <copyright file="WebViewCreateAccount.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>View for displaying the account creation page.</summary>
 namespace CardWeb.WebViews
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardWeb.WebViews
     using System.Text;
 
     /// <summary>
-    /// 
+    /// View for displaying the account creation page.
     /// </summary>
     public class WebViewCreateAccount : WebView
     {

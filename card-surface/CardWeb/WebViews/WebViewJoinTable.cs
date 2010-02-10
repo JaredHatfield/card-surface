@@ -1,7 +1,7 @@
 ﻿// <copyright file="WebViewJoinTable.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>View for displaying the for joining a table.</summary>
 namespace CardWeb.WebViews
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardWeb.WebViews
     using System.Text;
 
     /// <summary>
-    /// 
+    /// View for displaying the for joining a table.
     /// </summary>
     public class WebViewJoinTable : WebView
     {

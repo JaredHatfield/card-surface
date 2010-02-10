@@ -1,7 +1,7 @@
 ﻿// <copyright file="TableCommunicationController.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>The controller that the table uses for communication with the server.</summary>
 namespace CardCommunication
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardCommunication
     using System.Text;
 
     /// <summary>
-    /// 
+    /// The controller that the table uses for communication with the server.
     /// </summary>
     public class TableCommunicationController : CommunicationController
     {

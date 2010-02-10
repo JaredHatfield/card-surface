@@ -1,7 +1,7 @@
 ﻿// <copyright file="WebAction.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary></summary>
+// <summary>An abstract action for processing information sent to the server.</summary>
 namespace CardWeb.WebActions
 {
     using System;
@@ -10,7 +10,7 @@ namespace CardWeb.WebActions
     using System.Text;
 
     /// <summary>
-    /// 
+    /// An abstract action for processing information sent to the server.
     /// </summary>
     public abstract class WebAction
     {
