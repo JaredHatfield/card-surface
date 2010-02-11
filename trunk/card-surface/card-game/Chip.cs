@@ -35,23 +35,32 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// Initializes a new instance of the <see cref="Chip"/> class.
+        /// </summary>
+        /// <param name="amount">The chip's amount.</param>
+        /// <param name="chipColor">The color of the chip.</param>
+        internal Chip(int amount, Color chipColor)
+        {
+            this.amount = amount;
+            this.chipColor = chipColor;
+        }
+
+        /// <summary>
+        /// Gets the amount of the chip.
         /// </summary>
         /// <value>The amount.</value>
         public int Amount
         {
             get { return this.amount; }
-            set { this.amount = value; }
         }
 
         /// <summary>
-        /// Gets or sets the color of the chip.
+        /// Gets the color of the chip.
         /// </summary>
         /// <value>The color of the chip.</value>
         public Color ChipColor
         {
             get { return this.chipColor; }
-            set { this.chipColor = value; }
         }
     }
 }
