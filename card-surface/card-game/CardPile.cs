@@ -23,8 +23,19 @@ namespace CardGame
         /// Initializes a new instance of the <see cref="CardPile"/> class.
         /// </summary>
         internal CardPile()
+            : base()
         {
             this.expandable = false;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardPile"/> class.
+        /// </summary>
+        /// <param name="expandable">if set to <c>true</c> [expandable].</param>
+        internal CardPile(bool expandable)
+            : base()
+        {
+            this.expandable = expandable;
         }
 
         /// <summary>

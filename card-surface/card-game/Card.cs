@@ -40,6 +40,19 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Card"/> class.
+        /// </summary>
+        /// <param name="suit">The card's suit.</param>
+        /// <param name="face">The card's face.</param>
+        /// <param name="status">The card's status.</param>
+        internal Card(CardSuit suit, CardFace face, CardStatus status)
+        {
+            this.suit = suit;
+            this.face = face;
+            this.status = status;
+        }
+
+        /// <summary>
         /// The suits for a card.
         /// </summary>
         public enum CardSuit
@@ -163,33 +176,30 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets or sets the suit.
+        /// Gets the suit of the card.
         /// </summary>
         /// <value>The suit of the card.</value>
         public CardSuit Suit
         {
             get { return this.suit; }
-            set { this.suit = value; }
         }
 
         /// <summary>
-        /// Gets or sets the face.
+        /// Gets the face of the card.
         /// </summary>
         /// <value>The face of the card.</value>
         public CardFace Face
         {
             get { return this.face; }
-            set { this.face = value; }
         }
 
         /// <summary>
-        /// Gets or sets the status.
+        /// Gets the status of the card.
         /// </summary>
         /// <value>The status of the card.</value>
         public CardStatus Status
         {
             get { return this.status; }
-            set { this.status = value; }
         }
     }
 }

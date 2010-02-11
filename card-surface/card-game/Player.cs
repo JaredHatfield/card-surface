@@ -46,6 +46,18 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="location">The seat location.</param>
+        internal Player(SeatLocation location)
+        {
+            this.balance = 0;
+            this.location = location;
+            this.hand = new CardPile();
+            this.playerArea = new PlayingArea();
+        }
+
+        /// <summary>
         /// The locations at the table.
         /// </summary>
         public enum SeatLocation

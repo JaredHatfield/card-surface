@@ -15,6 +15,14 @@ namespace CardGame
     public class ChipPile : Pile
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ChipPile"/> class.
+        /// </summary>
+        public ChipPile()
+            : base()
+        {
+        }
+
+        /// <summary>
         /// Gets the total chip amount in the pile.
         /// </summary>
         /// <value>The total chip amount in the pile.</value>

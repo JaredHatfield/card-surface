@@ -36,5 +36,16 @@ namespace CardServer
         /// The AccountController.
         /// </summary>
         private AccountController accountController;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerController"/> class.
+        /// </summary>
+        internal ServerController()
+        {
+            this.gameController = new GameController();
+            this.webController = new WebController();
+            this.serverCommunicationController = new ServerCommunicationController();
+            this.accountController = new AccountController();
+        }
     }
 }

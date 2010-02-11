@@ -19,5 +19,22 @@ namespace CardServer
         /// The list of games.
         /// </summary>
         private List<Game> games;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// </summary>
+        internal GameController()
+        {
+            this.games = new List<Game>();
+        }
+
+        /// <summary>
+        /// Gets the active game count.
+        /// </summary>
+        /// <value>The active game count.</value>
+        public int ActiveGameCount
+        {
+            get { return this.games.Count; }
+        }
     }
 }
