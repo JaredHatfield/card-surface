@@ -43,8 +43,8 @@ namespace CardServer
         internal ServerController()
         {
             this.gameController = new GameController();
-            this.webController = new WebController();
-            this.serverCommunicationController = new ServerCommunicationController();
+            this.webController = new WebController(this.gameController);
+            this.serverCommunicationController = new ServerCommunicationController(this.gameController);
             this.accountController = new AccountController();
         }
     }

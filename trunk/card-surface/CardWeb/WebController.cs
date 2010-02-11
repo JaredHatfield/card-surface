@@ -8,11 +8,25 @@ namespace CardWeb
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using CardGame;
 
     /// <summary>
     /// The WebController that hosts the internal web server.
     /// </summary>
     public class WebController
     {
+        /// <summary>
+        /// The GameController that the web server is able to interact with.
+        /// </summary>
+        private IGameController gameController;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebController"/> class.
+        /// </summary>
+        /// <param name="gameController">The game controller.</param>
+        public WebController(IGameController gameController)
+        {
+            this.gameController = gameController;
+        }
     }
 }

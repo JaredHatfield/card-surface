@@ -8,11 +8,20 @@ namespace CardCommunication
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using CardGame;
 
     /// <summary>
     /// The controller that the table uses for communication with the server.
     /// </summary>
     public class TableCommunicationController : CommunicationController
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
+        /// </summary>
+        /// <param name="gameController">The game controller.</param>
+        public TableCommunicationController(IGameController gameController)
+            : base(gameController)
+        {
+        }
     }
 }
