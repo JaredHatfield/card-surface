@@ -1,86 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="CardWeb.WebActions.WebAction" Collapsed="true">
-    <Position X="4.75" Y="3.5" Width="2" />
+  <Class Name="CardWeb.WebActions.WebAction">
+    <Position X="4.25" Y="3.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebActions\WebAction.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebActions.WebActionCreateAccount" Collapsed="true">
-    <Position X="3.75" Y="4.75" Width="2" />
+  <Class Name="CardWeb.WebActions.WebActionCreateAccount">
+    <Position X="3.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebActions\WebActionCreateAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebActions.WebActionJoinTable" Collapsed="true">
-    <Position X="6" Y="4.75" Width="2" />
+  <Class Name="CardWeb.WebActions.WebActionJoinTable">
+    <Position X="5.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebActions\WebActionJoinTable.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebActions.WebActionLogin" Collapsed="true">
-    <Position X="8.25" Y="4.75" Width="2" />
+  <Class Name="CardWeb.WebActions.WebActionLogin">
+    <Position X="7.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebActions\WebActionLogin.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebActions.WebActionManageAccount" Collapsed="true">
-    <Position X="1.5" Y="4.75" Width="2" />
+  <Class Name="CardWeb.WebActions.WebActionManageAccount">
+    <Position X="1.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebActions\WebActionManageAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebController" Collapsed="true">
-    <Position X="12" Y="3" Width="2" />
+  <Class Name="CardWeb.WebController">
+    <Position X="9" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebView" Collapsed="true">
-    <Position X="5" Y="0.5" Width="2" />
+  <Class Name="CardWeb.WebViews.WebView">
+    <Position X="5.25" Y="0.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebView.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebViewCreateAccount" Collapsed="true">
-    <Position X="7.25" Y="1.75" Width="2" />
+  <Class Name="CardWeb.WebViews.WebViewCreateAccount">
+    <Position X="7.25" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebViewCreateAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebViewHand" Collapsed="true">
-    <Position X="0.5" Y="1.75" Width="2" />
+  <Class Name="CardWeb.WebViews.WebViewHand">
+    <Position X="1.25" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebViewHand.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebViewJoinTable" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="2" />
+  <Class Name="CardWeb.WebViews.WebViewJoinTable">
+    <Position X="3.25" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebViewJoinTable.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebViewLogin" Collapsed="true">
-    <Position X="5" Y="1.75" Width="2" />
+  <Class Name="CardWeb.WebViews.WebViewLogin">
+    <Position X="5.25" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebViewLogin.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardWeb.WebViews.WebViewManageAccount" Collapsed="true">
-    <Position X="9.5" Y="1.75" Width="2" />
+  <Class Name="CardWeb.WebViews.WebViewManageAccount">
+    <Position X="9.25" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebViews\WebViewManageAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
