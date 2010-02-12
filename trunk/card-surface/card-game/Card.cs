@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A single playing card.
     /// </summary>
-    public class Card : PhysicalObject
+    public class Card : PhysicalObject, IComparable
     {
         /// <summary>
         /// The suit of the card.
@@ -200,6 +200,36 @@ namespace CardGame
         public CardStatus Status
         {
             get { return this.status; }
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        /// <param name="obj">An object to compare with this instance.</param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
+        public int CompareTo(object obj)
+        {
+            if (obj is Card)
+            {
+                Card temp = (Card)obj;
+                if (this.face.CompareTo(temp.face) != 0)
+                {
+                    return this.face.CompareTo(temp.face);
+                }
+                else if (this.suit.CompareTo(temp.suid) != 0)
+                {
+                    return this.face.CompareTo(temp.face);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            throw new ArgumentException("object is not a Card");
         }
     }
 }

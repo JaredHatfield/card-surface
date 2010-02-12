@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
 
@@ -17,38 +17,38 @@ namespace CardGame
         /// <summary>
         /// The piles of chips.
         /// </summary>
-        private List<ChipPile> chips;
+        private ObservableCollection<ChipPile> chips;
 
         /// <summary>
         /// The piles of cards.
         /// </summary>
-        private List<CardPile> cards;
+        private ObservableCollection<CardPile> cards;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayingArea"/> class.
         /// </summary>
         internal PlayingArea()
         {
-            this.chips = new List<ChipPile>();
-            this.cards = new List<CardPile>();
+            this.chips = new ObservableCollection<ChipPile>();
+            this.cards = new ObservableCollection<CardPile>();
         }
 
         /// <summary>
         /// Gets the chips.
         /// </summary>
         /// <value>The chips.</value>
-        public List<ChipPile> Chips
+        public ReadOnlyObservableCollection<ChipPile> Chips
         {
-            get { return this.chips; }
+            get { return new ReadOnlyObservableCollection<ChipPile>(this.chips); }
         }
 
         /// <summary>
         /// Gets the cards.
         /// </summary>
         /// <value>The cards.</value>
-        public List<CardPile> Cards
+        public ReadOnlyObservableCollection<CardPile> Cards
         {
-            get { return this.cards; }
+            get { return new ReadOnlyObservableCollection<CardPile>(this.cards); }
         }
     }
 }
