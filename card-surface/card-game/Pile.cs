@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
 
@@ -17,7 +17,7 @@ namespace CardGame
         /// <summary>
         /// The collection of PhysicalObjects.
         /// </summary>
-        private List<PhysicalObject> items;
+        private ObservableCollection<PhysicalObject> pileItems;
 
         /// <summary>
         /// True if the pile accept additional PhysicalObjects into its collection.
@@ -29,7 +29,7 @@ namespace CardGame
         /// </summary>
         internal Pile()
         {
-            this.items = new List<PhysicalObject>();
+            this.pileItems = new ObservableCollection<PhysicalObject>();
             this.open = false;
         }
 
@@ -40,6 +40,33 @@ namespace CardGame
         public bool Open
         {
             get { return this.open; }
+        }
+
+        /// <summary>
+        /// Gets the number of items.
+        /// </summary>
+        /// <value>The number of items.</value>
+        public int NumberOfItems
+        {
+            get { return this.pileItems.Count; }
+        }
+
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>The items.</value>
+        protected ObservableCollection<PhysicalObject> Items
+        {
+            get { return this.pileItems; }
+        }
+
+        /// <summary>
+        /// Adds an item to a pile.
+        /// </summary>
+        /// <param name="item">The item to add to a pile.</param>
+        public void AddItem(PhysicalObject item)
+        {
+            this.pileItems.Add(item);
         }
     }
 }

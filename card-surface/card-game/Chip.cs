@@ -13,7 +13,7 @@ namespace CardGame
     /// <summary>
     /// A single chip.
     /// </summary>
-    public class Chip : PhysicalObject
+    public class Chip : PhysicalObject, IComparable
     {
         /// <summary>
         /// The monetary value of the chip.
@@ -61,6 +61,33 @@ namespace CardGame
         public Color ChipColor
         {
             get { return this.chipColor; }
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        /// <param name="obj">An object to compare with this instance.</param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
+        public int CompareTo(object obj)
+        {
+            if (obj is Chip)
+            {
+                Chip temp = (Chip)obj;
+                int cmp1 = this.chipColor.ToArgb().CompareTo(temp.chipColor.ToArgb());
+                if (cmp1 != 0)
+                {
+                    return cmp1;
+                }
+                else
+                {
+                    return this.amount - temp.amount;
+                }
+            }
+
+            throw new ArgumentException("object is not a Chip");
         }
     }
 }
