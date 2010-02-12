@@ -21,6 +21,7 @@ namespace CardServer
         private static void Main(string[] args)
         {
             // TODO: Implement CardServer.
+            ServerController serverController = new ServerController();
         }
     }
 }
