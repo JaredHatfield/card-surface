@@ -71,7 +71,7 @@ namespace CardGame
         /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>.
         /// </returns>
         /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
-        public int CompareTo(object obj)
+        public override int CompareTo(object obj)
         {
             if (obj is Chip)
             {

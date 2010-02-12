@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A pile of cards
     /// </summary>
-    public class CardPile : Pile
+    public class CardPile : Pile, IComparable
     {
         /// <summary>
         /// A card pile can be visually expanded to see what is in the pile.
@@ -45,6 +45,50 @@ namespace CardGame
         public bool Expandable
         {
             get { return this.expandable; }
+        }
+
+        /// <summary>
+        /// Gets the cards that are in the pile.
+        /// </summary>
+        /// <value>The cards in the pile.</value>
+        public ReadOnlyObservableCollection<PhysicalObject> Cards
+        {
+            get { return new ReadOnlyObservableCollection<PhysicalObject>(this.Items); }
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// The cards in the pile must be the same face and suit and in the same order in the pile.
+        /// </summary>
+        /// <param name="obj">An object to compare with this instance.</param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
+        public int CompareTo(object obj)
+        {
+            if (obj is CardPile)
+            {
+                CardPile temp = (CardPile)obj;
+                if (this.NumberOfItems != temp.NumberOfItems)
+                {
+                    return this.NumberOfItems - temp.NumberOfItems;
+                }
+                else
+                {
+                    for (int i = 0; i < this.NumberOfItems; i++)
+                    {
+                        if (this.Items[i].CompareTo(temp.Items[i]) != 0)
+                        {
+                            return -1;
+                        }
+                    }
+
+                    return 0;
+                }
+            }
+
+            throw new ArgumentException("object is not a Chip");
         }
     }
 }

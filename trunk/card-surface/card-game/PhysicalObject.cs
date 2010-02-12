@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A physical object that is manipulated as part of the game.
     /// </summary>
-    public class PhysicalObject
+    public class PhysicalObject : IComparable
     {
         /// <summary>
         /// Determines if the object can be physically moved.
@@ -60,6 +60,25 @@ namespace CardGame
         public Guid Id
         {
             get { return this.id; }
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        /// <param name="obj">An object to compare with this instance.</param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
+        public virtual int CompareTo(object obj)
+        {
+            if (obj is PhysicalObject)
+            {
+                PhysicalObject temp = (PhysicalObject)obj;
+                return this.id.CompareTo(temp.id);
+            }
+
+            throw new ArgumentException("object is not a Chip");
         }
     }
 }

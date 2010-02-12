@@ -52,6 +52,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the top item.
+        /// </summary>
+        /// <value>The top item.</value>
+        public PhysicalObject TopItem
+        {
+            get
+            {
+                if (this.NumberOfItems > 0)
+                {
+                    return this.pileItems[this.NumberOfItems - 1];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
@@ -64,9 +83,16 @@ namespace CardGame
         /// Adds an item to a pile.
         /// </summary>
         /// <param name="item">The item to add to a pile.</param>
-        public void AddItem(PhysicalObject item)
+        /// <returns>True if the item was added to the pile.</returns>
+        public bool AddItem(PhysicalObject item)
         {
-            this.pileItems.Add(item);
+            if (this.open)
+            {
+                this.pileItems.Add(item);
+                return true;
+            }
+
+            return false;
         }
     }
 }
