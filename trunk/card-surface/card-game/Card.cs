@@ -219,7 +219,7 @@ namespace CardGame
                 {
                     return this.face.CompareTo(temp.face);
                 }
-                else if (this.suit.CompareTo(temp.suid) != 0)
+                else if (this.suit.CompareTo(temp.suit) != 0)
                 {
                     return this.face.CompareTo(temp.face);
                 }
