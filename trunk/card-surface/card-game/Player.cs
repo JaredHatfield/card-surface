@@ -104,12 +104,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the balance.
+        /// Gets or sets the balance.
         /// </summary>
         /// <value>The balance.</value>
         public int Balance
         {
             get { return this.balance; }
+            set { this.balance = value; }
         }
 
         /// <summary>
