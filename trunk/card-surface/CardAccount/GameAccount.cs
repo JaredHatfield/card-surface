@@ -15,6 +15,31 @@ namespace CardAccount
     public class GameAccount
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GameAccount"/> class.
+        /// </summary>
+        public GameAccount()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameAccount"/> class.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="profileImage">The profile image.</param>
+        /// <param name="balance">The balance.</param>
+        /// <param name="gamesPlayed">The games played.</param>
+        public GameAccount(string username, string password, string profileImage,
+                           int balance, int gamesPlayed)
+        {
+            this.username = username;
+            this.password = password;
+            this.profileImage = profileImage;
+            this.balance = balance;
+            this.gamesPlayed = gamesPlayed;
+        }
+
+        /// <summary>
         /// The account's username.
         /// </summary>
         private string username;
@@ -82,6 +107,23 @@ namespace CardAccount
         public int GamesPlayed
         {
             get { return this.gamesPlayed; }
+        }
+
+        /// <summary>
+        /// Balances the change.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public void BalanceChange(double value)
+        {
+            balance += value;
+        }
+
+        /// <summary>
+        /// Adds the game.
+        /// </summary>
+        public void AddGame()
+        {
+            gamesPlayed++;
         }
     }
 }
