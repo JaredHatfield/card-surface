@@ -43,6 +43,7 @@ namespace CardUnitTests
         public void StandardDeckTest()
         {
             CardPile expected = new CardPile();
+            expected.Open = true;
             expected.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.FaceDown));
             expected.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.FaceDown));
             expected.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
@@ -100,7 +101,7 @@ namespace CardUnitTests
             expected.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.FaceDown));
 
             CardPile actual = Deck.StandardDeck();
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, "The default order for a new deck of cards is incorrect.");
         }
     }
 }

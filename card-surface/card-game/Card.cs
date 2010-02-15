@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A single playing card.
     /// </summary>
-    public class Card : PhysicalObject, IComparable
+    public class Card : PhysicalObject, IComparable, IEquatable<Card>
     {
         /// <summary>
         /// The suit of the card.
@@ -221,7 +221,7 @@ namespace CardGame
                 }
                 else if (this.suit.CompareTo(temp.suit) != 0)
                 {
-                    return this.face.CompareTo(temp.face);
+                    return this.suit.CompareTo(temp.suit);
                 }
                 else
                 {
@@ -233,6 +233,58 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Equals the specified card.
+        /// </summary>
+        /// <param name="card">The card to compare.</param>
+        /// <returns>True if the cards face and suit is the same.</returns>
+        public bool Equals(Card card)
+        {
+            if (this.CompareTo(card) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return base.Equals(obj);
+            }
+            else if (obj is Card)
+            {
+                return this.Equals(obj as Card);
+            }
+            else
+            {
+                throw new InvalidCastException("The 'obj' argument is not a Card object.");
+            }
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>
@@ -240,7 +292,7 @@ namespace CardGame
         /// </returns>
         public override string ToString()
         {
-            return this.face + " " + this.suit + " " + this.status;
+            return this.face + " of " + this.suit + " [" + this.status + "]";
         }
     }
 }

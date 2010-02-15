@@ -22,6 +22,7 @@ namespace CardGame
         public static CardPile StandardDeck()
         {
             CardPile cardPile = new CardPile();
+            cardPile.Open = true;
             Card.CardFace[] faces = Deck.GetFaces();
             Card.CardSuit[] suits = Deck.GetSuits();
             for (int i = suits.Length - 1; i >= 0; i--)

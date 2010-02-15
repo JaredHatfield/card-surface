@@ -34,12 +34,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="Pile"/> may accept new PhysicalObjects.
+        /// Gets or sets a value indicating whether this <see cref="Pile"/> can have PhysicalObjects added to it.
         /// </summary>
         /// <value><c>true</c> if open; otherwise, <c>false</c>.</value>
         public bool Open
         {
             get { return this.open; }
+            set { this.open = value; }
         }
 
         /// <summary>
