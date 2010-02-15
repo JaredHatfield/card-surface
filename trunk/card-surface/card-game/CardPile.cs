@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A pile of cards
     /// </summary>
-    public class CardPile : Pile, IComparable
+    public class CardPile : Pile, IComparable, IEquatable<CardPile>
     {
         /// <summary>
         /// A card pile can be visually expanded to see what is in the pile.
@@ -57,6 +57,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Draws the card on the top of the pile and removes it.
+        /// </summary>
+        /// <returns>The card on the top of the pile</returns>
+        public Card DrawCard()
+        {
+            if (this.NumberOfItems > 0)
+            {
+                int i = this.NumberOfItems - 1;
+                Card card = this.Items[i] as Card;
+                this.Items.RemoveAt(i);
+                return card;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type.
         /// The cards in the pile must be the same face and suit and in the same order in the pile.
         /// </summary>
@@ -88,7 +107,59 @@ namespace CardGame
                 }
             }
 
-            throw new ArgumentException("object is not a Chip");
+            throw new ArgumentException("object is not a CardPile");
+        }
+
+        /// <summary>
+        /// Equalses the specified card pile.
+        /// </summary>
+        /// <param name="cardPile">The card pile.</param>
+        /// <returns>True if the piles have the same cards in the same order.</returns>
+        public bool Equals(CardPile cardPile)
+        {
+            if (this.CompareTo(cardPile) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return base.Equals(obj);
+            }
+            else if (obj is CardPile)
+            {
+                return this.Equals(obj as CardPile);
+            }
+            else
+            {
+                throw new InvalidCastException("The 'obj' argument is not a CardPile object.");
+            }
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

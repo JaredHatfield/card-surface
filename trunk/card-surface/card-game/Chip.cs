@@ -13,7 +13,7 @@ namespace CardGame
     /// <summary>
     /// A single chip.
     /// </summary>
-    public class Chip : PhysicalObject, IComparable
+    public class Chip : PhysicalObject, IComparable, IEquatable<Chip>
     {
         /// <summary>
         /// The monetary value of the chip.
@@ -88,6 +88,58 @@ namespace CardGame
             }
 
             throw new ArgumentException("object is not a Chip");
+        }
+
+        /// <summary>
+        /// Equalses the specified chip.
+        /// </summary>
+        /// <param name="chip">The chip to equate with.</param>
+        /// <returns>True if the color and the value of the chips are the same.</returns>
+        public bool Equals(Chip chip)
+        {
+            if (this.CompareTo(chip) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return base.Equals(obj);
+            }
+            else if (obj is Chip)
+            {
+                return this.Equals(obj as Chip);
+            }
+            else
+            {
+                throw new InvalidCastException("The 'obj' argument is not a Chip object.");
+            }
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

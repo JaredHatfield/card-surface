@@ -23,26 +23,28 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEQAAABEAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEQAAABEAAAAAAQEAAAABAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Chip">
     <Position X="7.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAACAAAAAAAAAACAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIAAAACAAQAAAAAAACAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Chip.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Deck">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAIAAAAAAgAAAA=</HashCode>
       <FileName>Deck.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Game">
-    <Position X="10.25" Y="5.25" Width="1.5" />
+    <Position X="10.25" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Game.cs</FileName>
@@ -78,14 +80,15 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.CardPile">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQEgAAABAAIEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CardPile.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.ChipPile">
-    <Position X="2.75" Y="3.5" Width="1.5" />
+    <Position X="2.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ChipPile.cs</FileName>
@@ -94,26 +97,27 @@
   <Class Name="CardGame.PhysicalObject">
     <Position X="6.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAgA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAQAAAAAAAAAAAAAAAAAgAAAAIAAAgA=</HashCode>
       <FileName>PhysicalObject.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Pile">
     <Position X="1.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAAACgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAKAAgACAAAACAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.PlayingArea">
-    <Position X="10.25" Y="2.75" Width="1.5" />
+    <Position X="10.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAABAAAAgAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PlayingArea.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="CardGame.IGameController">
-    <Position X="10.25" Y="1.5" Width="1.5" />
+    <Position X="10.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IGameController.cs</FileName>

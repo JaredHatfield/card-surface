@@ -22,9 +22,10 @@ namespace CardGameCommandLine
         public static void Main(string[] args)
         {
             CardPile cardPile = Deck.StandardDeck();
-            for (int i = 0; i < cardPile.NumberOfItems; i++)
+
+            while (cardPile.NumberOfItems > 0)
             {
-                Console.WriteLine(i + ")" + cardPile.Cards[i]);
+                Console.WriteLine(cardPile.DrawCard());
             }
 
             Console.ReadLine();
