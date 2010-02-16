@@ -65,7 +65,7 @@ namespace CardCommunication.Messages
             XmlElement header = messageDoc.CreateElement("Header");
             DateTime time;
 
-            header.SetAttribute("TimeStamp", time.ToString);
+            header.SetAttribute("TimeStamp", ""); //time.ToString);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace CardCommunication.Messages
         {
             XmlElement status = messageDoc.CreateElement("Status");
 
-            status.SetAttribute("turn", game.turn);
+            status.SetAttribute("turn", ""); //game.turn);
 
             message.AppendChild(status);
         }
@@ -105,7 +105,7 @@ namespace CardCommunication.Messages
         {
             XmlElement value = messageDoc.CreateElement("Message");
 
-            value.SetAttribute("Value", game.value);
+            value.SetAttribute("Value", ""); //game.value);
 
             message.AppendChild(value);
         }
@@ -118,10 +118,10 @@ namespace CardCommunication.Messages
         {
             XmlElement players = messageDoc.CreateElement("Players");
 
-            foreach (Player player in game.players)
-            {
+            //foreach (Player player in game.players)
+            //{
                 BuildPlayer(ref players);
-            }
+            //}
 
             message.AppendChild(players);
         }
@@ -135,8 +135,8 @@ namespace CardCommunication.Messages
             XmlElement player = messageDoc.CreateElement("Player");
             
             BuildArea(ref player);
-            player.SetAttribute("ID", game.player.id);
-            player.SetAttribute("Balance", game.player.balance);
+            player.SetAttribute("ID", ""); //game.player.id);
+            player.SetAttribute("Balance", ""); //game.player.balance);
 
             BuildHand(ref player);
             BuildCommands(ref player);
@@ -164,18 +164,18 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildGraphicCardPile(ref XmlElement message)
         {
-            foreach (Card card in game.player.cards)
-            {
+            //foreach (Card card in game.player.cards)
+            //{
                 XmlElement cardGraphicPile = messageDoc.CreateElement("CardGraphicPile");
 
                 BuildCard(ref cardGraphicPile);
 
-                cardGraphicPile.SetAttribute("ID", game.player.area.cardgpile.id);
-                cardGraphicPile.SetAttribute("Open", game.player.area.cardgpile.open);
-                cardGraphicPile.SetAttribute("Expandable", game.player.area.cardgpile.expandable);
+                cardGraphicPile.SetAttribute("ID", ""); //game.player.area.cardgpile.id);
+                cardGraphicPile.SetAttribute("Open", ""); //game.player.area.cardgpile.open);
+                cardGraphicPile.SetAttribute("Expandable", ""); //game.player.area.cardgpile.expandable);
 
                 message.AppendChild(cardGraphicPile);
-            }
+            //}
         }
 
         /// <summary>
@@ -184,16 +184,16 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildChipPile(ref XmlElement message)
         {
-            foreach (Chip chip in game.player.chips)
-            {
+            //foreach (Chip chip in game.player.chips)
+            //{
                 XmlElement chipPile = messageDoc.CreateElement("ChipPile");
 
                 BuildChip(ref chipPile);
 
-                chipPile.SetAttribute("Open", game.player.area.chippile.open);
+                chipPile.SetAttribute("Open", ""); //game.player.area.chippile.open);
                 
                 message.AppendChild(chipPile);
-            }
+            //}
         }
 
         /// <summary>
@@ -204,9 +204,9 @@ namespace CardCommunication.Messages
         {
             XmlElement card = messageDoc.CreateElement("Card");
 
-            card.SetAttribute("ID", game.player.area.cardgpile.card.id);
-            card.SetAttribute("Status", game.player.area.cardgpile.card.status);
-            card.SetAttribute("Moveable", game.player.area.cardgpile.card.moveable);
+            card.SetAttribute("ID", ""); //game.player.area.cardgpile.card.id);
+            card.SetAttribute("Status", ""); //game.player.area.cardgpile.card.status);
+            card.SetAttribute("Moveable", ""); //game.player.area.cardgpile.card.moveable);
 
             messageDoc.AppendChild(card);
         }
@@ -219,10 +219,10 @@ namespace CardCommunication.Messages
         {
             XmlElement chip = messageDoc.CreateElement("Chip");
 
-            chip.SetAttribute("GUID", game.player.area.chippile.chip.guid);
-            chip.SetAttribute("Value", game.player.area.chippile.chip.value);
-            chip.SetAttribute("Color", game.player.area.chippile.chip.color);
-            chip.SetAttribute("Moveable", game.player.area.chippile.chip.moveable);
+            chip.SetAttribute("GUID", ""); //game.player.area.chippile.chip.guid);
+            chip.SetAttribute("Value", ""); //game.player.area.chippile.chip.value);
+            chip.SetAttribute("Color", ""); //game.player.area.chippile.chip.color);
+            chip.SetAttribute("Moveable", ""); //game.player.area.chippile.chip.moveable);
 
             messageDoc.AppendChild(chip);
         }
@@ -248,14 +248,14 @@ namespace CardCommunication.Messages
         {
             XmlElement cardPile = messageDoc.CreateElement("CardPile");
 
-            foreach (Card card in game.player.hand.cards)
-            {
+            //foreach (Card card in game.player.hand.cards)
+            //{
                 BuildCard(ref cardPile);
-            }
+            //}
 
-            cardPile.SetAttribute("ID", game.player.hand.id);
-            cardPile.SetAttribute("Playable", game.player.hand.playable);
-            cardPile.SetAttribute("Style", game.player.hand.style);
+            cardPile.SetAttribute("ID", ""); //game.player.hand.id);
+            cardPile.SetAttribute("Playable", ""); //game.player.hand.playable);
+            cardPile.SetAttribute("Style", ""); //game.player.hand.style);
 
             message.AppendChild(cardPile);
         }
@@ -268,10 +268,10 @@ namespace CardCommunication.Messages
         {
             XmlElement commands = messageDoc.CreateElement("Commands");
 
-            foreach (Command com in game.player.commands)
-            {
+            //foreach (Command com in game.player.commands)
+            //{
                 BuildCommand(ref commands);
-            }
+            //}
 
             message.AppendChild(commands);
         }
@@ -284,8 +284,8 @@ namespace CardCommunication.Messages
         {
             XmlElement command = messageDoc.CreateElement("Command");
 
-            command.SetAttribute("Name", game.player.command.name);
-            command.SetAttribute("Action", game.player.command.action);
+            command.SetAttribute("Name", ""); //game.player.command.name);
+            command.SetAttribute("Action", ""); //game.player.command.action);
 
             message.AppendChild(command);
         }
