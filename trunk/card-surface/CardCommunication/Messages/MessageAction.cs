@@ -48,6 +48,9 @@ namespace CardCommunication.Messages
         /// <returns></returns>
         public override bool SendMessage()
         {
+            bool sent = false;
+
+            return sent;
         }
 
         /// <summary>
@@ -56,8 +59,9 @@ namespace CardCommunication.Messages
         protected override void BuildHeader()
         {
             XmlElement header = messageDoc.CreateElement("Header");
+            DateTime time;
 
-            header.SetAttribute("TimeStamp", val);
+            header.SetAttribute("TimeStamp", ""); //time.ToString);
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace CardCommunication.Messages
 
             BuildCommand(ref action);
 
-            action.SetAttribute("Table", game.action.table);
+            action.SetAttribute("Table", ""); //game.action.table);
             messageDoc.AppendChild(action);
         }
 
@@ -95,8 +99,8 @@ namespace CardCommunication.Messages
         {
             XmlElement param = messageDoc.CreateElement("Param");
 
-            param.SetAttribute("Name", game.action.command.param.name);
-            param.SetAttribute("Value", game.action.command.param.value);
+            param.SetAttribute("Name", ""); //game.action.command.param.name);
+            param.SetAttribute("Value", ""); //game.action.command.param.value);
 
             message.AppendChild(param);
         }
