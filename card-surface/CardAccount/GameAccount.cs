@@ -113,7 +113,7 @@ namespace CardAccount
         /// Balances the change.
         /// </summary>
         /// <param name="value">The value.</param>
-        public void BalanceChange(double value)
+        public void BalanceChange(int value)
         {
             balance += value;
         }
