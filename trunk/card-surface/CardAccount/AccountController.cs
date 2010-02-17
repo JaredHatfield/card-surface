@@ -15,9 +15,26 @@ namespace CardAccount
     public class AccountController
     {
         /// <summary>
+        /// The singleton instance of AccountController
+        /// </summary>
+        private static AccountController instance = new AccountController();
+
+        /// <summary>
         /// The list of users that are on the system.
         /// </summary>
         private List<GameAccount> users;
+
+        /// <summary>
+        /// Gets the instance of the AccountController.
+        /// </summary>
+        /// <value>The instance.</value>
+        public static AccountController Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         /// <summary>
         /// Authenticates the specified username.
