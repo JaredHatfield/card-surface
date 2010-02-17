@@ -19,12 +19,12 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Document containing xml message.
         /// </summary>
-        XmlDocument messageDoc;
+        private XmlDocument messageDoc;
 
         /// <summary>
         /// game state.
         /// </summary>
-        Game game;
+        private Game game;
 
         /// <summary>
         /// Messages the specified game state.
@@ -32,7 +32,10 @@ namespace CardCommunication.Messages
         /// <param name="gameState">State of the game.</param>
         public override void MessageConstructSend(Game gameState)
         {
-            game = gameState;
+            this.game = gameState;
+
+            this.BuildMessage();
+            this.SendMessage();
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Sends the message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>whether or not message was sent</returns>
         public override bool SendMessage()
         {
             bool sent = false;
@@ -58,10 +61,11 @@ namespace CardCommunication.Messages
         /// </summary>
         protected override void BuildHeader()
         {
-            XmlElement header = messageDoc.CreateElement("Header");
+            XmlElement header = this.messageDoc.CreateElement("Header");
             DateTime time;
 
-            header.SetAttribute("TimeStamp", ""); //time.ToString);
+            ////time.ToString);
+            header.SetAttribute("TimeStamp", String.Empty); 
         }
 
         /// <summary>
@@ -70,12 +74,13 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildAction(ref XmlElement message)
         {
-            XmlElement action = messageDoc.CreateElement("Action");
+            XmlElement action = this.messageDoc.CreateElement("Action");
 
-            BuildCommand(ref action);
-
-            action.SetAttribute("Table", ""); //game.action.table);
-            messageDoc.AppendChild(action);
+            this.BuildCommand(ref action);
+            
+            ////game.action.table);
+            action.SetAttribute("Table", String.Empty); 
+            message.AppendChild(action);
         }
 
         /// <summary>
@@ -84,11 +89,11 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected override void BuildCommand(ref XmlElement message)
         {
-            XmlElement command = messageDoc.CreateElement("Command");
+            XmlElement command = this.messageDoc.CreateElement("Command");
 
-            BuildParam(ref command);
+            this.BuildParam(ref command);
 
-            messageDoc.AppendChild(command);
+            message.AppendChild(command);
         }
 
         /// <summary>
@@ -97,10 +102,13 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildParam(ref XmlElement message)
         {
-            XmlElement param = messageDoc.CreateElement("Param");
+            XmlElement param = this.messageDoc.CreateElement("Param");
 
-            param.SetAttribute("Name", ""); //game.action.command.param.name);
-            param.SetAttribute("Value", ""); //game.action.command.param.value);
+            ////game.action.command.param.name);
+            param.SetAttribute("Name", String.Empty);
+
+            ////game.action.command.param.value);
+            param.SetAttribute("Value", String.Empty);
 
             message.AppendChild(param);
         }

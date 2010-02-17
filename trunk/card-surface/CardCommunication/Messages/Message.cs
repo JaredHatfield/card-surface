@@ -19,16 +19,17 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Document containing xml message.
         /// </summary>
-        XmlDocument messageDoc;
+        private XmlDocument messageDoc;
 
         /// <summary>
         /// game state.
         /// </summary>
-        Game game;
+        private Game game;
 
         /// <summary>
         /// Messages all relevent players/tables of the specified game state.
         /// </summary>
+        /// <param name="gameState">State of the game.</param>
         public abstract void MessageConstructSend(Game gameState);
 
         /// <summary>
@@ -39,14 +40,12 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Sends the message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>whether or not the message was sent successfully</returns>
         public abstract bool SendMessage();
 
         /// <summary>
         /// Builds the header.
         /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns></returns>
         protected abstract void BuildHeader();
 
         /// <summary>
