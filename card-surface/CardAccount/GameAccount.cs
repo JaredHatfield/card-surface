@@ -119,11 +119,16 @@ namespace CardAccount
         /// <returns>whether the account was updated</returns>
         public bool UpdateAccount(string username, string password, string profileImage, int balance, int gamesPlayed)
         {
+            bool updated = false;
+
             this.username = username;
             this.password = password;
             this.profileImage = profileImage;
             this.balance = balance;
             this.gamesPlayed = gamesPlayed;
+            updated = true;
+
+            return updated;
         }
 
         /// <summary>
