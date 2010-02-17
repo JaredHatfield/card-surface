@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
 
@@ -14,5 +14,26 @@ namespace CardGame
     /// </summary>
     public interface IGameController
     {
+        /// <summary>
+        /// Gets the active game count.
+        /// </summary>
+        /// <value>The active game count.</value>
+        int ActiveGameCount
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Adds a game.
+        /// </summary>
+        /// <param name="game">The game to add.</param>
+        void AddGame(Game game);
+
+        /// <summary>
+        /// Gets a game.
+        /// </summary>
+        /// <param name="id">The unique id of the game.</param>
+        /// <returns>The game requested.</returns>
+        Game GetGame(Guid id);
     }
 }

@@ -9,6 +9,7 @@ namespace CardGameCommandLine
     using System.Linq;
     using System.Text;
     using CardGame;
+    using CardServer;
 
     /// <summary>
     /// A command line application for using the CardGame classes.
@@ -21,12 +22,11 @@ namespace CardGameCommandLine
         /// <param name="args">The args for the application.</param>
         public static void Main(string[] args)
         {
-            CardPile cardPile = Deck.StandardDeck();
+            Game game = new Game();
+            IGameController gameController = new GameController();
+            gameController.AddGame(game);
 
-            while (cardPile.NumberOfItems > 0)
-            {
-                Console.WriteLine(cardPile.DrawCard());
-            }
+            Console.WriteLine(game.SeatPasswords[Player.SeatLocation.East]);
 
             Console.ReadLine();
         }
