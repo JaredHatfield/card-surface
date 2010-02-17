@@ -31,7 +31,7 @@ namespace CardAccount
 
             foreach (GameAccount account in this.users)
             {
-                if (account.Username = username && account.Password = password)
+                if ((account.Username == username) && (account.Password == password))
                 {
                     valid = true;
                 }
@@ -47,13 +47,13 @@ namespace CardAccount
         /// <returns>the account of the username</returns>
         public GameAccount LookUpUser(string username)
         {
-            GameAccount account;
+            GameAccount account = null;
 
-            foreach (GameAccount account in this.users)
+            foreach (GameAccount acnt in this.users)
             {
-                if (account.Username = username)
+                if (acnt.Username == username)
                 {
-                    this.account = account;
+                    account = acnt;
                 }
             }
 
@@ -71,13 +71,17 @@ namespace CardAccount
         /// <returns>whether the account was updated</returns>
         public bool UpdateAccount(string username, string password, string profileImage, int balance, int gamesPlayed)
         {
+            bool updated = false;
+
             foreach (GameAccount account in this.users)
             {
-                if (account.Username = username)
+                if (account.Username == username)
                 {
-                    account.UpdateAccount(username, password, profileImage, balance, gamesPlayed);
+                    updated = account.UpdateAccount(username, password, profileImage, balance, gamesPlayed);
                 }
             }
+
+            return updated;
         }
     }
 }
