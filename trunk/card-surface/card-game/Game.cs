@@ -5,6 +5,7 @@
 namespace CardGame
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
@@ -14,6 +15,16 @@ namespace CardGame
     /// </summary>
     public class Game
     {
+        /// <summary>
+        /// The length of the seat passwords that are used to join a table.
+        /// </summary>
+        private const int PasswordLength = 7;
+
+        /// <summary>
+        /// A unique identifier for a game.
+        /// </summary>
+        private Guid id;
+
         /// <summary>
         /// The center shared area of the game for cards and chips.
         /// </summary>
@@ -25,13 +36,38 @@ namespace CardGame
         private ObservableCollection<Player> players;
 
         /// <summary>
+        /// The list of seat passwords.
+        /// </summary>
+        private Dictionary<Player.SeatLocation, string> seatPasswords;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
         /// </summary>
         internal Game()
         {
+            this.id = Guid.NewGuid();
             this.gamingArea = new PlayingArea();
             this.players = new ObservableCollection<Player>();
-            Player p = new Player(Player.SeatLocation.North);
+            this.seatPasswords = new Dictionary<Player.SeatLocation, string>(8);
+
+            // Set an initial value for all of the seat locations
+            this.seatPasswords[Player.SeatLocation.East] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.North] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.NorthEast] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.NorthWest] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.South] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.SouthEast] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.SouthWest] = this.GenerateSeatPassword();
+            this.seatPasswords[Player.SeatLocation.West] = this.GenerateSeatPassword();
+        }
+
+        /// <summary>
+        /// Gets the unique id for a game.
+        /// </summary>
+        /// <value>The unique id.</value>
+        public Guid Id
+        {
+            get { return this.id; }
         }
 
         /// <summary>
@@ -59,7 +95,15 @@ namespace CardGame
         public int NumberOfPlayers
         {
             get { return this.players.Count; }
+        }
 
+        /// <summary>
+        /// Gets the seat passwords.
+        /// </summary>
+        /// <value>The seat passwords.</value>
+        internal Dictionary<Player.SeatLocation, string> SeatPasswords
+        {
+            get { return this.seatPasswords; }
         }
 
         /// <summary>
@@ -98,6 +142,22 @@ namespace CardGame
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Generates a seat password.
+        /// </summary>
+        /// <returns>A string for a password.</returns>
+        private string GenerateSeatPassword()
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            for (int i = 0; i < PasswordLength; i++)
+            {
+                builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor((26 * random.NextDouble()) + 65))));
+            }
+
+            return builder.ToString().ToLower();
         }
     }
 }
