@@ -45,7 +45,7 @@ namespace CardServer
             this.gameController = new GameController();
             this.webController = new WebController(this.gameController);
             this.serverCommunicationController = new ServerCommunicationController(this.gameController);
-            this.accountController = new AccountController();
+            this.accountController = AccountController.Instance;
         }
     }
 }
