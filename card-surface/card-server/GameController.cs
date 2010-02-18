@@ -32,9 +32,7 @@ namespace CardServer
         internal GameController()
         {
             this.games = new ObservableCollection<Game>();
-
-            // TODO: This needs to be changed to an instance of the Singleton class!
-            this.accountController = new AccountController();
+            this.accountController = AccountController.Instance;
         }
 
         /// <summary>
