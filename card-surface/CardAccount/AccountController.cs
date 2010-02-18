@@ -25,6 +25,13 @@ namespace CardAccount
         private List<GameAccount> users;
 
         /// <summary>
+        /// Prevents a default instance of the AccountController class from being created.
+        /// </summary>
+        private AccountController()
+        {
+        }
+
+        /// <summary>
         /// Gets the instance of the AccountController.
         /// </summary>
         /// <value>The instance.</value>
