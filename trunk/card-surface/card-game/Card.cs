@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Windows.Media.Imaging;
 
     /// <summary>
     /// A single playing card.
@@ -30,6 +31,11 @@ namespace CardGame
         private CardStatus status;
 
         /// <summary>
+        /// The image of the card used by the graphics components.
+        /// </summary>
+        private BitmapImage image;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
         internal Card()
@@ -37,6 +43,7 @@ namespace CardGame
             this.suit = CardSuit.Spades;
             this.face = CardFace.Ace;
             this.status = CardStatus.FaceDown;
+            this.image = null;
         }
 
         /// <summary>
@@ -50,6 +57,9 @@ namespace CardGame
             this.suit = suit;
             this.face = face;
             this.status = status;
+
+            // TODO: Add a parameter to the constructor to include the bitmap image for this card.
+            this.image = null;
         }
 
         /// <summary>

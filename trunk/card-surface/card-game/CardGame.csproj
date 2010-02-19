@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -85,6 +88,60 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CardImages\AceClubs.bmp" />
+    <Content Include="CardImages\AceDiamonds.bmp" />
+    <Content Include="CardImages\AceHearts.bmp" />
+    <Content Include="CardImages\AceSpades.bmp" />
+    <Content Include="CardImages\EightClubs.bmp" />
+    <Content Include="CardImages\EightDiamonds.bmp" />
+    <Content Include="CardImages\EightHearts.bmp" />
+    <Content Include="CardImages\EightSpades.bmp" />
+    <Content Include="CardImages\FiveClubs.bmp" />
+    <Content Include="CardImages\FiveDiamonds.bmp" />
+    <Content Include="CardImages\FiveHearts.bmp" />
+    <Content Include="CardImages\FiveSpades.bmp" />
+    <Content Include="CardImages\FourClubs.bmp" />
+    <Content Include="CardImages\FourDiamonds.bmp" />
+    <Content Include="CardImages\FourHearts.bmp" />
+    <Content Include="CardImages\FourSpades.bmp" />
+    <Content Include="CardImages\JackClubs.bmp" />
+    <Content Include="CardImages\JackDiamonds.bmp" />
+    <Content Include="CardImages\JackHearts.bmp" />
+    <Content Include="CardImages\JackSpades.bmp" />
+    <Content Include="CardImages\KingClubs.bmp" />
+    <Content Include="CardImages\KingDiamonds.bmp" />
+    <Content Include="CardImages\KingHearts.bmp" />
+    <Content Include="CardImages\KingSpades.bmp" />
+    <Content Include="CardImages\NineClubs.bmp" />
+    <Content Include="CardImages\NineDiamonds.bmp" />
+    <Content Include="CardImages\NineHearts.bmp" />
+    <Content Include="CardImages\NineSpades.bmp" />
+    <Content Include="CardImages\QueenClubs.bmp" />
+    <Content Include="CardImages\QueenDiamonds.bmp" />
+    <Content Include="CardImages\QueenHearts.bmp" />
+    <Content Include="CardImages\QueenSpades.bmp" />
+    <Content Include="CardImages\SevenClubs.bmp" />
+    <Content Include="CardImages\SevenDiamonds.bmp" />
+    <Content Include="CardImages\SevenHearts.bmp" />
+    <Content Include="CardImages\SevenSpades.bmp" />
+    <Content Include="CardImages\SixClubs.bmp" />
+    <Content Include="CardImages\SixDiamonds.bmp" />
+    <Content Include="CardImages\SixHearts.bmp" />
+    <Content Include="CardImages\SixSpades.bmp" />
+    <Content Include="CardImages\TenClubs.bmp" />
+    <Content Include="CardImages\TenDiamonds.bmp" />
+    <Content Include="CardImages\TenHearts.bmp" />
+    <Content Include="CardImages\TenSpades.bmp" />
+    <Content Include="CardImages\ThreeClubs.bmp" />
+    <Content Include="CardImages\ThreeDiamonds.bmp" />
+    <Content Include="CardImages\ThreeHearts.bmp" />
+    <Content Include="CardImages\ThreeSpades.bmp" />
+    <Content Include="CardImages\TwoClubs.bmp" />
+    <Content Include="CardImages\TwoDiamonds.bmp" />
+    <Content Include="CardImages\TwoHearts.bmp" />
+    <Content Include="CardImages\TwoSpades.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
