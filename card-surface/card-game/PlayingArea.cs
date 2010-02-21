@@ -50,5 +50,73 @@ namespace CardGame
         {
             get { return new ReadOnlyObservableCollection<CardPile>(this.cards); }
         }
+
+        /// <summary>
+        /// Determines whether the specified chip id is part of playing area.
+        /// </summary>
+        /// <param name="chipId">The unique chip id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified chip id is contained within the playing area; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsChip(Guid chipId)
+        {
+            for (int i = 0; i < this.Chips.Count; i++)
+            {
+                if (this.Chips[i].ContainsPhysicalObject(chipId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified card id is part of the playing area.
+        /// </summary>
+        /// <param name="cardId">The unique card id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified card id is contained within the playing area; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsCard(Guid cardId)
+        {
+            for (int i = 0; i < this.Cards.Count; i++)
+            {
+                if (this.Cards[i].ContainsPhysicalObject(cardId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified pile is in the playing area.
+        /// </summary>
+        /// <param name="pileId">The unique pile id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified pile is in the playing area; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsPile(Guid pileId)
+        {
+            for (int i = 0; i < this.Cards.Count; i++)
+            {
+                if (this.Cards[i].Id.Equals(pileId))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < this.Chips.Count; i++)
+            {
+                if (this.Chips[i].Id.Equals(pileId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
