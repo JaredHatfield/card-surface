@@ -26,8 +26,6 @@ namespace CardGameCommandLine
             IGameController gameController = new GameController();
             gameController.AddGame(game);
 
-            Console.WriteLine(game.SeatPasswords[Player.SeatLocation.East]);
-
             Console.ReadLine();
         }
     }

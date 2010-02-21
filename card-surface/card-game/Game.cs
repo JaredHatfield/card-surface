@@ -16,11 +16,6 @@ namespace CardGame
     public class Game
     {
         /// <summary>
-        /// The length of the seat passwords that are used to join a table.
-        /// </summary>
-        private const int PasswordLength = 7;
-
-        /// <summary>
         /// A unique identifier for a game.
         /// </summary>
         private Guid id;
@@ -33,12 +28,7 @@ namespace CardGame
         /// <summary>
         /// The collection of players that are playing in the game.
         /// </summary>
-        private ObservableCollection<Player> players;
-
-        /// <summary>
-        /// The list of seat passwords.
-        /// </summary>
-        private Dictionary<Player.SeatLocation, string> seatPasswords;
+        private ObservableCollection<Seat> seats;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
@@ -47,18 +37,7 @@ namespace CardGame
         {
             this.id = Guid.NewGuid();
             this.gamingArea = new PlayingArea();
-            this.players = new ObservableCollection<Player>();
-            this.seatPasswords = new Dictionary<Player.SeatLocation, string>(8);
-
-            // Set an initial value for all of the seat locations
-            this.seatPasswords[Player.SeatLocation.East] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.North] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.NorthEast] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.NorthWest] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.South] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.SouthEast] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.SouthWest] = this.GenerateSeatPassword();
-            this.seatPasswords[Player.SeatLocation.West] = this.GenerateSeatPassword();
+            this.seats = new ObservableCollection<Seat>();
         }
 
         /// <summary>
@@ -80,12 +59,12 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the players that are playing the game.
+        /// Gets the seats.
         /// </summary>
-        /// <value>The players that are playing the game.</value>
-        public ReadOnlyObservableCollection<Player> Players
+        /// <value>The seats.</value>
+        public ReadOnlyObservableCollection<Seat> Seats
         {
-            get { return new ReadOnlyObservableCollection<Player>(this.players); }
+            get { return new ReadOnlyObservableCollection<Seat>(this.seats); }
         }
 
         /// <summary>
@@ -94,16 +73,19 @@ namespace CardGame
         /// <value>The number of players in the game.</value>
         public int NumberOfPlayers
         {
-            get { return this.players.Count; }
-        }
+            get
+            {
+                int number = 0;
+                for (int i = 0; i < this.seats.Count; i++)
+                {
+                    if (!this.seats[i].IsEmpty)
+                    {
+                        number++;
+                    }
+                }
 
-        /// <summary>
-        /// Gets the seat passwords.
-        /// </summary>
-        /// <value>The seat passwords.</value>
-        internal Dictionary<Player.SeatLocation, string> SeatPasswords
-        {
-            get { return this.seatPasswords; }
+                return number;
+            }
         }
 
         /// <summary>
@@ -111,17 +93,55 @@ namespace CardGame
         /// </summary>
         /// <param name="location">The location of the player.</param>
         /// <returns>The player at that location.</returns>
-        public Player GetPlayer(Player.SeatLocation location)
+        public Player GetPlayer(Seat.SeatLocation location)
         {
-            for (int i = 0; i < this.players.Count; i++)
+            for (int i = 0; i < this.seats.Count; i++)
             {
-                if (this.players[i].Location == location)
+                if (this.seats[i].Location == location)
                 {
-                    return this.players[i];
+                    return this.seats[i].Player;
                 }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets a player based off of a username
+        /// </summary>
+        /// <param name="username">The username to look up.</param>
+        /// <returns>The instance of the player.</returns>
+        public Player GetPlayer(string username)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Username.Equals(username))
+                {
+                    return this.seats[i].Player;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Determines whether the specified username is playing this game.
+        /// </summary>
+        /// <param name="username">The username to look up.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified username is playing this game; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsUserPlaying(string username)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Username.Equals(username))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -131,33 +151,17 @@ namespace CardGame
         /// <returns>
         ///     <c>true</c> if the seat at the specified location is empty; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsSeatEmpty(Player.SeatLocation location)
+        public bool IsSeatEmpty(Seat.SeatLocation location)
         {
-            for (int i = 0; i < this.players.Count; i++)
+            for (int i = 0; i < this.seats.Count; i++)
             {
-                if (this.players[i].Location == location)
+                if (this.seats[i].Location == location)
                 {
-                    return false;
+                    return this.seats[i].IsEmpty;
                 }
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Generates a seat password.
-        /// </summary>
-        /// <returns>A string for a password.</returns>
-        private string GenerateSeatPassword()
-        {
-            StringBuilder builder = new StringBuilder();
-            Random random = new Random();
-            for (int i = 0; i < PasswordLength; i++)
-            {
-                builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor((26 * random.NextDouble()) + 65))));
-            }
-
-            return builder.ToString().ToLower();
         }
     }
 }

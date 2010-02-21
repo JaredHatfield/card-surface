@@ -74,6 +74,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Seat.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CardGameClassDiagram.cd" />
