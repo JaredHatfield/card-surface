@@ -25,12 +25,18 @@ namespace CardGame
         private bool open;
 
         /// <summary>
+        /// A unique id for the pile.
+        /// </summary>
+        private Guid id;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Pile"/> class.
         /// </summary>
         internal Pile()
         {
             this.pileItems = new ObservableCollection<PhysicalObject>();
             this.open = false;
+            this.id = Guid.NewGuid();
         }
 
         /// <summary>
@@ -41,6 +47,15 @@ namespace CardGame
         {
             get { return this.open; }
             set { this.open = value; }
+        }
+
+        /// <summary>
+        /// Gets the unique id.
+        /// </summary>
+        /// <value>The unique id.</value>
+        public Guid Id
+        {
+            get { return this.id; }
         }
 
         /// <summary>
@@ -91,6 +106,26 @@ namespace CardGame
             {
                 this.pileItems.Add(item);
                 return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the pile contains the specified physical object.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <returns>
+        ///     <c>true</c> if the pile contains the specified physical object; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsPhysicalObject(Guid physicalObject)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].Id.Equals(physicalObject))
+                {
+                    return true;
+                }
             }
 
             return false;

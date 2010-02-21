@@ -139,5 +139,64 @@ namespace CardGame
         {
             get { return this.playerArea; }
         }
+
+        /// <summary>
+        /// Determines whether the specified card id is held by the player.
+        /// </summary>
+        /// <param name="cardId">The unique card id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified card id is held by the player; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsCard(Guid cardId)
+        {
+            if (this.hand.ContainsPhysicalObject(cardId))
+            {
+                return true;
+            }
+            else if (this.playerArea.ContainsCard(cardId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified chip id is held by the player.
+        /// </summary>
+        /// <param name="chipId">The unique chip id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified chip id is held by the player; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsChip(Guid chipId)
+        {
+            if (this.playerArea.ContainsChip(chipId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified pile id held by the player.
+        /// </summary>
+        /// <param name="pileId">The unique pile id.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified pile id is held by the player; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsPile(Guid pileId)
+        {
+            if (this.hand.Id.Equals(pileId))
+            {
+                return true;
+            }
+            else if (this.playerArea.ContainsPile(pileId))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
