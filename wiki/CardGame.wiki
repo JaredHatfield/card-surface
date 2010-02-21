@@ -34,3 +34,12 @@ A CardPile is an extension of a Pile that is used specifically for Cards.
 
 == ChipPile == 
 A ChipPile is an extension of a Pile that is used specifically for Chips.
+
+= PhysicalObject =
+A PhysicalObject is the abstract class that is used for dealing with objects on the game board.
+
+== Chip ==
+A Chip is an implementation of a PhysicalObject that includes a color and a value.
+
+== Card ==
+A Card is an implementation of a PhysicalObject that includes a face, a suit, and a status.  A card is also associated with an image that is displayed to the user.
