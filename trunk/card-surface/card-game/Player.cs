@@ -20,11 +20,6 @@ namespace CardGame
         private int balance;
 
         /// <summary>
-        /// The players location at the table.
-        /// </summary>
-        private SeatLocation location;
-
-        /// <summary>
         /// The players hand.
         /// </summary>
         private CardPile hand;
@@ -40,67 +35,8 @@ namespace CardGame
         internal Player()
         {
             this.balance = 0;
-            this.location = SeatLocation.North;
             this.hand = new CardPile();
             this.playerArea = new PlayingArea();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Player"/> class.
-        /// </summary>
-        /// <param name="location">The seat location.</param>
-        internal Player(SeatLocation location)
-        {
-            this.balance = 0;
-            this.location = location;
-            this.hand = new CardPile();
-            this.playerArea = new PlayingArea();
-        }
-
-        /// <summary>
-        /// The locations at the table.
-        /// </summary>
-        public enum SeatLocation
-        {
-            /// <summary>
-            /// The north position on the table.
-            /// </summary>
-            North,
-
-            /// <summary>
-            /// The east position on the table.
-            /// </summary>
-            East,
-
-            /// <summary>
-            /// The west position on the table.
-            /// </summary>
-            West,
-
-            /// <summary>
-            /// The south position on the table.
-            /// </summary>
-            South,
-
-            /// <summary>
-            /// The southeast position on the table.
-            /// </summary>
-            SouthEast,
-
-            /// <summary>
-            /// The northeast position on the table.
-            /// </summary>
-            NorthEast,
-
-            /// <summary>
-            /// The northwest position on the table.
-            /// </summary>
-            NorthWest,
-
-            /// <summary>
-            /// The southwest position on the table.
-            /// </summary>
-            SouthWest
         }
 
         /// <summary>
@@ -111,15 +47,6 @@ namespace CardGame
         {
             get { return this.balance; }
             set { this.balance = value; }
-        }
-
-        /// <summary>
-        /// Gets the location.
-        /// </summary>
-        /// <value>The location.</value>
-        public SeatLocation Location
-        {
-            get { return this.location; }
         }
 
         /// <summary>
