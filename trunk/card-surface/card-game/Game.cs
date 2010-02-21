@@ -28,7 +28,7 @@ namespace CardGame
         /// <summary>
         /// The collection of players that are playing in the game.
         /// </summary>
-        private ObservableCollection<Seat> seats;
+        private ReadOnlyObservableCollection<Seat> seats;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
@@ -37,7 +37,16 @@ namespace CardGame
         {
             this.id = Guid.NewGuid();
             this.gamingArea = new PlayingArea();
-            this.seats = new ObservableCollection<Seat>();
+            ObservableCollection<Seat> s = new ObservableCollection<Seat>();
+            s.Add(new Seat(Seat.SeatLocation.East));
+            s.Add(new Seat(Seat.SeatLocation.North));
+            s.Add(new Seat(Seat.SeatLocation.NorthEast));
+            s.Add(new Seat(Seat.SeatLocation.NorthWest));
+            s.Add(new Seat(Seat.SeatLocation.South));
+            s.Add(new Seat(Seat.SeatLocation.SouthEast));
+            s.Add(new Seat(Seat.SeatLocation.SouthWest));
+            s.Add(new Seat(Seat.SeatLocation.West));
+            this.seats = new ReadOnlyObservableCollection<Seat>(s);
         }
 
         /// <summary>
@@ -64,7 +73,7 @@ namespace CardGame
         /// <value>The seats.</value>
         public ReadOnlyObservableCollection<Seat> Seats
         {
-            get { return new ReadOnlyObservableCollection<Seat>(this.seats); }
+            get { return this.seats; }
         }
 
         /// <summary>
