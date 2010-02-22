@@ -172,5 +172,23 @@ namespace CardGame
 
             return true;
         }
+
+        /// <summary>
+        /// Test to see if the privided password is valid for an open seat in this game.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        /// <returns>True if the password is valid; otherwsie false.</returns>
+        public bool PasswordPeek(string password)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (this.seats[i].PasswordPeek(password))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

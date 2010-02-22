@@ -35,5 +35,12 @@ namespace CardGame
         /// <param name="id">The unique id of the game.</param>
         /// <returns>The game requested.</returns>
         Game GetGame(Guid id);
+
+        /// <summary>
+        /// Tests to see if the password is valid for any open seat in any game.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        /// <returns>True if the password is valid; otherwise false.</returns>
+        bool PasswordPeek(string password);
     }
 }
