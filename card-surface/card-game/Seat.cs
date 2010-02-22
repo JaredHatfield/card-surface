@@ -17,7 +17,12 @@ namespace CardGame
         /// <summary>
         /// The length of the seat passwords that are used to join a table.
         /// </summary>
-        private const int PasswordLength = 7;
+        private const int PasswordLength = 10;
+
+        /// <summary>
+        /// The list of all of the passwords, used to prevent duplicate passwords from being generated.
+        /// </summary>
+        private static ObservableCollection<string> passwordBank = new ObservableCollection<string>();
 
         /// <summary>
         /// The player sitting at this seat.
@@ -52,7 +57,7 @@ namespace CardGame
         {
             this.player = null;
             this.location = location;
-            this.password = Seat.GenerateSeatPassword();
+            this.AssignSeatPassword();
             this.username = null;
             this.id = Guid.NewGuid();
         }
@@ -176,6 +181,27 @@ namespace CardGame
         public bool SitDown(string username, string password)
         {
             // TODO: Implement logic that allows a player to sit down at the seat.
+
+            // 1) Make sure the seat is empty
+            // 2) Make sure the passwords match
+            // 3) Change the password
+            // 4) Assign the username to this seat
+            // 5) Make a player and add them to the seat
+            return false;
+        }
+
+        /// <summary>
+        /// Test to see if the password is correct without making any changes.
+        /// </summary>
+        /// <param name="password">The password to test.</param>
+        /// <returns>True if the seat is empty and the password is correct; otherwise false.</returns>
+        public bool PasswordPeek(string password)
+        {
+            if (this.IsEmpty && this.password.Equals(password))
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -183,7 +209,7 @@ namespace CardGame
         /// Generates a seat password.
         /// </summary>
         /// <returns>A string for a password.</returns>
-        private static string GenerateSeatPassword()
+        private static string GeneratePassword()
         {
             StringBuilder builder = new StringBuilder();
             Random random = new Random();
@@ -193,6 +219,31 @@ namespace CardGame
             }
 
             return builder.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Assigns a new seat password to this object.
+        /// </summary>
+        private void AssignSeatPassword()
+        {
+            // Remove the existing password from the bank.
+            if (this.password != null)
+            {
+                Seat.passwordBank.Remove(this.password);
+            }
+
+            // Generate a password.
+            string newpassword = Seat.GeneratePassword();
+
+            // Keep generating passwords until we have a unique password.
+            while (Seat.passwordBank.Contains(newpassword))
+            {
+                newpassword = Seat.GeneratePassword();
+            }
+
+            // Assign the password and add it to the bank.
+            this.password = newpassword;
+            Seat.passwordBank.Add(this.password);
         }
     }
 }

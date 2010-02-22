@@ -70,5 +70,23 @@ namespace CardServer
 
             return null;
         }
+
+        /// <summary>
+        /// Tests to see if the password is valid for any open seat in any game.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        /// <returns>True if the password is valid; otherwise false.</returns>
+        public bool PasswordPeek(string password)
+        {
+            for (int i = 0; i < this.games.Count; i++)
+            {
+                if (this.games[i].PasswordPeek(password))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
