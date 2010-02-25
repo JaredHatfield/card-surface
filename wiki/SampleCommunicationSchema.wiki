@@ -74,8 +74,20 @@ Style: layout (displays cards for players to see), deck (where cards are drawn f
 Commands sent from the table to the server
 {{{
 <action table="1">
-   <command action="Hit">
+   <command action="Custom">
+      <param name="action" value="Hit" />
       <param name="player" value="1" />
+   </command>
+<action>
+}}}
+
+The move command specifies how an object moves from one collection to another.
+{{{
+<action table="1">
+   <command action="Move">
+      <param name="Player" value="A_Player_GUID_Here" />
+      <param name="Object" value="A_PhysicalObject_GUID_Here" />
+      <param name="To" value="A_Pile_GUID_Here" />
    </command>
 <action>
 }}}
