@@ -24,6 +24,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the current set of games.
+        /// </summary>
+        /// <value>The current set of games.</value>
+        ReadOnlyObservableCollection<Game> Games
+        {
+            get;
+        }
+
+        /// <summary>
         /// Adds a game.
         /// </summary>
         /// <param name="game">The game to add.</param>
