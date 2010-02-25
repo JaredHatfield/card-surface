@@ -45,6 +45,15 @@ namespace CardServer
         }
 
         /// <summary>
+        /// Gets the current set of games.
+        /// </summary>
+        /// <value>The current set of games.</value>
+        public ReadOnlyObservableCollection<Game> Games
+        {
+            get { return new ReadOnlyObservableCollection<Game>(this.games); }
+        }
+
+        /// <summary>
         /// Adds a game to the list of games.
         /// </summary>
         /// <param name="game">The game to add to the list of games.</param>
