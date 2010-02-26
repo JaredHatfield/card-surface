@@ -30,6 +30,11 @@ namespace CardGame
         private PlayingArea playerArea;
 
         /// <summary>
+        /// A flag to indicate if it is this players turn.
+        /// </summary>
+        private bool turn;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         internal Player()
@@ -65,6 +70,16 @@ namespace CardGame
         public PlayingArea PlayerArea
         {
             get { return this.playerArea; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is this players turn.
+        /// </summary>
+        /// <value><c>true</c> if it is this players turn; otherwise, <c>false</c>.</value>
+        internal bool Turn
+        {
+            get { return this.turn; }
+            set { this.turn = value; }
         }
 
         /// <summary>
