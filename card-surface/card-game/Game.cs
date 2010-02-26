@@ -190,5 +190,68 @@ namespace CardGame
 
             return false;
         }
+
+        /// <summary>
+        /// Move the specified PhysicalObject into the specified Pile.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>True if the move was successful; otherwise false.</returns>
+        public bool MoveAction(Guid physicalObject, Guid destinationPile)
+        {
+            if (!this.MoveCompatible(physicalObject, destinationPile))
+            {
+                // We can not move this object to this pile because of compatibility
+                return false;
+            }
+            else if (!this.MoveTest(physicalObject, destinationPile))
+            {
+                // Not a valid game move
+                return false;
+            }
+            else
+            {
+                // Attempt the move and return the results.
+                // TODO: Implement the actual movement from one pile to another.
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tests if a move of a PhysicalObject to a specified Pile is valid for the specific game.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>True if the move if valid; otherwise false.</returns>
+        protected virtual bool MoveTest(Guid physicalObject, Guid destinationPile)
+        {
+            // This method should be overridden by a specific game to validate this specific move.
+            return true;
+        }
+
+        /// <summary>
+        /// Tests if a move of a PhysicalObject to a specified Pile is valid.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>True if the move is compatible; otherwise false.</returns>
+        private bool MoveCompatible(Guid physicalObject, Guid destinationPile)
+        {
+            Type physicalObjectType = physicalObject.GetType();
+            Type destinationPileType = destinationPile.GetType();
+
+            if (physicalObjectType == typeof(Card) && destinationPileType == typeof(CardPile))
+            {
+                return true;
+            }
+            else if (physicalObjectType == typeof(Chip) && destinationPileType == typeof(ChipPile))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
