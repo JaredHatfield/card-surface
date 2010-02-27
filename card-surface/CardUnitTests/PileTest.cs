@@ -4,6 +4,7 @@
 // <summary>Unit test for Pile Class.</summary>
 namespace CardUnitTests
 {
+    using System;
     using CardGame;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -48,6 +49,59 @@ namespace CardUnitTests
             target.Open = true;
             target.AddItem(physicalObject);
             Assert.IsTrue(target.ContainsPhysicalObject(physicalObject.Id), "Pile contains the object.");
+        }
+
+        /// <summary>
+        /// A test for ContainsPhysicalObject
+        /// </summary>
+        [TestMethod()]
+        public void ContainsPhysicalObjectTest()
+        {
+            Pile target = this.CreatePile();
+            target.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
+            Card c = new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+            Guid cid = c.Id;
+            Assert.IsFalse(target.ContainsPhysicalObject(Guid.NewGuid()), "Pile does not contain an object Guid.");
+            target.Open = true;
+            target.AddItem(c);
+            Assert.IsTrue(target.ContainsPhysicalObject(cid), "Pile contains an object Guid.");
+        }
+
+        /// <summary>
+        /// A test for GetPhysicalObject
+        /// </summary>
+        [TestMethod()]
+        public void GetPhysicalObjectTest()
+        {
+            Pile target = this.CreatePile();
+            target.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
+            Card c = new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+            Guid cid = c.Id;
+            Assert.IsNull(target.GetPhysicalObject(cid), "Pile does not contain an object Guid.");
+            target.Open = true;
+            target.AddItem(c);
+            Assert.IsNotNull(target.GetPhysicalObject(cid), "Pile does contain an object Guid.");
+            Card c2 = (Card)target.GetPhysicalObject(cid);
+            Assert.AreEqual(c.Id, c2.Id, "Retreived object ids are the same.");
+            Assert.AreEqual(c, c2, "Retreived objects are the same.");
+        }
+
+        /// <summary>
+        /// A test for RemoveItem
+        /// </summary>
+        [TestMethod()]
+        public void RemoveItemTest()
+        {
+            Pile target = this.CreatePile();
+            target.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.FaceDown));
+            Card c = new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+            Guid cid = c.Id;
+            target.Open = true;
+            target.AddItem(c);
+            target.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
+            Assert.IsNotNull(target.GetPhysicalObject(cid), "Object is in the pile.");
+            target.RemoveItem(c);
+            Assert.IsNull(target.GetPhysicalObject(cid), "Object is not in the pile.");
         }
 
         /// <summary>
