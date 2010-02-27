@@ -94,7 +94,7 @@ namespace CardGame
         {
             get { return this.pileItems; }
         }
-
+        
         /// <summary>
         /// Adds an item to a pile.
         /// </summary>
@@ -106,6 +106,31 @@ namespace CardGame
             {
                 this.pileItems.Add(item);
                 return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes the specified physical object
+        /// </summary>
+        /// <param name="item">The physical object to remove.</param>
+        /// <returns>True if the physical object was removed; otherwise false.</returns>
+        public bool RemoveItem(PhysicalObject item)
+        {
+            // TODO: Should a non-open pile be able to have items removed from it?
+            // If this is changed, a corresponding check needs to be added to the MoveAction method in Game.
+            if (this.open || true)
+            {
+                if (!this.pileItems.Contains(item))
+                {
+                    return false;
+                }
+                else
+                {
+                    this.pileItems.Remove(item);
+                    return true;
+                }
             }
 
             return false;
@@ -129,6 +154,24 @@ namespace CardGame
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the physical object specified by a unique id.
+        /// </summary>
+        /// <param name="physicalObjectId">The unique id.</param>
+        /// <returns>The PhysicalObject specified or null if it is not in this pile.</returns>
+        internal PhysicalObject GetPhysicalObject(Guid physicalObjectId)
+        {
+            for (int i = 0; i < this.pileItems.Count; i++)
+            {
+                if (this.pileItems[i].Id.Equals(physicalObjectId))
+                {
+                    return this.pileItems[i];
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -140,5 +140,56 @@ namespace CardGame
 
             return false;
         }
+
+        /// <summary>
+        /// Gets the physical object by unique id.
+        /// </summary>
+        /// <param name="id">The unique id.</param>
+        /// <returns>The PhysicalObject specified or null if it is not possesed by the Player.</returns>
+        internal PhysicalObject GetPhysicalObject(Guid id)
+        {
+            if (this.PlayerArea.ContainsCard(id) || this.PlayerArea.ContainsChip(id))
+            {
+                return this.PlayerArea.GetPhysicalObject(id);
+            }
+            else
+            {
+                return this.Hand.GetPhysicalObject(id);
+            }
+        }
+
+        /// <summary>
+        /// Gets the pile with the specified id.
+        /// </summary>
+        /// <param name="pileId">The pile id.</param>
+        /// <returns>The instance of the specified pile if it exists; otherwise null.</returns>
+        internal Pile GetPile(Guid pileId)
+        {
+            if (this.hand.Id.Equals(pileId))
+            {
+                return this.hand;
+            }
+            else
+            {
+                return this.PlayerArea.GetPile(pileId);
+            }
+        }
+
+        /// <summary>
+        /// Gets the pile containing a physical object with the specified id.
+        /// </summary>
+        /// <param name="physicalObjectId">The physical object id.</param>
+        /// <returns>The instance of the pile containing the specified physical object; otherwise null.</returns>
+        internal Pile GetPileContaining(Guid physicalObjectId)
+        {
+            if (this.hand.ContainsPhysicalObject(physicalObjectId))
+            {
+                return this.hand;
+            }
+            else
+            {
+                return this.PlayerArea.GetPileContaining(physicalObjectId);
+            }
+        }
     }
 }
