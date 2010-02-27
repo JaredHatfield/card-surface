@@ -25,6 +25,7 @@ namespace CardGame
             cardPile.Open = true;
             Card.CardFace[] faces = Deck.GetFaces();
             Card.CardSuit[] suits = Deck.GetSuits();
+
             for (int i = suits.Length - 1; i >= 0; i--)
             {
                 for (int j = faces.Length - 1; j >= 0; j--)

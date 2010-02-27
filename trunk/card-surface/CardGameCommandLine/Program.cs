@@ -26,6 +26,12 @@ namespace CardGameCommandLine
             IGameController gameController = new GameController();
             gameController.AddGame(game);
 
+            CardPile deck = Deck.StandardDeck();
+            for (int i = 0; i < deck.Cards.Count; i++)
+            {
+                Console.WriteLine(deck.Cards[i].ToString());
+            }
+
             Console.ReadLine();
         }
     }
