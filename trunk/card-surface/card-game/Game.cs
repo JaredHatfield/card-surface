@@ -211,10 +211,113 @@ namespace CardGame
             }
             else
             {
-                // Attempt the move and return the results.
-                // TODO: Implement the actual movement from one pile to another.
-                return false;
+                // Retreive the physical object's pile
+                Pile locatedSourcePile = this.GetPileContaining(physicalObject);
+                if (locatedSourcePile == null)
+                {
+                    return false;
+                }
+
+                // Retreive the physical object
+                PhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
+                if (locatedPhysicalObject == null)
+                {
+                    return false;
+                }
+
+                // Retreive the pile
+                Pile locatedDestinationPile = this.GetPile(destinationPile);
+                if (locatedDestinationPile == null || !locatedDestinationPile.Open)
+                {
+                    return false;
+                }
+                
+                // Removed the object from the source pile
+                locatedSourcePile.RemoveItem(locatedPhysicalObject);
+
+                // Add the physical object to the destination pile
+                locatedDestinationPile.AddItem(locatedPhysicalObject);
+                
+                return true;
             }
+        }
+
+        /// <summary>
+        /// Gets the specified physical object.
+        /// </summary>
+        /// <param name="id">The unique id.</param>
+        /// <returns>The instance of the PhysicalObject if it exists; otherwise null.</returns>
+        internal PhysicalObject GetPhysicalObject(Guid id)
+        {
+            if (this.GamingArea.ContainsCard(id) || this.GamingArea.ContainsChip(id))
+            {
+                return this.GamingArea.GetPhysicalObject(id);
+            }
+            else
+            {
+                for (int i = 0; i < this.Seats.Count; i++)
+                {
+                    Seat s = this.Seats[i];
+                    if (!s.IsEmpty && (s.Player.ContainsCard(id) || s.Player.ContainsChip(id)))
+                    {
+                        return this.Seats[i].Player.GetPhysicalObject(id);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the pile with the specified id.
+        /// </summary>
+        /// <param name="pileId">The pile id.</param>
+        /// <returns>The instance of the specified pile if it exists; otherwise null.</returns>
+        internal Pile GetPile(Guid pileId)
+        {
+            if (this.GamingArea.ContainsPile(pileId))
+            {
+                return this.GamingArea.GetPile(pileId);
+            }
+            else
+            {
+                for (int i = 0; i < this.Seats.Count; i++)
+                {
+                    Seat s = this.Seats[i];
+                    if (!s.IsEmpty && s.Player.ContainsPile(pileId))
+                    {
+                        return this.Seats[i].Player.GetPile(pileId);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the pile containing a physical object with the specified id.
+        /// </summary>
+        /// <param name="physicalObjectId">The physical object id.</param>
+        /// <returns>The instance of the pile containing the specified physical object; otherwise null.</returns>
+        internal Pile GetPileContaining(Guid physicalObjectId)
+        {
+            if (this.GamingArea.GetPhysicalObject(physicalObjectId) != null)
+            {
+                return this.GamingArea.GetPileContaining(physicalObjectId);
+            }
+            else
+            {
+                for (int i = 0; i < this.Seats.Count; i++)
+                {
+                    Seat s = this.Seats[i];
+                    if (!s.IsEmpty && s.Player.GetPhysicalObject(physicalObjectId) != null)
+                    {
+                        return this.Seats[i].Player.GetPileContaining(physicalObjectId);
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

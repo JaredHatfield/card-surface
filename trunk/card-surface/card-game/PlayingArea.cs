@@ -118,5 +118,83 @@ namespace CardGame
 
             return false;
         }
+
+        /// <summary>
+        /// Gets the physical object specified by a unique id.
+        /// </summary>
+        /// <param name="id">The unique id.</param>
+        /// <returns>The PhysicalObject specified or null if it is not in the PlayingArea.</returns>
+        internal PhysicalObject GetPhysicalObject(Guid id)
+        {
+            for (int i = 0; i < this.Cards.Count; i++)
+            {
+                if (this.Cards[i].ContainsPhysicalObject(id))
+                {
+                    return this.Cards[i].GetPhysicalObject(id);
+                }
+            }
+
+            for (int i = 0; i < this.Chips.Count; i++)
+            {
+                if (this.Chips[i].ContainsPhysicalObject(id))
+                {
+                    return this.Cards[i].GetPhysicalObject(id);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the pile with the specified id.
+        /// </summary>
+        /// <param name="pileId">The pile id.</param>
+        /// <returns>The instance of the specified pile if it exists; otherwise null.</returns>
+        internal Pile GetPile(Guid pileId)
+        {
+            for (int i = 0; i < this.Cards.Count; i++)
+            {
+                if (this.Cards[i].Id.Equals(pileId))
+                {
+                    return this.Cards[i];
+                }
+            }
+
+            for (int i = 0; i < this.Chips.Count; i++)
+            {
+                if (this.Chips[i].Id.Equals(pileId))
+                {
+                    return this.Chips[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the pile containing a physical object with the specified id.
+        /// </summary>
+        /// <param name="physicalObjectId">The physical object id.</param>
+        /// <returns>The instance of the pile containing the specified physical object; otherwise null.</returns>
+        internal Pile GetPileContaining(Guid physicalObjectId)
+        {
+            for (int i = 0; i < this.Cards.Count; i++)
+            {
+                if (this.Cards[i].ContainsPhysicalObject(physicalObjectId))
+                {
+                    return this.Cards[i];
+                }
+            }
+
+            for (int i = 0; i < this.Chips.Count; i++)
+            {
+                if (this.Chips[i].ContainsPhysicalObject(physicalObjectId))
+                {
+                    return this.Chips[i];
+                }
+            }
+
+            return null;
+        }
     }
 }
