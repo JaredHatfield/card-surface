@@ -15,9 +15,42 @@ namespace CardWeb.WebViews
     public class WebViewManageAccount : WebView
     {
         /// <summary>
+        /// A string representation of the WebView's name.
+        /// </summary>
+        private string webViewName = "ManageAccount";
+
+        /// <summary>
+        /// Gets the name of the web view.
+        /// </summary>
+        /// <value>The name of the web view.</value>
+        public override string WebViewName
+        {
+            get { return this.webViewName; }
+        }
+
+        /// <summary>
+        /// Gets the type of the content.
+        /// </summary>
+        /// <returns>A string of the WebView's content type.</returns>
+        public override string GetContentType()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the header.
+        /// </summary>
+        /// <returns>A string of the WebView's header.</returns>
+        public override string GetHeader()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Gets the content.
         /// </summary>
-        public override void GetContent()
+        /// <returns>A string of the WebView's content.</returns>
+        public override string GetContent()
         {
             throw new NotImplementedException();
         }

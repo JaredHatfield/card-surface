@@ -13,6 +13,8 @@ namespace CardWeb
     using System.Text;
     using System.Threading;
     using CardGame;
+    using CardWeb.WebActions;
+    using CardWeb.WebViews;
 
     /// <summary>
     /// The WebController that hosts the internal web server.
@@ -58,6 +60,21 @@ namespace CardWeb
         /// Constant required for maintaining file information when constructing a new StackTrace
         /// </summary>
         private const bool StackTraceNeedFileInfoFlag = true;
+
+        /// <summary>
+        /// Index for the HTTP Request type in a tokenized string
+        /// </summary>
+        private const int HttpRequestMethodIndex = 0;
+
+        /// <summary>
+        /// Index for the HTTP Request resource in a tokenized string
+        /// </summary>
+        private const int HttpRequestResourceIndex = 1;
+
+        /// <summary>
+        /// Index for the HTTP Request version in a tokenized string
+        /// </summary>
+        private const int HttpRequestVersionIndex = 2;
         
         /// <summary>
         /// GameController that the web server is able to interact with.
@@ -80,12 +97,21 @@ namespace CardWeb
         private IPAddress localaddr;
 
         /// <summary>
+        /// List of WebViews registered with this WebController.
+        /// </summary>
+        private List<WebView> registeredViews;
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebController"/> class.
         /// </summary>
         /// <param name="gameController">The game controller.</param>
         public WebController(IGameController gameController)
         {
             this.gameController = gameController;
+            this.registeredViews = new List<WebView>();
+
+            /* Generate Default WebViews */
+            this.RegisterWebView(new WebViewLogin());
 
             try
             {
@@ -132,18 +158,20 @@ namespace CardWeb
             byte[] bytesReceived = new byte[SocketMaxRecvDataBytes];
             int numBytesReceived = 0;
             int numBytesSent = 0;
-            string requestType;
             string responseBuffer;
             string responseContent;
-            string[] requestTypeSplit;
-            byte requestLineTerminator = 0x0;
 
+            string requestedResource;
+            string requestMethod;
+
+            WebView requestedView;
+            
             while (true)
             {
                 try
                 {
-                    requestType = string.Empty;
-                    requestLineTerminator = 0x0;
+                    requestMethod = string.Empty;
+                    requestedResource = string.Empty;
                     numBytesReceived = 0;
                     numBytesSent = 0;
 
@@ -158,65 +186,100 @@ namespace CardWeb
                             if (numBytesReceived > 0)
                             {
                                 Console.WriteLine(Encoding.ASCII.GetString(bytesReceived));
+                                
+                                requestMethod = this.GetHttpRequestMethod(bytesReceived);
 
-                                for (int i = 0; i < numBytesReceived; i++)
+                                /* If we've received a GET HTTP request... */
+                                if (requestMethod.Equals(WebRequestMethods.Http.Get))
                                 {
-                                    if (bytesReceived[i] != CarriageReturn && bytesReceived[i] != LineFeed)
+                                    Console.WriteLine("WebController: Received a GET HTTP request.");
+
+                                    /* Determine which resource was requested. */
+                                    requestedResource = this.GetHttpRequestResource(bytesReceived);
+
+                                    if (this.IsRegisteredWebView(requestedResource))
                                     {
-                                        requestType += (char)bytesReceived[i];
+                                        Console.WriteLine("WebController: " + requestedResource + " has been registered!");
+
+                                        /* TODO: Surround in try block to catch unregistered view exception?  Should be caught already by IsRegisteredWebView() though... */
+                                        requestedView = this.GetRegisteredView(requestedResource);
+                                        
+                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 200 OK" + CarriageReturn + LineFeed;
+                                        responseBuffer += "Content-Type: " + requestedView.GetContentType() + CarriageReturn + LineFeed;
+
+                                        /* TODO: How to provide <html>, <head>, and <body> through the WebView while allowing custom Content-Type? */
+                                        responseContent = "<html>";
+                                        responseContent += "<head>";
+                                        responseContent += "<title>" + requestedView.WebViewName + " : Card Surface</title>";
+
+                                        try
+                                        {
+                                            responseContent += requestedView.GetHeader();
+                                        }
+                                        catch (NotImplementedException nie)
+                                        {
+                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no additional HTML header implemented. (" + nie.Message + ")");
+                                        }
+
+                                        responseContent += "</head><body>";
+
+                                        try
+                                        {
+                                            responseContent += requestedView.GetContent();
+                                        }
+                                        catch (NotImplementedException nie)
+                                        {
+                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no additional HTML content implemented. (" + nie.Message + ")");
+                                        }
+
+                                        /*responseContent += "<body>You have reached the Card Surface Web Server.<br/>";
+                                        responseContent += DateTime.Now.ToString();
+                                        responseContent += "</body>";*/
+                                        responseContent += "</body></html>";
+
+                                        byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
+
+                                        responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
+
+                                        responseBuffer += responseContent;
                                     }
                                     else
                                     {
-                                        requestLineTerminator |= bytesReceived[i];
+                                        Console.WriteLine("WebController: " + requestedResource + " has NOT been registered!");
+
+                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 404 NOT FOUND" + CarriageReturn + LineFeed;
                                     }
-
-                                    if (requestLineTerminator == 0xF)
-                                    {
-                                        /* We've captured the first line of the HTTP request. */
-                                        break;
-                                    }
-                                }
-
-                                requestTypeSplit = requestType.Split(new char[] { ' ' });
-
-                                if (requestTypeSplit[0].Equals("GET"))
-                                {
-                                    Console.WriteLine("WebController: Received a GET HTTP request.");
-                                    responseBuffer = requestTypeSplit[2] + " 200 OK" + CarriageReturn + LineFeed;
-                                    responseBuffer += "Content-Type: text/html" + CarriageReturn + LineFeed;
-
-                                    responseContent = "<html><head><title>Card Surface</title></head><body>You have reached the Card Surface Web Server.<br/>";
-                                    responseContent += DateTime.Now.ToString();
-                                    responseContent += "</body></html>";
-                                    byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
-
-                                    responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
-
-                                    responseBuffer += responseContent;
 
                                     Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
 
                                     byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
 
                                     numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
-                                    Console.WriteLine("WebController: Sent " + numBytesSent + " bytes for HTTP response.");
-                                    Console.WriteLine("WebController: Shutting down and closing socket.");
-
-                                    serverSocket.Shutdown(SocketShutdown.Both);
-                                    serverSocket.Close();
                                 }
                                 else
                                 {
-                                    Console.WriteLine("WebController: Unrecognized HTTP request (" + requestTypeSplit[0] + ").");
+                                    Console.WriteLine("WebController: Unrecognized HTTP request (" + requestMethod + ").");
+                                    /* TODO: What do we need to return to the user? */
                                 }
+
+                                Console.WriteLine("WebController: Sent " + numBytesSent + " bytes for HTTP response.");
+                                Console.WriteLine("WebController: Shutting down and closing socket.");
+
+                                serverSocket.Shutdown(SocketShutdown.Both);
+                                serverSocket.Close();
                             }
+                        }
+                        catch (InvalidOperationException ioe)
+                        {
+                            /* We didn't recognize the HTTP request type. */
+                            Console.WriteLine("WebController: " + ioe.Message + " @ " + this.GetCurrentLine() + ".");
+                            /* TODO: What happens next? */
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("WebController: Unable to receive data from an accepted connection request @ {0}.", this.GetCurrentLine());
                             Console.WriteLine("-->" + e.Message);
-                            /* What happens if we're no longer able to read form the socket?  How do we reset? */
+                            /* TODO: What happens if we're no longer able to read form the socket?  How do we reset? */
                         }
                     }
                 }
@@ -224,9 +287,199 @@ namespace CardWeb
                 {
                     Console.WriteLine("WebController: Unable to accept new connection requests because of an invalid listener @ {0}.", this.GetCurrentLine());
                     Console.WriteLine("-->" + ioe.Message);
+                    /* TODO: Recovery? */
                 }
             } /* while(true) */
         } /* run() */
+
+        /// <summary>
+        /// Registers the WebView if it is not already registered.
+        /// In order for views to be accessible by this server, they must be registered.
+        /// </summary>
+        /// <param name="registrableView">The registrable view.</param>
+        public void RegisterWebView(WebView registrableView)
+        {
+            bool alreadyRegistered = false;
+
+            foreach (WebView view in this.registeredViews)
+            {
+                if (view.Equals(registrableView))
+                {
+                    alreadyRegistered = true;
+                }
+            }
+
+            if (!alreadyRegistered)
+            {
+                this.registeredViews.Add(registrableView);
+            }
+        } /* RegsiterWebView() */
+
+        /// <summary>
+        /// Determines whether a particluar WebView has been registered with this WebController.
+        /// </summary>
+        /// <param name="query">A string representation of the WebView's name.</param>
+        /// <returns>
+        /// <c>true</c> if the WebView has been registered; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsRegisteredWebView(string query)
+        {
+            foreach (WebView view in this.registeredViews)
+            {
+                if (view.Equals(query))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        } /* IsRegisteredWebView() */
+
+        /// <summary>
+        /// Unregisters a WebView.
+        /// </summary>
+        /// <param name="registrableView">The WebView to unregsiter.</param>
+        private void UnregisterWebView(WebView registrableView)
+        {
+            /* TODO: Keep this private for now.  How would making this public become a security issue? */
+
+            foreach (WebView view in this.registeredViews)
+            {
+                if (view.Equals(registrableView))
+                {
+                    this.registeredViews.Remove(view);
+                }
+            }
+        } /* UnregisterWebView() */
+
+        /// <summary>
+        /// Gets the registered WebView.
+        /// </summary>
+        /// <param name="query">A string representation of the WebView to return.</param>
+        /// <returns>A WebView with the name equal to the string or throws if an Exception if one is not registered.</returns>
+        private WebView GetRegisteredView(string query)
+        {
+            foreach (WebView view in this.registeredViews)
+            {
+                if (view.Equals(query))
+                {
+                    return view;
+                }
+            }
+
+            throw new Exception("Requested an Unregistered WebView.");
+        } /* GetRegisteredView() */
+
+        /// <summary>
+        /// Gets the HTTP request method.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the HTTP Request Method</returns>
+        private string GetHttpRequestMethod(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != CarriageReturn && request[i] != LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (CarriageReturn | LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+
+            if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Get))
+            {
+                return WebRequestMethods.Http.Get;
+            }
+            else
+            {
+                throw new InvalidOperationException("Unrecognized HTTP request method");
+            }
+        } /* GetHttpRequestMethod() */
+
+        /// <summary>
+        /// Gets the HTTP request resource.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the requested HTTP Resource.</returns>
+        private string GetHttpRequestResource(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != CarriageReturn && request[i] != LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (CarriageReturn | LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+            string[] resourceTokens = firstLineTokens[HttpRequestResourceIndex].Split(new char[] { '/' });
+
+            /* Trim off leading '/' part of URI prefix */
+            return resourceTokens[1];
+        } /* GetHttpRequestResource() */
+
+        /// <summary>
+        /// Gets the HTTP request version.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the HTTP request version.</returns>
+        private string GetHttpRequestVersion(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != CarriageReturn && request[i] != LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (CarriageReturn | LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+
+            return firstLineTokens[HttpRequestVersionIndex];
+        } /* GetHttpRequestVersion() */
 
         /// <summary>
         /// Gets the current line.
