@@ -43,12 +43,7 @@ namespace CardWeb.WebViews
         /// <returns>A string of the WebView's header.</returns>
         public override string GetHeader()
         {
-            string header = "<style type=\"text/css\">\n";
-            header += "td { font:Verdana; font-size:14; }\n";
-            header += "input { font:Verdana; font-size:14; }\n";
-            header += "</style>";
-
-            return header;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -57,13 +52,25 @@ namespace CardWeb.WebViews
         /// <returns>A string of the WebView's content.</returns>
         public override string GetContent()
         {
-            string content = "<form method=\"post\">\n";
+            /* TODO: What if the user is already authenticated? */
+            string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>" + this.WebViewName + " : CardSurface</title>\n";
+            content += "<style type=\"text/css\">\n";
+            content += "td { font:Verdana; font-size:14; }\n";
+            content += "input { font:Verdana; font-size:14; }\n";
+            content += "</style>\n";
+            content += "</head>\n";
+            content += "<body>\n";
+            content += "<form method=\"post\">\n";
             content += "<table>\n";
             content += "<tr><td>Username:</td><td><input name=\"username\" type=\"text\"/></td></tr>\n";
             content += "<tr><td>Password:</td><td><input name=\"password\" type=\"password\"></td></tr>\n";
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
-            content += "</form>";
+            content += "</form>\n";
+            content += "</body>\n";
+            content += "</html>";
 
             return content;
         }      
