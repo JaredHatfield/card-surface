@@ -59,8 +59,8 @@ namespace CardWeb.WebViews
         {
             string content = "<form method=\"post\">\n";
             content += "<table>\n";
-            content += "<tr><td>Username:</td><td><input type=\"text\"/></td></tr>\n";
-            content += "<tr><td>Password:</td><td><input type=\"password\"></td></tr>\n";
+            content += "<tr><td>Username:</td><td><input name=\"username\" type=\"text\"/></td></tr>\n";
+            content += "<tr><td>Password:</td><td><input name=\"password\" type=\"password\"></td></tr>\n";
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>";
