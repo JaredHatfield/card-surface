@@ -232,9 +232,6 @@ namespace CardWeb
                                             Console.WriteLine("WebController: " + requestedView.WebViewName + " has no additional HTML content implemented. (" + nie.Message + ")");
                                         }
 
-                                        /*responseContent += "<body>You have reached the Card Surface Web Server.<br/>";
-                                        responseContent += DateTime.Now.ToString();
-                                        responseContent += "</body>";*/
                                         responseContent += "</body></html>";
 
                                         byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
@@ -255,6 +252,14 @@ namespace CardWeb
                                     byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
 
                                     numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+                                }
+                                else if (requestMethod.Equals(WebRequestMethods.Http.Post))
+                                {
+                                    /* Size of this array limited by SocketMaxRecvDataBytes */
+                                    string requestContent = this.GetHttpRequestContent(bytesReceived);
+
+                                    Console.WriteLine("WebController: Received the following content from HTTP POST request...");
+                                    Console.WriteLine(requestContent);
                                 }
                                 else
                                 {
@@ -371,6 +376,72 @@ namespace CardWeb
         } /* GetRegisteredView() */
 
         /// <summary>
+        /// Gets the content of the HTTP request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A byte array containing the request contents.</returns>
+        private string GetHttpRequestContent(byte[] request)
+        {
+            int position = 0;
+            int bytesCopied = 0;
+            bool patternFound = false;
+            byte[] pattern = { (byte)CarriageReturn, (byte)LineFeed, (byte)CarriageReturn, (byte)LineFeed };
+            string content = String.Empty;
+
+            for (int i = 0; i < request.Length - pattern.Length; i++)
+            {
+                if (request[i] == pattern[0])
+                {
+                    /* Assume the pattern has been found. */
+                    patternFound = true;
+                    for (int j = 0; j < pattern.Length; j++)
+                    {
+                        if (request[i + j] != pattern[j])
+                        {
+                            /* If there's not a match, we didn't really find it. */
+                            patternFound = false;
+                            break;
+                        }
+                    }
+
+                    /* If all bytes in the pattern array matched, we really did find it. */
+                    if (patternFound)
+                    {
+                        /* Start the copy position after the \r\n\r\n content initiation sequence. */
+                        position = i + pattern.Length;
+                        break;
+                    }
+                }
+            }
+
+            /* Copy the content portion of the HTTP request to position. */
+            for (int i = position; i < request.Length; i++)
+            {
+                /* Skip null characters. */
+                if (request[i] != 0x0)
+                {
+                    content += (char)request[i];
+                    bytesCopied++;
+                }
+            }
+
+            /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
+            Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
+
+            return content;
+        } /* GetHttpRequestContent() */
+
+        /// <summary>
+        /// Gets the length of the HTTP request content.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
+        private int GetHttpRequestContentLength(byte[] request)
+        {
+            throw new NotImplementedException();
+        } /* GetHttpRequestContentLength() */
+
+        /// <summary>
         /// Gets the HTTP request method.
         /// </summary>
         /// <param name="request">The request.</param>
@@ -404,6 +475,10 @@ namespace CardWeb
             if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Get))
             {
                 return WebRequestMethods.Http.Get;
+            }
+            else if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Post))
+            {
+                return WebRequestMethods.Http.Post;
             }
             else
             {
