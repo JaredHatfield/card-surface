@@ -100,6 +100,11 @@ namespace CardWeb
         /// List of WebViews registered with this WebController.
         /// </summary>
         private List<WebView> registeredViews;
+
+        /// <summary>
+        /// List of WebActions registered with this WebController.
+        /// </summary>
+        private List<WebAction> registeredActions;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="WebController"/> class.
@@ -109,9 +114,13 @@ namespace CardWeb
         {
             this.gameController = gameController;
             this.registeredViews = new List<WebView>();
+            this.registeredActions = new List<WebAction>();
 
             /* Generate Default WebViews */
             this.RegisterWebView(new WebViewLogin());
+
+            /* Generate Default WebActions */
+            /* TODO: Implement WebActions. */
 
             try
             {
@@ -207,37 +216,18 @@ namespace CardWeb
                                         responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 200 OK" + CarriageReturn + LineFeed;
                                         responseBuffer += "Content-Type: " + requestedView.GetContentType() + CarriageReturn + LineFeed;
 
-                                        /* TODO: How to provide <html>, <head>, and <body> through the WebView while allowing custom Content-Type? */
-                                        responseContent = "<html>";
-                                        responseContent += "<head>";
-                                        responseContent += "<title>" + requestedView.WebViewName + " : Card Surface</title>";
-
                                         try
                                         {
-                                            responseContent += requestedView.GetHeader();
+                                            responseContent = requestedView.GetContent();
                                         }
                                         catch (NotImplementedException nie)
                                         {
-                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no additional HTML header implemented. (" + nie.Message + ")");
+                                            responseContent = String.Empty;
+                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no HTML content implemented. (" + nie.Message + ")");
                                         }
-
-                                        responseContent += "</head><body>";
-
-                                        try
-                                        {
-                                            responseContent += requestedView.GetContent();
-                                        }
-                                        catch (NotImplementedException nie)
-                                        {
-                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no additional HTML content implemented. (" + nie.Message + ")");
-                                        }
-
-                                        responseContent += "</body></html>";
 
                                         byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
-
                                         responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
-
                                         responseBuffer += responseContent;
                                     }
                                     else
@@ -298,6 +288,29 @@ namespace CardWeb
         } /* run() */
 
         /// <summary>
+        /// Registers the WebAction if it is not already registered.
+        /// In order for actions to be accessible by this server, they must be registered.
+        /// </summary>
+        /// <param name="registrableAction">The registrable action.</param>
+        public void RegisterWebAction(WebAction registrableAction)
+        {
+            bool alreadyRegistered = false;
+
+            foreach (WebAction action in this.registeredActions)
+            {
+                if (action.Equals(registrableAction))
+                {
+                    alreadyRegistered = true;
+                }
+            }
+
+            if (!alreadyRegistered)
+            {
+                this.registeredActions.Add(registrableAction);
+            }
+        } /* RegsiterWebAction() */
+
+        /// <summary>
         /// Registers the WebView if it is not already registered.
         /// In order for views to be accessible by this server, they must be registered.
         /// </summary>
@@ -321,6 +334,26 @@ namespace CardWeb
         } /* RegsiterWebView() */
 
         /// <summary>
+        /// Determines whether a particluar WebAction has been registered with this WebController.
+        /// </summary>
+        /// <param name="query">A string representation of the WebAction's name.</param>
+        /// <returns>
+        /// <c>true</c> if the WebAction has been registered; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsRegisteredWebAction(string query)
+        {
+            foreach (WebAction action in this.registeredActions)
+            {
+                if (action.Equals(query))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        } /* IsRegisteredWebAction() */
+
+        /// <summary>
         /// Determines whether a particluar WebView has been registered with this WebController.
         /// </summary>
         /// <param name="query">A string representation of the WebView's name.</param>
@@ -341,6 +374,23 @@ namespace CardWeb
         } /* IsRegisteredWebView() */
 
         /// <summary>
+        /// Unregisters a WebAction.
+        /// </summary>
+        /// <param name="registrableAction">The WebAction to unregsiter.</param>
+        private void UnregisterWebAction(WebView registrableAction)
+        {
+            /* TODO: Keep this private for now.  How would making this public become a security issue? */
+
+            foreach (WebAction action in this.registeredActions)
+            {
+                if (action.Equals(registrableAction))
+                {
+                    this.registeredActions.Remove(action);
+                }
+            }
+        } /* UnregisterWebAction() */
+
+        /// <summary>
         /// Unregisters a WebView.
         /// </summary>
         /// <param name="registrableView">The WebView to unregsiter.</param>
@@ -356,6 +406,24 @@ namespace CardWeb
                 }
             }
         } /* UnregisterWebView() */
+
+        /// <summary>
+        /// Gets the registered WebAction.
+        /// </summary>
+        /// <param name="query">A string representation of the WebAction to return.</param>
+        /// <returns>A WebAction with the name equal to the string or throws if an Exception if one is not registered.</returns>
+        private WebAction GetRegisteredAction(string query)
+        {
+            foreach (WebAction action in this.registeredActions)
+            {
+                if (action.Equals(query))
+                {
+                    return action;
+                }
+            }
+
+            throw new Exception("Requested an Unregistered WebAction.");
+        } /* GetRegisteredAction() */
 
         /// <summary>
         /// Gets the registered WebView.
@@ -426,6 +494,7 @@ namespace CardWeb
             }
 
             /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
+            /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
             Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
 
             return content;
