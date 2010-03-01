@@ -120,7 +120,7 @@ namespace CardWeb
             this.RegisterWebView(new WebViewLogin());
 
             /* Generate Default WebActions */
-            /* TODO: Implement WebActions. */
+            this.RegisterWebAction(new WebActionLogin());
 
             try
             {
@@ -174,6 +174,7 @@ namespace CardWeb
             string requestMethod;
 
             WebView requestedView;
+            WebAction requestedAction;
             
             while (true)
             {
@@ -247,9 +248,48 @@ namespace CardWeb
                                 {
                                     /* Size of this array limited by SocketMaxRecvDataBytes */
                                     string requestContent = this.GetHttpRequestContent(bytesReceived);
-
                                     Console.WriteLine("WebController: Received the following content from HTTP POST request...");
                                     Console.WriteLine(requestContent);
+
+                                    /* Determine the source of the POST request. */
+                                    requestedResource = this.GetHttpRequestResource(bytesReceived);
+
+                                    if (this.IsRegisteredWebAction(requestedResource))
+                                    {
+                                        Console.WriteLine("WebController: " + requestedResource + " has been registered as a WebAction!");
+
+                                        /* TODO: Surround this in a try block to catch the unregistered exception?  Should already be caught by IsRegisteredWebAction.  How will this change when threading introduced? */
+                                        requestedAction = this.GetRegisteredAction(requestedResource);
+
+                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 200 OK" + CarriageReturn + LineFeed;
+                                        responseBuffer += "Content-Type: " + CarriageReturn + LineFeed;
+
+                                        try
+                                        {
+                                            responseContent = "Thank you! (" + requestContent + ")";
+                                        }
+                                        catch (NotImplementedException nie)
+                                        {
+                                            responseContent = String.Empty;
+                                            Console.WriteLine("WebController: " + requestedAction.WebActionName + " (WebAction) has not HTML response implementation. (" + nie.Message + ")");
+                                        }
+
+                                        byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
+                                        responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
+                                        responseBuffer += responseContent;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("WebController: " + requestedResource + " is NOT a registered WebAction!");
+                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 404 NOT FOUND" + CarriageReturn + LineFeed;
+                                    }
+
+                                    Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
+
+                                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+
+                                    numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+                                    
                                 }
                                 else
                                 {
