@@ -21,7 +21,7 @@ namespace CardWeb.WebComponents.WebViews
         public override string GetContentType()
         {
             throw new NotImplementedException();
-        }
+        } /* GetContentType() */
 
         /// <summary>
         /// Gets the header.
@@ -30,7 +30,7 @@ namespace CardWeb.WebComponents.WebViews
         public override string GetHeader()
         {
             throw new NotImplementedException();
-        }
+        } /* GetHeader() */
 
         /// <summary>
         /// Gets the content.
@@ -39,6 +39,25 @@ namespace CardWeb.WebComponents.WebViews
         public override string GetContent()
         {
             throw new NotImplementedException();
-        }
+        } /* GetContent() */
+
+        /// <summary>
+        /// Gets the length of the content.
+        /// </summary>
+        /// <returns>
+        /// An integer representing the number of bytes in the reponse content.
+        /// </returns>
+        public override int GetContentLength()
+        {
+            throw new NotImplementedException();
+        } /* GetContentLength() */
+
+        /// <summary>
+        /// Sends the HTTP response.
+        /// </summary>
+        public override void SendResponse()
+        {
+            throw new NotImplementedException();
+        } /* SendResponse() */
     }
 }

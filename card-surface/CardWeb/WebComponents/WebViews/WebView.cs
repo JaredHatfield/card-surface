@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebViews
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Sockets;
     using System.Text;
 
     /// <summary>
@@ -41,5 +42,16 @@ namespace CardWeb.WebComponents.WebViews
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>
         public abstract string GetContentType();
+
+        /// <summary>
+        /// Gets the length of the content.
+        /// </summary>
+        /// <returns>An integer representing the number of bytes in the reponse content.</returns>
+        public abstract int GetContentLength();
+
+        /// <summary>
+        /// Sends the HTTP response.
+        /// </summary>
+        public abstract void SendResponse();
     }
 }

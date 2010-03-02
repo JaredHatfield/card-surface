@@ -82,11 +82,7 @@ namespace CardWeb.WebComponents
         public override void Run()
         {
             CardWeb.WebRequest request;
-            string responseBuffer;
-            string responseContent = String.Empty;
-            int numBytesSent;
-
-            Socket serverSocket;
+            string responseContent;
 
             while (true)
             {
@@ -101,55 +97,39 @@ namespace CardWeb.WebComponents
                     request = this.mailboxQueue.Dequeue();
                 }
 
-                serverSocket = request.Connection;
-
-                responseBuffer = request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Type: text/html" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseContent = String.Empty;
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
-                    // Create new WebViewLogin
                     try
                     {
-                        responseContent = (new WebViewLogin()).GetContent();
+                        WebViewLogin webViewLogin = new WebViewLogin(request);
+                        webViewLogin.SendResponse();
                     }
-                    catch (NotImplementedException nie)
+                    catch (Exception e)
                     {
-                        responseContent = String.Empty;
-                        Console.WriteLine("WebController" + this.ComponentPrefix + " has no view content implemented (" + nie.Message + ")");
+                        /* TODO: Isn't there an HTTP response code for an ISE? */
+                        responseContent = "<html>\n<head>\n<title>CardSurface Error</title>\n<body>\n<font color=\"red\"><b>Internal Server Error</b></font>\n</body>\n</html>";
+                        Console.WriteLine("WebController: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                     }
                 }
                 else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
                 {
-                    Console.WriteLine("WebController: Received the following content from HTTP POST request...");
-                    Console.WriteLine(request.RequestContent);
-
                     try
                     {
-                        WebActionLogin webActionLogin = new WebActionLogin(request.RequestContent);
+                        WebActionLogin webActionLogin = new WebActionLogin(request);
                         webActionLogin.Execute();
                     }
                     catch (Exception e)
                     {
                         responseContent = "<html>\n<head>\n<title>CardSurface Error</title>\n<body>\n<font color=\"red\"><b>" + e.Message + "</b></font>\n</body>\n</html>";
-                        Console.WriteLine("WebController: " + e.Message);
+                        Console.WriteLine("WebController: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                     }
                 }
                 else
                 {
                     /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }
-
-                byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
-                responseBuffer += "Content-Length: " + responseContentBytes.Length + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += responseContent;
-
-                Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
-                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-                numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
-                serverSocket.Shutdown(SocketShutdown.Both);
-                serverSocket.Close();
+                }                
             } /* while(true) */
         } /* Run() */
     }
