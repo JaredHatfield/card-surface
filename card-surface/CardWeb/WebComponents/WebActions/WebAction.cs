@@ -15,12 +15,6 @@ namespace CardWeb.WebComponents.WebActions
     public abstract class WebAction
     {
         /// <summary>
-        /// Gets the name of the web action.
-        /// </summary>
-        /// <value>The name of the web action.</value>
-        public abstract string WebActionName { get; }
-
-        /// <summary>
         /// Executes this action.
         /// </summary>
         public abstract void Execute();

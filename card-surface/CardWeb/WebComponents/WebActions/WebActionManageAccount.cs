@@ -15,20 +15,6 @@ namespace CardWeb.WebComponents.WebActions
     public class WebActionManageAccount : WebAction
     {
         /// <summary>
-        /// A string representation of this WebAction
-        /// </summary>
-        private string webActionName = "ManageAccount";
-
-        /// <summary>
-        /// Gets the name of the web action.
-        /// </summary>
-        /// <value>The name of the web action.</value>
-        public override string WebActionName
-        {
-            get { return this.webActionName; }
-        }
-
-        /// <summary>
         /// Executes this instance.
         /// </summary>
         public override void Execute()

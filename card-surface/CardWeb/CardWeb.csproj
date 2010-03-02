@@ -71,6 +71,10 @@
       <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
       <Name>CardGame</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CardAccount\CardAccount.csproj">
+      <Project>{A1B0F52B-2F60-4BE3-B21B-D3597AF688B1}</Project>
+      <Name>CardAccount</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
