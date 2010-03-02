@@ -31,9 +31,14 @@ namespace CardGame
         private ReadOnlyObservableCollection<Seat> seats;
 
         /// <summary>
+        /// The actions that can be performed in this game.
+        /// </summary>
+        private Collection<GameAction> actions;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
         /// </summary>
-        internal Game()
+        protected internal Game()
         {
             this.id = Guid.NewGuid();
             this.gamingArea = new PlayingArea();
@@ -47,6 +52,7 @@ namespace CardGame
             s.Add(new Seat(Seat.SeatLocation.SouthWest));
             s.Add(new Seat(Seat.SeatLocation.West));
             this.seats = new ReadOnlyObservableCollection<Seat>(s);
+            this.actions = new Collection<GameAction>();
         }
 
         /// <summary>
@@ -243,11 +249,28 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Executes the action.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <param name="player">The player.</param>
+        public void ExecuteAction(string name, Guid player)
+        {
+            for (int i = 0; i < this.actions.Count; i++)
+            {
+                if (this.actions[i].Name.Equals(name))
+                {
+                    this.actions[i].Action(this, player);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the specified physical object.
         /// </summary>
         /// <param name="id">The unique id.</param>
         /// <returns>The instance of the PhysicalObject if it exists; otherwise null.</returns>
-        internal PhysicalObject GetPhysicalObject(Guid id)
+        protected internal PhysicalObject GetPhysicalObject(Guid id)
         {
             if (this.GamingArea.ContainsCard(id) || this.GamingArea.ContainsChip(id))
             {
@@ -273,7 +296,7 @@ namespace CardGame
         /// </summary>
         /// <param name="pileId">The pile id.</param>
         /// <returns>The instance of the specified pile if it exists; otherwise null.</returns>
-        internal Pile GetPile(Guid pileId)
+        protected internal Pile GetPile(Guid pileId)
         {
             if (this.GamingArea.ContainsPile(pileId))
             {
@@ -299,7 +322,7 @@ namespace CardGame
         /// </summary>
         /// <param name="physicalObjectId">The physical object id.</param>
         /// <returns>The instance of the pile containing the specified physical object; otherwise null.</returns>
-        internal Pile GetPileContaining(Guid physicalObjectId)
+        protected internal Pile GetPileContaining(Guid physicalObjectId)
         {
             if (this.GamingArea.GetPhysicalObject(physicalObjectId) != null)
             {
@@ -330,6 +353,15 @@ namespace CardGame
         {
             // This method should be overridden by a specific game to validate this specific move.
             return true;
+        }
+
+        /// <summary>
+        /// Subscribes an action to the game.
+        /// </summary>
+        /// <param name="gameAction">The game action.</param>
+        protected void SubscribeAction(GameAction gameAction)
+        {
+            this.actions.Add(gameAction);
         }
 
         /// <summary>
