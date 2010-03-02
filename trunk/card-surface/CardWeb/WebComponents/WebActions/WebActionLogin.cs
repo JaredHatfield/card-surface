@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebActions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Sockets;
     using System.Text;
     using CardAccount;
     using CardWeb.WebComponents.WebViews;
@@ -27,13 +28,21 @@ namespace CardWeb.WebComponents.WebActions
         private string password;
 
         /// <summary>
+        /// HTTP request that caused creation of this WebAction
+        /// </summary>
+        private CardWeb.WebRequest request;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebActionLogin"/> class.
         /// </summary>
-        /// <param name="postData">The HTTP POST data.</param>
-        public WebActionLogin(string postData)
+        /// <param name="request">The request.</param>
+        public WebActionLogin(CardWeb.WebRequest request)
         {
-            if (postData != String.Empty)
+            this.request = request;
+
+            if (this.request.RequestContent != String.Empty)
             {
+                string postData = this.request.RequestContent;
                 string[] postTokens = postData.Split(new char[] { '&' });
 
                 foreach (string token in postTokens)
@@ -56,14 +65,85 @@ namespace CardWeb.WebComponents.WebActions
         } /* WebActionLogin() */
 
         /// <summary>
+        /// Gets the header.
+        /// </summary>
+        /// <returns>A string of the WebAction's header.</returns>
+        public override string GetHeader()
+        {
+            return this.request.RequestVersion + " 200 OK";
+        } /* GetHeader() */
+
+        /// <summary>
+        /// Gets the type of the content.
+        /// </summary>
+        /// <returns>A string of the WebAction's content type.</returns>
+        public override string GetContentType()
+        {
+            return "text/html";
+        } /* GetContentType() */
+
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        /// <returns>A string of the WebAction's content.</returns>
+        public override string GetContent()
+        {
+            /* TODO: Automatically determine domain name for server. */
+            /* TODO: Utilize WebComponent prefix in URL generation. */
+            string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>Main Menu : CardSurface</title>\n";
+            content += "</head>\n";
+            content += "<body>\n";
+            content += "Welcome, " + this.username + "!\n";
+            content += "<br/>\n";
+            content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+            content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
+            content += "</body>\n";
+            content += "</html>";
+
+            return content;
+        } /* GetContent() */
+
+        /// <summary>
+        /// Gets the length of the content.
+        /// </summary>
+        /// <returns>
+        /// An integer representing the number of bytes in the reponse content.
+        /// </returns>
+        public override int GetContentLength()
+        {
+            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
+            return responseContentBytes.Length;
+        } /* GetContentLength() */
+
+        /// <summary>
         /// Executes this instance.
         /// </summary>
         public override void Execute()
         {
+            int numBytesSent = 0;
+
             try
             {
                 if (AccountController.Instance.Authenticate(this.username, this.password))
                 {
+                    string responseBuffer = String.Empty;
+
+                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    /* TODO: (new Guid).ToString() should lookup a user's GUID */
+                    responseBuffer += "Set-Cookie: csuid=" + (new Guid()).ToString() + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += this.GetContent();
+
+                    Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
+
+                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                    numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+                    this.request.Connection.Shutdown(SocketShutdown.Both);
+                    this.request.Connection.Close();
                 }
                 else
                 {
