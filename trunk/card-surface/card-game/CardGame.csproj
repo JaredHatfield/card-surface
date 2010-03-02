@@ -58,6 +58,7 @@
     <Compile Include="ChipPile.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameAction.cs" />
     <Compile Include="IGameController.cs" />
     <Compile Include="Pile.cs" />
     <Compile Include="PhysicalObject.cs" />
