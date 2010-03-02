@@ -1,4 +1,8 @@
-﻿namespace CardWeb
+﻿// <copyright file="WebUtilities.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>Static class that provides access to constants and debugging methods for CardWeb.</summary>
+namespace CardWeb
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +11,9 @@
     using System.Net;
     using System.Text;
 
+    /// <summary>
+    /// Utility class for CardWeb
+    /// </summary>
     public static class WebUtilities
     {
         /// <summary>
