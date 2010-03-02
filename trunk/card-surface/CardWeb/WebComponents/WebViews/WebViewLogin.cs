@@ -15,18 +15,14 @@ namespace CardWeb.WebComponents.WebViews
     public class WebViewLogin : WebView
     {
         /// <summary>
-        /// A string representation of the WebView's name.
+        /// Name of HTML form field associated with the username needed for login
         /// </summary>
-        private string webViewName = "Login";
+        public const string FormFieldNameUsername = "username";
 
         /// <summary>
-        /// Gets the name of the web view.
+        /// Name of HTML form field associated with the password needed for login
         /// </summary>
-        /// <value>The name of the web view.</value>
-        public override string WebViewName
-        {
-            get { return this.webViewName; }
-        }
+        public const string FormFieldNamePassword = "password";
 
         /// <summary>
         /// Gets the type of the content.
@@ -55,7 +51,7 @@ namespace CardWeb.WebComponents.WebViews
             /* TODO: What if the user is already authenticated? */
             string content = "<html>\n";
             content += "<head>\n";
-            content += "<title>" + this.WebViewName + " : CardSurface</title>\n";
+            content += "<title>Login : CardSurface</title>\n";
             content += "<style type=\"text/css\">\n";
             content += "td { font:Verdana; font-size:14; }\n";
             content += "input { font:Verdana; font-size:14; }\n";
@@ -64,8 +60,8 @@ namespace CardWeb.WebComponents.WebViews
             content += "<body>\n";
             content += "<form method=\"post\">\n";
             content += "<table>\n";
-            content += "<tr><td>Username:</td><td><input name=\"username\" type=\"text\"/></td></tr>\n";
-            content += "<tr><td>Password:</td><td><input name=\"password\" type=\"password\"></td></tr>\n";
+            content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
+            content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";

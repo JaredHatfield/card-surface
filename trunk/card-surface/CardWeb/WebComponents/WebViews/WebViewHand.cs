@@ -15,20 +15,6 @@ namespace CardWeb.WebComponents.WebViews
     public class WebViewHand : WebView
     {
         /// <summary>
-        /// A string representation of the WebView's name.
-        /// </summary>
-        private string webViewName = "Hand";
-
-        /// <summary>
-        /// Gets the name of the web view.
-        /// </summary>
-        /// <value>The name of the web view.</value>
-        public override string WebViewName
-        {
-            get { return this.webViewName; }
-        }
-
-        /// <summary>
         /// Gets the type of the content.
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>

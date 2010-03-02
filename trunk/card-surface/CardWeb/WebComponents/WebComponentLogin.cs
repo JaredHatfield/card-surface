@@ -94,20 +94,21 @@ namespace CardWeb.WebComponents
                 {
                     if (this.mailboxQueue.Count == 0)
                     {
-                        Console.WriteLine("WebComponentLogin: Waiting for HTTP requests to be posted to WebComponentLogin's mailbox.");
                         Monitor.Wait(this.mailboxQueueSemaphore);
                     }
 
                     /* A request has become available. */
                     request = this.mailboxQueue.Dequeue();
-                    serverSocket = request.Connection;
                 }
+
+                serverSocket = request.Connection;
 
                 responseBuffer = request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Content-Type: text/html" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
+                    // Create new WebViewLogin
                     try
                     {
                         responseContent = (new WebViewLogin()).GetContent();
@@ -120,23 +121,23 @@ namespace CardWeb.WebComponents
                 }
                 else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
                 {
-                    /* TODO: Create new WebAction response for this WebComponent and add it to the ThreadPool. */
                     Console.WriteLine("WebController: Received the following content from HTTP POST request...");
                     Console.WriteLine(request.RequestContent);
 
                     try
                     {
-                        responseContent = "Thank you! (" + request.RequestContent + ")";
+                        WebActionLogin webActionLogin = new WebActionLogin(request.RequestContent);
+                        webActionLogin.Execute();
                     }
-                    catch (NotImplementedException nie)
+                    catch (Exception e)
                     {
-                        responseContent = String.Empty;
-                        Console.WriteLine("WebController: " + this.ComponentPrefix + " has no action response implemented. (" + nie.Message + ")");
+                        responseContent = "<html>\n<head>\n<title>CardSurface Error</title>\n<body>\n<font color=\"red\"><b>" + e.Message + "</b></font>\n</body>\n</html>";
+                        Console.WriteLine("WebController: " + e.Message);
                     }
                 }
                 else
                 {
-                    /* TODO: What if this is a request method that the component doesn't support? */
+                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
                 }
 
                 byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
@@ -149,7 +150,7 @@ namespace CardWeb.WebComponents
 
                 serverSocket.Shutdown(SocketShutdown.Both);
                 serverSocket.Close();
-            }   
+            } /* while(true) */
         } /* Run() */
     }
 }

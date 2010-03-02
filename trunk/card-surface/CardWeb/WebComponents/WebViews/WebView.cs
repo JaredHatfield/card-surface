@@ -15,11 +15,14 @@ namespace CardWeb.WebComponents.WebViews
     public abstract class WebView
     {
         /// <summary>
-        /// Gets the name of the web view.
-        /// Comparisions against this value must be specified as case insensitive.
+        /// Index position for the name of a token name in HTTP POST data
         /// </summary>
-        /// <value>The name of the web view.</value>
-        public abstract string WebViewName { get; } 
+        public const int PostRequestTokenNameIndex = 0;
+
+        /// <summary>
+        /// Index position for the name of a token value in HTTP POST data
+        /// </summary>
+        public const int PostRequestTokenValueIndex = 1;
 
         /// <summary>
         /// Gets the header.
