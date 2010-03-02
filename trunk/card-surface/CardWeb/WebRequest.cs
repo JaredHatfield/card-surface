@@ -1,4 +1,8 @@
-﻿namespace CardWeb
+﻿// <copyright file="WebRequest.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>Object that represents HTTP request.</summary>
+namespace CardWeb
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +11,9 @@
     using System.Net.Sockets;
     using System.Text;
 
+    /// <summary>
+    /// Describes HTTP request
+    /// </summary>
     public class WebRequest
     {
         /// <summary>
@@ -24,49 +31,41 @@
         /// </summary>
         private const int HttpRequestVersionIndex = 2;
 
+        /// <summary>
+        /// Socket used for receiving request data
+        /// </summary>
         private Socket socket;
 
+        /// <summary>
+        /// Raw request data received
+        /// </summary>
         private byte[] request;
 
+        /// <summary>
+        /// HTTP Request method (POST, GET, etc.)
+        /// </summary>
         private string requestMethod;
 
+        /// <summary>
+        /// HTTP Request version
+        /// </summary>
         private string requestVersion;
 
+        /// <summary>
+        /// Requested WebComponent resource
+        /// </summary>
         private string requestResource;
 
+        /// <summary>
+        /// Content or POST data contained in HTTP request
+        /// </summary>
         private string requestContent;
 
-        public Socket Connection
-        {
-            get { return socket; }
-        }
-
-        public byte[] Data
-        {
-            get { return request; }
-        }
-
-        public string RequestMethod
-        {
-            get { return requestMethod; }
-        }
-
-        public string RequestVersion
-        {
-            get { return requestVersion; }
-        }
-
-        public string RequestResource
-        {
-            get { return requestResource; }
-        }
-
-        public string RequestContent
-        {
-            get { return requestContent; }
-        }
-
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebRequest"/> class.
+        /// </summary>
+        /// <param name="requestData">The request data.</param>
+        /// <param name="connection">The connection.</param>
         public WebRequest(byte[] requestData, Socket connection)
         {
             this.request = requestData;
@@ -76,6 +75,60 @@
             this.requestVersion = this.GetHttpRequestVersion(this.request);
             this.requestResource = this.GetHttpRequestResource(this.request);
             this.requestContent = this.GetHttpRequestContent(this.request);
+        } /* WebRequest() */
+
+        /// <summary>
+        /// Gets the connection.
+        /// </summary>
+        /// <value>The connection.</value>
+        public Socket Connection
+        {
+            get { return this.socket; }
+        }
+
+        /// <summary>
+        /// Gets the request data.
+        /// </summary>
+        /// <value>The request data.</value>
+        public byte[] Data
+        {
+            get { return this.request; }
+        }
+
+        /// <summary>
+        /// Gets the request method.
+        /// </summary>
+        /// <value>The request method.</value>
+        public string RequestMethod
+        {
+            get { return this.requestMethod; }
+        }
+
+        /// <summary>
+        /// Gets the request version.
+        /// </summary>
+        /// <value>The request version.</value>
+        public string RequestVersion
+        {
+            get { return this.requestVersion; }
+        }
+
+        /// <summary>
+        /// Gets the request resource.
+        /// </summary>
+        /// <value>The request resource.</value>
+        public string RequestResource
+        {
+            get { return this.requestResource; }
+        }
+
+        /// <summary>
+        /// Gets the content of the request.
+        /// </summary>
+        /// <value>The content of the request.</value>
+        public string RequestContent
+        {
+            get { return this.requestContent; }
         }
 
         /// <summary>

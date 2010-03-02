@@ -1,4 +1,8 @@
-﻿namespace CardWeb.WebComponents
+﻿// <copyright file="WebComponent.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>Component for managing WebViews and WebActions.</summary>
+namespace CardWeb.WebComponents
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +12,9 @@
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
 
+    /// <summary>
+    /// WebComponent responsbile for processing HTTP requests.
+    /// </summary>
     public abstract class WebComponent
     {
         /// <summary>
