@@ -46,18 +46,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebActions\WebAction.cs" />
-    <Compile Include="WebActions\WebActionCreateAccount.cs" />
-    <Compile Include="WebActions\WebActionJoinTable.cs" />
-    <Compile Include="WebActions\WebActionLogin.cs" />
-    <Compile Include="WebActions\WebActionManageAccount.cs" />
+    <Compile Include="WebComponents\WebActions\WebAction.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionCreateAccount.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionJoinTable.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionLogin.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionManageAccount.cs" />
+    <Compile Include="WebComponents\WebComponent.cs" />
+    <Compile Include="WebComponents\WebComponentLogin.cs" />
     <Compile Include="WebController.cs" />
-    <Compile Include="WebViews\WebView.cs" />
-    <Compile Include="WebViews\WebViewCreateAccount.cs" />
-    <Compile Include="WebViews\WebViewHand.cs" />
-    <Compile Include="WebViews\WebViewJoinTable.cs" />
-    <Compile Include="WebViews\WebViewLogin.cs" />
-    <Compile Include="WebViews\WebViewManageAccount.cs" />
+    <Compile Include="WebComponents\WebViews\WebView.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewCreateAccount.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewHand.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewJoinTable.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewLogin.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewManageAccount.cs" />
+    <Compile Include="WebRequest.cs" />
+    <Compile Include="WebUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CardWebClassDiagram.cd" />

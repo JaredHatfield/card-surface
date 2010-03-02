@@ -1,0 +1,263 @@
+﻿namespace CardWeb
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Text;
+
+    public class WebRequest
+    {
+        /// <summary>
+        /// Index for the HTTP Request type in a tokenized string
+        /// </summary>
+        private const int HttpRequestMethodIndex = 0;
+
+        /// <summary>
+        /// Index for the HTTP Request resource in a tokenized string
+        /// </summary>
+        private const int HttpRequestResourceIndex = 1;
+
+        /// <summary>
+        /// Index for the HTTP Request version in a tokenized string
+        /// </summary>
+        private const int HttpRequestVersionIndex = 2;
+
+        private Socket socket;
+
+        private byte[] request;
+
+        private string requestMethod;
+
+        private string requestVersion;
+
+        private string requestResource;
+
+        private string requestContent;
+
+        public Socket Connection
+        {
+            get { return socket; }
+        }
+
+        public byte[] Data
+        {
+            get { return request; }
+        }
+
+        public string RequestMethod
+        {
+            get { return requestMethod; }
+        }
+
+        public string RequestVersion
+        {
+            get { return requestVersion; }
+        }
+
+        public string RequestResource
+        {
+            get { return requestResource; }
+        }
+
+        public string RequestContent
+        {
+            get { return requestContent; }
+        }
+
+
+        public WebRequest(byte[] requestData, Socket connection)
+        {
+            this.request = requestData;
+            this.socket = connection;
+
+            this.requestMethod = this.GetHttpRequestMethod(this.request);
+            this.requestVersion = this.GetHttpRequestVersion(this.request);
+            this.requestResource = this.GetHttpRequestResource(this.request);
+            this.requestContent = this.GetHttpRequestContent(this.request);
+        }
+
+        /// <summary>
+        /// Gets the content of the HTTP request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A byte array containing the request contents.</returns>
+        private string GetHttpRequestContent(byte[] request)
+        {
+            int position = 0;
+            int bytesCopied = 0;
+            bool patternFound = false;
+            byte[] pattern = { (byte)WebUtilities.CarriageReturn, (byte)WebUtilities.LineFeed, (byte)WebUtilities.CarriageReturn, (byte)WebUtilities.LineFeed };
+            string content = String.Empty;
+
+            for (int i = 0; i < request.Length - pattern.Length; i++)
+            {
+                if (request[i] == pattern[0])
+                {
+                    /* Assume the pattern has been found. */
+                    patternFound = true;
+                    for (int j = 0; j < pattern.Length; j++)
+                    {
+                        if (request[i + j] != pattern[j])
+                        {
+                            /* If there's not a match, we didn't really find it. */
+                            patternFound = false;
+                            break;
+                        }
+                    }
+
+                    /* If all bytes in the pattern array matched, we really did find it. */
+                    if (patternFound)
+                    {
+                        /* Start the copy position after the \r\n\r\n content initiation sequence. */
+                        position = i + pattern.Length;
+                        break;
+                    }
+                }
+            }
+
+            /* Copy the content portion of the HTTP request to position. */
+            for (int i = position; i < request.Length; i++)
+            {
+                /* Skip null characters. */
+                if (request[i] != 0x0)
+                {
+                    content += (char)request[i];
+                    bytesCopied++;
+                }
+            }
+
+            /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
+            /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
+            Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
+
+            return content;
+        } /* GetHttpRequestContent() */
+
+        /// <summary>
+        /// Gets the length of the HTTP request content.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
+        private int GetHttpRequestContentLength(byte[] request)
+        {
+            throw new NotImplementedException();
+        } /* GetHttpRequestContentLength() */
+
+        /// <summary>
+        /// Gets the HTTP request method.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the HTTP Request Method</returns>
+        private string GetHttpRequestMethod(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+
+            if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Get))
+            {
+                return WebRequestMethods.Http.Get;
+            }
+            else if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Post))
+            {
+                return WebRequestMethods.Http.Post;
+            }
+            else
+            {
+                throw new InvalidOperationException("Unrecognized HTTP request method");
+            }
+        } /* GetHttpRequestMethod() */
+
+        /// <summary>
+        /// Gets the HTTP request resource.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the requested HTTP Resource.</returns>
+        private string GetHttpRequestResource(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+            string[] resourceTokens = firstLineTokens[HttpRequestResourceIndex].Split(new char[] { '/' });
+
+            /* Trim off leading '/' part of URI prefix */
+            return resourceTokens[1];
+        } /* GetHttpRequestResource() */
+
+        /// <summary>
+        /// Gets the HTTP request version.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>A string representation of the HTTP request version.</returns>
+        private string GetHttpRequestVersion(byte[] request)
+        {
+            byte requestLineTerminator = 0x0;
+            string firstLineOfRequest = String.Empty;
+
+            for (int i = 0; i < request.Length; i++)
+            {
+                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                {
+                    firstLineOfRequest += (char)request[i];
+                }
+                else
+                {
+                    requestLineTerminator |= request[i];
+                }
+
+                if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
+                {
+                    /* We've captured the first line of the HTTP request. */
+                    break;
+                }
+            }
+
+            /* Tokenize first line of HTTP request. */
+            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
+
+            return firstLineTokens[HttpRequestVersionIndex];
+        } /* GetHttpRequestVersion() */
+    }
+}

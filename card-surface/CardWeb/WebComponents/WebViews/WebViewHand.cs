@@ -1,8 +1,8 @@
-﻿// <copyright file="WebViewManageAccount.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebViewHand.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>View for displaying the manage account page.</summary>
-namespace CardWeb.WebViews
+// <summary>View for displaying the users hand.</summary>
+namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +10,14 @@ namespace CardWeb.WebViews
     using System.Text;
 
     /// <summary>
-    /// View for displaying the manage account page.
+    /// View for displaying the users hand.
     /// </summary>
-    public class WebViewManageAccount : WebView
+    public class WebViewHand : WebView
     {
         /// <summary>
         /// A string representation of the WebView's name.
         /// </summary>
-        private string webViewName = "ManageAccount";
+        private string webViewName = "Hand";
 
         /// <summary>
         /// Gets the name of the web view.
