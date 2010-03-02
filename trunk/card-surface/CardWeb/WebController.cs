@@ -13,8 +13,9 @@ namespace CardWeb
     using System.Text;
     using System.Threading;
     using CardGame;
-    using CardWeb.WebActions;
-    using CardWeb.WebViews;
+    using CardWeb.WebComponents;
+    using CardWeb.WebComponents.WebActions;
+    using CardWeb.WebComponents.WebViews;
 
     /// <summary>
     /// The WebController that hosts the internal web server.
@@ -35,46 +36,6 @@ namespace CardWeb
         /// Maximum data bytes to read from an open socket at one time
         /// </summary>
         private const int SocketMaxRecvDataBytes = 1024;
-
-        /// <summary>
-        /// Carriage return character
-        /// </summary>
-        private const char CarriageReturn = '\r';
-
-        /// <summary>
-        /// Line feed character
-        /// </summary>
-        private const char LineFeed = '\n';
-
-        /// <summary>
-        /// Number of stack trace frames to skip when constructing a new StackTrace
-        /// </summary>
-        private const int StackTraceFramesToSkip = 1;
-
-        /// <summary>
-        /// StackTrace frame index number to retrieve
-        /// </summary>
-        private const int StackTraceFrameIndex = 0;
-
-        /// <summary>
-        /// Constant required for maintaining file information when constructing a new StackTrace
-        /// </summary>
-        private const bool StackTraceNeedFileInfoFlag = true;
-
-        /// <summary>
-        /// Index for the HTTP Request type in a tokenized string
-        /// </summary>
-        private const int HttpRequestMethodIndex = 0;
-
-        /// <summary>
-        /// Index for the HTTP Request resource in a tokenized string
-        /// </summary>
-        private const int HttpRequestResourceIndex = 1;
-
-        /// <summary>
-        /// Index for the HTTP Request version in a tokenized string
-        /// </summary>
-        private const int HttpRequestVersionIndex = 2;
         
         /// <summary>
         /// GameController that the web server is able to interact with.
@@ -97,14 +58,9 @@ namespace CardWeb
         private IPAddress localaddr;
 
         /// <summary>
-        /// List of WebViews registered with this WebController.
+        /// List of WebComponents.WebViews registered with this WebController.
         /// </summary>
-        private List<WebView> registeredViews;
-
-        /// <summary>
-        /// List of WebActions registered with this WebController.
-        /// </summary>
-        private List<WebAction> registeredActions;
+        private List<WebComponent> registeredComponents;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="WebController"/> class.
@@ -113,14 +69,10 @@ namespace CardWeb
         public WebController(IGameController gameController)
         {
             this.gameController = gameController;
-            this.registeredViews = new List<WebView>();
-            this.registeredActions = new List<WebAction>();
+            this.registeredComponents = new List<WebComponent>();
 
-            /* Generate Default WebViews */
-            this.RegisterWebView(new WebViewLogin());
-
-            /* Generate Default WebActions */
-            this.RegisterWebAction(new WebActionLogin());
+            /* Generate Default WebComponents */
+            this.RegisterWebComponent(new WebComponentLogin());
 
             try
             {
@@ -128,7 +80,7 @@ namespace CardWeb
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("WebController: Unable to create web server IP address because of invalid address @ {0}.", this.GetCurrentLine());
+                Console.WriteLine("WebController: Unable to create web server IP address because of invalid address @ {0}.", WebUtilities.GetCurrentLine());
                 Console.WriteLine("-->" + ane.Message);
 
                 /* Attempt recovery.  This should never happen. */
@@ -144,12 +96,12 @@ namespace CardWeb
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("WebController: Unable to create web server port listener because of invalid address @ {0}.", this.GetCurrentLine());
+                Console.WriteLine("WebController: Unable to create web server port listener because of invalid address @ {0}.", WebUtilities.GetCurrentLine());
                 Console.WriteLine("-->" + ane.Message);
             }
             catch (ArgumentOutOfRangeException aoore)
             {
-                Console.WriteLine("WebController: Unable to create web server port listener because the port was out of range @ {0} (" + TcpLocalPort + ").", this.GetCurrentLine());
+                Console.WriteLine("WebController: Unable to create web server port listener because the port was out of range @ {0} (" + TcpLocalPort + ").", WebUtilities.GetCurrentLine());
                 Console.WriteLine("-->" + aoore.Message);
             }
 
@@ -166,24 +118,15 @@ namespace CardWeb
             Socket serverSocket;
             byte[] bytesReceived = new byte[SocketMaxRecvDataBytes];
             int numBytesReceived = 0;
-            int numBytesSent = 0;
-            string responseBuffer;
-            string responseContent;
 
-            string requestedResource;
-            string requestMethod;
-
-            WebView requestedView;
-            WebAction requestedAction;
+            WebRequest request;
+            WebComponent requestedComponent;
             
             while (true)
             {
                 try
                 {
-                    requestMethod = string.Empty;
-                    requestedResource = string.Empty;
                     numBytesReceived = 0;
-                    numBytesSent = 0;
 
                     serverSocket = this.webListener.AcceptSocket();
                     Console.WriteLine("WebController: Received new connection request from " + serverSocket.RemoteEndPoint + ".");
@@ -196,123 +139,38 @@ namespace CardWeb
                             if (numBytesReceived > 0)
                             {
                                 Console.WriteLine(Encoding.ASCII.GetString(bytesReceived));
-                                
-                                requestMethod = this.GetHttpRequestMethod(bytesReceived);
+                                request = new WebRequest(bytesReceived, serverSocket);
 
-                                /* If we've received a GET HTTP request... */
-                                if (requestMethod.Equals(WebRequestMethods.Http.Get))
+                                if (this.IsRegisteredWebComponent(request.RequestResource))
                                 {
-                                    Console.WriteLine("WebController: Received a GET HTTP request.");
+                                    /* TODO: Create new WebView response for this WebComponent and add it to the ThreadPool. 
+                                             Surround in try block to catch unregistered component exception?  Should be caught already by IsRegisteredWebComponent() though... */
+                                    requestedComponent = this.GetRegisteredComponent(request.RequestResource);
 
-                                    /* Determine which resource was requested. */
-                                    requestedResource = this.GetHttpRequestResource(bytesReceived);
-
-                                    if (this.IsRegisteredWebView(requestedResource))
-                                    {
-                                        Console.WriteLine("WebController: " + requestedResource + " has been registered!");
-
-                                        /* TODO: Surround in try block to catch unregistered view exception?  Should be caught already by IsRegisteredWebView() though... */
-                                        requestedView = this.GetRegisteredView(requestedResource);
-                                        
-                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 200 OK" + CarriageReturn + LineFeed;
-                                        responseBuffer += "Content-Type: " + requestedView.GetContentType() + CarriageReturn + LineFeed;
-
-                                        try
-                                        {
-                                            responseContent = requestedView.GetContent();
-                                        }
-                                        catch (NotImplementedException nie)
-                                        {
-                                            responseContent = String.Empty;
-                                            Console.WriteLine("WebController: " + requestedView.WebViewName + " has no HTML content implemented. (" + nie.Message + ")");
-                                        }
-
-                                        byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
-                                        responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
-                                        responseBuffer += responseContent;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("WebController: " + requestedResource + " has NOT been registered!");
-
-                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 404 NOT FOUND" + CarriageReturn + LineFeed;
-                                    }
-
-                                    Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
-
-                                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-
-                                    numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-                                }
-                                else if (requestMethod.Equals(WebRequestMethods.Http.Post))
-                                {
-                                    /* Size of this array limited by SocketMaxRecvDataBytes */
-                                    string requestContent = this.GetHttpRequestContent(bytesReceived);
-                                    Console.WriteLine("WebController: Received the following content from HTTP POST request...");
-                                    Console.WriteLine(requestContent);
-
-                                    /* Determine the source of the POST request. */
-                                    requestedResource = this.GetHttpRequestResource(bytesReceived);
-
-                                    if (this.IsRegisteredWebAction(requestedResource))
-                                    {
-                                        Console.WriteLine("WebController: " + requestedResource + " has been registered as a WebAction!");
-
-                                        /* TODO: Surround this in a try block to catch the unregistered exception?  Should already be caught by IsRegisteredWebAction.  How will this change when threading introduced? */
-                                        requestedAction = this.GetRegisteredAction(requestedResource);
-
-                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 200 OK" + CarriageReturn + LineFeed;
-                                        responseBuffer += "Content-Type: " + CarriageReturn + LineFeed;
-
-                                        try
-                                        {
-                                            responseContent = "Thank you! (" + requestContent + ")";
-                                        }
-                                        catch (NotImplementedException nie)
-                                        {
-                                            responseContent = String.Empty;
-                                            Console.WriteLine("WebController: " + requestedAction.WebActionName + " (WebAction) has not HTML response implementation. (" + nie.Message + ")");
-                                        }
-
-                                        byte[] responseContentBytes = Encoding.ASCII.GetBytes(responseContent);
-                                        responseBuffer += "Content-Length: " + responseContentBytes.Length + CarriageReturn + LineFeed + CarriageReturn + LineFeed;
-                                        responseBuffer += responseContent;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("WebController: " + requestedResource + " is NOT a registered WebAction!");
-                                        responseBuffer = this.GetHttpRequestVersion(bytesReceived) + " 404 NOT FOUND" + CarriageReturn + LineFeed;
-                                    }
-
-                                    Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
-
-                                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-
-                                    numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-                                    
+                                    /* TODO: Is passing the socket instance the best way to handle this? */
+                                    requestedComponent.PostRequest(request);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("WebController: Unrecognized HTTP request (" + requestMethod + ").");
-                                    /* TODO: What do we need to return to the user? */
+                                    string responseBuffer = request.RequestVersion + " 404 NOT FOUND" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                                    
+                                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                                    int numBytesSent = serverSocket.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+                                    serverSocket.Shutdown(SocketShutdown.Both);
+                                    serverSocket.Close();
                                 }
-
-                                Console.WriteLine("WebController: Sent " + numBytesSent + " bytes for HTTP response.");
-                                Console.WriteLine("WebController: Shutting down and closing socket.");
-
-                                serverSocket.Shutdown(SocketShutdown.Both);
-                                serverSocket.Close();
                             }
                         }
                         catch (InvalidOperationException ioe)
                         {
                             /* We didn't recognize the HTTP request type. */
-                            Console.WriteLine("WebController: " + ioe.Message + " @ " + this.GetCurrentLine() + ".");
+                            Console.WriteLine("WebController: " + ioe.Message + " @ " + WebUtilities.GetCurrentLine() + ".");
                             /* TODO: What happens next? */
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("WebController: Unable to receive data from an accepted connection request @ {0}.", this.GetCurrentLine());
+                            Console.WriteLine("WebController: Unable to receive data from an accepted connection request @ {0}.", WebUtilities.GetCurrentLine());
                             Console.WriteLine("-->" + e.Message);
                             /* TODO: What happens if we're no longer able to read form the socket?  How do we reset? */
                         }
@@ -320,25 +178,25 @@ namespace CardWeb
                 }
                 catch (InvalidOperationException ioe)
                 {
-                    Console.WriteLine("WebController: Unable to accept new connection requests because of an invalid listener @ {0}.", this.GetCurrentLine());
+                    Console.WriteLine("WebController: Unable to accept new connection requests because of an invalid listener @ {0}.", WebUtilities.GetCurrentLine());
                     Console.WriteLine("-->" + ioe.Message);
                     /* TODO: Recovery? */
                 }
             } /* while(true) */
-        } /* run() */
+        } /* Run() */
 
         /// <summary>
-        /// Registers the WebAction if it is not already registered.
-        /// In order for actions to be accessible by this server, they must be registered.
+        /// Registers the WebComponent if it is not already registered.
+        /// In order for components to be accessible by this server, they must be registered.
         /// </summary>
-        /// <param name="registrableAction">The registrable action.</param>
-        public void RegisterWebAction(WebAction registrableAction)
+        /// <param name="registrableComponent">The registrable component.</param>
+        public void RegisterWebComponent(WebComponent registrableComponent)
         {
             bool alreadyRegistered = false;
 
-            foreach (WebAction action in this.registeredActions)
+            foreach (WebComponent component in this.registeredComponents)
             {
-                if (action.Equals(registrableAction))
+                if (component.Equals(registrableComponent))
                 {
                     alreadyRegistered = true;
                 }
@@ -346,341 +204,63 @@ namespace CardWeb
 
             if (!alreadyRegistered)
             {
-                this.registeredActions.Add(registrableAction);
+                this.registeredComponents.Add(registrableComponent);
             }
-        } /* RegsiterWebAction() */
+        } /* RegisterWebComponent() */
 
         /// <summary>
-        /// Registers the WebView if it is not already registered.
-        /// In order for views to be accessible by this server, they must be registered.
+        /// Determines whether a particluar WebComponent has been registered with this WebController.
         /// </summary>
-        /// <param name="registrableView">The registrable view.</param>
-        public void RegisterWebView(WebView registrableView)
-        {
-            bool alreadyRegistered = false;
-
-            foreach (WebView view in this.registeredViews)
-            {
-                if (view.Equals(registrableView))
-                {
-                    alreadyRegistered = true;
-                }
-            }
-
-            if (!alreadyRegistered)
-            {
-                this.registeredViews.Add(registrableView);
-            }
-        } /* RegsiterWebView() */
-
-        /// <summary>
-        /// Determines whether a particluar WebAction has been registered with this WebController.
-        /// </summary>
-        /// <param name="query">A string representation of the WebAction's name.</param>
+        /// <param name="prefix">The WebComponent's prefix.</param>
         /// <returns>
-        /// <c>true</c> if the WebAction has been registered; otherwise, <c>false</c>.
+        /// <c>true</c> if the WebComponent has been registered; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsRegisteredWebAction(string query)
+        public bool IsRegisteredWebComponent(string prefix)
         {
-            foreach (WebAction action in this.registeredActions)
+            foreach (WebComponent component in this.registeredComponents)
             {
-                if (action.Equals(query))
+                if (component.Equals(prefix))
                 {
                     return true;
                 }
             }
 
             return false;
-        } /* IsRegisteredWebAction() */
+        } /* IsRegisteredWebComponent() */
 
         /// <summary>
-        /// Determines whether a particluar WebView has been registered with this WebController.
+        /// Unregisters a WebComponent.
         /// </summary>
-        /// <param name="query">A string representation of the WebView's name.</param>
-        /// <returns>
-        /// <c>true</c> if the WebView has been registered; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsRegisteredWebView(string query)
-        {
-            foreach (WebView view in this.registeredViews)
-            {
-                if (view.Equals(query))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        } /* IsRegisteredWebView() */
-
-        /// <summary>
-        /// Unregisters a WebAction.
-        /// </summary>
-        /// <param name="registrableAction">The WebAction to unregsiter.</param>
-        private void UnregisterWebAction(WebView registrableAction)
+        /// <param name="registrableComponent">The WebComponent to unregsiter.</param>
+        private void UnregisterWebComponent(WebComponent registrableComponent)
         {
             /* TODO: Keep this private for now.  How would making this public become a security issue? */
 
-            foreach (WebAction action in this.registeredActions)
+            foreach (WebComponent component in this.registeredComponents)
             {
-                if (action.Equals(registrableAction))
+                if (component.Equals(registrableComponent))
                 {
-                    this.registeredActions.Remove(action);
+                    this.registeredComponents.Remove(component);
                 }
             }
-        } /* UnregisterWebAction() */
+        } /* UnregisterWebComponent() */
 
         /// <summary>
-        /// Unregisters a WebView.
+        /// Gets the registered WebComponent.
         /// </summary>
-        /// <param name="registrableView">The WebView to unregsiter.</param>
-        private void UnregisterWebView(WebView registrableView)
+        /// <param name="prefix">The WebComponent's prefix.</param>
+        /// <returns>A WebComponent with a prefix that matches the string or throws if an Exception if one is not registered.</returns>
+        private WebComponent GetRegisteredComponent(string prefix)
         {
-            /* TODO: Keep this private for now.  How would making this public become a security issue? */
-
-            foreach (WebView view in this.registeredViews)
+            foreach (WebComponent component in this.registeredComponents)
             {
-                if (view.Equals(registrableView))
+                if (component.Equals(prefix))
                 {
-                    this.registeredViews.Remove(view);
-                }
-            }
-        } /* UnregisterWebView() */
-
-        /// <summary>
-        /// Gets the registered WebAction.
-        /// </summary>
-        /// <param name="query">A string representation of the WebAction to return.</param>
-        /// <returns>A WebAction with the name equal to the string or throws if an Exception if one is not registered.</returns>
-        private WebAction GetRegisteredAction(string query)
-        {
-            foreach (WebAction action in this.registeredActions)
-            {
-                if (action.Equals(query))
-                {
-                    return action;
+                    return component;
                 }
             }
 
-            throw new Exception("Requested an Unregistered WebAction.");
-        } /* GetRegisteredAction() */
-
-        /// <summary>
-        /// Gets the registered WebView.
-        /// </summary>
-        /// <param name="query">A string representation of the WebView to return.</param>
-        /// <returns>A WebView with the name equal to the string or throws if an Exception if one is not registered.</returns>
-        private WebView GetRegisteredView(string query)
-        {
-            foreach (WebView view in this.registeredViews)
-            {
-                if (view.Equals(query))
-                {
-                    return view;
-                }
-            }
-
-            throw new Exception("Requested an Unregistered WebView.");
-        } /* GetRegisteredView() */
-
-        /// <summary>
-        /// Gets the content of the HTTP request.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A byte array containing the request contents.</returns>
-        private string GetHttpRequestContent(byte[] request)
-        {
-            int position = 0;
-            int bytesCopied = 0;
-            bool patternFound = false;
-            byte[] pattern = { (byte)CarriageReturn, (byte)LineFeed, (byte)CarriageReturn, (byte)LineFeed };
-            string content = String.Empty;
-
-            for (int i = 0; i < request.Length - pattern.Length; i++)
-            {
-                if (request[i] == pattern[0])
-                {
-                    /* Assume the pattern has been found. */
-                    patternFound = true;
-                    for (int j = 0; j < pattern.Length; j++)
-                    {
-                        if (request[i + j] != pattern[j])
-                        {
-                            /* If there's not a match, we didn't really find it. */
-                            patternFound = false;
-                            break;
-                        }
-                    }
-
-                    /* If all bytes in the pattern array matched, we really did find it. */
-                    if (patternFound)
-                    {
-                        /* Start the copy position after the \r\n\r\n content initiation sequence. */
-                        position = i + pattern.Length;
-                        break;
-                    }
-                }
-            }
-
-            /* Copy the content portion of the HTTP request to position. */
-            for (int i = position; i < request.Length; i++)
-            {
-                /* Skip null characters. */
-                if (request[i] != 0x0)
-                {
-                    content += (char)request[i];
-                    bytesCopied++;
-                }
-            }
-
-            /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
-            /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
-            Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
-
-            return content;
-        } /* GetHttpRequestContent() */
-
-        /// <summary>
-        /// Gets the length of the HTTP request content.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
-        private int GetHttpRequestContentLength(byte[] request)
-        {
-            throw new NotImplementedException();
-        } /* GetHttpRequestContentLength() */
-
-        /// <summary>
-        /// Gets the HTTP request method.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the HTTP Request Method</returns>
-        private string GetHttpRequestMethod(byte[] request)
-        {
-            byte requestLineTerminator = 0x0;
-            string firstLineOfRequest = String.Empty;
-
-            for (int i = 0; i < request.Length; i++)
-            {
-                if (request[i] != CarriageReturn && request[i] != LineFeed)
-                {
-                    firstLineOfRequest += (char)request[i];
-                }
-                else
-                {
-                    requestLineTerminator |= request[i];
-                }
-
-                if (requestLineTerminator == (CarriageReturn | LineFeed))
-                {
-                    /* We've captured the first line of the HTTP request. */
-                    break;
-                }
-            }
-
-            /* Tokenize first line of HTTP request. */
-            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
-
-            if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Get))
-            {
-                return WebRequestMethods.Http.Get;
-            }
-            else if (firstLineTokens[HttpRequestMethodIndex].Equals(WebRequestMethods.Http.Post))
-            {
-                return WebRequestMethods.Http.Post;
-            }
-            else
-            {
-                throw new InvalidOperationException("Unrecognized HTTP request method");
-            }
-        } /* GetHttpRequestMethod() */
-
-        /// <summary>
-        /// Gets the HTTP request resource.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the requested HTTP Resource.</returns>
-        private string GetHttpRequestResource(byte[] request)
-        {
-            byte requestLineTerminator = 0x0;
-            string firstLineOfRequest = String.Empty;
-
-            for (int i = 0; i < request.Length; i++)
-            {
-                if (request[i] != CarriageReturn && request[i] != LineFeed)
-                {
-                    firstLineOfRequest += (char)request[i];
-                }
-                else
-                {
-                    requestLineTerminator |= request[i];
-                }
-
-                if (requestLineTerminator == (CarriageReturn | LineFeed))
-                {
-                    /* We've captured the first line of the HTTP request. */
-                    break;
-                }
-            }
-
-            /* Tokenize first line of HTTP request. */
-            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
-            string[] resourceTokens = firstLineTokens[HttpRequestResourceIndex].Split(new char[] { '/' });
-
-            /* Trim off leading '/' part of URI prefix */
-            return resourceTokens[1];
-        } /* GetHttpRequestResource() */
-
-        /// <summary>
-        /// Gets the HTTP request version.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the HTTP request version.</returns>
-        private string GetHttpRequestVersion(byte[] request)
-        {
-            byte requestLineTerminator = 0x0;
-            string firstLineOfRequest = String.Empty;
-
-            for (int i = 0; i < request.Length; i++)
-            {
-                if (request[i] != CarriageReturn && request[i] != LineFeed)
-                {
-                    firstLineOfRequest += (char)request[i];
-                }
-                else
-                {
-                    requestLineTerminator |= request[i];
-                }
-
-                if (requestLineTerminator == (CarriageReturn | LineFeed))
-                {
-                    /* We've captured the first line of the HTTP request. */
-                    break;
-                }
-            }
-
-            /* Tokenize first line of HTTP request. */
-            string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
-
-            return firstLineTokens[HttpRequestVersionIndex];
-        } /* GetHttpRequestVersion() */
-
-        /// <summary>
-        /// Gets the current line.
-        /// </summary>
-        /// <returns>Line number from which GetCurrentLine() was called</returns>
-        private int GetCurrentLine()
-        {
-            try
-            {
-                return (new StackTrace(StackTraceFramesToSkip, StackTraceNeedFileInfoFlag)).GetFrame(StackTraceFrameIndex).GetFileLineNumber();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("WebController: Unable to calculate line number in GetCurrentLine().");
-                Console.WriteLine("-->" + e.Message);
-                return 0;
-            }
-        } /* GetCurrentLine() */
-     }
+            throw new Exception("Requested an Unregistered WebComponent.");
+        } /* GetRegisteredComponent() */
+    }
 }

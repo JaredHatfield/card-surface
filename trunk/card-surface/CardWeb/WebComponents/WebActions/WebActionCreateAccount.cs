@@ -1,8 +1,9 @@
-﻿// <copyright file="WebActionJoinTable.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebActionCreateAccount.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Action to join a table.</summary>
-namespace CardWeb.WebActions
+// <summary>Action to create an account on the server.</summary>
+
+namespace CardWeb.WebComponents.WebActions
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +11,14 @@ namespace CardWeb.WebActions
     using System.Text;
 
     /// <summary>
-    /// Action to join a table.
+    /// Action to create an account on the server.
     /// </summary>
-    public class WebActionJoinTable : WebAction
+    public class WebActionCreateAccount : WebAction
     {
         /// <summary>
-        /// A string representation of this WebAction
+        /// A string representation of this WebAction.
         /// </summary>
-        private string webActionName = "JoinTable";
+        private string webActionName = "CreateAccount";
 
         /// <summary>
         /// Gets the name of the web action.

@@ -2,7 +2,7 @@
 // GNU General Public License v3
 // </copyright>
 // <summary>View for displaying the account creation page.</summary>
-namespace CardWeb.WebViews
+namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;

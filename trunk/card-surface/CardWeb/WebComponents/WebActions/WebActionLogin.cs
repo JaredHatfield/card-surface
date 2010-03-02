@@ -1,9 +1,8 @@
-﻿// <copyright file="WebActionCreateAccount.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebActionLogin.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Action to create an account on the server.</summary>
-
-namespace CardWeb.WebActions
+// <summary>Action to login to the server.</summary>
+namespace CardWeb.WebComponents.WebActions
 {
     using System;
     using System.Collections.Generic;
@@ -11,14 +10,14 @@ namespace CardWeb.WebActions
     using System.Text;
 
     /// <summary>
-    /// Action to create an account on the server.
+    /// Action to login to the server.
     /// </summary>
-    public class WebActionCreateAccount : WebAction
+    public class WebActionLogin : WebAction
     {
         /// <summary>
         /// A string representation of this WebAction.
         /// </summary>
-        private string webActionName = "CreateAccount";
+        private string webActionName = "Login";
 
         /// <summary>
         /// Gets the name of the web action.

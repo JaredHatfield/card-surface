@@ -2,7 +2,7 @@
 // GNU General Public License v3
 // </copyright>
 // <summary>View for displaying the for joining a table.</summary>
-namespace CardWeb.WebViews
+namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;

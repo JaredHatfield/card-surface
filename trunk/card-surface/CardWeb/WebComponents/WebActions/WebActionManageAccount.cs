@@ -2,7 +2,7 @@
 // GNU General Public License v3
 // </copyright>
 // <summary>Action to manage an account on the server.</summary>
-namespace CardWeb.WebActions
+namespace CardWeb.WebComponents.WebActions
 {
     using System;
     using System.Collections.Generic;
