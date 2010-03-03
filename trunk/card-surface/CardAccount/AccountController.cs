@@ -22,13 +22,15 @@ namespace CardAccount
         /// <summary>
         /// The list of users that are on the system.
         /// </summary>
-        private List<GameAccount> users;
+        private List<GameAccount> users = new List<GameAccount>();
 
         /// <summary>
         /// Prevents a default instance of the AccountController class from being created.
         /// </summary>
         private AccountController()
         {
+            // https://code.google.com/p/student-educational-arrangement-tool/source/browse/trunk/SEAT/SEATLibrary/Room.cs
+            // This is for saving to a file from FLAT file
         }
 
         /// <summary>
@@ -62,6 +64,42 @@ namespace CardAccount
             }
 
             return valid;
+        }
+
+        /// <summary>
+        /// Creates the account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>whether account was created.</returns>
+        public bool CreateAccount(string username, string password)
+        {
+            bool success = false;
+
+            foreach (GameAccount acnt in this.users)
+            {
+                if (acnt.Username == username)
+                {
+                    success = true;
+                }
+            }
+
+            if (success)
+            {
+                try
+                {
+                    GameAccount account = new GameAccount(username, password);
+
+                    this.users.Add(account);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception caught creating Game Account.", e);
+                    success = false;
+                }
+            }
+
+            return success;
         }
 
         /// <summary>
