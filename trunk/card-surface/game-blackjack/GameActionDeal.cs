@@ -1,7 +1,7 @@
-﻿// <copyright file="GameActionStand.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="GameActionDeal.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>The stand action for blackjack.</summary>
+// <summary>Deals the hands for a blackjack game.</summary>
 namespace GameBlackjack
 {
     using System;
@@ -11,9 +11,9 @@ namespace GameBlackjack
     using CardGame;
 
     /// <summary>
-    /// The stand action for blackjack.
+    /// Deals the hands for a blackjack game.
     /// </summary>
-    internal class GameActionStand : GameAction
+    internal class GameActionDeal : GameAction
     {
         /// <summary>
         /// Gets this actions name.
@@ -23,7 +23,7 @@ namespace GameBlackjack
         {
             get
             {
-                return "stand";
+                return "deal";
             }
         }
 
@@ -36,7 +36,7 @@ namespace GameBlackjack
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionHit - implement a player standing in the game
+            // TODO: GameActionHit - implement the dealing game action
             throw new NotImplementedException("GameAction not implemented.");
         }
     }

@@ -180,6 +180,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Have a user sit down in one of the seats
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>True if the user was able to sit down; otherwise false.</returns>
+        public bool SitDown(string username, string password)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (this.seats[i].PasswordPeek(password))
+                {
+                    return this.seats[i].SitDown(username, password);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Test to see if the privided password is valid for an open seat in this game.
         /// </summary>
         /// <param name="password">The password.</param>

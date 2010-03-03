@@ -10,6 +10,7 @@ namespace CardGameCommandLine
     using System.Text;
     using CardGame;
     using CardServer;
+    using GameBlackjack;
 
     /// <summary>
     /// A command line application for using the CardGame classes.
@@ -17,22 +18,63 @@ namespace CardGameCommandLine
     public class Program
     {
         /// <summary>
+        /// The game of Blackjack that is being played.
+        /// </summary>
+        private static Game game = new Blackjack();
+
+        /// <summary>
         /// Mains the specified args.
         /// </summary>
         /// <param name="args">The args for the application.</param>
         public static void Main(string[] args)
         {
-            Game game = new Game();
-            IGameController gameController = new GameController();
-            gameController.AddGame(game);
+            // Add some dummy players to the game
+            Program.PlayerJoinGame("player1");
+            Program.PlayerJoinGame("player2");
 
-            CardPile deck = Deck.StandardDeck();
-            for (int i = 0; i < deck.Cards.Count; i++)
+            Program.PrintPlayerList();
+            
+            Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Join a player to a game.
+        /// </summary>
+        /// <param name="username">The username of the player.</param>
+        private static void PlayerJoinGame(string username)
+        {
+            for (int i = 0; i < Program.game.Seats.Count; i++)
             {
-                Console.WriteLine(deck.Cards[i].ToString());
+                if (Program.game.Seats[i].IsEmpty)
+                {
+                    if (game.SitDown(username, Program.game.Seats[i].Password))
+                    {
+                        Console.WriteLine(username + "has joined the game.");
+                    }
+                    else
+                    {
+                        Console.WriteLine(username + " could not join the game.");
+                    }
+
+                    return;
+                }
             }
 
-            Console.ReadLine();
+            Console.WriteLine("There were no open seats for " + username + " to join.");
+        }
+
+        /// <summary>
+        /// Prints the player list.
+        /// </summary>
+        private static void PrintPlayerList()
+        {
+            for (int i = 0; i < Program.game.Seats.Count; i++)
+            {
+                if (!Program.game.Seats[i].IsEmpty)
+                {
+                    Console.WriteLine(Program.game.Seats[i].Location + " - " + Program.game.Seats[i].Username);
+                }
+            }
         }
     }
 }
