@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name ="Header">
+    <xs:complexType>
+      <xs:attribute name ="TimeStamp" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name ="Body">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name ="Action">
+          <xs:complexType>
+            <xs:choice>
+              <xs:element name="Move" type="ActionType"></xs:element>
+              <xs:element name="Custom" type="ActionType"></xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Game" type="GameType"></xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ActionType">
+    <xs:sequence>
+      <xs:element name="Param" type="ParamType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ParamType">
+    <xs:sequence>
+      <xs:element name="param">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string"/>
+          <xs:attribute name="value" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CardCollectionType">
+    <xs:sequence>
+      <xs:element name="CardPile" type="CardPileType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChipCollectionType">
+    <xs:sequence>
+      <xs:element name="ChipPile" type="ChipPileType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CardPileType">
+    <xs:sequence>
+      <xs:element name="playable" type="xs:boolean"></xs:element>
+          <xs:element name="style" type="xs:string"></xs:element>
+      <xs:element name="Card">
+        <xs:complexType>
+          <xs:attribute name="guid" type="xs:string"></xs:attribute>
+          <xs:attribute name="status" type="xs:string"></xs:attribute>
+          <xs:attribute name="moveable" type="xs:boolean"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChipPileType">
+    <xs:all>
+      <xs:element name="open" type="xs:boolean"></xs:element>
+      <xs:element name="Chip">
+        <xs:complexType>
+          <xs:attribute name="guid" type="xs:string"></xs:attribute>
+          <xs:attribute name="value" type="xs:decimal"></xs:attribute>
+          <xs:attribute name="color" type="xs:string"></xs:attribute>
+          <xs:attribute name="moveable" type="xs:boolean"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="GameType">
+    <xs:all>
+      <xs:element name="Status">
+        <xs:complexType>
+          <xs:attribute name="turn" type="xs:integer"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Message">
+        <xs:complexType>
+          <xs:attribute name="value" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Players" type="PlayersType"></xs:element>
+      <xs:element name="Area" type="AreaType"></xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="PlayersType">
+      <xs:sequence>
+        <xs:element name="Player" type="PlayerType"></xs:element>
+      </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PlayerType">
+    <xs:all>
+      <xs:element name="id" type="xs:int"></xs:element>
+      <xs:element name="balance" type="xs:double"></xs:element>
+      <xs:element name="Area" type="AreaType"></xs:element>
+      <xs:element name="Hand" type="HandType"></xs:element>
+      <xs:element name="Action" type="ActionType"></xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="AreaType">
+    <xs:sequence>
+      <xs:element name="CardCollection" type="CardCollectionType"></xs:element>
+      <xs:element name="ChipCollection" type="ChipCollectionType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HandType">
+    <xs:all>
+      <xs:element name="CardCollection" type="CardCollectionType"></xs:element>
+    </xs:all>
+  </xs:complexType>
+</xs:schema>
