@@ -74,13 +74,13 @@ namespace CardAccount
         /// <returns>whether account was created.</returns>
         public bool CreateAccount(string username, string password)
         {
-            bool success = false;
-
+            bool success = true;
+            
             foreach (GameAccount acnt in this.users)
             {
                 if (acnt.Username == username)
                 {
-                    success = true;
+                    success = false;
                 }
             }
 
