@@ -51,6 +51,17 @@ namespace CardAccount
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
+        public GameAccount(string username, string password)
+        {
+            this.username = username;
+            this.password = password;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameAccount"/> class.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
         /// <param name="profileImage">The profile image.</param>
         /// <param name="balance">The balance.</param>
         /// <param name="gamesPlayed">The games played.</param>
