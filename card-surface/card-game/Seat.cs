@@ -180,14 +180,29 @@ namespace CardGame
         /// <returns>True if the action was successful; otherwise false.</returns>
         public bool SitDown(string username, string password)
         {
-            // TODO: Implement logic that allows a player to sit down at the seat.
-
             // 1) Make sure the seat is empty
+            if (!this.IsEmpty)
+            {
+                return false;
+            }
+
             // 2) Make sure the passwords match
+            if (!this.password.Equals(password))
+            {
+                return false;
+            }
+
             // 3) Change the password
+            this.AssignSeatPassword();
+
             // 4) Assign the username to this seat
+            this.username = username;
+
             // 5) Make a player and add them to the seat
-            return false;
+            this.player = new Player();
+
+            // 6) Indicate that everything was successful
+            return true;
         }
 
         /// <summary>

@@ -37,6 +37,7 @@ namespace GameBlackjack
             Blackjack blackjack = (Blackjack)game;
             
             // TODO: GameActionHit - implement a player taking a hit on the game
+            throw new NotImplementedException("GameAction not implemented.");
         }
     }
 }

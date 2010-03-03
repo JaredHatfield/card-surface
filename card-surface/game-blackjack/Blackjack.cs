@@ -18,11 +18,12 @@ namespace GameBlackjack
         /// <summary>
         /// Initializes a new instance of the <see cref="Blackjack"/> class.
         /// </summary>
-        protected Blackjack() : base()
+        public Blackjack() : base()
         {
             this.SubscribeAction(new GameActionHit());
             this.SubscribeAction(new GameActionStand());
             this.SubscribeAction(new GameActionSplit());
+            this.SubscribeAction(new GameActionDeal());
         }
 
         /// <summary>
