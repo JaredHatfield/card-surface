@@ -81,6 +81,7 @@
     <Compile Include="Component\SurfaceCard.cs" />
     <Compile Include="Component\SurfaceChip.cs" />
     <Compile Include="Component\SurfacePile.cs" />
+    <Compile Include="GameTableInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,6 +134,10 @@
     <ProjectReference Include="..\card-game\CardGame.csproj">
       <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
       <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardCommunication\CardCommunication.csproj">
+      <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
+      <Name>CardCommunication</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
