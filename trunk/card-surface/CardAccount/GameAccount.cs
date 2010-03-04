@@ -6,14 +6,28 @@ namespace CardAccount
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.IO.Compression;
     using System.Linq;
     using System.Text;
+    using System.Xml;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// An account for a user of the system.
     /// </summary>
     public class GameAccount
     {
+        /// <summary>
+        /// Key used for encryption/decryption
+        /// </summary>
+        private static byte[] EncryptionKey = {34, 54, 67, 78, 89, 25, 74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62};
+
+        /// <summary>
+        /// Initialization vector for encryption/decryption
+        /// </summary>
+        private static byte[] InitVector = {74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62, 34, 54, 67, 78, 89, 25};
+
         /// <summary>
         /// The account's username.
         /// </summary>
@@ -84,12 +98,13 @@ namespace CardAccount
         }
 
         /// <summary>
-        /// Gets the password.
+        /// Gets or sets the Encrypted password.
         /// </summary>
         /// <value>The password.</value>
         public string Password
         {
-            get { return this.password; }
+            get { return this.Encrypt(this.password); }
+            set { this.password = this.Decrypt(value); }
         }
 
         /// <summary>
@@ -157,6 +172,38 @@ namespace CardAccount
         public void AddGame()
         {
             this.gamesPlayed++;
+        }
+
+        /// <summary>
+        /// Encrypts the specified text.
+        /// </summary>
+        /// <param name="text">The text to be encrypted.</param>
+        /// <returns>Encrypted text</returns>
+        private string Encrypt(string text)
+        {
+            TripleDES tripleDES = new TripleDESCryptoServiceProvider();
+            ICryptoTransform encryptor = tripleDES.CreateEncryptor(EncryptionKey, InitVector);
+            byte[] encryptedText = new byte[24];
+
+            encryptor.TransformBlock(Convert.FromBase64String(text), 0, text.Length, encryptedText, 0);
+
+            return Convert.ToBase64String(encryptedText);
+        }
+
+        /// <summary>
+        /// Decrypts the specified text.
+        /// </summary>
+        /// <param name="text">The text to be decrypted.</param>
+        /// <returns>Decrypted text</returns>
+        private string Decrypt(string text)
+        {
+            TripleDES tripleDES = new TripleDESCryptoServiceProvider();
+            ICryptoTransform decryptor = tripleDES.CreateDecryptor(EncryptionKey, InitVector);
+            byte[] decryptedText = new byte[24];
+
+            decryptor.TransformBlock(Convert.FromBase64String(text), 0, text.Length, decryptedText, 0);
+
+            return Convert.ToBase64String(decryptedText);
         }
     }
 }
