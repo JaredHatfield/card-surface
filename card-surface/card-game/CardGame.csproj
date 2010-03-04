@@ -52,16 +52,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card.cs" />
-    <Compile Include="CardPile.cs" />
-    <Compile Include="Chip.cs" />
-    <Compile Include="ChipPile.cs" />
+    <Compile Include="GameObjects\Card.cs" />
+    <Compile Include="GamePiles\CardPile.cs" />
+    <Compile Include="GameObjects\Chip.cs" />
+    <Compile Include="GamePiles\ChipPile.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameAction.cs" />
+    <Compile Include="GameObjects\ICard.cs" />
+    <Compile Include="GameObjects\IChip.cs" />
+    <Compile Include="GameObjects\IPhysicalObject.cs" />
     <Compile Include="IGameController.cs" />
-    <Compile Include="Pile.cs" />
-    <Compile Include="PhysicalObject.cs" />
+    <Compile Include="GamePiles\Pile.cs" />
+    <Compile Include="GameObjects\PhysicalObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayingArea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

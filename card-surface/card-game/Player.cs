@@ -145,8 +145,8 @@ namespace CardGame
         /// Gets the physical object by unique id.
         /// </summary>
         /// <param name="id">The unique id.</param>
-        /// <returns>The PhysicalObject specified or null if it is not possesed by the Player.</returns>
-        internal PhysicalObject GetPhysicalObject(Guid id)
+        /// <returns>The IPhysicalObject specified or null if it is not possesed by the Player.</returns>
+        internal IPhysicalObject GetPhysicalObject(Guid id)
         {
             if (this.PlayerArea.ContainsCard(id) || this.PlayerArea.ContainsChip(id))
             {

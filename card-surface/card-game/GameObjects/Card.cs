@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A single playing card.
     /// </summary>
-    public class Card : PhysicalObject, IComparable, IEquatable<Card>
+    public class Card : PhysicalObject, ICard
     {
         /// <summary>
         /// The suit of the card.

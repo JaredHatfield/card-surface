@@ -13,7 +13,7 @@ namespace CardGame
     /// <summary>
     /// A single chip.
     /// </summary>
-    public class Chip : PhysicalObject, IComparable, IEquatable<Chip>
+    public class Chip : PhysicalObject, IChip
     {
         /// <summary>
         /// The monetary value of the chip.
