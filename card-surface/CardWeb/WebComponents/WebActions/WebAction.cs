@@ -21,24 +21,6 @@ namespace CardWeb.WebComponents.WebActions
         public abstract string GetHeader();
 
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebAction's content.</returns>
-        public abstract string GetContent();
-
-        /// <summary>
-        /// Gets the type of the content.
-        /// </summary>
-        /// <returns>A string of the WebAction's content type.</returns>
-        public abstract string GetContentType();
-
-        /// <summary>
-        /// Gets the length of the content.
-        /// </summary>
-        /// <returns>An integer representing the number of bytes in the reponse content.</returns>
-        public abstract int GetContentLength();
-
-        /// <summary>
         /// Executes this action.
         /// </summary>
         public abstract void Execute();

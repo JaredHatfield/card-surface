@@ -31,12 +31,29 @@ namespace CardWeb.WebComponents.WebViews
         private CardWeb.WebRequest request;
 
         /// <summary>
+        /// Error message passed from failed corresponding WebAction.
+        /// </summary>
+        private string errorMessage;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebViewLogin"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
         public WebViewLogin(CardWeb.WebRequest request)
         {
             this.request = request;
+            this.errorMessage = String.Empty;
+        } /* WebViewLogin() */
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewLogin"/> class.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="errorMessage">The error message.</param>
+        public WebViewLogin(CardWeb.WebRequest request, string errorMessage)
+        {
+            this.request = request;
+            this.errorMessage = errorMessage;
         } /* WebViewLogin() */
 
         /// <summary>
@@ -63,7 +80,7 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         public override string GetContent()
         {
-            /* TODO: What if the user is already authenticated? */
+            /* TODO: What if the user is already authenticated?  Check cookies. */
             string content = "<html>\n";
             content += "<head>\n";
             content += "<title>Login : CardSurface</title>\n";
@@ -73,6 +90,12 @@ namespace CardWeb.WebComponents.WebViews
             content += "</style>\n";
             content += "</head>\n";
             content += "<body>\n";
+
+            if (!this.errorMessage.Equals(String.Empty))
+            {
+                content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
+            }
+
             content += "<form method=\"post\">\n";
             content += "<table>\n";
             content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
@@ -84,6 +107,23 @@ namespace CardWeb.WebComponents.WebViews
             content += "</html>";
 
             return content;
+
+            /* If cookie data is valid... */
+            /* TODO: Automatically determine domain name for server. */
+            /* TODO: Utilize WebComponent prefix in URL generation. */
+            /*string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>Main Menu : CardSurface</title>\n";
+            content += "</head>\n";
+            content += "<body>\n";
+            content += "Welcome, " + this.username + "!\n";
+            content += "<br/>\n";
+            content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+            content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
+            content += "</body>\n";
+            content += "</html>";
+
+            return content;*/
         } /* GetContent() */
 
         /// <summary>
@@ -111,7 +151,9 @@ namespace CardWeb.WebComponents.WebViews
             responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             responseBuffer += this.GetContent();
 
-            Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("WebController: Sending HTTP response.");
+            Console.WriteLine(responseBuffer);
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
