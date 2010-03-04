@@ -217,7 +217,7 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Move the specified PhysicalObject into the specified Pile.
+        /// Move the specified IPhysicalObject into the specified Pile.
         /// </summary>
         /// <param name="physicalObject">The physical object.</param>
         /// <param name="destinationPile">The destination pile.</param>
@@ -244,7 +244,7 @@ namespace CardGame
                 }
 
                 // Retreive the physical object
-                PhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
+                IPhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
                 if (locatedPhysicalObject == null)
                 {
                     return false;
@@ -288,8 +288,8 @@ namespace CardGame
         /// Gets the specified physical object.
         /// </summary>
         /// <param name="id">The unique id.</param>
-        /// <returns>The instance of the PhysicalObject if it exists; otherwise null.</returns>
-        protected internal PhysicalObject GetPhysicalObject(Guid id)
+        /// <returns>The instance of the IPhysicalObject if it exists; otherwise null.</returns>
+        protected internal IPhysicalObject GetPhysicalObject(Guid id)
         {
             if (this.GamingArea.ContainsCard(id) || this.GamingArea.ContainsChip(id))
             {
@@ -363,7 +363,7 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Tests if a move of a PhysicalObject to a specified Pile is valid for the specific game.
+        /// Tests if a move of a IPhysicalObject to a specified Pile is valid for the specific game.
         /// </summary>
         /// <param name="physicalObject">The physical object.</param>
         /// <param name="destinationPile">The destination pile.</param>
@@ -384,7 +384,7 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Tests if a move of a PhysicalObject to a specified Pile is valid.
+        /// Tests if a move of a IPhysicalObject to a specified Pile is valid.
         /// </summary>
         /// <param name="physicalObject">The physical object.</param>
         /// <param name="destinationPile">The destination pile.</param>
@@ -394,11 +394,11 @@ namespace CardGame
             Type physicalObjectType = physicalObject.GetType();
             Type destinationPileType = destinationPile.GetType();
 
-            if (physicalObjectType == typeof(Card) && destinationPileType == typeof(CardPile))
+            if (physicalObjectType == typeof(ICard) && destinationPileType == typeof(CardPile))
             {
                 return true;
             }
-            else if (physicalObjectType == typeof(Chip) && destinationPileType == typeof(ChipPile))
+            else if (physicalObjectType == typeof(IChip) && destinationPileType == typeof(ChipPile))
             {
                 return true;
             }

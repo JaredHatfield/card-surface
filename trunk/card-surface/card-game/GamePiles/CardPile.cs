@@ -51,9 +51,9 @@ namespace CardGame
         /// Gets the cards that are in the pile.
         /// </summary>
         /// <value>The cards in the pile.</value>
-        public ReadOnlyObservableCollection<PhysicalObject> Cards
+        public ReadOnlyObservableCollection<IPhysicalObject> Cards
         {
-            get { return new ReadOnlyObservableCollection<PhysicalObject>(this.Items); }
+            get { return new ReadOnlyObservableCollection<IPhysicalObject>(this.Items); }
         }
 
         /// <summary>

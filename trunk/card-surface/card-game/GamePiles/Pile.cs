@@ -1,7 +1,7 @@
 ﻿// <copyright file="Pile.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>A collection of PhysicalObjects.</summary>
+// <summary>A collection of IPhysicalObjects.</summary>
 namespace CardGame
 {
     using System;
@@ -10,17 +10,17 @@ namespace CardGame
     using System.Text;
 
     /// <summary>
-    /// A collection of PhysicalObjects.
+    /// A collection of IPhysicalObjects.
     /// </summary>
     public abstract class Pile
     {
         /// <summary>
-        /// The collection of PhysicalObjects.
+        /// The collection of IPhysicalObjects.
         /// </summary>
-        private ObservableCollection<PhysicalObject> pileItems;
+        private ObservableCollection<IPhysicalObject> pileItems;
 
         /// <summary>
-        /// True if the pile accept additional PhysicalObjects into its collection.
+        /// True if the pile accept additional IPhysicalObjects into its collection.
         /// </summary>
         private bool open;
 
@@ -34,13 +34,13 @@ namespace CardGame
         /// </summary>
         internal Pile()
         {
-            this.pileItems = new ObservableCollection<PhysicalObject>();
+            this.pileItems = new ObservableCollection<IPhysicalObject>();
             this.open = false;
             this.id = Guid.NewGuid();
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Pile"/> can have PhysicalObjects added to it.
+        /// Gets or sets a value indicating whether this <see cref="Pile"/> can have IPhysicalObjects added to it.
         /// </summary>
         /// <value><c>true</c> if open; otherwise, <c>false</c>.</value>
         public bool Open
@@ -71,7 +71,7 @@ namespace CardGame
         /// Gets the top item.
         /// </summary>
         /// <value>The top item.</value>
-        public PhysicalObject TopItem
+        public IPhysicalObject TopItem
         {
             get
             {
@@ -90,7 +90,7 @@ namespace CardGame
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        protected ObservableCollection<PhysicalObject> Items
+        protected ObservableCollection<IPhysicalObject> Items
         {
             get { return this.pileItems; }
         }
@@ -100,7 +100,7 @@ namespace CardGame
         /// </summary>
         /// <param name="item">The item to add to a pile.</param>
         /// <returns>True if the item was added to the pile.</returns>
-        public bool AddItem(PhysicalObject item)
+        public bool AddItem(IPhysicalObject item)
         {
             if (this.open)
             {
@@ -116,7 +116,7 @@ namespace CardGame
         /// </summary>
         /// <param name="item">The physical object to remove.</param>
         /// <returns>True if the physical object was removed; otherwise false.</returns>
-        public bool RemoveItem(PhysicalObject item)
+        public bool RemoveItem(IPhysicalObject item)
         {
             // TODO: Should a non-open pile be able to have items removed from it?
             // If this is changed, a corresponding check needs to be added to the MoveAction method in Game.
@@ -161,7 +161,7 @@ namespace CardGame
         /// </summary>
         /// <param name="physicalObjectId">The unique id.</param>
         /// <returns>The PhysicalObject specified or null if it is not in this pile.</returns>
-        internal PhysicalObject GetPhysicalObject(Guid physicalObjectId)
+        internal IPhysicalObject GetPhysicalObject(Guid physicalObjectId)
         {
             for (int i = 0; i < this.pileItems.Count; i++)
             {

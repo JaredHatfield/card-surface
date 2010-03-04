@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A physical object that is manipulated as part of the game.
     /// </summary>
-    public class PhysicalObject : IComparable
+    public class PhysicalObject : IPhysicalObject
     {
         /// <summary>
         /// Determines if the object can be physically moved.

@@ -123,8 +123,8 @@ namespace CardGame
         /// Gets the physical object specified by a unique id.
         /// </summary>
         /// <param name="id">The unique id.</param>
-        /// <returns>The PhysicalObject specified or null if it is not in the PlayingArea.</returns>
-        internal PhysicalObject GetPhysicalObject(Guid id)
+        /// <returns>The IPhysicalObject specified or null if it is not in the PlayingArea.</returns>
+        internal IPhysicalObject GetPhysicalObject(Guid id)
         {
             for (int i = 0; i < this.Cards.Count; i++)
             {
