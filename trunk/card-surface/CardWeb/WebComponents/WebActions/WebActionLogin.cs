@@ -42,25 +42,33 @@ namespace CardWeb.WebComponents.WebActions
 
             if (this.request.RequestContent != String.Empty)
             {
-                string postData = this.request.RequestContent;
-                string[] postTokens = postData.Split(new char[] { '&' });
-
-                foreach (string token in postTokens)
+                try
                 {
-                    string[] tokenData = token.Split(new char[] { '=' });
-                    if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewLogin.FormFieldNameUsername))
+                    string postData = this.request.RequestContent;
+                    string[] postTokens = postData.Split(new char[] { '&' });
+
+                    foreach (string token in postTokens)
                     {
-                        this.username = tokenData[WebView.PostRequestTokenValueIndex];
+                        string[] tokenData = token.Split(new char[] { '=' });
+                        if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewLogin.FormFieldNameUsername))
+                        {
+                            this.username = tokenData[WebView.PostRequestTokenValueIndex];
+                        }
+                        else if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewLogin.FormFieldNamePassword))
+                        {
+                            this.password = tokenData[WebView.PostRequestTokenValueIndex];
+                        }
                     }
-                    else if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewLogin.FormFieldNamePassword))
-                    {
-                        this.password = tokenData[WebView.PostRequestTokenValueIndex];
-                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("WebActionLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                    throw new Exception("Login attempt failed.");
                 }
             }
             else
             {
-                throw new Exception("Login failed.");
+                Console.WriteLine("WebActionLogin: WebActionLogin did not receive any POST content @ " + WebUtilities.GetCurrentLine());
             }
         } /* WebActionLogin() */
 
@@ -74,87 +82,34 @@ namespace CardWeb.WebComponents.WebActions
         } /* GetHeader() */
 
         /// <summary>
-        /// Gets the type of the content.
-        /// </summary>
-        /// <returns>A string of the WebAction's content type.</returns>
-        public override string GetContentType()
-        {
-            return "text/html";
-        } /* GetContentType() */
-
-        /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebAction's content.</returns>
-        public override string GetContent()
-        {
-            /* TODO: Automatically determine domain name for server. */
-            /* TODO: Utilize WebComponent prefix in URL generation. */
-            string content = "<html>\n";
-            content += "<head>\n";
-            content += "<title>Main Menu : CardSurface</title>\n";
-            content += "</head>\n";
-            content += "<body>\n";
-            content += "Welcome, " + this.username + "!\n";
-            content += "<br/>\n";
-            content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
-            content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
-            content += "</body>\n";
-            content += "</html>";
-
-            return content;
-        } /* GetContent() */
-
-        /// <summary>
-        /// Gets the length of the content.
-        /// </summary>
-        /// <returns>
-        /// An integer representing the number of bytes in the reponse content.
-        /// </returns>
-        public override int GetContentLength()
-        {
-            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
-            return responseContentBytes.Length;
-        } /* GetContentLength() */
-
-        /// <summary>
         /// Executes this instance.
         /// </summary>
         public override void Execute()
         {
             int numBytesSent = 0;
+            string responseBuffer = String.Empty;
 
-            try
+            if (AccountController.Instance.Authenticate(this.username, this.password))
             {
-                if (AccountController.Instance.Authenticate(this.username, this.password))
-                {
-                    string responseBuffer = String.Empty;
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                /* TODO: (new Guid).ToString() should lookup a user's GUID */
+                /* TODO: Automatically determine Refresh URL */
+                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                //// responseBuffer += "Set-Cookie: csuid=" + (new Guid()).ToString() + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
-                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                    /* TODO: (new Guid).ToString() should lookup a user's GUID */
-                    responseBuffer += "Set-Cookie: csuid=" + (new Guid()).ToString() + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                    responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                    responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                    responseBuffer += this.GetContent();
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.WriteLine("WebController: Sending HTTP response.");
+                Console.WriteLine(responseBuffer);
 
-                    Console.WriteLine("WebController: Sending HTTP response.\n\n" + responseBuffer);
+                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-                    numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
-                    this.request.Connection.Shutdown(SocketShutdown.Both);
-                    this.request.Connection.Close();
-                }
-                else
-                {
-                    throw new Exception("Invalid Username\\Password.");
-                }
+                this.request.Connection.Shutdown(SocketShutdown.Both);
+                this.request.Connection.Close();
             }
-            catch (Exception e)
+            else
             {
-                /* If no users exist, the AccountController.Instance.Authenticate() might throw NullReferenceException. */
-                Console.WriteLine("WebActionLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Login failed.");
+                throw new Exception("Invalid Username\\Password");
             }
         } /* Execute() */
     }

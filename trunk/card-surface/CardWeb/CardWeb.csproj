@@ -52,6 +52,7 @@
     <Compile Include="WebComponents\WebActions\WebActionLogin.cs" />
     <Compile Include="WebComponents\WebActions\WebActionManageAccount.cs" />
     <Compile Include="WebComponents\WebComponent.cs" />
+    <Compile Include="WebComponents\WebComponentCreateAccount.cs" />
     <Compile Include="WebComponents\WebComponentLogin.cs" />
     <Compile Include="WebController.cs" />
     <Compile Include="WebComponents\WebViews\WebView.cs" />

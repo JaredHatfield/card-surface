@@ -1,23 +1,22 @@
-﻿// <copyright file="WebComponentLogin.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebComponentCreateAccount.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Component for managing HTTP requests from login/ URL.</summary>
+// <summary>Component for managing HTTP requests from CreateAccount/ URL.</summary>
 namespace CardWeb.WebComponents
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-    using System.Net.Sockets;
     using System.Text;
     using System.Threading;
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
 
     /// <summary>
-    /// Responsible for managing login related HTTP requests.
+    /// Component for managing HTTP requests from CreateAccount/ URL.
     /// </summary>
-    public class WebComponentLogin : WebComponent
+    public class WebComponentCreateAccount : WebComponent
     {
         /// <summary>
         /// Semaphore that regulates access to the mailboxQueue
@@ -25,31 +24,31 @@ namespace CardWeb.WebComponents
         private object mailboxQueueSemaphore;
 
         /// <summary>
-        /// Queue responsible for holding HTTP requests.
+        /// Queue responsible for holding HTTP requests
         /// </summary>
         private Queue<CardWeb.WebRequest> mailboxQueue;
 
         /// <summary>
-        /// Thread responsible for processing incoming HTTP requests.
+        /// Thread responsible for processing incoming HTTP requests
         /// </summary>
-        private Thread webComponentLoginThread;
+        private Thread webComponentCreateAccountThread;
 
         /// <summary>
         /// Component URL prefix
         /// </summary>
-        private string componentPrefix = "login";
+        private string componentPrefix = "createaccount";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebComponentLogin"/> class.
+        /// Initializes a new instance of the <see cref="WebComponentCreateAccount"/> class.
         /// </summary>
-        public WebComponentLogin()
+        public WebComponentCreateAccount()
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
 
-            this.webComponentLoginThread = new Thread(new ThreadStart(this.Run));
-            this.webComponentLoginThread.Start();
-        } /* WebComponentLogin() */
+            this.webComponentCreateAccountThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentCreateAccountThread.Start();
+        }
 
         /// <summary>
         /// Gets the component prefix.
@@ -61,7 +60,7 @@ namespace CardWeb.WebComponents
         }
 
         /// <summary>
-        /// Posts the request to this component's mailbox queue.
+        /// Posts the request.
         /// </summary>
         /// <param name="request">The request.</param>
         public override void PostRequest(CardWeb.WebRequest request)
@@ -97,26 +96,26 @@ namespace CardWeb.WebComponents
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
-                    WebViewLogin webViewLogin = new WebViewLogin(request);
-                    webViewLogin.SendResponse();
+                    WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request);
+                    webViewCreateAccount.SendResponse();
                 }
                 else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
                 {
                     try
                     {
-                        WebActionLogin webActionLogin = new WebActionLogin(request);
-                        webActionLogin.Execute();
+                        WebActionCreateAccount webActionCreateAccount = new WebActionCreateAccount(request);
+                        webActionCreateAccount.Execute();
                     }
                     catch (Exception e)
                     {
-                        WebViewLogin webViewLogin = new WebViewLogin(request, e.Message);
-                        webViewLogin.SendResponse();
+                        WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request, e.Message);
+                        webViewCreateAccount.SendResponse();
                     }
                 }
                 else
                 {
                     /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }                
+                }
             } /* while(true) */
         } /* Run() */
     }

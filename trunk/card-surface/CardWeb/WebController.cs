@@ -73,6 +73,7 @@ namespace CardWeb
 
             /* Generate Default WebComponents */
             this.RegisterWebComponent(new WebComponentLogin());
+            this.RegisterWebComponent(new WebComponentCreateAccount());
 
             try
             {
@@ -127,8 +128,11 @@ namespace CardWeb
                 try
                 {
                     numBytesReceived = 0;
+                    bytesReceived = new byte[SocketMaxRecvDataBytes];
 
                     serverSocket = this.webListener.AcceptSocket();
+
+                    Console.WriteLine("---------------------------------------------------------------------");
                     Console.WriteLine("WebController: Received new connection request from " + serverSocket.RemoteEndPoint + ".");
 
                     if (serverSocket.Connected)
