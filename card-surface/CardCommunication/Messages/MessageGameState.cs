@@ -9,6 +9,7 @@ namespace CardCommunication.Messages
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using System.Xml.Schema;
     using CardGame;
 
     /// <summary>
@@ -44,7 +45,12 @@ namespace CardCommunication.Messages
         /// </summary>
         public override void BuildMessage()
         {
-            this.BuildHeader();
+            XmlElement message = this.messageDoc.DocumentElement;
+
+            this.BuildHeader(ref message);
+            this.BuildBody(ref message);
+
+            this.messageDoc.DocumentElement.AppendChild(message);
         }
 
         /// <summary>
@@ -55,19 +61,39 @@ namespace CardCommunication.Messages
         {
             bool sent = false;
 
+            /* XmlSchema schema =;
+             ValidationEventHandler schemaCheck;
+             ValidationEventHandler schemaCheck = new ValidationEventHandler(ValidateSchema);
+             messageDoc.Schemas.Add(
+            messageDoc.Validate(schemaCheck);*/
+
             return sent;
         }
 
         /// <summary>
         /// Builds the header.
         /// </summary>
-        protected override void BuildHeader()
+        /// <param name="message">The message.</param>
+        protected override void BuildHeader(ref XmlElement message)
         {
             XmlElement header = this.messageDoc.CreateElement("Header");
-            DateTime time;
+            DateTime time = DateTime.UtcNow;
 
-            ////time.ToString);
-            header.SetAttribute("TimeStamp", String.Empty);
+            header.SetAttribute("TimeStamp", time.ToString());
+            message.AppendChild(header);
+        }
+
+        /// <summary>
+        /// Builds the body.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected override void BuildBody(ref XmlElement message)
+        {
+            XmlElement body = this.messageDoc.CreateElement("Body");
+
+            this.BuildGame(ref body);
+
+            message.AppendChild(body);
         }
 
         /// <summary>
@@ -138,15 +164,15 @@ namespace CardCommunication.Messages
         {
             XmlElement player = this.messageDoc.CreateElement("Player");
             
-            this.BuildArea(ref player);
             ////game.player.id);
             player.SetAttribute("ID", String.Empty);
             ////game.player.balance);
             player.SetAttribute("Balance", String.Empty); 
 
+            this.BuildArea(ref player);
             this.BuildHand(ref player);
-            this.BuildCommands(ref player);
-
+            
+            ////this.BuildAction(ref player);
             message.AppendChild(player);
         }
 
@@ -158,52 +184,70 @@ namespace CardCommunication.Messages
         {
             XmlElement area = this.messageDoc.CreateElement("Area");
 
-            this.BuildGraphicCardPile(ref area);
+            this.BuildCardCollection(ref area);
             this.BuildChipPile(ref area);
 
             message.AppendChild(area);
         }
 
         /// <summary>
-        /// Builds the card pile.
+        /// Builds the collection of card piles.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected void BuildGraphicCardPile(ref XmlElement message)
+        protected void BuildCardCollection(ref XmlElement message)
         {
-            ////foreach (Card card in game.player.cards)
+            XmlElement cardCollection = this.messageDoc.CreateElement("CardCollection");
+
+            ////foreach (CardPile cardPile in game.player.cardPiles)
             ////{
-                XmlElement cardGraphicPile = this.messageDoc.CreateElement("CardGraphicPile");
-
-                this.BuildCard(ref cardGraphicPile);
-
-                ////game.player.area.cardgpile.id);
-                cardGraphicPile.SetAttribute("ID", String.Empty);
-                ////game.player.area.cardgpile.open);
-                cardGraphicPile.SetAttribute("Open", String.Empty);
-                ////game.player.area.cardgpile.expandable);
-                cardGraphicPile.SetAttribute("Expandable", String.Empty); 
-
-                message.AppendChild(cardGraphicPile);
+            this.BuildCardPile(ref cardCollection);
             ////}
+            message.AppendChild(cardCollection);
         }
 
         /// <summary>
-        /// Builds the chip pile.
+        /// Builds the collection of chip pile.
         /// </summary>
         /// <param name="message">The message.</param>
         protected void BuildChipPile(ref XmlElement message)
         {
+            XmlElement chipPile = this.messageDoc.CreateElement("ChipPile");
+
             ////foreach (Chip chip in game.player.chips)
             ////{
-                XmlElement chipPile = this.messageDoc.CreateElement("ChipPile");
-
                 this.BuildChip(ref chipPile);
 
                 ////game.player.area.chippile.open);
-                chipPile.SetAttribute("Open", String.Empty); 
+                chipPile.SetAttribute("open", String.Empty); 
                 
-                message.AppendChild(chipPile);
             ////}
+                message.AppendChild(chipPile);
+        }
+
+        /// <summary>
+        /// Builds the card pile.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void BuildCardPile(ref XmlElement message)
+        {
+            XmlElement cardPile = this.messageDoc.CreateElement("CardPile");
+
+            ////foreach (Card card in game.player.cardPiles.cardPile)
+            ////{
+            this.BuildCard(ref cardPile);
+
+            ////}
+
+            ////game.player.area.cardpiles.cardpile.id);
+            cardPile.SetAttribute("id", String.Empty);
+            ////game.player.area.cardpiles.cardpile.playable);
+            cardPile.SetAttribute("playable", String.Empty);
+            ////game.player.area.cardpiles.cardpile.style);
+            cardPile.SetAttribute("style", String.Empty);
+            ////game.player.area.cardpiles.cardpile.expandable);
+            cardPile.SetAttribute("expandable", String.Empty);
+
+            message.AppendChild(cardPile);
         }
 
         /// <summary>
@@ -214,12 +258,12 @@ namespace CardCommunication.Messages
         {
             XmlElement card = this.messageDoc.CreateElement("Card");
 
-            ////game.player.area.cardgpile.card.id);
-            card.SetAttribute("ID", String.Empty);
-            ////game.player.area.cardgpile.card.status);
-            card.SetAttribute("Status", String.Empty);
-            ////game.player.area.cardgpile.card.moveable);
-            card.SetAttribute("Moveable", String.Empty); 
+            ////game.player.area.cardpiles.cardpile.card.id);
+            card.SetAttribute("guid", String.Empty);
+            ////game.player.area.cardpiles.cardpile.card.status);
+            card.SetAttribute("status", String.Empty);
+            ////game.player.area.cardpiles.cardpile.card.moveable);
+            card.SetAttribute("moveable", String.Empty); 
 
             message.AppendChild(card);
         }
@@ -233,13 +277,13 @@ namespace CardCommunication.Messages
             XmlElement chip = this.messageDoc.CreateElement("Chip");
 
             ////game.player.area.chippile.chip.guid);
-            chip.SetAttribute("GUID", String.Empty);
+            chip.SetAttribute("guid", String.Empty);
             ////game.player.area.chippile.chip.value);
-            chip.SetAttribute("Value", String.Empty);
+            chip.SetAttribute("value", String.Empty);
             ////game.player.area.chippile.chip.color);
-            chip.SetAttribute("Color", String.Empty);
+            chip.SetAttribute("color", String.Empty);
             ////game.player.area.chippile.chip.moveable);
-            chip.SetAttribute("Moveable", String.Empty); 
+            chip.SetAttribute("moveable", String.Empty); 
 
             message.AppendChild(chip);
         }
@@ -258,61 +302,48 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Builds the card pile.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        protected void BuildCardPile(ref XmlElement message)
-        {
-            XmlElement cardPile = this.messageDoc.CreateElement("CardPile");
-
-            ////foreach (Card card in game.player.hand.cards)
-            ////{
-                this.BuildCard(ref cardPile);
-            ////}
-
-            ////game.player.hand.id);
-            cardPile.SetAttribute("ID", String.Empty);
-
-            ////game.player.hand.playable);
-            cardPile.SetAttribute("Playable", String.Empty);
-
-            ////game.player.hand.style);
-            cardPile.SetAttribute("Style", String.Empty);
-
-            message.AppendChild(cardPile);
-        }
-
-        /// <summary>
         /// Builds the commands.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected void BuildCommands(ref XmlElement message)
+        protected void BuildAction(ref XmlElement message)
         {
-            XmlElement commands = this.messageDoc.CreateElement("Commands");
+            XmlElement action = this.messageDoc.CreateElement("Action");
 
             ////foreach (Command com in game.player.commands)
             ////{
-                this.BuildCommand(ref commands);
+                this.BuildActionParam(ref action);
             ////}
+                
+            ////game.action.game);
+            action.SetAttribute("game", String.Empty); 
 
-            message.AppendChild(commands);
+            message.AppendChild(action);
         }
 
         /// <summary>
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected override void BuildCommand(ref XmlElement message)
+        protected override void BuildActionParam(ref XmlElement message)
         {
-            XmlElement command = this.messageDoc.CreateElement("Command");
+            XmlElement param = this.messageDoc.CreateElement("Param");
 
             ////game.player.command.name);
-            command.SetAttribute("Name", String.Empty);
+            param.SetAttribute("Name", String.Empty);
 
             ////game.player.command.action);
-            command.SetAttribute("Action", String.Empty); 
+            param.SetAttribute("Value", String.Empty); 
 
-            message.AppendChild(command);
+            message.AppendChild(param);
+        }
+
+        /// <summary>
+        /// Validates the schema.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
+        private void ValidateSchema(object sender, ValidationEventArgs e)
+        {
         }
     }
 }
