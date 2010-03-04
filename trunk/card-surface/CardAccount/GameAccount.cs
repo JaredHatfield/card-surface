@@ -9,9 +9,9 @@ namespace CardAccount
     using System.IO;
     using System.IO.Compression;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Text;
     using System.Xml;
-    using System.Security.Cryptography;
 
     /// <summary>
     /// An account for a user of the system.
@@ -21,12 +21,12 @@ namespace CardAccount
         /// <summary>
         /// Key used for encryption/decryption
         /// </summary>
-        private static byte[] EncryptionKey = {34, 54, 67, 78, 89, 25, 74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62};
+        private static byte[] encryptionKey = { 34, 54, 67, 78, 89, 25, 74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62 };
 
         /// <summary>
         /// Initialization vector for encryption/decryption
         /// </summary>
-        private static byte[] InitVector = {74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62, 34, 54, 67, 78, 89, 25};
+        private static byte[] initVector = { 74, 23, 46, 88, 24, 12, 35, 64, 35, 26, 82, 24, 36, 83, 57, 92, 43, 62, 34, 54, 67, 78, 89, 25 };
 
         /// <summary>
         /// The account's username.
@@ -135,6 +135,30 @@ namespace CardAccount
         }
 
         /// <summary>
+        /// Encrypts the specified text.
+        /// </summary>
+        /// <param name="text">The text that will be encrypted.</param>
+        public static void Encrypt(ref string text)
+        {
+            //// Object only used for Encryption
+            GameAccount ga = new GameAccount();
+
+            text = ga.Encrypt(text);
+        }
+
+        /// <summary>
+        /// Decrypts the specified text.
+        /// </summary>
+        /// <param name="text">The text that will be decrypted.</param>
+        public static void Decrypt(ref string text)
+        {
+            //// Object only used for Decryption
+            GameAccount ga = new GameAccount();
+
+            text = ga.Decrypt(text);
+        }
+
+        /// <summary>
         /// Updates the account.
         /// </summary>
         /// <param name="username">The username.</param>
@@ -182,7 +206,7 @@ namespace CardAccount
         private string Encrypt(string text)
         {
             TripleDES tripleDES = new TripleDESCryptoServiceProvider();
-            ICryptoTransform encryptor = tripleDES.CreateEncryptor(EncryptionKey, InitVector);
+            ICryptoTransform encryptor = tripleDES.CreateEncryptor(encryptionKey, initVector);
             byte[] encryptedText = new byte[24];
 
             encryptor.TransformBlock(Convert.FromBase64String(text), 0, text.Length, encryptedText, 0);
@@ -198,7 +222,7 @@ namespace CardAccount
         private string Decrypt(string text)
         {
             TripleDES tripleDES = new TripleDESCryptoServiceProvider();
-            ICryptoTransform decryptor = tripleDES.CreateDecryptor(EncryptionKey, InitVector);
+            ICryptoTransform decryptor = tripleDES.CreateDecryptor(encryptionKey, initVector);
             byte[] decryptedText = new byte[24];
 
             decryptor.TransformBlock(Convert.FromBase64String(text), 0, text.Length, decryptedText, 0);
