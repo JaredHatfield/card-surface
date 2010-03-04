@@ -24,6 +24,7 @@ namespace GameBlackjack
             this.SubscribeAction(new GameActionStand());
             this.SubscribeAction(new GameActionSplit());
             this.SubscribeAction(new GameActionDeal());
+            this.SubscribeAction(new GameActionDouble());
         }
 
         /// <summary>
