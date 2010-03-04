@@ -64,6 +64,9 @@ namespace CardAccount
         {
             bool valid = false;
 
+            //// Encrypt password before comparison
+            GameAccount.Encrypt(ref password);
+
             foreach (GameAccount account in this.users)
             {
                 if ((account.Username == username) && (account.Password == password))
@@ -84,7 +87,9 @@ namespace CardAccount
         public bool CreateAccount(string username, string password)
         {
             bool success = true;
-            
+
+            GameAccount.Encrypt(ref password);
+
             foreach (GameAccount acnt in this.users)
             {
                 if (acnt.Username == username)
@@ -146,6 +151,8 @@ namespace CardAccount
         {
             bool updated = false;
 
+            GameAccount.Encrypt(ref password);
+
             foreach (GameAccount account in this.users)
             {
                 if (account.Username == username)
@@ -164,84 +171,91 @@ namespace CardAccount
         /// <returns>whether the file was created.</returns>
         private bool CreateFlatFile(string file)
         {
-            bool success = false;
+            bool success = true;
 
-            /*FileStream filestream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 1000, true);
-            GZipStream gzipstream = new GZipStream(filestream, CompressionMode.Compress);
-            XmlWriter w = new XmlTextWriter(gzipstream, null);
-            w.WriteStartDocument();
-            w.WriteStartElement("FILE"); // START FILE
-            w.WriteStartElement("Accounts"); // START ACCOUNTS
-            for (int i = 0; i < this.users.Count; i++)
+            try
             {
-                w.WriteStartElement("Account"); // START STUDENT
-                w.WriteAttributeString("Username", this.users[i].Username);
-                w.WriteAttributeString("Password", this.users[i].FirstName);
-                w.WriteAttributeString("Last", this.users[i].LastName);
-                w.WriteAttributeString("Section", this.users[i].Section);
-                w.WriteAttributeString("Sid", this.users[i].Sid);
-                w.WriteAttributeString("LeftHanded", this.users[i].LeftHanded.ToString());
-                w.WriteAttributeString("VisionImpairment", this.users[i].VisionImpairment.ToString());
-                w.WriteEndElement(); // END STUDENT
-            }
-
-            w.WriteEndElement(); // END STUDENTS
-            w.WriteStartElement("Rooms"); // START ROOMS
-            for (int i = 0; i < this.rooms.Count; i++)
-            {
-                w.WriteStartElement("Room"); // START ROOM
-                w.WriteAttributeString("Name", this.rooms[i].RoomName);
-                w.WriteAttributeString("Location", this.rooms[i].Location);
-                w.WriteAttributeString("Description", this.rooms[i].Description);
-                w.WriteAttributeString("Width", this.rooms[i].Width.ToString());
-                w.WriteAttributeString("Height", this.rooms[i].Height.ToString());
-                w.WriteStartElement("Chairs"); // START CHAIRS
-                for (int j = 0; j < this.rooms[i].Height; j++)
+                FileStream filestream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 1000, true);
+                GZipStream gzipstream = new GZipStream(filestream, CompressionMode.Compress);
+                XmlWriter w = new XmlTextWriter(gzipstream, null);
+                w.WriteStartDocument();
+                w.WriteStartElement("FILE"); // START FILE
+                w.WriteStartElement("Accounts"); // START ACCOUNTS
+                for (int i = 0; i < this.users.Count; i++)
                 {
-                    for (int k = 0; k < this.rooms[i].Width; k++)
+                    w.WriteStartElement("Account"); // START ACCOUNT
+                    w.WriteAttributeString("Username", this.users[i].Username);
+                    w.WriteAttributeString("Password", this.users[i].Password);
+                    w.WriteAttributeString("Image", this.users[i].ProfileImage);
+                    w.WriteAttributeString("Balance", this.users[i].Balance.ToString());
+                    w.WriteAttributeString("GamesPlayed", this.users[i].GamesPlayed.ToString());
+                    w.WriteEndElement(); // END ACCOUNT
+                }
+
+                w.WriteEndElement(); // END ACCOUNTS
+                /*w.WriteStartElement("Rooms"); // START ROOMS
+                for (int i = 0; i < this.rooms.Count; i++)
+                {
+                    w.WriteStartElement("Room"); // START ROOM
+                    w.WriteAttributeString("Name", this.rooms[i].RoomName);
+                    w.WriteAttributeString("Location", this.rooms[i].Location);
+                    w.WriteAttributeString("Description", this.rooms[i].Description);
+                    w.WriteAttributeString("Width", this.rooms[i].Width.ToString());
+                    w.WriteAttributeString("Height", this.rooms[i].Height.ToString());
+                    w.WriteStartElement("Chairs"); // START CHAIRS
+                    for (int j = 0; j < this.rooms[i].Height; j++)
                     {
-                        Chair c = this.rooms[i].Chairs[j, k];
-                        w.WriteStartElement("Chair"); // START CHAIR
-                        w.WriteAttributeString("PosX", j.ToString());
-                        w.WriteAttributeString("PosY", k.ToString());
-                        w.WriteAttributeString("LeftHanded", c.LeftHanded.ToString());
-                        w.WriteAttributeString("FbPosition", c.FbPosition.ToString());
-                        w.WriteAttributeString("LrPosition", c.LrPosition.ToString());
-                        w.WriteAttributeString("NonChair", c.NonChair.ToString());
-                        w.WriteAttributeString("MustBeEmpty", c.MustBeEmpty.ToString());
-                        w.WriteAttributeString("Name", c.SeatName);
-                        if (c.TheStudent == null)
+                        for (int k = 0; k < this.rooms[i].Width; k++)
                         {
-                            w.WriteAttributeString("SUID", new Guid().ToString());
-                        }
-                        else
-                        {
-                            w.WriteAttributeString("SUID", c.TheStudent.Uid.ToString());
-                        }
+                            Chair c = this.rooms[i].Chairs[j, k];
+                            w.WriteStartElement("Chair"); // START CHAIR
+                            w.WriteAttributeString("PosX", j.ToString());
+                            w.WriteAttributeString("PosY", k.ToString());
+                            w.WriteAttributeString("LeftHanded", c.LeftHanded.ToString());
+                            w.WriteAttributeString("FbPosition", c.FbPosition.ToString());
+                            w.WriteAttributeString("LrPosition", c.LrPosition.ToString());
+                            w.WriteAttributeString("NonChair", c.NonChair.ToString());
+                            w.WriteAttributeString("MustBeEmpty", c.MustBeEmpty.ToString());
+                            w.WriteAttributeString("Name", c.SeatName);
+                            if (c.TheStudent == null)
+                            {
+                                w.WriteAttributeString("SUID", new Guid().ToString());
+                            }
+                            else
+                            {
+                                w.WriteAttributeString("SUID", c.TheStudent.Uid.ToString());
+                            }
 
-                        w.WriteEndElement(); // END CHAIR
+                            w.WriteEndElement(); // END CHAIR
+                        }
                     }
+
+                    w.WriteEndElement(); // END CHAIRS
+                    w.WriteStartElement("RoomStudents"); // START ROOMSTUDENTS
+                    for (int j = 0; j < this.rooms[i].RoomStudents.Count; j++)
+                    {
+                        w.WriteStartElement("RoomStudent"); // START ROOMSTUDENT
+                        w.WriteAttributeString("SUID", this.rooms[i].RoomStudents[j].Uid.ToString());
+                        w.WriteEndElement(); // END ROOMSTUDENT
+                    }
+
+                    w.WriteEndElement(); // END ROOMSTUDENTS
+                    w.WriteEndElement(); // END ROOM
                 }
 
-                w.WriteEndElement(); // END CHAIRS
-                w.WriteStartElement("RoomStudents"); // START ROOMSTUDENTS
-                for (int j = 0; j < this.rooms[i].RoomStudents.Count; j++)
-                {
-                    w.WriteStartElement("RoomStudent"); // START ROOMSTUDENT
-                    w.WriteAttributeString("SUID", this.rooms[i].RoomStudents[j].Uid.ToString());
-                    w.WriteEndElement(); // END ROOMSTUDENT
-                }
-
-                w.WriteEndElement(); // END ROOMSTUDENTS
-                w.WriteEndElement(); // END ROOM
+                w.WriteEndElement(); // END ROOMS
+                */
+                w.WriteEndElement(); // END FILE
+                w.WriteEndDocument();
+                w.Close();
+                gzipstream.Close();
+                filestream.Close();
             }
-
-            w.WriteEndElement(); // END ROOMS
-            w.WriteEndElement(); // END SEAT
-            w.WriteEndDocument();
-            w.Close();
-            gzipstream.Close();
-            filestream.Close();
+            catch (Exception e)
+            {
+                Console.WriteLine("Error has occurred while creating file.", e);
+                success = false;
+            }
 
             /* Mark the file as no longer dirty
             SeatManager.dirty = false;
