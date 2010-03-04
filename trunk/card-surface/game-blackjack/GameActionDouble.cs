@@ -1,7 +1,7 @@
-﻿// <copyright file="GameActionDeal.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="GameActionDouble.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Deals the hands for a blackjack game.</summary>
+// <summary>The double action for blackjack.</summary>
 namespace GameBlackjack
 {
     using System;
@@ -11,9 +11,9 @@ namespace GameBlackjack
     using CardGame;
 
     /// <summary>
-    /// Deals the hands for a blackjack game.
+    /// The double action for blackjack.
     /// </summary>
-    internal class GameActionDeal : GameAction
+    internal class GameActionDouble : GameAction
     {
         /// <summary>
         /// Gets this actions name.
@@ -23,7 +23,7 @@ namespace GameBlackjack
         {
             get
             {
-                return "deal";
+                return "double";
             }
         }
 
@@ -36,7 +36,7 @@ namespace GameBlackjack
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionDeal - implement the dealing game action
+            // TODO: GameActionDouble - implement a player doubling in the game
             throw new NotImplementedException("GameAction not implemented.");
         }
     }

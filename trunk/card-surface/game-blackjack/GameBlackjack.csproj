@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Blackjack.cs" />
     <Compile Include="GameActionDeal.cs" />
+    <Compile Include="GameActionDouble.cs" />
     <Compile Include="GameActionHit.cs" />
     <Compile Include="GameActionSplit.cs" />
     <Compile Include="GameActionStand.cs" />

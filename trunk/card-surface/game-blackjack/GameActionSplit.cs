@@ -36,7 +36,7 @@ namespace GameBlackjack
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionHit - implement a player spliting in the game
+            // TODO: GameActionSplit - implement a player spliting in the game
             throw new NotImplementedException("GameAction not implemented.");
         }
     }
