@@ -103,8 +103,8 @@ namespace CardAccount
         /// <value>The password.</value>
         public string Password
         {
-            get { return this.Encrypt(this.password); }
-            set { this.password = this.Decrypt(value); }
+            get { return this.password; }
+            set { this.password = value; }
         }
 
         /// <summary>
@@ -207,11 +207,12 @@ namespace CardAccount
         {
             TripleDES tripleDES = new TripleDESCryptoServiceProvider();
             ICryptoTransform encryptor = tripleDES.CreateEncryptor(encryptionKey, initVector);
-            byte[] encryptedText = new byte[24];
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] encryptedText = encoding.GetBytes(text);
 
-            encryptor.TransformBlock(Convert.FromBase64String(text), 0, text.Length, encryptedText, 0);
+            encryptedText = encryptor.TransformFinalBlock(encryptedText, 0, encryptedText.Length);
 
-            return Convert.ToBase64String(encryptedText);
+            return encoding.GetString(encryptedText);
         }
 
         /// <summary>
