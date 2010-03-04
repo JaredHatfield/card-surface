@@ -46,12 +46,19 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Builds the header.
         /// </summary>
-        protected abstract void BuildHeader();
+        /// <param name="message">The message.</param>
+        protected abstract void BuildHeader(ref XmlElement message);
+
+        /// <summary>
+        /// Builds the body.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected abstract void BuildBody(ref XmlElement message);
 
         /// <summary>
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected abstract void BuildCommand(ref XmlElement message);
+        protected abstract void BuildActionParam(ref XmlElement message);
     }
 }

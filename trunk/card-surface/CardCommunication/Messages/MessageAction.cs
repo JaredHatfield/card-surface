@@ -9,6 +9,7 @@ namespace CardCommunication.Messages
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using System.Xml.Schema;
     using CardGame;
 
     /// <summary>
@@ -43,6 +44,10 @@ namespace CardCommunication.Messages
         /// </summary>
         public override void BuildMessage()
         {
+            XmlElement message = this.messageDoc.DocumentElement;
+
+            this.BuildHeader(ref message);
+            this.BuildActionParam(ref message);
         }
 
         /// <summary>
@@ -52,20 +57,36 @@ namespace CardCommunication.Messages
         public override bool SendMessage()
         {
             bool sent = false;
-
+            
+            // ValidationEventHandler schemaCheck;
+            // messageDoc.Validate(schemaCheck);
             return sent;
         }
 
         /// <summary>
         /// Builds the header.
         /// </summary>
-        protected override void BuildHeader()
+        /// <param name="message">The message.</param>
+        protected override void BuildHeader(ref XmlElement message)
         {
             XmlElement header = this.messageDoc.CreateElement("Header");
-            DateTime time;
+            DateTime time = DateTime.UtcNow;
 
-            ////time.ToString);
-            header.SetAttribute("TimeStamp", String.Empty); 
+            header.SetAttribute("TimeStamp", time.ToString());
+            message.AppendChild(header);
+        }
+
+        /// <summary>
+        /// Builds the body.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected override void BuildBody(ref XmlElement message)
+        {
+            XmlElement body = this.messageDoc.CreateElement("Body");
+
+            this.BuildAction(ref body);
+
+            message.AppendChild(body);
         }
 
         /// <summary>
@@ -76,10 +97,11 @@ namespace CardCommunication.Messages
         {
             XmlElement action = this.messageDoc.CreateElement("Action");
 
-            this.BuildCommand(ref action);
+            this.BuildActionParam(ref action);
             
-            ////game.action.table);
-            action.SetAttribute("Table", String.Empty); 
+            ////game.action.game);
+            action.SetAttribute("game", String.Empty); 
+
             message.AppendChild(action);
         }
 
@@ -87,7 +109,7 @@ namespace CardCommunication.Messages
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected override void BuildCommand(ref XmlElement message)
+        protected override void BuildActionParam(ref XmlElement message)
         {
             XmlElement command = this.messageDoc.CreateElement("Command");
 
