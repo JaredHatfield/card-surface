@@ -23,6 +23,13 @@ namespace CardCommunication
         /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationController"/> class.
         /// </summary>
+        internal CommunicationController()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommunicationController"/> class.
+        /// </summary>
         /// <param name="gameController">The game controller.</param>
         internal CommunicationController(IGameController gameController)
         {

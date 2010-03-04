@@ -18,9 +18,8 @@ namespace CardCommunication
         /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// </summary>
-        /// <param name="gameController">The game controller.</param>
-        public TableCommunicationController(IGameController gameController)
-            : base(gameController)
+        public TableCommunicationController()
+            : base()
         {
         }
     }
