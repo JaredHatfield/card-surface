@@ -54,6 +54,21 @@ namespace CardAccount
         private int gamesPlayed;
 
         /// <summary>
+        /// The number of games won on the account.
+        /// </summary>
+        private int gamesWon;
+
+        /// <summary>
+        /// The number of games lost on the account.
+        /// </summary>
+        private int gamesLost;
+
+        /*/// <summary>
+        /// MAY ADD LATER
+        /// </summary>
+        private int gameStreak;*/
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameAccount"/> class.
         /// </summary>
         public GameAccount()
@@ -69,6 +84,11 @@ namespace CardAccount
         {
             this.username = username;
             this.password = password;
+            this.profileImage = String.Empty;
+            this.balance = 0;
+            this.gamesPlayed = 0;
+            this.gamesWon = 0;
+            this.gamesLost = 0;
         }
 
         /// <summary>
@@ -79,13 +99,17 @@ namespace CardAccount
         /// <param name="profileImage">The profile image.</param>
         /// <param name="balance">The balance.</param>
         /// <param name="gamesPlayed">The games played.</param>
-        public GameAccount(string username, string password, string profileImage, int balance, int gamesPlayed)
+        /// <param name="gamesWon">The games won.</param>
+        /// <param name="gamesLost">The games lost.</param>
+        public GameAccount(string username, string password, string profileImage, int balance, int gamesPlayed, int gamesWon, int gamesLost)
         {
             this.username = username;
             this.password = password;
             this.profileImage = profileImage;
             this.balance = balance;
             this.gamesPlayed = gamesPlayed;
+            this.gamesWon = gamesWon;
+            this.gamesLost = gamesLost;
         }
                
         /// <summary>
@@ -132,6 +156,24 @@ namespace CardAccount
         public int GamesPlayed
         {
             get { return this.gamesPlayed; }
+        }
+
+        /// <summary>
+        /// Gets the games won.
+        /// </summary>
+        /// <value>The games won.</value>
+        public int GamesWon
+        {
+            get { return this.gamesWon; }
+        }
+
+        /// <summary>
+        /// Gets the games lost.
+        /// </summary>
+        /// <value>The games lost.</value>
+        public int GamesLost
+        {
+            get { return this.gamesLost; }
         }
 
         /// <summary>
@@ -191,11 +233,21 @@ namespace CardAccount
         }
 
         /// <summary>
-        /// Adds the game.
+        /// Increments Games won and games played.
         /// </summary>
-        public void AddGame()
+        public void GameWon()
         {
             this.gamesPlayed++;
+            this.gamesWon++;
+        }
+
+        /// <summary>
+        /// Increments Games won and games played.
+        /// </summary>
+        public void GameLost()
+        {
+            this.gamesPlayed++;
+            this.gamesLost++;
         }
 
         /// <summary>
