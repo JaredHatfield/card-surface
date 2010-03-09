@@ -1,44 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CardCommunication.CommunicationController">
-    <Position X="7.25" Y="0.5" Width="2" />
+    <Position X="8.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CommunicationController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardCommunication.ServerCommunicationController">
-    <Position X="5.25" Y="1.75" Width="2.5" />
+    <Position X="6.5" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ServerCommunicationController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardCommunication.TableCommunicationController">
-    <Position X="8.5" Y="1.75" Width="2.5" />
+    <Position X="9.25" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>TableCommunicationController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardCommunication.Messages.Message">
-    <Position X="1.75" Y="0.5" Width="1.5" />
+    <Position X="2.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAACAAAADAAAAAAIAIAABAAAAAEAA=</HashCode>
       <FileName>Messages\Message.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardCommunication.Messages.MessageAction">
-    <Position X="0.5" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAgAAAAAAAAICAAAADAAAAAAIAIAABAAAAAEAA=</HashCode>
       <FileName>Messages\MessageAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardCommunication.Messages.MessageGameState">
-    <Position X="2.75" Y="1.75" Width="1.75" />
+    <Position X="4.5" Y="1.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAMQAAEgAAAAAAAAICAAAgDABAAAAIAIAABAABAAEAU=</HashCode>
       <FileName>Messages\MessageGameState.cs</FileName>
     </TypeIdentifier>
   </Class>
