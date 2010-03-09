@@ -191,5 +191,15 @@ namespace CardGame
                 return this.PlayerArea.GetPileContaining(physicalObjectId);
             }
         }
+
+        /// <summary>
+        /// Empties the cards in this area to a destination CardPile.
+        /// </summary>
+        /// <param name="destination">The destination CardPile.</param>
+        internal void EmptyCardPileTo(CardPile destination)
+        {
+            this.hand.EmptyCardPileTo(destination);
+            this.playerArea.EmptyCardPileTo(destination);
+        }
     }
 }

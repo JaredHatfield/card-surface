@@ -54,11 +54,11 @@ namespace CardUnitTests
         public void CardPileConstructorTest1()
         {
             // Forcing a CardPile to be expandable
-            CardPile target = new CardPile(true);
+            CardPile target = new CardPile(true, true);
             Assert.IsTrue(target.Expandable, "Set value of expandable to true.");
 
             // Forcing a CardPile to not be expandable
-            CardPile target2 = new CardPile(false);
+            CardPile target2 = new CardPile(false, true);
             Assert.IsFalse(target2.Expandable, "Set value of expandable to false.");
         }
 

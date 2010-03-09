@@ -20,22 +20,30 @@ namespace CardGame
         private bool expandable;
 
         /// <summary>
+        /// A flag indicating that this card pile should not be removed, even if it is empty.
+        /// </summary>
+        private bool persistent;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CardPile"/> class.
         /// </summary>
         internal CardPile()
             : base()
         {
             this.expandable = false;
+            this.persistent = false;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardPile"/> class.
         /// </summary>
         /// <param name="expandable">if set to <c>true</c> [expandable].</param>
-        internal CardPile(bool expandable)
+        /// <param name="persistent">if set to <c>true</c> [persistent].</param>
+        internal CardPile(bool expandable, bool persistent)
             : base()
         {
             this.expandable = expandable;
+            this.persistent = persistent;
         }
 
         /// <summary>
@@ -45,6 +53,15 @@ namespace CardGame
         public bool Expandable
         {
             get { return this.expandable; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="CardPile"/> is persistent.
+        /// </summary>
+        /// <value><c>true</c> if persistent; otherwise, <c>false</c>.</value>
+        public bool Persistent
+        {
+            get { return this.persistent; }
         }
 
         /// <summary>
@@ -60,12 +77,12 @@ namespace CardGame
         /// Draws the card on the top of the pile and removes it.
         /// </summary>
         /// <returns>The card on the top of the pile</returns>
-        public Card DrawCard()
+        public ICard DrawCard()
         {
             if (this.NumberOfItems > 0)
             {
                 int i = this.NumberOfItems - 1;
-                Card card = this.Items[i] as Card;
+                ICard card = this.Items[i] as ICard;
                 this.Items.RemoveAt(i);
                 return card;
             }
@@ -160,6 +177,23 @@ namespace CardGame
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Empties the pile of cards into another pile of cards.
+        /// </summary>
+        /// <param name="destination">The destination pile of cards.</param>
+        internal void EmptyCardPileTo(CardPile destination)
+        {
+            // Lets make sure we are not doing this to the same pile and avoid a nasty infinite loop.
+            if (!this.Id.Equals(destination.Id))
+            {
+                ICard card = this.DrawCard();
+                while (card != null)
+                {
+                    destination.AddItem(card);
+                }
+            }
         }
     }
 }
