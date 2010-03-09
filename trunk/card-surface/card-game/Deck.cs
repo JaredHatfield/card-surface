@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
 
@@ -23,16 +24,62 @@ namespace CardGame
         {
             CardPile cardPile = new CardPile();
             cardPile.Open = true;
-            Card.CardFace[] faces = Deck.GetFaces();
-            Card.CardSuit[] suits = Deck.GetSuits();
 
-            for (int i = suits.Length - 1; i >= 0; i--)
-            {
-                for (int j = faces.Length - 1; j >= 0; j--)
-                {
-                    cardPile.AddItem(new Card(suits[i], faces[j], Card.CardStatus.FaceDown));
-                }
-            }
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.FaceDown, CardGame.Properties.Resources.KingHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.FaceDown, CardGame.Properties.Resources.QueenHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown, CardGame.Properties.Resources.JackHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Ten, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TenHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Nine, Card.CardStatus.FaceDown, CardGame.Properties.Resources.NineHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Eight, Card.CardStatus.FaceDown, CardGame.Properties.Resources.EightHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Seven, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SevenHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Six, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SixHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Five, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FiveHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Four, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FourHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Three, Card.CardStatus.FaceDown, CardGame.Properties.Resources.ThreeHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Two, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TwoHearts));
+            cardPile.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Ace, Card.CardStatus.FaceDown, CardGame.Properties.Resources.AceHearts));
+
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.King, Card.CardStatus.FaceDown, CardGame.Properties.Resources.KingClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Queen, Card.CardStatus.FaceDown, CardGame.Properties.Resources.QueenClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Jack, Card.CardStatus.FaceDown, CardGame.Properties.Resources.JackClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Ten, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TenClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Nine, Card.CardStatus.FaceDown, CardGame.Properties.Resources.NineClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Eight, Card.CardStatus.FaceDown, CardGame.Properties.Resources.EightClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Seven, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SevenClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Six, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SixClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Five, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FiveClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Four, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FourClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Three, Card.CardStatus.FaceDown, CardGame.Properties.Resources.ThreeClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Two, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TwoClubs));
+            cardPile.AddItem(new Card(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.FaceDown, CardGame.Properties.Resources.AceClubs));
+
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.King, Card.CardStatus.FaceDown, CardGame.Properties.Resources.KingDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Queen, Card.CardStatus.FaceDown, CardGame.Properties.Resources.QueenDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Jack, Card.CardStatus.FaceDown, CardGame.Properties.Resources.JackDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Ten, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TenDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Nine, Card.CardStatus.FaceDown, CardGame.Properties.Resources.NineDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Eight, Card.CardStatus.FaceDown, CardGame.Properties.Resources.EightDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Seven, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SevenDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Six, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SixDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FiveDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Four, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FourDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Three, Card.CardStatus.FaceDown, CardGame.Properties.Resources.ThreeDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Two, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TwoDiamonds));
+            cardPile.AddItem(new Card(Card.CardSuit.Diamonds, Card.CardFace.Ace, Card.CardStatus.FaceDown, CardGame.Properties.Resources.AceDiamonds));
+
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.King, Card.CardStatus.FaceDown, CardGame.Properties.Resources.KingSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Queen, Card.CardStatus.FaceDown, CardGame.Properties.Resources.QueenSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Jack, Card.CardStatus.FaceDown, CardGame.Properties.Resources.JackSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Ten, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TenSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Nine, Card.CardStatus.FaceDown, CardGame.Properties.Resources.NineSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Eight, Card.CardStatus.FaceDown, CardGame.Properties.Resources.EightSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Seven, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SevenSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Six, Card.CardStatus.FaceDown, CardGame.Properties.Resources.SixSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Five, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FiveSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Four, Card.CardStatus.FaceDown, CardGame.Properties.Resources.FourSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Three, Card.CardStatus.FaceDown, CardGame.Properties.Resources.ThreeSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Two, Card.CardStatus.FaceDown, CardGame.Properties.Resources.TwoSpades));
+            cardPile.AddItem(new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown, CardGame.Properties.Resources.AceSpades));
 
             return cardPile;
         }

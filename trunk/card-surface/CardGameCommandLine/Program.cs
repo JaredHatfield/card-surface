@@ -6,6 +6,7 @@ namespace CardGameCommandLine
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
     using CardGame;
