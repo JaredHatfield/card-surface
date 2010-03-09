@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
 
@@ -30,6 +31,11 @@ namespace CardGame
         private CardStatus status;
 
         /// <summary>
+        /// The image of the card.
+        /// </summary>
+        private Bitmap image;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
         internal Card()
@@ -37,6 +43,7 @@ namespace CardGame
             this.suit = CardSuit.Spades;
             this.face = CardFace.Ace;
             this.status = CardStatus.FaceDown;
+            this.image = CardGame.Properties.Resources.AceSpades;
         }
 
         /// <summary>
@@ -50,6 +57,22 @@ namespace CardGame
             this.suit = suit;
             this.face = face;
             this.status = status;
+            this.image = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Card"/> class.
+        /// </summary>
+        /// <param name="suit">The card's suit.</param>
+        /// <param name="face">The card's face.</param>
+        /// <param name="status">The card's status.</param>
+        /// <param name="image">The card's image.</param>
+        internal Card(CardSuit suit, CardFace face, CardStatus status, Bitmap image)
+        {
+            this.suit = suit;
+            this.face = face;
+            this.status = status;
+            this.image = image;
         }
 
         /// <summary>
