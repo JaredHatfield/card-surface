@@ -36,12 +36,20 @@ namespace CardGame
         private Collection<GameAction> actions;
 
         /// <summary>
+        /// The pile of cards that represents the deck.
+        /// </summary>
+        private Guid deckPile;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
         /// </summary>
         protected internal Game()
         {
             this.id = Guid.NewGuid();
             this.gamingArea = new PlayingArea();
+            CardPile theDeck = new CardPile(false, true);
+            this.deckPile = theDeck.Id;
+            this.gamingArea.AddCardPile(theDeck); // This first pile will be the deck
             ObservableCollection<Seat> s = new ObservableCollection<Seat>();
             s.Add(new Seat(Seat.SeatLocation.East));
             s.Add(new Seat(Seat.SeatLocation.North));
@@ -360,6 +368,22 @@ namespace CardGame
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Clears the game board.
+        /// </summary>
+        protected internal void ClearGameBoard()
+        {
+            CardPile deck = this.GetPile(this.deckPile) as CardPile;
+            this.gamingArea.EmptyCardPileTo(deck);
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty)
+                {
+                    this.seats[i].Player.EmptyCardPileTo(deck);
+                }
+            }
         }
 
         /// <summary>

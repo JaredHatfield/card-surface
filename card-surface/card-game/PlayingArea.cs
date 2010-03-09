@@ -196,5 +196,35 @@ namespace CardGame
 
             return null;
         }
+
+        /// <summary>
+        /// Adds a card pile.
+        /// </summary>
+        /// <param name="cardPile">The card pile.</param>
+        internal void AddCardPile(CardPile cardPile)
+        {
+            this.cards.Add(cardPile);
+        }
+
+        /// <summary>
+        /// Adds a chip pile.
+        /// </summary>
+        /// <param name="chipPile">The chip pile.</param>
+        internal void AddChipPile(ChipPile chipPile)
+        {
+            this.chips.Add(chipPile);
+        }
+
+        /// <summary>
+        /// Empties the cards in this area to a destination CardPile.
+        /// </summary>
+        /// <param name="destination">The destination CardPile.</param>
+        internal void EmptyCardPileTo(CardPile destination)
+        {
+            for (int i = 0; i < this.cards.Count; i++)
+            {
+                this.cards[i].EmptyCardPileTo(destination);
+            }
+        }
     }
 }
