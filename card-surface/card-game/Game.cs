@@ -13,7 +13,7 @@ namespace CardGame
     /// <summary>
     /// A generic card game that is extended to implement a specific game.
     /// </summary>
-    public class Game
+    public abstract class Game
     {
         /// <summary>
         /// A unique identifier for a game.
