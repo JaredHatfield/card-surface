@@ -39,5 +39,19 @@ namespace GameBlackjack
             // TODO: GameActionHit - implement a player taking a hit on the game
             throw new NotImplementedException("GameAction not implemented.");
         }
+
+        /// <summary>
+        /// Determines whether [is executable by player] [the specified game].
+        /// </summary>
+        /// <param name="game">The game to check.</param>
+        /// <param name="player">The player to modify.</param>
+        /// <returns>
+        /// <c>true</c> if [is executable by player] [the specified game]; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool IsExecutableByPlayer(Game game, Player player)
+        {
+            // TODO: GameActionHit - is executable
+            throw new NotImplementedException();
+        }
     }
 }

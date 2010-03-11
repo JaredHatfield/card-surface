@@ -183,7 +183,7 @@ namespace CardGame
         /// Empties the pile of cards into another pile of cards.
         /// </summary>
         /// <param name="destination">The destination pile of cards.</param>
-        internal void EmptyCardPileTo(CardPile destination)
+        protected internal void EmptyCardPileTo(CardPile destination)
         {
             // Lets make sure we are not doing this to the same pile and avoid a nasty infinite loop.
             if (!this.Id.Equals(destination.Id))
@@ -192,6 +192,7 @@ namespace CardGame
                 while (card != null)
                 {
                     destination.AddItem(card);
+                    card = this.DrawCard();
                 }
             }
         }

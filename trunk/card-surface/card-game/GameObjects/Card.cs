@@ -315,7 +315,14 @@ namespace CardGame
         /// </returns>
         public override string ToString()
         {
-            return this.face + " of " + this.suit + " [" + this.status + "]";
+            if (this.status == CardStatus.FaceUp)
+            {
+                return this.face + " of " + this.suit + ".";
+            }
+            else
+            {
+                return "Face down card.";
+            }
         }
     }
 }
