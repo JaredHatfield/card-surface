@@ -32,10 +32,21 @@ namespace CardGameCommandLine
             // Add some dummy players to the game
             Program.PlayerJoinGame("player1");
             Program.PlayerJoinGame("player2");
-
             Program.PrintPlayerList();
-            
+            Program.DisplayCardPile(Program.game.GamingArea.Cards[0]);
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Displays the card pile.
+        /// </summary>
+        /// <param name="pile">The card pile.</param>
+        private static void DisplayCardPile(CardPile pile)
+        {
+            for (int i = 0; i < pile.Cards.Count; i++)
+            {
+                Console.WriteLine(pile.Cards[i].ToString());
+            }
         }
 
         /// <summary>

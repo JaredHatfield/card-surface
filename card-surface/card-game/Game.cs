@@ -112,6 +112,16 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets or sets the deck pile.
+        /// </summary>
+        /// <value>The deck pile.</value>
+        protected Guid DeckPile
+        {
+            get { return this.deckPile; }
+            set { this.deckPile = value; }
+        }
+
+        /// <summary>
         /// Gets the player at a specific seat.
         /// </summary>
         /// <param name="location">The location of the player.</param>
@@ -384,6 +394,18 @@ namespace CardGame
                     this.seats[i].Player.EmptyCardPileTo(deck);
                 }
             }
+
+            // TODO: flip all of the cards to face down
+        }
+
+        /// <summary>
+        /// Empties the specified card pile to the destination pile.
+        /// </summary>
+        /// <param name="source">The source pile.</param>
+        /// <param name="destination">The destination pile.</param>
+        protected void EmptySpecifiedCardPileTo(CardPile source, CardPile destination)
+        {
+            source.EmptyCardPileTo(destination);
         }
 
         /// <summary>

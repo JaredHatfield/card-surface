@@ -37,7 +37,23 @@ namespace GameBlackjack
             Blackjack blackjack = (Blackjack)game;
 
             // TODO: GameActionDeal - implement the dealing game action
-            throw new NotImplementedException("GameAction not implemented.");
+
+            // Put all of the cards back
+            blackjack.ClearGameBoard();
+        }
+
+        /// <summary>
+        /// Determines whether [is executable by player] [the specified game].
+        /// </summary>
+        /// <param name="game">The game to check.</param>
+        /// <param name="player">The player to modify.</param>
+        /// <returns>
+        /// <c>true</c> if [is executable by player] [the specified game]; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool IsExecutableByPlayer(Game game, Player player)
+        {
+            // TODO: GameActionDeal - is executable
+            throw new NotImplementedException();
         }
     }
 }

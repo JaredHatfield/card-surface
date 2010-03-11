@@ -20,11 +20,18 @@ namespace GameBlackjack
         /// </summary>
         public Blackjack() : base()
         {
+            // Subscribe all of the possible game actions
             this.SubscribeAction(new GameActionHit());
             this.SubscribeAction(new GameActionStand());
             this.SubscribeAction(new GameActionSplit());
             this.SubscribeAction(new GameActionDeal());
             this.SubscribeAction(new GameActionDouble());
+
+            // Add a deck of cards to the game
+            CardPile destinationDeck = (CardPile)this.GetPile(this.DeckPile);
+            destinationDeck.Open = true;
+            CardPile sourceDeck = Deck.StandardDeck();
+            this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
         }
 
         /// <summary>
@@ -37,6 +44,14 @@ namespace GameBlackjack
         internal new Pile GetPileContaining(Guid physicalObjectId)
         {
             return base.GetPileContaining(physicalObjectId);
+        }
+
+        /// <summary>
+        /// Clears the game board.
+        /// </summary>
+        internal new void ClearGameBoard()
+        {
+            base.ClearGameBoard();
         }
 
         /// <summary>
