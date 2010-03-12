@@ -27,6 +27,11 @@ namespace CardWeb
         public const char LineFeed = '\n';
 
         /// <summary>
+        /// DateTime format required for HTTP cookie expiration time (excludes GMT timezone stamp)
+        /// </summary>
+        public const string DateTimeCookieFormat = "ddd, dd-MMM-yyyy HH:mm:ss";
+
+        /// <summary>
         /// Number of stack trace frames to skip when constructing a new StackTrace
         /// </summary>
         private const int StackTraceFramesToSkip = 1;

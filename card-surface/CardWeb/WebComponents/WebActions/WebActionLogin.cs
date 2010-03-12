@@ -91,11 +91,13 @@ namespace CardWeb.WebComponents.WebActions
 
             if (AccountController.Instance.Authenticate(this.username, this.password))
             {
+                WebSession authenticatedSession = new WebSession(this.username);
+                WebSessionController.Instance.Sessions.Add(authenticatedSession);
+
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: (new Guid).ToString() should lookup a user's GUID */
                 /* TODO: Automatically determine Refresh URL */
                 responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                //// responseBuffer += "Set-Cookie: csuid=" + (new Guid()).ToString() + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Set-Cookie: " + WebCookie.CsidIdentifier + "=" + authenticatedSession.SessionId + "; expires=" + authenticatedSession.Expires + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                 Console.WriteLine("---------------------------------------------------------------------");
                 Console.WriteLine("WebController: Sending HTTP response.");

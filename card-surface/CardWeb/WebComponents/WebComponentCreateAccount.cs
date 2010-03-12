@@ -47,6 +47,7 @@ namespace CardWeb.WebComponents
             this.mailboxQueueSemaphore = new object();
 
             this.webComponentCreateAccountThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentCreateAccountThread.Name = "WebComponentCreateAccountThread";
             this.webComponentCreateAccountThread.Start();
         }
 

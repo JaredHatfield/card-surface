@@ -80,50 +80,63 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         public override string GetContent()
         {
-            /* TODO: What if the user is already authenticated?  Check cookies. */
             string content = "<html>\n";
-            content += "<head>\n";
-            content += "<title>Login : CardSurface</title>\n";
-            content += "<style type=\"text/css\">\n";
-            content += "td { font:Verdana; font-size:14; }\n";
-            content += "input { font:Verdana; font-size:14; }\n";
-            content += "</style>\n";
-            content += "</head>\n";
-            content += "<body>\n";
 
-            if (!this.errorMessage.Equals(String.Empty))
+            /* TODO: Automatically determine domain name for server. */
+            /* TODO: Utilize WebComponent prefix in URL generation. */
+            /* Check to see if an authenticated cookie is present. */
+            if (!this.IsAuthenticated())
             {
-                content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
+                content += "<head>\n";
+                content += "<title>Login : CardSurface</title>\n";
+                content += "<style type=\"text/css\">\n";
+                content += "td { font:Verdana; font-size:14; }\n";
+                content += "input { font:Verdana; font-size:14; }\n";
+                content += "</style>\n";
+                content += "</head>\n";
+                content += "<body>\n";
+
+                if (!this.errorMessage.Equals(String.Empty))
+                {
+                    content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
+                }
+
+                content += "<form method=\"post\">\n";
+                content += "<table>\n";
+                content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
+                content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
+                content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
+                content += "</table>\n";
+                content += "</form>\n";
+                content += "</body>\n";
+            }
+            else
+            {
+                content += "<head>\n";
+                content += "<title>CardSurface</title>\n";
+                content += "</head>\n";
+                content += "<body>\n";
+
+                try
+                {
+                    content += "Welcome, " + WebSessionController.Instance.FindSession(this.request.ExtractCookie().Csid).Username + "!<br/>\n";
+                    content += "<br/>\n";
+                    content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+                    content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
+                    content += "Logout</a><br/>";
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("WebViewLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                    /* TODO: Should we just cancel the login process? */
+                }
+
+                content += "</body>\n";
             }
 
-            content += "<form method=\"post\">\n";
-            content += "<table>\n";
-            content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
-            content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
-            content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
-            content += "</table>\n";
-            content += "</form>\n";
-            content += "</body>\n";
             content += "</html>";
 
             return content;
-
-            /* If cookie data is valid... */
-            /* TODO: Automatically determine domain name for server. */
-            /* TODO: Utilize WebComponent prefix in URL generation. */
-            /*string content = "<html>\n";
-            content += "<head>\n";
-            content += "<title>Main Menu : CardSurface</title>\n";
-            content += "</head>\n";
-            content += "<body>\n";
-            content += "Welcome, " + this.username + "!\n";
-            content += "<br/>\n";
-            content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
-            content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
-            content += "</body>\n";
-            content += "</html>";
-
-            return content;*/
         } /* GetContent() */
 
         /// <summary>
@@ -161,5 +174,29 @@ namespace CardWeb.WebComponents.WebViews
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();
         } /* SendResponse() */
+
+        /// <summary>
+        /// Determines whether this instance is authenticated.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsAuthenticated()
+        {
+            if (this.request.ContainsCookie())
+            {
+                WebCookie requestCookie = this.request.ExtractCookie();
+
+                foreach (WebSession session in WebSessionController.Instance.Sessions)
+                {
+                    if (session.SessionId == requestCookie.Csid)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        } /* IsAuthenticated() */
     }
 }
