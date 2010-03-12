@@ -53,7 +53,10 @@
     <Compile Include="WebComponents\WebActions\WebActionManageAccount.cs" />
     <Compile Include="WebComponents\WebComponent.cs" />
     <Compile Include="WebComponents\WebComponentCreateAccount.cs" />
+    <Compile Include="WebComponents\WebComponentDefault.cs" />
+    <Compile Include="WebComponents\WebComponentJoinTable.cs" />
     <Compile Include="WebComponents\WebComponentLogin.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewDefault.cs" />
     <Compile Include="WebController.cs" />
     <Compile Include="WebComponents\WebViews\WebView.cs" />
     <Compile Include="WebComponents\WebViews\WebViewCreateAccount.cs" />

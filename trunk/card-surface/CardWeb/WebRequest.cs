@@ -132,12 +132,53 @@ namespace CardWeb
         }
 
         /// <summary>
+        /// Determines whether this instance is authenticated.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsAuthenticated()
+        {
+            if (this.ContainsCookie())
+            {
+                WebCookie requestCookie = this.ExtractCookie();
+
+                foreach (WebSession session in WebSessionController.Instance.Sessions)
+                {
+                    if (session.SessionId == requestCookie.Csid)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        } /* IsAuthenticated() */
+
+        /// <summary>
+        /// Gets the session id.
+        /// </summary>
+        /// <returns>A Guid representing the WebSession ID</returns>
+        public Guid GetSessionId()
+        {
+            if (this.ContainsCookie())
+            {
+                WebCookie requestCookie = this.ExtractCookie();
+                return requestCookie.Csid;
+            }
+            else
+            {
+                throw new Exception("No cookie found in HTTP request");
+            }
+        } /* GetSessionId() */
+
+        /// <summary>
         /// Determines whether this instance contains a cookie.
         /// </summary>
         /// <returns>
         /// <c>true</c> if this instance contains a cookie; otherwise, <c>false</c>.
         /// </returns>
-        public bool ContainsCookie()
+        private bool ContainsCookie()
         {
             /* TODO: Add security checks.  Is the "Cookie:" line properly formatted?  Does it appear before the content? */
             bool patternFound = false;
@@ -174,7 +215,7 @@ namespace CardWeb
         /// Extracts the cookie.
         /// </summary>
         /// <returns>A WebCookie containing the data present in the HTTP request.</returns>
-        public WebCookie ExtractCookie()
+        private WebCookie ExtractCookie()
         {
             /* TODO: Add security checks.  Is the "Cookie:" line properly formatted?  Don't pull something out of the content! */
             if (this.ContainsCookie())

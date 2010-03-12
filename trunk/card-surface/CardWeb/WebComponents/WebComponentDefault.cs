@@ -1,7 +1,7 @@
-﻿// <copyright file="WebComponentLogin.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebComponentDefault.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Component for managing HTTP requests from login/ URL.</summary>
+// <summary>WebComponent that handles HTTP requests for the default URL.</summary>
 namespace CardWeb.WebComponents
 {
     using System;
@@ -11,13 +11,12 @@ namespace CardWeb.WebComponents
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
-    using CardWeb.WebComponents.WebActions;
-    using CardWeb.WebComponents.WebViews;
+    using WebViews;
 
     /// <summary>
-    /// Responsible for managing login related HTTP requests.
+    /// Default WebComponent for handling HTTP requests for the system URL.
     /// </summary>
-    public class WebComponentLogin : WebComponent
+    public class WebComponentDefault : WebComponent
     {
         /// <summary>
         /// Semaphore that regulates access to the mailboxQueue
@@ -32,25 +31,25 @@ namespace CardWeb.WebComponents
         /// <summary>
         /// Thread responsible for processing incoming HTTP requests.
         /// </summary>
-        private Thread webComponentLoginThread;
+        private Thread webComponentDefaultThread;
 
         /// <summary>
         /// Component URL prefix
         /// </summary>
-        private string componentPrefix = "login";
+        private string componentPrefix = String.Empty;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebComponentLogin"/> class.
+        /// Initializes a new instance of the <see cref="WebComponentDefault"/> class.
         /// </summary>
-        public WebComponentLogin()
+        public WebComponentDefault()
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
 
-            this.webComponentLoginThread = new Thread(new ThreadStart(this.Run));
-            this.webComponentLoginThread.Name = "WebComponentLoginThread";
-            this.webComponentLoginThread.Start();
-        } /* WebComponentLogin() */
+            this.webComponentDefaultThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentDefaultThread.Name = "WebComponentDefaultThread";
+            this.webComponentDefaultThread.Start();
+        } /* WebComponentDefault() */
 
         /// <summary>
         /// Gets the component prefix.
@@ -73,7 +72,7 @@ namespace CardWeb.WebComponents
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
 
-            Console.WriteLine("WebComponentLogin: Added new HTTP request to WebComponentLogin.");
+            Console.WriteLine("WebComponentDefault: Added new HTTP request to WebComponentDefault.");
         } /* PostRequest() */
 
         /// <summary>
@@ -98,27 +97,13 @@ namespace CardWeb.WebComponents
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
-                    WebViewLogin webViewLogin = new WebViewLogin(request);
-                    webViewLogin.SendResponse();
-                }
-                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
-                {
-                    try
-                    {
-                        WebActionLogin webActionLogin = new WebActionLogin(request);
-                        webActionLogin.Execute();
-                    }
-                    catch (Exception e)
-                    {
-                        /* Proccesing HTTP POST command failed. */
-                        WebViewLogin webViewLogin = new WebViewLogin(request, e.Message);
-                        webViewLogin.SendResponse();
-                    }
+                    WebViewDefault webViewDefault = new WebViewDefault(request);
+                    webViewDefault.SendResponse();
                 }
                 else
                 {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }                
+                    /* TODO: What if it's not an HTTP GET request?  Return 404? */
+                }                                                               
             } /* while(true) */
         } /* Run() */
     }
