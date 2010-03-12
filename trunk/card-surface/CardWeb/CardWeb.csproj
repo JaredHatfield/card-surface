@@ -61,7 +61,10 @@
     <Compile Include="WebComponents\WebViews\WebViewJoinTable.cs" />
     <Compile Include="WebComponents\WebViews\WebViewLogin.cs" />
     <Compile Include="WebComponents\WebViews\WebViewManageAccount.cs" />
+    <Compile Include="WebCookie.cs" />
     <Compile Include="WebRequest.cs" />
+    <Compile Include="WebSession.cs" />
+    <Compile Include="WebSessionController.cs" />
     <Compile Include="WebUtilities.cs" />
   </ItemGroup>
   <ItemGroup>

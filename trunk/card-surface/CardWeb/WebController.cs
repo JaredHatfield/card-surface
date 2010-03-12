@@ -108,6 +108,7 @@ namespace CardWeb
 
             /* Initiate the web server thread to handle new requests. */
             this.webServerThread = new Thread(new ThreadStart(this.Run));
+            this.webServerThread.Name = "WebServerThread";
             this.webServerThread.Start();
         } /* WebController(IGameController gameController) */
 

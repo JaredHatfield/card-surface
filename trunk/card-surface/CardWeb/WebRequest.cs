@@ -132,6 +132,89 @@ namespace CardWeb
         }
 
         /// <summary>
+        /// Determines whether this instance contains a cookie.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if this instance contains a cookie; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsCookie()
+        {
+            /* TODO: Add security checks.  Is the "Cookie:" line properly formatted?  Does it appear before the content? */
+            bool patternFound = false;
+            byte[] pattern = Encoding.ASCII.GetBytes(WebCookie.HttpCookieHeader);
+
+            for (int i = 0; i < this.request.Length - pattern.Length; i++)
+            {
+                if (this.request[i] == pattern[0])
+                {
+                    /* Assume the pattern has been found. */
+                    patternFound = true;
+                    for (int j = 0; j < pattern.Length; j++)
+                    {
+                        if (this.request[i + j] != pattern[j])
+                        {
+                            /* If there's not a match, we didn't really find it. */
+                            patternFound = false;
+                            break;
+                        }
+                    }
+
+                    if (patternFound)
+                    {
+                        /* If we really did find the pattern, we can stop searching. */
+                        break;
+                    }
+                }
+            }
+
+            return patternFound;
+        } /* ContainsCookie() */
+
+        /// <summary>
+        /// Extracts the cookie.
+        /// </summary>
+        /// <returns>A WebCookie containing the data present in the HTTP request.</returns>
+        public WebCookie ExtractCookie()
+        {
+            /* TODO: Add security checks.  Is the "Cookie:" line properly formatted?  Don't pull something out of the content! */
+            if (this.ContainsCookie())
+            {
+                WebCookie requestCookie;
+                string cookieLine = String.Empty;
+
+                /* Start extracting the cookie data after the HTTP cookie header */
+                int cookieLinePosition = Encoding.ASCII.GetString(this.request).IndexOf(WebCookie.HttpCookieHeader) + WebCookie.HttpCookieHeader.Length;
+                int cookieEndOfLinePosition = Encoding.ASCII.GetString(this.request).IndexOf('\0', cookieLinePosition);
+
+                for (int i = cookieLinePosition; i < cookieEndOfLinePosition; i++)
+                {
+                    if ((char)this.request[i] != WebUtilities.CarriageReturn && (char)this.request[i] != WebUtilities.LineFeed)
+                    {
+                        cookieLine += (char)this.request[i];
+                    }
+                }
+
+                string[] cookieLineTokens = cookieLine.Split(new char[] { ';' });
+
+                for (int i = 0; i < cookieLineTokens.Length; i += 2)
+                {
+                    string[] cookieValuePairTokens = cookieLineTokens[i].Split(new char[] { '=' });
+                    if (cookieValuePairTokens[0].Trim().Equals(WebCookie.CsidIdentifier))
+                    {
+                        requestCookie = new WebCookie(new Guid(cookieValuePairTokens[1]));
+                        return requestCookie;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("No cookie found");
+            }
+
+            throw new Exception("Invalid cookie data");
+        } /* ExtractCookie() */
+
+        /// <summary>
         /// Gets the content of the HTTP request.
         /// </summary>
         /// <param name="request">The request.</param>
