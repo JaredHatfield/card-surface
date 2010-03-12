@@ -217,12 +217,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the status of the card.
+        /// Gets or sets the status of the card.
         /// </summary>
         /// <value>The status of the card.</value>
         public CardStatus Status
         {
             get { return this.status; }
+            set { this.status = value; }
         }
 
         /// <summary>

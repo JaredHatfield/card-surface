@@ -43,9 +43,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blackjack.cs" />
+    <Compile Include="BlackjackRules.cs" />
     <Compile Include="GameActionDeal.cs" />
     <Compile Include="GameActionDouble.cs" />
     <Compile Include="GameActionHit.cs" />

@@ -15,6 +15,11 @@ namespace CardGame
     public class CardPile : Pile, IComparable, IEquatable<CardPile>
     {
         /// <summary>
+        /// Random number generator used to shuffle the CardPile.
+        /// </summary>
+        private static Random random = new Random();
+
+        /// <summary>
         /// A card pile can be visually expanded to see what is in the pile.
         /// </summary>
         private bool expandable;
@@ -177,6 +182,21 @@ namespace CardGame
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Shuffles all of the cards in this pile.
+        /// </summary>
+        public void Shuffle()
+        {
+            int count = this.Items.Count;
+            for (int i = 0; i < count; i++)
+            {
+                int r = CardPile.random.Next(count);
+                IPhysicalObject c = this.Items[r];
+                this.Items.RemoveAt(r);
+                this.Items.Add(c);
+            }
         }
 
         /// <summary>

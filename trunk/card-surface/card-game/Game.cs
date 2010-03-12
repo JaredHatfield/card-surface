@@ -158,6 +158,24 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a seat based off of a Guid.
+        /// </summary>
+        /// <param name="seatId">The seat id.</param>
+        /// <returns>The instance of the seat.</returns>
+        public Seat GetSeat(Guid seatId)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Id.Equals(seatId))
+                {
+                    return this.seats[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Determines whether the specified username is playing this game.
         /// </summary>
         /// <param name="username">The username to look up.</param>
@@ -290,16 +308,18 @@ namespace CardGame
         /// </summary>
         /// <param name="name">The name of the action.</param>
         /// <param name="player">The player.</param>
-        public void ExecuteAction(string name, Guid player)
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public bool ExecuteAction(string name, string player)
         {
             for (int i = 0; i < this.actions.Count; i++)
             {
                 if (this.actions[i].Name.Equals(name))
                 {
-                    this.actions[i].Action(this, player);
-                    break;
+                    return this.actions[i].Action(this, player);
                 }
             }
+
+            return false;
         }
 
         /// <summary>
@@ -395,7 +415,37 @@ namespace CardGame
                 }
             }
 
-            // TODO: flip all of the cards to face down
+            // Change all of the cards so they are face down
+            for (int i = 0; i < deck.Cards.Count; i++)
+            {
+                ICard card = deck.Cards[i] as ICard;
+                card.Status = Card.CardStatus.FaceDown;
+            }
+        }
+
+        /// <summary>
+        /// Updates the all of the players with valid actions.
+        /// </summary>
+        protected internal void UpdatePlayerActions()
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty)
+                {
+                    Player p = this.seats[i].Player;
+                    for (int j = 0; j < this.actions.Count; j++)
+                    {
+                        if (this.actions[i].IsExecutableByPlayer(this, p))
+                        {
+                            p.AddAction(this.actions[j].Name);
+                        }
+                        else
+                        {
+                            p.RemoveAction(this.actions[j].Name);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

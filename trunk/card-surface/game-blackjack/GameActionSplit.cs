@@ -23,7 +23,7 @@ namespace GameBlackjack
         {
             get
             {
-                return "split";
+                return "Split";
             }
         }
 
@@ -32,7 +32,8 @@ namespace GameBlackjack
         /// </summary>
         /// <param name="game">The game to modify.</param>
         /// <param name="player">The player that triggered this action.</param>
-        public override void Action(Game game, Guid player)
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public override bool Action(Game game, string player)
         {
             Blackjack blackjack = (Blackjack)game;
 

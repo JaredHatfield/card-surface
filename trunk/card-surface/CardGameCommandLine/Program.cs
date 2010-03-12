@@ -32,9 +32,47 @@ namespace CardGameCommandLine
             // Add some dummy players to the game
             Program.PlayerJoinGame("player1");
             Program.PlayerJoinGame("player2");
-            Program.PrintPlayerList();
-            Program.DisplayCardPile(Program.game.GamingArea.Cards[0]);
+            Program.game.ExecuteAction("Deal", string.Empty);
+            Program.DisplayPlayers();
+            Program.game.ExecuteAction("Hit", "player1");
+            Program.DisplayPlayers();
+
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Displays the player.
+        /// </summary>
+        private static void DisplayPlayers()
+        {
+            for (int i = 0; i < Program.game.Seats.Count; i++)
+            {
+                if (!Program.game.Seats[i].IsEmpty)
+                {
+                    Player p = Program.game.Seats[i].Player;
+                    Console.WriteLine(Program.game.Seats[i].Username);
+                    Console.WriteLine("Hand: " + BlackjackRules.GetPileVale(p.Hand));
+                    if (p.Hand.Cards.Count > 0)
+                    {
+                        Program.DisplayCardPile(p.Hand);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Empty");
+                    }
+
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Displays the playing area.
+        /// </summary>
+        /// <param name="playingArea">The playing area.</param>
+        private static void DisplayPlayingArea(PlayingArea playingArea)
+        {
+            // TODO: Implement DisplayPlayingArea
         }
 
         /// <summary>

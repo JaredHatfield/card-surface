@@ -33,12 +33,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the status of the card.
+        /// Gets or sets the status of the card.
         /// </summary>
         /// <value>The status of the card.</value>
         Card.CardStatus Status
         {
             get;
+            set;
         }
     }
 }
