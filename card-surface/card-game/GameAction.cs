@@ -28,7 +28,8 @@ namespace CardGame
         /// </summary>
         /// <param name="game">The game to modify.</param>
         /// <param name="player">The player.</param>
-        public abstract void Action(Game game, Guid player);
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public abstract bool Action(Game game, string player);
 
         /// <summary>
         /// Determines whether [is executable by player] [the specified game].

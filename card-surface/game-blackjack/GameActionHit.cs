@@ -23,7 +23,7 @@ namespace GameBlackjack
         {
             get
             {
-                return "hit";
+                return "Hit";
             }
         }
 
@@ -32,12 +32,25 @@ namespace GameBlackjack
         /// </summary>
         /// <param name="game">The game to modify.</param>
         /// <param name="player">The player that triggered this action.</param>
-        public override void Action(Game game, Guid player)
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public override bool Action(Game game, string player)
         {
             Blackjack blackjack = (Blackjack)game;
-            
-            // TODO: GameActionHit - implement a player taking a hit on the game
-            throw new NotImplementedException("GameAction not implemented.");
+
+            // Get the player and add a card to their hand
+            Player p = blackjack.GetPlayer(player);
+            if (p != null)
+            {
+                CardPile deck = blackjack.GetPile(blackjack.DeckPile) as CardPile;
+                ICard card = deck.DrawCard();
+                card.Status = Card.CardStatus.FaceUp;
+                p.Hand.AddItem(card);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

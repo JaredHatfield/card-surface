@@ -35,6 +35,16 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Gets or sets the deck pile.
+        /// </summary>
+        /// <value>The deck pile.</value>
+        internal new Guid DeckPile
+        {
+            get { return base.DeckPile; }
+            set { base.DeckPile = value; }
+        }
+
+        /// <summary>
         /// Gets the pile containing a physical object with the specified id.
         /// </summary>
         /// <param name="physicalObjectId">The physical object id.</param>
@@ -44,6 +54,18 @@ namespace GameBlackjack
         internal new Pile GetPileContaining(Guid physicalObjectId)
         {
             return base.GetPileContaining(physicalObjectId);
+        }
+
+        /// <summary>
+        /// Gets the pile with the specified id.
+        /// </summary>
+        /// <param name="pileId">The pile id.</param>
+        /// <returns>
+        /// The instance of the specified pile if it exists; otherwise null.
+        /// </returns>
+        internal new Pile GetPile(Guid pileId)
+        {
+            return base.GetPile(pileId);
         }
 
         /// <summary>

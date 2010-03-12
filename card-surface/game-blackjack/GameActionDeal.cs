@@ -5,7 +5,7 @@
 namespace GameBlackjack
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using CardGame;
@@ -23,7 +23,7 @@ namespace GameBlackjack
         {
             get
             {
-                return "deal";
+                return "Deal";
             }
         }
 
@@ -32,14 +32,34 @@ namespace GameBlackjack
         /// </summary>
         /// <param name="game">The game to modify.</param>
         /// <param name="player">The player that triggered this action.</param>
-        public override void Action(Game game, Guid player)
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public override bool Action(Game game, string player)
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionDeal - implement the dealing game action
-
             // Put all of the cards back
             blackjack.ClearGameBoard();
+
+            // Shuffle the Deck
+            CardPile deck = blackjack.GetPile(blackjack.DeckPile) as CardPile;
+            deck.Shuffle();
+
+            // Deal the cards to the player
+            for (int i = 0; i < blackjack.Seats.Count; i++)
+            {
+                if (!blackjack.Seats[i].IsEmpty)
+                {
+                    Player p = blackjack.Seats[i].Player;
+                    ICard card1 = deck.DrawCard();
+                    ICard card2 = deck.DrawCard();
+                    card2.Status = Card.CardStatus.FaceUp;
+                    p.Hand.AddItem(card1);
+                    p.Hand.AddItem(card2);
+                }
+            }
+
+            // TODO: Deal the cards to the house
+            return true;
         }
 
         /// <summary>

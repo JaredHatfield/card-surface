@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
 
@@ -35,13 +35,20 @@ namespace CardGame
         private bool turn;
 
         /// <summary>
+        /// List of actions that that this player can perform.
+        /// </summary>
+        private ObservableCollection<string> actions;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         internal Player()
         {
             this.balance = 0;
-            this.hand = new CardPile();
+            this.hand = new CardPile(true, true);
+            this.hand.Open = true;
             this.playerArea = new PlayingArea();
+            this.actions = new ObservableCollection<string>();
         }
 
         /// <summary>
@@ -70,6 +77,15 @@ namespace CardGame
         public PlayingArea PlayerArea
         {
             get { return this.playerArea; }
+        }
+
+        /// <summary>
+        /// Gets the actions this player can perform.
+        /// </summary>
+        /// <value>The actions thi player can perform.</value>
+        public ReadOnlyObservableCollection<string> Actions
+        {
+            get { return new ReadOnlyObservableCollection<string>(this.actions); }
         }
 
         /// <summary>
@@ -200,6 +216,27 @@ namespace CardGame
         {
             this.hand.EmptyCardPileTo(destination);
             this.playerArea.EmptyCardPileTo(destination);
+        }
+
+        /// <summary>
+        /// Adds the action.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        internal void AddAction(string action)
+        {
+            if (!this.actions.Contains(action))
+            {
+                this.actions.Add(action);
+            }
+        }
+
+        /// <summary>
+        /// Removes the action.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        internal void RemoveAction(string action)
+        {
+            this.actions.Remove(action);
         }
     }
 }
