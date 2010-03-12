@@ -110,12 +110,12 @@ namespace CardWeb.WebComponents.WebActions
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Refresh: 0; url=http://localhost/createaccount" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
-                Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("WebController: Sending HTTP response.");
-                Console.WriteLine(responseBuffer);
-
                 byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
                 numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.WriteLine("WebActionCreateAccount: Sending HTTP response (" + numBytesSent + ").");
+                Console.WriteLine(responseBuffer);
 
                 this.request.Connection.Shutdown(SocketShutdown.Both);
                 this.request.Connection.Close();

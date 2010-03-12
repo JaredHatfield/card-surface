@@ -33,15 +33,6 @@ namespace CardWeb.WebComponents.WebViews
         } /* GetHeader() */
 
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebView's content.</returns>
-        public override string GetContent()
-        {
-            throw new NotImplementedException();
-        } /* GetContent() */
-
-        /// <summary>
         /// Gets the length of the content.
         /// </summary>
         /// <returns>
@@ -59,5 +50,14 @@ namespace CardWeb.WebComponents.WebViews
         {
             throw new NotImplementedException();
         } /* SendResponse() */
+
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        /// <returns>A string of the WebView's content.</returns>
+        protected override string GetContent()
+        {
+            throw new NotImplementedException();
+        } /* GetContent() */
     }
 }

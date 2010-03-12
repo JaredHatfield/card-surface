@@ -72,6 +72,7 @@ namespace CardWeb
             this.registeredComponents = new List<WebComponent>();
 
             /* Generate Default WebComponents */
+            this.RegisterWebComponent(new WebComponentDefault());
             this.RegisterWebComponent(new WebComponentLogin());
             this.RegisterWebComponent(new WebComponentCreateAccount());
 

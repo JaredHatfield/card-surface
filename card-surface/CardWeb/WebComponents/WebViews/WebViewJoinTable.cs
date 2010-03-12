@@ -15,12 +15,26 @@ namespace CardWeb.WebComponents.WebViews
     public class WebViewJoinTable : WebView
     {
         /// <summary>
+        /// HTTP Request that caused creation of this WebView
+        /// </summary>
+        private CardWeb.WebRequest request;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewJoinTable"/> class.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        public WebViewJoinTable(CardWeb.WebRequest request)
+        {
+            this.request = request;
+        } /* WebViewJoinTable() */
+
+        /// <summary>
         /// Gets the type of the content.
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>
         public override string GetContentType()
         {
-            throw new NotImplementedException();
+            return "text/html";
         } /* GetContentType() */
 
         /// <summary>
@@ -29,17 +43,8 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's header.</returns>
         public override string GetHeader()
         {
-            throw new NotImplementedException();
+            return this.request.RequestVersion + " 200 OK";
         } /* GetHeader() */
-
-        /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebView's content.</returns>
-        public override string GetContent()
-        {
-            throw new NotImplementedException();
-        } /* GetContent() */
 
         /// <summary>
         /// Gets the length of the content.
@@ -59,5 +64,14 @@ namespace CardWeb.WebComponents.WebViews
         {
             throw new NotImplementedException();
         } /* SendResponse() */
+
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        /// <returns>A string of the WebView's content.</returns>
+        protected override string GetContent()
+        {
+            throw new NotImplementedException();
+        } /* GetContent() */
     }
 }

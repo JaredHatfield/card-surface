@@ -85,10 +85,46 @@ namespace CardWeb.WebComponents.WebViews
         } /* GetHeader() */
 
         /// <summary>
+        /// Gets the length of the content.
+        /// </summary>
+        /// <returns>
+        /// An integer representing the number of bytes in the reponse content.
+        /// </returns>
+        public override int GetContentLength()
+        {
+            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
+            return responseContentBytes.Length;
+        } /* GetContentLength() */
+
+        /// <summary>
+        /// Sends the HTTP response.
+        /// </summary>
+        public override void SendResponse()
+        {
+            string responseBuffer = String.Empty;
+            int numBytesSent = 0;
+
+            responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            responseBuffer += this.GetContent();
+
+            byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("WebViewCreateAccount: Sending HTTP response (" + numBytesSent + ").");
+            Console.WriteLine(responseBuffer);
+
+            this.request.Connection.Shutdown(SocketShutdown.Both);
+            this.request.Connection.Close();
+        } /* SendResponse() */
+
+        /// <summary>
         /// Gets the content.
         /// </summary>
         /// <returns>A string of the WebView's content.</returns>
-        public override string GetContent()
+        protected override string GetContent()
         {
             string content = "<html>\n";
             content += "<head>\n";
@@ -132,41 +168,5 @@ namespace CardWeb.WebComponents.WebViews
 
             return content;
         } /* GetContent() */
-
-        /// <summary>
-        /// Gets the length of the content.
-        /// </summary>
-        /// <returns>
-        /// An integer representing the number of bytes in the reponse content.
-        /// </returns>
-        public override int GetContentLength()
-        {
-            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
-            return responseContentBytes.Length;
-        } /* GetContentLength() */
-
-        /// <summary>
-        /// Sends the HTTP response.
-        /// </summary>
-        public override void SendResponse()
-        {
-            string responseBuffer = String.Empty;
-            int numBytesSent = 0;
-
-            responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += this.GetContent();
-
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebController: Sending HTTP response.");
-            Console.WriteLine(responseBuffer);
-
-            byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
-            this.request.Connection.Shutdown(SocketShutdown.Both);
-            this.request.Connection.Close();
-        } /* SendResponse() */
     }
 }

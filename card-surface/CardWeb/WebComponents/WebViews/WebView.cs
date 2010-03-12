@@ -32,12 +32,6 @@ namespace CardWeb.WebComponents.WebViews
         public abstract string GetHeader();
 
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebView's content.</returns>
-        public abstract string GetContent();
-
-        /// <summary>
         /// Gets the type of the content.
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>
@@ -53,5 +47,11 @@ namespace CardWeb.WebComponents.WebViews
         /// Sends the HTTP response.
         /// </summary>
         public abstract void SendResponse();
+
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        /// <returns>A string of the WebView's content.</returns>
+        protected abstract string GetContent();
     }
 }

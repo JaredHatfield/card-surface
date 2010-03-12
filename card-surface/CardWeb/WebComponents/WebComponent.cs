@@ -13,7 +13,7 @@ namespace CardWeb.WebComponents
     using CardWeb.WebComponents.WebViews;
 
     /// <summary>
-    /// WebComponent responsbile for processing HTTP requests.
+    /// WebComponent responsbile for processing HTTP requests.  HTTP responses should NOT be send from WebComponents.
     /// </summary>
     public abstract class WebComponent
     {

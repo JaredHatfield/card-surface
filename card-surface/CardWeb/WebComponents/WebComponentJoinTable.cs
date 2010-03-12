@@ -1,23 +1,20 @@
-﻿// <copyright file="WebComponentLogin.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebComponentJoinTable.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Component for managing HTTP requests from login/ URL.</summary>
+// <summary>Component for handling JoinTable requests.</summary>
 namespace CardWeb.WebComponents
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
-    using CardWeb.WebComponents.WebActions;
-    using CardWeb.WebComponents.WebViews;
 
     /// <summary>
-    /// Responsible for managing login related HTTP requests.
+    /// Component for handling JoinTable requests.
     /// </summary>
-    public class WebComponentLogin : WebComponent
+    public class WebComponentJoinTable : WebComponent
     {
         /// <summary>
         /// Semaphore that regulates access to the mailboxQueue
@@ -32,25 +29,25 @@ namespace CardWeb.WebComponents
         /// <summary>
         /// Thread responsible for processing incoming HTTP requests.
         /// </summary>
-        private Thread webComponentLoginThread;
+        private Thread webComponentJoinTableThread;
 
         /// <summary>
         /// Component URL prefix
         /// </summary>
-        private string componentPrefix = "login";
+        private string componentPrefix = "jointable";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebComponentLogin"/> class.
+        /// Initializes a new instance of the <see cref="WebComponentJoinTable"/> class.
         /// </summary>
-        public WebComponentLogin()
+        public WebComponentJoinTable()
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
 
-            this.webComponentLoginThread = new Thread(new ThreadStart(this.Run));
-            this.webComponentLoginThread.Name = "WebComponentLoginThread";
-            this.webComponentLoginThread.Start();
-        } /* WebComponentLogin() */
+            this.webComponentJoinTableThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentJoinTableThread.Name = "WebComponentJoinTableThread";
+            this.webComponentJoinTableThread.Start();
+        } /* WebComponentDefault() */
 
         /// <summary>
         /// Gets the component prefix.
@@ -73,7 +70,7 @@ namespace CardWeb.WebComponents
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
 
-            Console.WriteLine("WebComponentLogin: Added new HTTP request to WebComponentLogin.");
+            Console.WriteLine("WebComponentJoinTable: Added new HTTP request to WebComponentJoinTable.");
         } /* PostRequest() */
 
         /// <summary>
@@ -96,29 +93,22 @@ namespace CardWeb.WebComponents
                     request = this.mailboxQueue.Dequeue();
                 }
 
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewLogin webViewLogin = new WebViewLogin(request);
-                    webViewLogin.SendResponse();
-                }
-                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
-                {
-                    try
-                    {
-                        WebActionLogin webActionLogin = new WebActionLogin(request);
-                        webActionLogin.Execute();
-                    }
-                    catch (Exception e)
-                    {
-                        /* Proccesing HTTP POST command failed. */
-                        WebViewLogin webViewLogin = new WebViewLogin(request, e.Message);
-                        webViewLogin.SendResponse();
-                    }
-                }
-                else
-                {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }                
+                string responseBuffer = String.Empty;
+                int numBytesSent = 0;
+
+                responseBuffer = request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                /* TODO: Automatically determine Refresh URL */
+                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+
+                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                numBytesSent = request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.WriteLine("WebComponentJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
+                Console.WriteLine(responseBuffer);
+
+                request.Connection.Shutdown(SocketShutdown.Both);
+                request.Connection.Close();             
             } /* while(true) */
         } /* Run() */
     }

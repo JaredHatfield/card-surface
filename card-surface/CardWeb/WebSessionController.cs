@@ -58,7 +58,7 @@ namespace CardWeb
         /// </summary>
         /// <param name="csid">The CardSurface Session ID as a GUID.</param>
         /// <returns>The authenticated WebSession.</returns>
-        public WebSession FindSession(Guid csid)
+        public WebSession GetSession(Guid csid)
         {
             foreach (WebSession session in this.sessions)
             {

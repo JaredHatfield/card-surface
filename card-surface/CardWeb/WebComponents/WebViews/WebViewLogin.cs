@@ -75,71 +75,6 @@ namespace CardWeb.WebComponents.WebViews
         } /* GetHeader() */
 
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <returns>A string of the WebView's content.</returns>
-        public override string GetContent()
-        {
-            string content = "<html>\n";
-
-            /* TODO: Automatically determine domain name for server. */
-            /* TODO: Utilize WebComponent prefix in URL generation. */
-            /* Check to see if an authenticated cookie is present. */
-            if (!this.IsAuthenticated())
-            {
-                content += "<head>\n";
-                content += "<title>Login : CardSurface</title>\n";
-                content += "<style type=\"text/css\">\n";
-                content += "td { font:Verdana; font-size:14; }\n";
-                content += "input { font:Verdana; font-size:14; }\n";
-                content += "</style>\n";
-                content += "</head>\n";
-                content += "<body>\n";
-
-                if (!this.errorMessage.Equals(String.Empty))
-                {
-                    content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
-                }
-
-                content += "<form method=\"post\">\n";
-                content += "<table>\n";
-                content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
-                content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
-                content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
-                content += "</table>\n";
-                content += "</form>\n";
-                content += "</body>\n";
-            }
-            else
-            {
-                content += "<head>\n";
-                content += "<title>CardSurface</title>\n";
-                content += "</head>\n";
-                content += "<body>\n";
-
-                try
-                {
-                    content += "Welcome, " + WebSessionController.Instance.FindSession(this.request.ExtractCookie().Csid).Username + "!<br/>\n";
-                    content += "<br/>\n";
-                    content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
-                    content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
-                    content += "Logout</a><br/>";
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("WebViewLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                    /* TODO: Should we just cancel the login process? */
-                }
-
-                content += "</body>\n";
-            }
-
-            content += "</html>";
-
-            return content;
-        } /* GetContent() */
-
-        /// <summary>
         /// Gets the length of the content.
         /// </summary>
         /// <returns>
@@ -159,44 +94,68 @@ namespace CardWeb.WebComponents.WebViews
             string responseBuffer = String.Empty;
             int numBytesSent = 0;
 
-            responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-            responseBuffer += this.GetContent();
-
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebController: Sending HTTP response.");
-            Console.WriteLine(responseBuffer);
+            if (!this.request.IsAuthenticated())
+            {
+                /* If the request has not been authenticated, provide them with a login form. */
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += this.GetContent();
+            }
+            else
+            {
+                /* If the user has already logged in, forward the user to the default view. */
+                /* TODO: Automatically determine Refresh URL */
+                responseBuffer = this.request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://localhost/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("WebViewLogin: Sending HTTP response (" + numBytesSent + "bytes).");
+            Console.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();
         } /* SendResponse() */
 
         /// <summary>
-        /// Determines whether this instance is authenticated.
+        /// Gets the content.
         /// </summary>
-        /// <returns>
-        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsAuthenticated()
+        /// <returns>A string of the WebView's content.</returns>
+        protected override string GetContent()
         {
-            if (this.request.ContainsCookie())
-            {
-                WebCookie requestCookie = this.request.ExtractCookie();
+            /* TODO: Automatically determine domain name for server. */
+            /* TODO: Utilize WebComponent prefix in URL generation. */
+            /* This content should only be displayed if a NON-authenticated session has requested the view. */
+            string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>Login : CardSurface</title>\n";
+            content += "<style type=\"text/css\">\n";
+            content += "td { font:Verdana; font-size:14; }\n";
+            content += "input { font:Verdana; font-size:14; }\n";
+            content += "</style>\n";
+            content += "</head>\n";
+            content += "<body>\n";
 
-                foreach (WebSession session in WebSessionController.Instance.Sessions)
-                {
-                    if (session.SessionId == requestCookie.Csid)
-                    {
-                        return true;
-                    }
-                }
+            if (!this.errorMessage.Equals(String.Empty))
+            {
+                content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
             }
 
-            return false;
-        } /* IsAuthenticated() */
+            content += "<form method=\"post\">\n";
+            content += "<table>\n";
+            content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
+            content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
+            content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
+            content += "</table>\n";
+            content += "</form>\n";
+            content += "</body>\n";
+            content += "</html>";
+
+            return content;
+        } /* GetContent() */
     }
 }
