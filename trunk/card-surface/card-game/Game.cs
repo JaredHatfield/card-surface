@@ -61,6 +61,7 @@ namespace CardGame
             s.Add(new Seat(Seat.SeatLocation.West));
             this.seats = new ReadOnlyObservableCollection<Seat>(s);
             this.actions = new Collection<GameAction>();
+            this.UpdatePlayerActions();
         }
 
         /// <summary>
@@ -298,7 +299,8 @@ namespace CardGame
 
                 // Add the physical object to the destination pile
                 locatedDestinationPile.AddItem(locatedPhysicalObject);
-                
+
+                this.UpdatePlayerActions();
                 return true;
             }
         }
@@ -315,11 +317,106 @@ namespace CardGame
             {
                 if (this.actions[i].Name.Equals(name))
                 {
-                    return this.actions[i].Action(this, player);
+                    bool result = this.actions[i].Action(this, player);
+                    if (result)
+                    {
+                        this.UpdatePlayerActions();
+                    }
+
+                    return result;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Resets the player turn so that it is currently the first playesr turn.
+        /// </summary>
+        protected internal void ResetPlayerTurn()
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty)
+                {
+                    this.seats[i].Player.Turn = false;
+                }
+            }
+
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty)
+                {
+                    this.seats[i].Player.Turn = true;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves the pointer that determines whoes turn it is to next player.
+        /// </summary>
+        protected internal void MoveToNextPlayersTurn()
+        {
+            int active = -1;
+
+            // Determine whoes turn it currently is
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Player.Turn)
+                {
+                    active = i;
+                    break;
+                }
+            }
+
+            // A quick check to make sure it is actually someones turn
+            if (active >= 0)
+            {
+                // First check the bottom half of the player list
+                for (int i = active + 1; i < this.seats.Count; i++)
+                {
+                    if (!this.seats[i].IsEmpty)
+                    {
+                        this.seats[active].Player.Turn = false;
+                        this.seats[i].Player.Turn = true;
+                        return;
+                    }
+                }
+
+                // Next check the top half of the player list
+                for (int i = 0; i < active; i++)
+                {
+                    if (!this.seats[i].IsEmpty)
+                    {
+                        this.seats[active].Player.Turn = false;
+                        this.seats[i].Player.Turn = true;
+                        return;
+                    }
+                }
+
+                throw new Exception("Player turn could not be rotated to the next player.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the active Player whose turn it currently is.
+        /// </summary>
+        /// <returns>The active Player</returns>
+        protected internal Player GetActivePlayer()
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty)
+                {
+                    if (this.seats[i].Player.Turn)
+                    {
+                        return this.seats[i].Player;
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -455,7 +552,7 @@ namespace CardGame
                     Player p = this.seats[i].Player;
                     for (int j = 0; j < this.actions.Count; j++)
                     {
-                        if (this.actions[i].IsExecutableByPlayer(this, p))
+                        if (this.actions[j].IsExecutableByPlayer(this, p))
                         {
                             p.AddAction(this.actions[j].Name);
                         }

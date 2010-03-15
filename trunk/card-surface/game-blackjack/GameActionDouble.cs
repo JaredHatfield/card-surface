@@ -52,7 +52,7 @@ namespace GameBlackjack
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
             // TODO: GameActionDouble - is executable
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

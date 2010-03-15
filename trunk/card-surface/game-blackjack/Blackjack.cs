@@ -77,6 +77,22 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Resets the player turn so that it is currently the first playesr turn.
+        /// </summary>
+        protected internal new void ResetPlayerTurn()
+        {
+            base.ResetPlayerTurn();
+        }
+
+        /// <summary>
+        /// Moves the pointer that determines whoes turn it is to next player.
+        /// </summary>
+        protected internal new void MoveToNextPlayersTurn()
+        {
+            base.MoveToNextPlayersTurn();
+        }
+
+        /// <summary>
         /// Tests if a move of a PhysicalObject to a specified Pile is valid for the specific game.
         /// </summary>
         /// <param name="physicalObject">The physical object.</param>
