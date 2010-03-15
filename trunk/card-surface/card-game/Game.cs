@@ -407,7 +407,7 @@ namespace CardGame
         protected internal void AddChipPileToUser(string username)
         {
             Player p = this.GetPlayer(username);
-            p.PlayerArea.AddCardPile(new ChipPile());
+            p.PlayerArea.AddChipPile(new ChipPile());
         }
 
         /// <summary>
