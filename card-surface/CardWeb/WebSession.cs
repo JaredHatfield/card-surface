@@ -40,6 +40,17 @@ namespace CardWeb
         private DateTime expires;
 
         /// <summary>
+        /// The Game Guid that a user joined with the seat code
+        /// </summary>
+        private Guid gameId;
+
+        /// <summary>
+        /// The seat code a user used to join a game.  Used for historical information.
+        /// The Game generates a new seat code for that seat once a valid one has been used to join the game.
+        /// </summary>
+        private string seatCode;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebSession"/> class.
         /// </summary>
         /// <param name="username">The username.</param>
@@ -97,5 +108,34 @@ namespace CardWeb
         {
             get { return this.expires.ToUniversalTime().ToString(WebUtilities.DateTimeCookieFormat) + " GMT"; }
         }
+
+        /// <summary>
+        /// Gets the game id.
+        /// </summary>
+        /// <value>The game id.</value>
+        public Guid GameId
+        {
+            get { return this.gameId; }
+        }
+
+        /// <summary>
+        /// Gets the historical seat code.
+        /// </summary>
+        /// <value>The seat code.</value>
+        public string SeatCode
+        {
+            get { return this.seatCode; }
+        }
+
+        /// <summary>
+        /// Joins the game.
+        /// </summary>
+        /// <param name="seatCode">The seat code.</param>
+        /// <param name="gameId">The game id.</param>
+        public void JoinGame(string seatCode, Guid gameId)
+        {
+            this.seatCode = seatCode;
+            this.gameId = gameId;
+        } /* JoinGame() */
     }
 }

@@ -7,9 +7,13 @@ namespace CardWeb.WebComponents
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
+    using CardGame;
+    using WebActions;
+    using WebViews;
 
     /// <summary>
     /// Component for handling JoinTable requests.
@@ -37,12 +41,19 @@ namespace CardWeb.WebComponents
         private string componentPrefix = "jointable";
 
         /// <summary>
+        /// References the server's GameController
+        /// </summary>
+        private IGameController gameController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebComponentJoinTable"/> class.
         /// </summary>
-        public WebComponentJoinTable()
+        /// <param name="gameController">The game controller.</param>
+        public WebComponentJoinTable(IGameController gameController)
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
+            this.gameController = gameController;
 
             this.webComponentJoinTableThread = new Thread(new ThreadStart(this.Run));
             this.webComponentJoinTableThread.Name = "WebComponentJoinTableThread";
@@ -93,22 +104,29 @@ namespace CardWeb.WebComponents
                     request = this.mailboxQueue.Dequeue();
                 }
 
-                string responseBuffer = String.Empty;
-                int numBytesSent = 0;
-
-                responseBuffer = request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: Automatically determine Refresh URL */
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-
-                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-                numBytesSent = request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
-                Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("WebComponentJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
-                Console.WriteLine(responseBuffer);
-
-                request.Connection.Shutdown(SocketShutdown.Both);
-                request.Connection.Close();             
+                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
+                {
+                    WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController);
+                    webViewJoinTable.SendResponse();
+                }
+                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
+                {
+                    try
+                    {
+                        WebActionJoinTable webActionJoinTable = new WebActionJoinTable(request, this.gameController);
+                        webActionJoinTable.Execute();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                        WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);
+                        webViewJoinTable.SendResponse();
+                    }
+                }
+                else
+                {
+                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
+                }          
             } /* while(true) */
         } /* Run() */
     }

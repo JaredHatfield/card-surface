@@ -6,26 +6,60 @@ namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Net.Sockets;
     using System.Text;
+    using CardGame;
 
     /// <summary>
     /// View for displaying the for joining a table.
     /// </summary>
-    public class WebViewJoinTable : WebView
+    public sealed class WebViewJoinTable : WebView
     {
+        /// <summary>
+        /// Name of HTML form field associated with the seat code needed for joining a game.
+        /// </summary>
+        public const string FormFieldNameSeatCode = "seatCode";
+
         /// <summary>
         /// HTTP Request that caused creation of this WebView
         /// </summary>
         private CardWeb.WebRequest request;
 
         /// <summary>
+        /// The server's IGameController
+        /// </summary>
+        private IGameController gameController;
+
+        /// <summary>
+        /// Error message to display
+        /// </summary>
+        private string errorMessage;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebViewJoinTable"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
-        public WebViewJoinTable(CardWeb.WebRequest request)
+        /// <param name="gameController">The game controller.</param>
+        public WebViewJoinTable(CardWeb.WebRequest request, IGameController gameController)
         {
             this.request = request;
+            this.gameController = gameController;
+            this.errorMessage = String.Empty;
+        } /* WebViewJoinTable() */
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewJoinTable"/> class.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="gameController">The game controller.</param>
+        /// <param name="errorMessage">The error message.</param>
+        public WebViewJoinTable(CardWeb.WebRequest request, IGameController gameController, string errorMessage)
+        {
+            this.request = request;
+            this.gameController = gameController;
+            this.errorMessage = errorMessage;
         } /* WebViewJoinTable() */
 
         /// <summary>
@@ -54,7 +88,8 @@ namespace CardWeb.WebComponents.WebViews
         /// </returns>
         public override int GetContentLength()
         {
-            throw new NotImplementedException();
+            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
+            return responseContentBytes.Length;
         } /* GetContentLength() */
 
         /// <summary>
@@ -62,7 +97,33 @@ namespace CardWeb.WebComponents.WebViews
         /// </summary>
         public override void SendResponse()
         {
-            throw new NotImplementedException();
+            string responseBuffer = String.Empty;
+            int numBytesSent = 0;
+
+            if (this.request.IsAuthenticated())
+            {
+                /* If the request has not been authenticated, provide them with a list of available games. */
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += this.GetContent();
+            }
+            else
+            {
+                responseBuffer = this.request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                /* TODO: Automatically determine Refresh URL */
+                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            }
+
+            byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("WebComponentJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
+            Console.WriteLine(responseBuffer);
+
+            this.request.Connection.Shutdown(SocketShutdown.Both);
+            this.request.Connection.Close();   
         } /* SendResponse() */
 
         /// <summary>
@@ -71,7 +132,26 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         protected override string GetContent()
         {
-            throw new NotImplementedException();
+            string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>Seat Code : CardSurface</title>\n";
+            content += "</head>\n";
+            content += "<body>\n";
+
+            if (!this.errorMessage.Equals(String.Empty))
+            {
+                content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
+            }
+
+            content += "Enter Seat Code:<br/>\n";
+            content += "<form name=\"frmSeatCode\" method=\"POST\">\n";
+            content += "<input type=\"text\" name=\"" + FormFieldNameSeatCode + "\"/><br/>\n";
+            content += "<input type=\"submit\" value=\"Join Game\"/>\n";
+            content += "</form>\n";
+            content += "</body>\n";
+            content += "</html>\n";
+
+            return content;
         } /* GetContent() */
     }
 }
