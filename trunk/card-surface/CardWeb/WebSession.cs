@@ -128,7 +128,7 @@ namespace CardWeb
         }
 
         /// <summary>
-        /// Joins the game.
+        /// Joins this WebSession to a game.
         /// </summary>
         /// <param name="seatCode">The seat code.</param>
         /// <param name="gameId">The game id.</param>

@@ -76,6 +76,7 @@ namespace CardWeb
             this.RegisterWebComponent(new WebComponentLogin());
             this.RegisterWebComponent(new WebComponentCreateAccount());
             this.RegisterWebComponent(new WebComponentJoinTable(gameController));
+            this.RegisterWebComponent(new WebComponentHand(gameController));
 
             try
             {

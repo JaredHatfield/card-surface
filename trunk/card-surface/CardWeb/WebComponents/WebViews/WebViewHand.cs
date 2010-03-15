@@ -7,7 +7,10 @@ namespace CardWeb.WebComponents.WebViews
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Sockets;
     using System.Text;
+    using CardAccount;
+    using CardGame;
 
     /// <summary>
     /// View for displaying the users hand.
@@ -15,12 +18,33 @@ namespace CardWeb.WebComponents.WebViews
     public class WebViewHand : WebView
     {
         /// <summary>
+        /// HTTP Request that caused creation of this WebView
+        /// </summary>
+        private CardWeb.WebRequest request;
+
+        /// <summary>
+        /// The server's IGameController
+        /// </summary>
+        private IGameController gameController;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewHand"/> class.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="gameController">The game controller.</param>
+        public WebViewHand(CardWeb.WebRequest request, IGameController gameController)
+        {
+            this.request = request;
+            this.gameController = gameController;
+        } /* WebViewHand() */
+
+        /// <summary>
         /// Gets the type of the content.
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>
         public override string GetContentType()
         {
-            throw new NotImplementedException();
+            return "text/html";
         } /* GetContentType() */
 
         /// <summary>
@@ -29,7 +53,7 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's header.</returns>
         public override string GetHeader()
         {
-            throw new NotImplementedException();
+            return this.request.RequestVersion + " 200 OK";
         } /* GetHeader() */
 
         /// <summary>
@@ -40,7 +64,8 @@ namespace CardWeb.WebComponents.WebViews
         /// </returns>
         public override int GetContentLength()
         {
-            throw new NotImplementedException();
+            byte[] responseContentBytes = Encoding.ASCII.GetBytes(this.GetContent());
+            return responseContentBytes.Length;
         } /* GetContentLength() */
 
         /// <summary>
@@ -48,7 +73,33 @@ namespace CardWeb.WebComponents.WebViews
         /// </summary>
         public override void SendResponse()
         {
-            throw new NotImplementedException();
+            string responseBuffer = String.Empty;
+            int numBytesSent = 0;
+
+            if (this.request.IsAuthenticated())
+            {
+                /* If the request has not been authenticated, provide them with a list of available games. */
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += this.GetContent();
+            }
+            else
+            {
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                /* TODO: Automatically determine Refresh URL */
+                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+            }
+
+            byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("WebViewHand: Sending HTTP response. (" + numBytesSent + " bytes)");
+            Console.WriteLine(responseBuffer);
+
+            this.request.Connection.Shutdown(SocketShutdown.Both);
+            this.request.Connection.Close();  
         } /* SendResponse() */
 
         /// <summary>
@@ -57,7 +108,26 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         protected override string GetContent()
         {
-            throw new NotImplementedException();
+            Game currentGame = this.gameController.GetGame(WebSessionController.Instance.GetSession(this.request.GetSessionId()).GameId);
+            Player currentPlayer = currentGame.GetPlayer(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username);
+
+            string content = "<html>\n";
+            content += "<head>\n";
+            content += "<title>CardSurface</title>\n";
+            content += "</head>\n";
+            content += "<body>\n";
+            content += "<table border=\"0\">\n";
+            content += "<tr><td>Game Balance:</td><td>" + currentPlayer.Balance + "</td></tr>\n";
+            content += "<tr><td>Account Balance:</td><td>" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + "</td></tr>\n";
+            content += "</table><br/>\n";
+            foreach (Card card in currentPlayer.Hand.Cards)
+            {
+                content += card.ToString() + "<br/>\n";
+            }
+            content += "</body>\n";
+            content += "</html>\n";
+
+            return content;
         } /* GetContent() */
     }
 }
