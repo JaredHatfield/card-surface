@@ -17,7 +17,7 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="ChipPile"/> class.
         /// </summary>
-        public ChipPile()
+        protected internal ChipPile()
             : base()
         {
         }

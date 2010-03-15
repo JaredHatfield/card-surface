@@ -32,7 +32,7 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="CardPile"/> class.
         /// </summary>
-        internal CardPile()
+        protected internal CardPile()
             : base()
         {
             this.expandable = false;
@@ -44,7 +44,7 @@ namespace CardGame
         /// </summary>
         /// <param name="expandable">if set to <c>true</c> [expandable].</param>
         /// <param name="persistent">if set to <c>true</c> [persistent].</param>
-        internal CardPile(bool expandable, bool persistent)
+        protected internal CardPile(bool expandable, bool persistent)
             : base()
         {
             this.expandable = expandable;
