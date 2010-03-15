@@ -47,5 +47,14 @@ namespace CardServer
             this.serverCommunicationController = new ServerCommunicationController(this.gameController);
             this.accountController = AccountController.Instance;
         }
+
+        /// <summary>
+        /// Gets the game controller.
+        /// </summary>
+        /// <value>The game controller.</value>
+        public GameController GameController
+        {
+            get { return this.gameController; }
+        }
     }
 }

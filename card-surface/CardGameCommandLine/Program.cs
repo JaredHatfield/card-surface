@@ -29,6 +29,9 @@ namespace CardGameCommandLine
         /// <param name="args">The args for the application.</param>
         public static void Main(string[] args)
         {
+            /* By creating a ServerController, CardGameCommandLine can be set as the StartUp project to enable a Game to interact with CardWeb. */
+            ServerController serverController = new ServerController();
+
             // Add some dummy players to the game
             Program.PlayerJoinGame("player1");
             Program.PlayerJoinGame("player2");
@@ -36,6 +39,11 @@ namespace CardGameCommandLine
             Program.DisplayPlayers();
             Program.game.ExecuteAction("Hit", "player1");
             Program.DisplayPlayers();
+
+            Program.DisplaySeats();
+
+            /* Add a reference to this game to the server's GameController. */
+            serverController.GameController.AddGame(Program.game);
 
             Console.ReadLine();
         }
@@ -123,6 +131,21 @@ namespace CardGameCommandLine
                 if (!Program.game.Seats[i].IsEmpty)
                 {
                     Console.WriteLine(Program.game.Seats[i].Location + " - " + Program.game.Seats[i].Username);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Displays the empty seats and their seat codes.
+        /// </summary>
+        private static void DisplaySeats()
+        {
+            Console.WriteLine("Available Seats:\n");
+            for (int i = 0; i < Program.game.Seats.Count; i++)
+            {
+                if (Program.game.Seats[i].IsEmpty)
+                {
+                    Console.WriteLine(Program.game.Seats[i].Location + " - " + Program.game.Seats[i].Password);
                 }
             }
         }

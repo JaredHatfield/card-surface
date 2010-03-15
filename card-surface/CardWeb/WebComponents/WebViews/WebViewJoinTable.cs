@@ -110,7 +110,7 @@ namespace CardWeb.WebComponents.WebViews
             }
             else
             {
-                responseBuffer = this.request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 /* TODO: Automatically determine Refresh URL */
                 responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
@@ -119,7 +119,7 @@ namespace CardWeb.WebComponents.WebViews
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
             Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebComponentJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
+            Console.WriteLine("WebViewJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
             Console.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
