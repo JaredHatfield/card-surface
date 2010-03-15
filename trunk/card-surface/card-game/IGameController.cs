@@ -46,6 +46,13 @@ namespace CardGame
         Game GetGame(Guid id);
 
         /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <param name="seatPassword">The seat password.</param>
+        /// <returns>The instance of the game containing the specified seat password.</returns>
+        Game GetGame(string seatPassword);
+
+        /// <summary>
         /// Tests to see if the password is valid for any open seat in any game.
         /// </summary>
         /// <param name="password">The password.</param>

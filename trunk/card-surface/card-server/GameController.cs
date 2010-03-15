@@ -77,7 +77,27 @@ namespace CardServer
                 }
             }
 
-            return null;
+            throw new Exception("Game with specified Guid " + id.ToString() + " could not be found.");
+        }
+
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <param name="seatPassword">The seat password.</param>
+        /// <returns>
+        /// The instance of the game containing the specified seat password.
+        /// </returns>
+        public Game GetGame(string seatPassword)
+        {
+            for (int i = 0; i < this.games.Count; i++)
+            {
+                if (this.games[i].PasswordPeek(seatPassword))
+                {
+                    return this.games[i];
+                }
+            }
+
+            throw new Exception("Game with specified seat password " + seatPassword + " could not be found.");
         }
 
         /// <summary>
