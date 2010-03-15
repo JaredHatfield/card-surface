@@ -82,7 +82,7 @@ namespace CardGame
         /// <summary>
         /// Gets the actions this player can perform.
         /// </summary>
-        /// <value>The actions thi player can perform.</value>
+        /// <value>The actions this player can perform.</value>
         public ReadOnlyObservableCollection<string> Actions
         {
             get { return new ReadOnlyObservableCollection<string>(this.actions); }
