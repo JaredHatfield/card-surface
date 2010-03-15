@@ -106,7 +106,7 @@ namespace CardWeb.WebComponents.WebViews
             {
                 /* If the user has already logged in, forward the user to the default view. */
                 /* TODO: Automatically determine Refresh URL */
-                responseBuffer = this.request.RequestVersion + " 200 OK" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Refresh: 0; url=http://localhost/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
@@ -138,14 +138,15 @@ namespace CardWeb.WebComponents.WebViews
             content += "input { font:Verdana; font-size:14; }\n";
             content += "</style>\n";
             content += "</head>\n";
-            content += "<body>\n";
+            content += "<body onLoad=\"document.login." + FormFieldNameUsername + ".focus();\">\n";
 
             if (!this.errorMessage.Equals(String.Empty))
             {
                 content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
             }
 
-            content += "<form method=\"post\">\n";
+            /* TODO: Abstract form name property to update body onLoad. */
+            content += "<form name=\"login\" method=\"post\">\n";
             content += "<table>\n";
             content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
             content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";

@@ -62,15 +62,23 @@ namespace CardWeb
         private string requestContent;
 
         /// <summary>
+        /// Dictionary that contains key\value pairs for HTTP GET and POST request data.
+        /// </summary>
+        private Dictionary<string, string> urlParameters;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebRequest"/> class.
         /// </summary>
         /// <param name="requestData">The request data.</param>
         /// <param name="connection">The connection.</param>
         public WebRequest(byte[] requestData, Socket connection)
         {
+            this.urlParameters = new Dictionary<string, string>();
+
             this.request = requestData;
             this.socket = connection;
 
+            /* Retrieve requestMethod before any other properties. */
             this.requestMethod = this.GetHttpRequestMethod(this.request);
             this.requestVersion = this.GetHttpRequestVersion(this.request);
             this.requestResource = this.GetHttpRequestResource(this.request);
@@ -173,6 +181,27 @@ namespace CardWeb
         } /* GetSessionId() */
 
         /// <summary>
+        /// Gets the URL parameter.
+        /// </summary>
+        /// <param name="key">The search key.</param>
+        /// <returns>
+        /// A string value that matches the key entry.
+        /// </returns>
+        public string GetUrlParameter(string key)
+        {
+            string value;
+
+            if (this.urlParameters.TryGetValue(key, out value))
+            {
+                return value;
+            }
+            else
+            {
+                throw new Exception("Request for value of \"" + key + "\" not found");
+            }
+        } /* GetUrlParameter() */
+
+        /// <summary>
         /// Determines whether this instance contains a cookie.
         /// </summary>
         /// <returns>
@@ -225,7 +254,7 @@ namespace CardWeb
 
                 /* Start extracting the cookie data after the HTTP cookie header */
                 int cookieLinePosition = Encoding.ASCII.GetString(this.request).IndexOf(WebCookie.HttpCookieHeader) + WebCookie.HttpCookieHeader.Length;
-                int cookieEndOfLinePosition = Encoding.ASCII.GetString(this.request).IndexOf('\0', cookieLinePosition);
+                int cookieEndOfLinePosition = Encoding.ASCII.GetString(this.request).IndexOf(new string(new char[] { WebUtilities.CarriageReturn, WebUtilities.LineFeed }), cookieLinePosition);
 
                 for (int i = cookieLinePosition; i < cookieEndOfLinePosition; i++)
                 {
@@ -309,6 +338,11 @@ namespace CardWeb
             /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
             Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
 
+            if (this.requestMethod == WebRequestMethods.Http.Post)
+            {
+                this.ParseUrlParameters(content);
+            }
+
             return content;
         } /* GetHttpRequestContent() */
 
@@ -319,6 +353,7 @@ namespace CardWeb
         /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
         private int GetHttpRequestContentLength(byte[] request)
         {
+            /* TODO: Implement GetHttpRequestContentLength? */
             throw new NotImplementedException();
         } /* GetHttpRequestContentLength() */
 
@@ -399,8 +434,30 @@ namespace CardWeb
             string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
             string[] resourceTokens = firstLineTokens[HttpRequestResourceIndex].Split(new char[] { '/' });
 
-            /* Trim off leading '/' part of URI prefix */
-            return resourceTokens[1];
+            if (this.requestMethod == WebRequestMethods.Http.Get)
+            {
+                /* Trim off leading '/' part of URI prefix and any trailing ?key=value&key=value... pairs */
+                /* TODO: What if the request terminator equals 0?  We shouldn't do the same thing.  Ex: http://localhost/?gid=aekjaka Do we still need to parse? */
+                int resourceTerminator = resourceTokens[HttpRequestResourceIndex].IndexOf('?');
+                if (resourceTerminator >= 0)
+                {
+                    /* Parse the URL for its key\value pairs.  Remove the actual resource name and the ? separator. */
+                    this.ParseUrlParameters(resourceTokens[HttpRequestResourceIndex].Remove(0, resourceTerminator + 1));
+
+                    /* If the resource name contained trailing URL parameters, remove them. */
+                    return resourceTokens[HttpRequestResourceIndex].Remove(resourceTerminator);
+                }
+                else
+                {
+                    return resourceTokens[HttpRequestResourceIndex];
+                }
+            }
+            else
+            {
+                /* If the request was an HTTP POST, there should be no URL parameters in the resource.  
+                 * Those should be found in the content. See GetHttpRequestContent() for ParseUrlParameters() call. */
+                return resourceTokens[HttpRequestResourceIndex];
+            }
         } /* GetHttpRequestResource() */
 
         /// <summary>
@@ -436,5 +493,20 @@ namespace CardWeb
 
             return firstLineTokens[HttpRequestVersionIndex];
         } /* GetHttpRequestVersion() */
+
+        /// <summary>
+        /// Parses the URL parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        private void ParseUrlParameters(string parameters)
+        {
+            /* TODO: What if a parameter is entered twice?  How should that be handled? */
+            string[] tokens = parameters.Split(new char[] { '&', '=' });
+
+            for (int i = 0; i < tokens.Length; i += 2)
+            {
+                this.urlParameters.Add(tokens[i], tokens[i + 1]);
+            }
+        } /* ParseUrlParameters() */
     }
 }
