@@ -17,7 +17,7 @@ namespace CardGame
         /// <summary>
         /// The length of the seat passwords that are used to join a table.
         /// </summary>
-        private const int PasswordLength = 10;
+        private const int PasswordLength = 4;
 
         /// <summary>
         /// The list of all of the passwords, used to prevent duplicate passwords from being generated.

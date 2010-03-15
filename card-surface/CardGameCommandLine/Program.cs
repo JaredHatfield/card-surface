@@ -46,6 +46,7 @@ namespace CardGameCommandLine
             serverController.GameController.AddGame(Program.game);
 
             Console.ReadLine();
+            Environment.Exit(0);
         }
 
         /// <summary>
@@ -59,6 +60,18 @@ namespace CardGameCommandLine
                 {
                     Player p = Program.game.Seats[i].Player;
                     Console.WriteLine(Program.game.Seats[i].Username);
+                    Console.Write("Actions: ");
+                    for (int j = 0; j < p.Actions.Count; j++)
+                    {
+                        Console.Write(p.Actions[j]);
+                        if (j + 1 < p.Actions.Count)
+                        {
+                            Console.Write(", ");
+                        }
+                    }
+
+                    Console.WriteLine();
+
                     Console.WriteLine("Hand: " + BlackjackRules.GetPileVale(p.Hand));
                     if (p.Hand.Cards.Count > 0)
                     {

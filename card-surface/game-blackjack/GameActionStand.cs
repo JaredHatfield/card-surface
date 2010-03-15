@@ -51,8 +51,14 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            // TODO: GameActionStand - is executable
-            throw new NotImplementedException();
+            if (player.IsTurn)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

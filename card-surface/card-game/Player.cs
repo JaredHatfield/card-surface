@@ -89,6 +89,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a value indicating whether this it is this players turn.
+        /// </summary>
+        /// <value><c>true</c> if it is this players turn; otherwise, <c>false</c>.</value>
+        public bool IsTurn
+        {
+            get { return this.turn; }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether it is this players turn.
         /// </summary>
         /// <value><c>true</c> if it is this players turn; otherwise, <c>false</c>.</value>

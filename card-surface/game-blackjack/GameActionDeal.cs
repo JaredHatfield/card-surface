@@ -58,6 +58,9 @@ namespace GameBlackjack
                 }
             }
 
+            // Reset the turn pointer
+            blackjack.ResetPlayerTurn();
+
             // TODO: Deal the cards to the house
             return true;
         }
@@ -73,7 +76,7 @@ namespace GameBlackjack
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
             // TODO: GameActionDeal - is executable
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
