@@ -32,7 +32,7 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="Pile"/> class.
         /// </summary>
-        internal Pile()
+        protected internal Pile()
         {
             this.pileItems = new ObservableCollection<IPhysicalObject>();
             this.open = false;

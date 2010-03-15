@@ -401,6 +401,26 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Adds a ChipPile to a user.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        protected internal void AddChipPileToUser(string username)
+        {
+            Player p = this.GetPlayer(username);
+            p.PlayerArea.AddCardPile(new ChipPile());
+        }
+
+        /// <summary>
+        /// Adds a CardPile to a user.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        protected internal void AddCardPileToUser(string username)
+        {
+            Player p = this.GetPlayer(username);
+            p.PlayerArea.AddCardPile(new CardPile());
+        }
+
+        /// <summary>
         /// Clears the game board.
         /// </summary>
         protected internal void ClearGameBoard()

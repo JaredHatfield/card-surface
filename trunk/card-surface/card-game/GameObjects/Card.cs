@@ -38,7 +38,8 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
-        internal Card()
+        protected internal Card()
+            : base()
         {
             this.suit = CardSuit.Spades;
             this.face = CardFace.Ace;
@@ -52,7 +53,8 @@ namespace CardGame
         /// <param name="suit">The card's suit.</param>
         /// <param name="face">The card's face.</param>
         /// <param name="status">The card's status.</param>
-        internal Card(CardSuit suit, CardFace face, CardStatus status)
+        protected internal Card(CardSuit suit, CardFace face, CardStatus status)
+            : base()
         {
             this.suit = suit;
             this.face = face;
@@ -67,7 +69,8 @@ namespace CardGame
         /// <param name="face">The card's face.</param>
         /// <param name="status">The card's status.</param>
         /// <param name="image">The card's image.</param>
-        internal Card(CardSuit suit, CardFace face, CardStatus status, Bitmap image)
+        protected internal Card(CardSuit suit, CardFace face, CardStatus status, Bitmap image)
+            : base()
         {
             this.suit = suit;
             this.face = face;

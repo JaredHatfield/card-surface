@@ -28,7 +28,8 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="Chip"/> class.
         /// </summary>
-        internal Chip()
+        protected internal Chip()
+            : base()
         {
             this.amount = 10;
             this.chipColor = Color.Blue;
@@ -39,7 +40,8 @@ namespace CardGame
         /// </summary>
         /// <param name="amount">The chip's amount.</param>
         /// <param name="chipColor">The color of the chip.</param>
-        internal Chip(int amount, Color chipColor)
+        protected internal Chip(int amount, Color chipColor)
+            : base()
         {
             this.amount = amount;
             this.chipColor = chipColor;

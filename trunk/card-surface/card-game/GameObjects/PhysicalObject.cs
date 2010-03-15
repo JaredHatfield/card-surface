@@ -27,7 +27,7 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="PhysicalObject"/> class.
         /// </summary>
-        internal PhysicalObject()
+        protected internal PhysicalObject()
         {
             this.moveable = false;
             this.id = Guid.NewGuid();
@@ -38,7 +38,7 @@ namespace CardGame
         /// </summary>
         /// <param name="moveable">if set to <c>true</c> [moveable].</param>
         /// <param name="id">The unique id.</param>
-        internal PhysicalObject(bool moveable, Guid id)
+        protected internal PhysicalObject(bool moveable, Guid id)
         {
             this.moveable = moveable;
             this.id = id;
