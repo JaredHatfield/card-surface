@@ -45,6 +45,11 @@ namespace CardWeb
         private Guid gameId;
 
         /// <summary>
+        /// Indicates whether or not this session has joined a game
+        /// </summary>
+        private bool isPlayingGame;
+
+        /// <summary>
         /// The seat code a user used to join a game.  Used for historical information.
         /// The Game generates a new seat code for that seat once a valid one has been used to join the game.
         /// </summary>
@@ -128,6 +133,17 @@ namespace CardWeb
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance is playing game.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is playing a game; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsPlayingGame
+        {
+            get { return this.isPlayingGame; }
+        }
+
+        /// <summary>
         /// Joins this WebSession to a game.
         /// </summary>
         /// <param name="seatCode">The seat code.</param>
@@ -136,6 +152,16 @@ namespace CardWeb
         {
             this.seatCode = seatCode;
             this.gameId = gameId;
+            this.isPlayingGame = true;
         } /* JoinGame() */
+
+        /// <summary>
+        /// Leaves the game the session is currently joined to.
+        /// </summary>
+        public void LeaveGame()
+        {
+            this.isPlayingGame = false;
+            this.gameId = Guid.Empty;
+        } /* LeaveGame() */
     }
 }
