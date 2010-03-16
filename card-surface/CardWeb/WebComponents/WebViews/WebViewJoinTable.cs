@@ -136,7 +136,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<head>\n";
             content += "<title>Seat Code : CardSurface</title>\n";
             content += "</head>\n";
-            content += "<body>\n";
+            content += "<body onLoad=\"document.frmSeatCode." + FormFieldNameSeatCode + ".focus();\">\n";
 
             if (!this.errorMessage.Equals(String.Empty))
             {
