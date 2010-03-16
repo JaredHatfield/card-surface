@@ -153,6 +153,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";
+            content += "<a href=\"http://localhost/createaccount\">Create Account</a>\n";
             content += "</body>\n";
             content += "</html>";
 
