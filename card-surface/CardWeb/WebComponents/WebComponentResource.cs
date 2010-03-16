@@ -1,4 +1,4 @@
-﻿// <copyright file="WebViewHand.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebComponentResource.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
 // <summary>Handles HTTP requests for system resources.</summary>

@@ -148,7 +148,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "}\n";
             content += "</script>\n";
             content += "</head>\n";
-            content += "<body>\n";
+            content += "<body onLoad=\"document." + FormName + "." + FormFieldNameUsername + ".focus();\">\n";
 
             if (!this.errorMessage.Equals(String.Empty))
             {
@@ -163,6 +163,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Create Account\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";
+            content += "<a href=\"http://localhost/\">Home</a>\n";
             content += "</body>\n";
             content += "</html>";
 
