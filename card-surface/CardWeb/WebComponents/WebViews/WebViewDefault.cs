@@ -112,7 +112,16 @@ namespace CardWeb.WebComponents.WebViews
             {
                 content += "Welcome, " + WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username + "!<br/>\n";
                 content += "<br/>\n";
-                content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+
+                if (WebSessionController.Instance.GetSession(this.request.GetSessionId()).IsPlayingGame)
+                {
+                    content += "<a href=\"http://localhost/Hand/\">View Game</a><br/>\n";
+                }
+                else
+                {
+                    content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+                }
+
                 content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
                 content += "Logout</a><br/>";
             }

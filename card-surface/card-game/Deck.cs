@@ -309,7 +309,7 @@ namespace CardGame
                         case Card.CardFace.Jack:
                             return CardGame.Properties.Resources.JackDiamonds;
                         case Card.CardFace.Ten:
-                            return CardGame.Properties.Resources.TwoDiamonds;
+                            return CardGame.Properties.Resources.TenDiamonds;
                         case Card.CardFace.Nine:
                             return CardGame.Properties.Resources.NineDiamonds;
                         case Card.CardFace.Eight:

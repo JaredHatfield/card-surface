@@ -117,15 +117,18 @@ namespace CardWeb.WebComponents.WebViews
             content += "</head>\n";
             content += "<body>\n";
             content += "<table border=\"0\">\n";
-            content += "<tr><td>Game Balance:</td><td>" + currentPlayer.Balance + "</td></tr>\n";
-            content += "<tr><td>Account Balance:</td><td>" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + "</td></tr>\n";
+            content += "<tr><td>Game Balance:</td><td>$" + currentPlayer.Balance + "</td></tr>\n";
+            content += "<tr><td>Account Balance:</td><td>$" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + "</td></tr>\n";
             content += "</table><br/>\n";
 
             foreach (Card card in currentPlayer.Hand.Cards)
             {
-                content += "<img src=\"http://localhost/resource?resid=" + card.Face.ToString() + card.Suit.ToString() + "\"/><br/>\n";
+                content += "<img src=\"http://localhost/resource?resid=" + card.Face.ToString() + card.Suit.ToString() + "\"/>&nbsp;\n";
             }
 
+            content += "<br/><br/>\n";
+            content += "Leave Game<br/>\n";
+            content += "<a href=\"http://localhost/\">Home</a>\n";
             content += "</body>\n";
             content += "</html>\n";
 

@@ -77,29 +77,28 @@ namespace CardWeb.WebComponents.WebViews
         /// </summary>
         public override void SendResponse()
         {
+            byte[] responseBufferBytes;
             string responseBuffer = String.Empty;
             int numBytesSent = 0;
 
             if (this.request.IsAuthenticated())
             {
-                /*MemoryStream ms = new MemoryStream();
-                Card.ToBitmap((this.request.GetUrlParameter("resid") + ".bmp")).Save(ms, ImageFormat.Jpeg);
+                MemoryStream ms = new MemoryStream();
+                Deck.CardImage(this.request.GetUrlParameter("resid")).Save(ms, ImageFormat.Jpeg);
 
                 byte[] resourceBytes = ms.GetBuffer();
-                ms.Close();*/
+                ms.Close();
 
                 /* If the request has not been authenticated, provide them with a list of available games. */
-                /*responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Content-Length: " + resourceBytes.Length + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                 byte[] responseBufferBytesTemp = Encoding.ASCII.GetBytes(responseBuffer);
-                //resourceBytes.CopyTo(responseBufferBytes, responseBufferBytes.Length + 1);
 
-                byte[] responseBufferBytes = new byte[responseBufferBytesTemp.Length + resourceBytes.Length];
+                responseBufferBytes = new byte[responseBufferBytesTemp.Length + resourceBytes.Length];
                 responseBufferBytesTemp.CopyTo(responseBufferBytes, 0);
                 resourceBytes.CopyTo(responseBufferBytes, responseBufferBytesTemp.Length);
-                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);*/
             }
             else
             {
@@ -107,9 +106,10 @@ namespace CardWeb.WebComponents.WebViews
                 /* TODO: Automatically determine Refresh URL */
                 responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
-                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+                responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             }
+
+            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
             Console.WriteLine("---------------------------------------------------------------------");
             Console.WriteLine("WebViewResource: Sending HTTP response. (" + numBytesSent + " bytes)");
