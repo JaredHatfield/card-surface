@@ -1,38 +1,41 @@
-﻿// <copyright file="WebViewHand.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebViewResource.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>View for displaying the users hand.</summary>
+// <summary>Responds to HTTP requests for system resources.</summary>
 namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
     using System.Linq;
     using System.Net.Sockets;
     using System.Text;
-    using CardAccount;
+    using System.Web;
     using CardGame;
-
+    
     /// <summary>
-    /// View for displaying the users hand.
+    /// Responds to HTTP requests for system resources.
     /// </summary>
-    public class WebViewHand : WebView
+    public class WebViewResource : WebView
     {
         /// <summary>
         /// HTTP Request that caused creation of this WebView
         /// </summary>
         private CardWeb.WebRequest request;
-
+        
         /// <summary>
         /// The server's IGameController
         /// </summary>
         private IGameController gameController;
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebViewHand"/> class.
+        /// Initializes a new instance of the <see cref="WebViewResource"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="gameController">The game controller.</param>
-        public WebViewHand(CardWeb.WebRequest request, IGameController gameController)
+        public WebViewResource(CardWeb.WebRequest request, IGameController gameController)
         {
             this.request = request;
             this.gameController = gameController;
@@ -44,7 +47,8 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content type.</returns>
         public override string GetContentType()
         {
-            return "text/html";
+            /* TODO: How to generalize this content type? */
+            return "image/jpg";
         } /* GetContentType() */
 
         /// <summary>
@@ -78,24 +82,37 @@ namespace CardWeb.WebComponents.WebViews
 
             if (this.request.IsAuthenticated())
             {
+                /*MemoryStream ms = new MemoryStream();
+                Card.ToBitmap((this.request.GetUrlParameter("resid") + ".bmp")).Save(ms, ImageFormat.Jpeg);
+
+                byte[] resourceBytes = ms.GetBuffer();
+                ms.Close();*/
+
                 /* If the request has not been authenticated, provide them with a list of available games. */
-                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                /*responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += this.GetContent();
+                responseBuffer += "Content-Length: " + resourceBytes.Length + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+
+                byte[] responseBufferBytesTemp = Encoding.ASCII.GetBytes(responseBuffer);
+                //resourceBytes.CopyTo(responseBufferBytes, responseBufferBytes.Length + 1);
+
+                byte[] responseBufferBytes = new byte[responseBufferBytesTemp.Length + resourceBytes.Length];
+                responseBufferBytesTemp.CopyTo(responseBufferBytes, 0);
+                resourceBytes.CopyTo(responseBufferBytes, responseBufferBytesTemp.Length);
+                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);*/
             }
             else
             {
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 /* TODO: Automatically determine Refresh URL */
                 responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+
+                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
             }
 
-            byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-            numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
-
             Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebViewHand: Sending HTTP response. (" + numBytesSent + " bytes)");
+            Console.WriteLine("WebViewResource: Sending HTTP response. (" + numBytesSent + " bytes)");
             Console.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
@@ -108,28 +125,7 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         protected override string GetContent()
         {
-            Game currentGame = this.gameController.GetGame(WebSessionController.Instance.GetSession(this.request.GetSessionId()).GameId);
-            Player currentPlayer = currentGame.GetPlayer(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username);
-
-            string content = "<html>\n";
-            content += "<head>\n";
-            content += "<title>CardSurface</title>\n";
-            content += "</head>\n";
-            content += "<body>\n";
-            content += "<table border=\"0\">\n";
-            content += "<tr><td>Game Balance:</td><td>" + currentPlayer.Balance + "</td></tr>\n";
-            content += "<tr><td>Account Balance:</td><td>" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + "</td></tr>\n";
-            content += "</table><br/>\n";
-
-            foreach (Card card in currentPlayer.Hand.Cards)
-            {
-                content += "<img src=\"http://localhost/resource?resid=" + card.Face.ToString() + card.Suit.ToString() + "\"/><br/>\n";
-            }
-
-            content += "</body>\n";
-            content += "</html>\n";
-
-            return content;
+            throw new NotImplementedException();
         } /* GetContent() */
     }
 }

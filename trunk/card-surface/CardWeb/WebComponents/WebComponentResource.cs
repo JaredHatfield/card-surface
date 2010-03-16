@@ -1,7 +1,7 @@
-﻿// <copyright file="WebComponentHand.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebViewHand.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Component for handling game display for web.</summary>
+// <summary>Handles HTTP requests for system resources.</summary>
 namespace CardWeb.WebComponents
 {
     using System;
@@ -14,9 +14,9 @@ namespace CardWeb.WebComponents
     using WebViews;
 
     /// <summary>
-    /// Component for handling game display for web.
+    /// Handles HTTP requests for system resources.
     /// </summary>
-    public class WebComponentHand : WebComponent
+    public class WebComponentResource : WebComponent
     {
         /// <summary>
         /// Semaphore that regulates access to the mailboxQueue
@@ -31,12 +31,12 @@ namespace CardWeb.WebComponents
         /// <summary>
         /// Thread responsible for processing incoming HTTP requests.
         /// </summary>
-        private Thread webComponentHandThread;
+        private Thread webComponentResourceThread;
 
         /// <summary>
         /// Component URL prefix
         /// </summary>
-        private string componentPrefix = "hand";
+        private string componentPrefix = "resource";
 
         /// <summary>
         /// References the server's GameController
@@ -44,19 +44,19 @@ namespace CardWeb.WebComponents
         private IGameController gameController;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebComponentHand"/> class.
+        /// Initializes a new instance of the <see cref="WebComponentResource"/> class.
         /// </summary>
         /// <param name="gameController">The game controller.</param>
-        public WebComponentHand(IGameController gameController)
+        public WebComponentResource(IGameController gameController)
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
             this.gameController = gameController;
 
-            this.webComponentHandThread = new Thread(new ThreadStart(this.Run));
-            this.webComponentHandThread.Name = "WebComponentHandThread";
-            this.webComponentHandThread.Start();
-        } /* WebComponentHand() */
+            this.webComponentResourceThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentResourceThread.Name = "WebComponentResourceThread";
+            this.webComponentResourceThread.Start();
+        } /* WebComponentResource() */
 
         /// <summary>
         /// Gets the component prefix.
@@ -79,7 +79,7 @@ namespace CardWeb.WebComponents
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
 
-            Console.WriteLine("WebComponentHand: Added new HTTP request to WebComponentHand.");
+            Console.WriteLine("WebComponentResource: Added new HTTP request to WebComponentResource.");
         } /* PostRequest() */
 
         /// <summary>
@@ -104,8 +104,8 @@ namespace CardWeb.WebComponents
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
-                    WebViewHand webViewHand = new WebViewHand(request, this.gameController);
-                    webViewHand.SendResponse();
+                    WebViewResource webViewResource = new WebViewResource(request, this.gameController);
+                    webViewResource.SendResponse();
                 }
                 else
                 {

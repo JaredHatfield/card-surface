@@ -35,9 +35,6 @@ namespace CardGameCommandLine
             // Add some dummy players to the game
             Program.PlayerJoinGame("player1");
             Program.PlayerJoinGame("player2");
-            Program.game.ExecuteAction("Deal", string.Empty);
-            Program.DisplayPlayers();
-            Program.game.ExecuteAction("Hit", "player1");
             Program.DisplayPlayers();
 
             Program.DisplaySeats();
@@ -45,7 +42,20 @@ namespace CardGameCommandLine
             /* Add a reference to this game to the server's GameController. */
             serverController.GameController.AddGame(Program.game);
 
-            Console.ReadLine();
+            do
+            {
+                string cmd = Console.ReadLine();
+                if (cmd.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    break;
+                }
+                else
+                {
+                    Program.game.ExecuteAction(cmd, string.Empty);
+                }
+            }
+            while(true);
+
             Environment.Exit(0);
         }
 
