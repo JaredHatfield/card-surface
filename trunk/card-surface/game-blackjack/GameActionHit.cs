@@ -45,6 +45,15 @@ namespace GameBlackjack
                 ICard card = deck.DrawCard();
                 card.Status = Card.CardStatus.FaceUp;
                 p.Hand.AddItem(card);
+
+                // Check to see if we need to move to the next players turn
+                if (BlackjackRules.GetPileVale(p.Hand) >= 21)
+                {
+                    int pid = blackjack.GetPlayerIndex(player);
+                    blackjack.HandFinished[pid] = 1;
+                    blackjack.MoveToNextPlayersTurn();
+                }
+
                 return true;
             }
             else
@@ -63,7 +72,12 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            if (player.IsTurn)
+            Blackjack blackjack = game as Blackjack;
+            int pid = blackjack.GetPlayerIndex(player);
+
+            if (player.IsTurn && 
+                BlackjackRules.GetPileVale(player.Hand) < 21
+                && blackjack.HandFinished[pid] == 0)
             {
                 return true;
             }

@@ -16,10 +16,21 @@ namespace GameBlackjack
     public class Blackjack : Game
     {
         /// <summary>
+        /// An array that indicates for each player if they are in the game and if they finished their hand.
+        /// </summary>
+        private int[] handFinished;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Blackjack"/> class.
         /// </summary>
         public Blackjack() : base()
         {
+            this.handFinished = new int[this.Seats.Count];
+            for (int i = 0; i < this.Seats.Count; i++)
+            {
+                this.handFinished[i] = -1;
+            }
+
             // Subscribe all of the possible game actions
             this.SubscribeAction(new GameActionHit());
             this.SubscribeAction(new GameActionStand());
@@ -32,6 +43,36 @@ namespace GameBlackjack
             destinationDeck.Open = true;
             CardPile sourceDeck = Deck.StandardDeck();
             this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the game is in a hand.
+        /// </summary>
+        /// <value><c>true</c> if the game is in a hand; otherwise, <c>false</c>.</value>
+        internal bool InHand
+        {
+            get
+            {
+                for (int i = 0; i < this.handFinished.Length; i++)
+                {
+                    if (this.handFinished[i] == 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hand finished.
+        /// </summary>
+        /// <value>The hand finished.</value>
+        internal int[] HandFinished
+        {
+            get { return this.handFinished; }
+            set { this.handFinished = value; }
         }
 
         /// <summary>
@@ -74,6 +115,42 @@ namespace GameBlackjack
         internal new void ClearGameBoard()
         {
             base.ClearGameBoard();
+        }
+
+        /// <summary>
+        /// Gets the index of the player.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <returns>The index of the player</returns>
+        internal int GetPlayerIndex(string player)
+        {
+            for (int i = 0; i < this.Seats.Count; i++)
+            {
+                if (!this.Seats[i].IsEmpty && this.Seats[i].Username.Equals(player))
+                {
+                    return i;
+                }
+            }
+
+            throw new Exception("Player index could not be found.");
+        }
+
+        /// <summary>
+        /// Gets the index of the player.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <returns>The index of the player</returns>
+        internal int GetPlayerIndex(Player player)
+        {
+            for (int i = 0; i < this.Seats.Count; i++)
+            {
+                if (!this.Seats[i].IsEmpty && this.Seats[i].Player == player)
+                {
+                    return i;
+                }
+            }
+
+            throw new Exception("Player index could not be found.");
         }
 
         /// <summary>

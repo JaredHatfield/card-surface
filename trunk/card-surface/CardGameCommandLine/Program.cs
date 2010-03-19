@@ -29,21 +29,13 @@ namespace CardGameCommandLine
         /// <param name="args">The args for the application.</param>
         public static void Main(string[] args)
         {
-            /* By creating a ServerController, CardGameCommandLine can be set as the StartUp project to enable a Game to interact with CardWeb. */
-            ServerController serverController = new ServerController();
-
-            // Add some dummy players to the game
+            // Add a dummy players to the game
             Program.PlayerJoinGame("player1");
-            Program.PlayerJoinGame("player2");
             Program.DisplayPlayers();
-
-            Program.DisplaySeats();
-
-            /* Add a reference to this game to the server's GameController. */
-            serverController.GameController.AddGame(Program.game);
 
             do
             {
+                Console.Write("> ");
                 string cmd = Console.ReadLine();
                 if (cmd.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -51,10 +43,11 @@ namespace CardGameCommandLine
                 }
                 else
                 {
-                    Program.game.ExecuteAction(cmd, string.Empty);
+                    Program.game.ExecuteAction(cmd, "player1");
+                    Program.DisplayPlayers();
                 }
             }
-            while(true);
+            while (true);
 
             Environment.Exit(0);
         }
@@ -71,6 +64,7 @@ namespace CardGameCommandLine
                     Player p = Program.game.Seats[i].Player;
                     Console.WriteLine(Program.game.Seats[i].Username);
                     Console.Write("Actions: ");
+                    Console.Write("[" + p.Actions.Count + "] ");
                     for (int j = 0; j < p.Actions.Count; j++)
                     {
                         Console.Write(p.Actions[j]);
@@ -128,9 +122,10 @@ namespace CardGameCommandLine
             {
                 if (Program.game.Seats[i].IsEmpty)
                 {
-                    if (game.SitDown(username, Program.game.Seats[i].Password))
+                    Seat seat = Program.game.Seats[i];
+                    if (game.SitDown(username, seat.Password))
                     {
-                        Console.WriteLine(username + "has joined the game.");
+                        Console.WriteLine(username + " has joined the game at seat " + seat.Location.ToString() + ".");
                     }
                     else
                     {

@@ -228,7 +228,13 @@ namespace CardGame
             {
                 if (this.seats[i].PasswordPeek(password))
                 {
-                    return this.seats[i].SitDown(username, password);
+                    bool result = this.seats[i].SitDown(username, password);
+                    if (result)
+                    {
+                        this.UpdatePlayerActions();
+                    }
+
+                    return result;
                 }
             }
 
@@ -359,15 +365,25 @@ namespace CardGame
         protected internal void MoveToNextPlayersTurn()
         {
             int active = -1;
+            int playerCount = 0;
 
             // Determine whoes turn it currently is
             for (int i = 0; i < this.seats.Count; i++)
             {
-                if (!this.seats[i].IsEmpty && this.seats[i].Player.Turn)
+                if (!this.seats[i].IsEmpty)
                 {
-                    active = i;
-                    break;
+                    playerCount++;
+                    if (this.seats[i].Player.Turn && active == -1)
+                    {
+                        active = i;
+                    }
                 }
+            }
+
+            // Special case where we have only one player
+            if (playerCount == 1)
+            {
+                return;
             }
 
             // A quick check to make sure it is actually someones turn
