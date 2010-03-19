@@ -35,7 +35,7 @@ namespace GameBlackjack
         /// <returns>True if the action was successful; otherwise false.</returns>
         public override bool Action(Game game, string player)
         {
-            Blackjack blackjack = (Blackjack)game;
+            Blackjack blackjack = game as Blackjack;
 
             // Put all of the cards back
             blackjack.ClearGameBoard();
@@ -55,6 +55,18 @@ namespace GameBlackjack
                     card2.Status = Card.CardStatus.FaceUp;
                     p.Hand.AddItem(card1);
                     p.Hand.AddItem(card2);
+                    if (BlackjackRules.GetPileVale(p.Hand) < 21)
+                    {
+                        blackjack.HandFinished[i] = 0;
+                    }
+                    else
+                    {
+                        blackjack.HandFinished[i] = 1;
+                    }
+                }
+                else
+                {
+                    blackjack.HandFinished[i] = -1;
                 }
             }
 
@@ -75,8 +87,15 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            // TODO: GameActionDeal - is executable
-            return false;
+            Blackjack blackjack = game as Blackjack;
+            if (blackjack.InHand)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

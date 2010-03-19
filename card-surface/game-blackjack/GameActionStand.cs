@@ -37,8 +37,12 @@ namespace GameBlackjack
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionStand - implement a player standing in the game
-            throw new NotImplementedException("GameAction not implemented.");
+            // Indicate that this player has finished their turn and move on to the next player.
+            int pid = blackjack.GetPlayerIndex(player);
+            blackjack.HandFinished[pid] = 1;
+            blackjack.MoveToNextPlayersTurn();
+
+            return true;
         }
 
         /// <summary>
@@ -51,7 +55,12 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            if (player.IsTurn)
+            Blackjack blackjack = game as Blackjack;
+            int pid = blackjack.GetPlayerIndex(player);
+
+            if (player.IsTurn &&
+                BlackjackRules.GetPileVale(player.Hand) < 21
+                && blackjack.HandFinished[pid] == 0)
             {
                 return true;
             }
