@@ -60,6 +60,7 @@
     <Compile Include="DeckTest.cs" />
     <Compile Include="PileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
@@ -69,9 +70,24 @@
       <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
       <Name>CardGame</Name>
     </ProjectReference>
+    <ProjectReference Include="..\card-server\CardServer.csproj">
+      <Project>{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}</Project>
+      <Name>CardServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardAccount\CardAccount.csproj">
+      <Project>{A1B0F52B-2F60-4BE3-B21B-D3597AF688B1}</Project>
+      <Name>CardAccount</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardWeb\CardWeb.csproj">
+      <Project>{EAADF0BE-508A-414F-B37C-B5BA632998AC}</Project>
+      <Name>CardWeb</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\CardGame.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\CardWeb.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

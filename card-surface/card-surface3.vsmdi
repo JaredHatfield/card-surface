@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <RunConfiguration id="2d81992b-d001-448e-84fe-bab9d5d0b536" name="Local Test Run" storage="localtestrun.testrunconfig" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestList>
+  <TestList name="CardWebTests" id="f10e48a5-6353-465f-ab42-556420ec410b" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <Description>This list contains all tests related to the CardWeb project library.</Description>
+    <TestLinks>
+      <TestLink id="cf2f8d75-4bd1-2ab3-6b2e-f0c8827cc036" name="GetRegisteredComponentTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="9f47c790-f7b7-e243-5fb2-b101fca2055d" name="WebControllerConstructorTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="3d56e233-f496-e44b-5a48-1dd910948776" name="RunTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="5e3f9dbc-188e-ab11-8638-42209f548259" name="RegisterWebComponentTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="c2b0a8e2-6da3-bce5-a637-752cd897ccea" name="IsRegisteredWebComponentTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="6422788e-6612-f514-ed65-b2232ecab342" name="UnregisterWebComponentTest" storage="cardunittests\bin\debug\cardunittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
+</TestLists>
