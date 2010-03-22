@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebViews
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
 
@@ -105,9 +106,8 @@ namespace CardWeb.WebComponents.WebViews
             else
             {
                 /* If the user has already logged in, forward the user to the default view. */
-                /* TODO: Automatically determine Refresh URL */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://localhost/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
@@ -127,7 +127,6 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         protected override string GetContent()
         {
-            /* TODO: Automatically determine domain name for server. */
             /* TODO: Utilize WebComponent prefix in URL generation. */
             /* This content should only be displayed if a NON-authenticated session has requested the view. */
             string content = "<html>\n";
@@ -153,7 +152,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";
-            content += "<a href=\"http://localhost/createaccount\">Create Account</a>\n";
+            content += "<a href=\"http://" + Dns.GetHostName() + "/createaccount\">Create Account</a>\n";
             content += "</body>\n";
             content += "</html>";
 

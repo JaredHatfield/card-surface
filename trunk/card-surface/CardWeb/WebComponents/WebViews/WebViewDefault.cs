@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebViews
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
 
@@ -24,7 +25,7 @@ namespace CardWeb.WebComponents.WebViews
         /// Initializes a new instance of the <see cref="WebViewDefault"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
-        public WebViewDefault(WebRequest request)
+        public WebViewDefault(CardWeb.WebRequest request)
         {
             this.request = request;
         } /* WebViewDefault() */
@@ -77,9 +78,8 @@ namespace CardWeb.WebComponents.WebViews
             else
             {
                 /* If the request has not been authenticated, send the user to a login page. */
-                /* TODO: Automatically determine Refresh URL */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
@@ -99,7 +99,6 @@ namespace CardWeb.WebComponents.WebViews
         /// <returns>A string of the WebView's content.</returns>
         protected override string GetContent()
         {
-            /* TODO: Automatically determine domain name for server. */
             /* TODO: Utilize WebComponent prefix in URL generation. */
             /* This content should only be displayed if an authenticated session has requested the view. */
             string content = "<html>\n";
@@ -115,14 +114,14 @@ namespace CardWeb.WebComponents.WebViews
 
                 if (WebSessionController.Instance.GetSession(this.request.GetSessionId()).IsPlayingGame)
                 {
-                    content += "<a href=\"http://localhost/Hand/\">View Game</a><br/>\n";
+                    content += "<a href=\"http://" + Dns.GetHostName() + "/Hand/\">View Game</a><br/>\n";
                 }
                 else
                 {
-                    content += "<a href=\"http://localhost/JoinTable/\">Join Table</a><br/>\n";
+                    content += "<a href=\"http://" + Dns.GetHostName() + "/JoinTable/\">Join Table</a><br/>\n";
                 }
 
-                content += "<a href=\"http://localhost/ManageAccount/\">Manage Account</a><br/>\n";
+                content += "<a href=\"http://" + Dns.GetHostName() + "/ManageAccount/\">Manage Account</a><br/>\n";
                 content += "Logout</a><br/>";
             }
             catch (Exception e)
