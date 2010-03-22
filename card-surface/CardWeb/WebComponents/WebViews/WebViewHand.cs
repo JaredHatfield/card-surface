@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebViews
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using CardAccount;
@@ -87,8 +88,7 @@ namespace CardWeb.WebComponents.WebViews
             else
             {
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: Automatically determine Refresh URL */
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
@@ -123,12 +123,12 @@ namespace CardWeb.WebComponents.WebViews
 
             foreach (Card card in currentPlayer.Hand.Cards)
             {
-                content += "<img src=\"http://localhost/resource?resid=" + card.Face.ToString() + card.Suit.ToString() + "\"/>&nbsp;\n";
+                content += "<img src=\"http://" + Dns.GetHostName() + "/resource?resid=" + card.Face.ToString() + card.Suit.ToString() + "\"/>&nbsp;\n";
             }
 
             content += "<br/><br/>\n";
             content += "Leave Game<br/>\n";
-            content += "<a href=\"http://localhost/\">Home</a>\n";
+            content += "<a href=\"http://" + Dns.GetHostName() + "\">Home</a>\n";
             content += "</body>\n";
             content += "</html>\n";
 

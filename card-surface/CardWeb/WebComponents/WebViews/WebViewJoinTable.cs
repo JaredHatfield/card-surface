@@ -8,6 +8,7 @@ namespace CardWeb.WebComponents.WebViews
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using CardGame;
@@ -111,8 +112,7 @@ namespace CardWeb.WebComponents.WebViews
             else
             {
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: Automatically determine Refresh URL */
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);

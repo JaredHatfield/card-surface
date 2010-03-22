@@ -8,6 +8,7 @@ namespace CardWeb.WebComponents.WebActions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using CardAccount;
@@ -50,27 +51,10 @@ namespace CardWeb.WebComponents.WebActions
             {
                 try
                 {
-                    string postData = this.request.RequestContent;
-                    string[] postTokens = postData.Split(new char[] { '&' });
-
-                    foreach (string token in postTokens)
-                    {
-                        string[] tokenData = token.Split(new char[] { '=' });
-                        if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewCreateAccount.FormFieldNameUsername))
-                        {
-                            this.username = tokenData[WebView.PostRequestTokenValueIndex];
-                        }
-                        else if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewCreateAccount.FormFieldNamePassword))
-                        {
-                            this.password = tokenData[WebView.PostRequestTokenValueIndex];
-                        }
-                        else if (tokenData[WebView.PostRequestTokenNameIndex].Equals(WebViewCreateAccount.FormFieldNamePasswordVerification))
-                        {
-                            /* JavaScript should have verified this; second verification. */
-                            /* TODO: HTML Encode this string? */
-                            this.verifiedPassword = tokenData[WebView.PostRequestTokenValueIndex];
-                        }
-                    }
+                    this.username = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNameUsername);
+                    /* TODO: HTML Encode these strings? */
+                    this.password = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePassword);
+                    this.verifiedPassword = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePasswordVerification);
                 }
                 catch (Exception e)
                 {
@@ -108,7 +92,7 @@ namespace CardWeb.WebComponents.WebActions
             if (passwordsMatched && accountDoesNotAlreadyExist)
             {
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://localhost/createaccount" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/createaccount" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                 byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
                 numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);

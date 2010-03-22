@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebActions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using CardGame;
@@ -20,7 +21,7 @@ namespace CardWeb.WebComponents.WebActions
         /// <summary>
         /// HTTP request.
         /// </summary>
-        private WebRequest request;
+        private CardWeb.WebRequest request;
 
         /// <summary>
         /// The server's IGameController
@@ -37,7 +38,7 @@ namespace CardWeb.WebComponents.WebActions
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="gameController">The game controller.</param>
-        public WebActionJoinTable(WebRequest request, IGameController gameController)
+        public WebActionJoinTable(CardWeb.WebRequest request, IGameController gameController)
         {
             this.request = request;
             this.gameController = gameController;
@@ -81,8 +82,7 @@ namespace CardWeb.WebComponents.WebActions
                         WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(this.seatCode, gameContainingSeat.Id);
 
                         responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        /* TODO: Automatically determine Refresh URL */
-                        responseBuffer += "Refresh: 0; url=http://localhost/hand" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                        responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     }
                 }
                 else
@@ -94,8 +94,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 /* TODO: Is this condition necessary?  Can someone send a POST request without being authenticated? */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: Automatically determine Refresh URL */
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);

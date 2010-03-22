@@ -81,7 +81,16 @@ namespace CardWeb
 
             try
             {
-                this.localaddr = new IPAddress(localIPv4Byte);
+                Console.WriteLine("WebController: Starting for " + Dns.GetHostName());
+                foreach (IPAddress addr in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+                {
+                    /* TODO: What if the server has more than one IPv4 address?  Just use the first one? */
+                    /* Find an IPv4 address for this server. */
+                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        this.localaddr = addr;
+                    }
+                }
             }
             catch (ArgumentNullException ane)
             {
@@ -97,7 +106,7 @@ namespace CardWeb
                 /* Setup the TCP Listener on port 80 to listen for standard HTTP traffic. */
                 this.webListener = new TcpListener(this.localaddr, TcpLocalPort);
                 this.webListener.Start();
-                Console.WriteLine("WebController: Port listener started for web controller.");
+                Console.WriteLine("WebController: Port listener started for web controller (" + this.localaddr.ToString() + ").");
             }
             catch (ArgumentNullException ane)
             {

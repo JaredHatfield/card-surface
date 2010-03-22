@@ -10,6 +10,7 @@ namespace CardWeb.WebComponents.WebViews
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using System.Web;
@@ -29,7 +30,7 @@ namespace CardWeb.WebComponents.WebViews
         /// The server's IGameController
         /// </summary>
         private IGameController gameController;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WebViewResource"/> class.
         /// </summary>
@@ -103,8 +104,7 @@ namespace CardWeb.WebComponents.WebViews
             else
             {
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                /* TODO: Automatically determine Refresh URL */
-                responseBuffer += "Refresh: 0; url=http://localhost/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                 responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             }
