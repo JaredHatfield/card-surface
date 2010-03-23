@@ -42,12 +42,12 @@ namespace GameBlackjack
             // TODO: GameActionDouble - the players bet should be doubled
 
             // Have the player take a hit
-            blackjack.ExecuteAction("hit", player);
+            blackjack.ExecuteAction("Hit", player);
 
             // Have the player stand
             if (p.IsTurn)
             {
-                blackjack.ExecuteAction("stand", player);
+                blackjack.ExecuteAction("Stand", player);
             }
 
             return true;
