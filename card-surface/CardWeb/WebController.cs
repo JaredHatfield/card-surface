@@ -81,7 +81,7 @@ namespace CardWeb
 
             try
             {
-                Console.WriteLine("WebController: Starting for " + Dns.GetHostName());
+                Debug.WriteLine("WebController: Starting for " + Dns.GetHostName());
                 foreach (IPAddress addr in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
                 {
                     /* TODO: What if the server has more than one IPv4 address?  Just use the first one? */
@@ -94,8 +94,8 @@ namespace CardWeb
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("WebController: Unable to create web server IP address because of invalid address @ {0}.", WebUtilities.GetCurrentLine());
-                Console.WriteLine("-->" + ane.Message);
+                Debug.WriteLine("WebController: Unable to create web server IP address because of invalid address @ " + WebUtilities.GetCurrentLine());
+                Debug.WriteLine("-->" + ane.Message);
 
                 /* Attempt recovery.  This should never happen. */
                 this.localaddr = new IPAddress(new byte[] { 127, 0, 0, 1 });
@@ -106,17 +106,17 @@ namespace CardWeb
                 /* Setup the TCP Listener on port 80 to listen for standard HTTP traffic. */
                 this.webListener = new TcpListener(this.localaddr, TcpLocalPort);
                 this.webListener.Start();
-                Console.WriteLine("WebController: Port listener started for web controller (" + this.localaddr.ToString() + ").");
+                Debug.WriteLine("WebController: Port listener started for web controller (" + this.localaddr.ToString() + ").");
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("WebController: Unable to create web server port listener because of invalid address @ {0}.", WebUtilities.GetCurrentLine());
-                Console.WriteLine("-->" + ane.Message);
+                Debug.WriteLine("WebController: Unable to create web server port listener because of invalid address @ " + WebUtilities.GetCurrentLine());
+                Debug.WriteLine("-->" + ane.Message);
             }
             catch (ArgumentOutOfRangeException aoore)
             {
-                Console.WriteLine("WebController: Unable to create web server port listener because the port was out of range @ {0} (" + TcpLocalPort + ").", WebUtilities.GetCurrentLine());
-                Console.WriteLine("-->" + aoore.Message);
+                Debug.WriteLine("WebController: Unable to create web server port listener because the port was out of range @ " + WebUtilities.GetCurrentLine() + " (" + TcpLocalPort + ")");
+                Debug.WriteLine("-->" + aoore.Message);
             }
 
             /* Initiate the web server thread to handle new requests. */
@@ -146,8 +146,8 @@ namespace CardWeb
 
                     serverSocket = this.webListener.AcceptSocket();
 
-                    Console.WriteLine("---------------------------------------------------------------------");
-                    Console.WriteLine("WebController: Received new connection request from " + serverSocket.RemoteEndPoint + ".");
+                    Debug.WriteLine("---------------------------------------------------------------------");
+                    Debug.WriteLine("WebController: Received new connection request from " + serverSocket.RemoteEndPoint + ".");
 
                     if (serverSocket.Connected)
                     {
@@ -156,7 +156,7 @@ namespace CardWeb
                             numBytesReceived = serverSocket.Receive(bytesReceived, bytesReceived.Length, SocketFlags.None);
                             if (numBytesReceived > 0)
                             {
-                                Console.WriteLine(Encoding.ASCII.GetString(bytesReceived));
+                                Debug.WriteLine(Encoding.ASCII.GetString(bytesReceived));
                                 request = new WebRequest(bytesReceived, serverSocket);
 
                                 if (this.IsRegisteredWebComponent(request.RequestResource))
@@ -183,21 +183,21 @@ namespace CardWeb
                         catch (InvalidOperationException ioe)
                         {
                             /* We didn't recognize the HTTP request type. */
-                            Console.WriteLine("WebController: " + ioe.Message + " @ " + WebUtilities.GetCurrentLine() + ".");
+                            Debug.WriteLine("WebController: " + ioe.Message + " @ " + WebUtilities.GetCurrentLine() + ".");
                             /* TODO: What happens next? */
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("WebController: Unable to receive data from an accepted connection request @ {0}.", WebUtilities.GetCurrentLine());
-                            Console.WriteLine("-->" + e.Message);
+                            Debug.WriteLine("WebController: Unable to receive data from an accepted connection request @ " + WebUtilities.GetCurrentLine());
+                            Debug.WriteLine("-->" + e.Message);
                             /* TODO: What happens if we're no longer able to read form the socket?  How do we reset? */
                         }
                     }
                 }
                 catch (InvalidOperationException ioe)
                 {
-                    Console.WriteLine("WebController: Unable to accept new connection requests because of an invalid listener @ {0}.", WebUtilities.GetCurrentLine());
-                    Console.WriteLine("-->" + ioe.Message);
+                    Debug.WriteLine("WebController: Unable to accept new connection requests because of an invalid listener @ " + WebUtilities.GetCurrentLine());
+                    Debug.WriteLine("-->" + ioe.Message);
                     /* TODO: Recovery? */
                 }
             } /* while(true) */

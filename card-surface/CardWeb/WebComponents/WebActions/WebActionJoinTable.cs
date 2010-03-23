@@ -6,6 +6,7 @@ namespace CardWeb.WebComponents.WebActions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -49,7 +50,7 @@ namespace CardWeb.WebComponents.WebActions
             }
             catch (Exception e)
             {
-                Console.WriteLine("WebActionJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                Debug.WriteLine("WebActionJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Error validating seat code.");
             }
         } /* WebActionJoinTable() */
@@ -100,9 +101,9 @@ namespace CardWeb.WebComponents.WebActions
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebActionLogin: Sending HTTP response (" + numBytesSent + ").");
-            Console.WriteLine(responseBuffer);
+            Debug.WriteLine("---------------------------------------------------------------------");
+            Debug.WriteLine("WebActionLogin: Sending HTTP response (" + numBytesSent + " bytes).");
+            Debug.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();

@@ -7,6 +7,7 @@ namespace CardWeb.WebComponents.WebActions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -58,13 +59,13 @@ namespace CardWeb.WebComponents.WebActions
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("WebActionCreateAccount: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                    Debug.WriteLine("WebActionCreateAccount: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                     throw new Exception("Unable to create account.");
                 }
             }
             else
             {
-                Console.WriteLine("WebActionCreateAccount: WebActionCreateAccount did not receive any POST content @ " + WebUtilities.GetCurrentLine());
+                Debug.WriteLine("WebActionCreateAccount: WebActionCreateAccount did not receive any POST content @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Invalid account parameters.");
             }
         }
@@ -97,9 +98,9 @@ namespace CardWeb.WebComponents.WebActions
                 byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
                 numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-                Console.WriteLine("---------------------------------------------------------------------");
-                Console.WriteLine("WebActionCreateAccount: Sending HTTP response (" + numBytesSent + ").");
-                Console.WriteLine(responseBuffer);
+                Debug.WriteLine("---------------------------------------------------------------------");
+                Debug.WriteLine("WebActionCreateAccount: Sending HTTP response (" + numBytesSent + " bytes).");
+                Debug.WriteLine(responseBuffer);
 
                 this.request.Connection.Shutdown(SocketShutdown.Both);
                 this.request.Connection.Close();

@@ -6,6 +6,7 @@ namespace CardWeb.WebComponents
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -81,7 +82,7 @@ namespace CardWeb.WebComponents
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
 
-            Console.WriteLine("WebComponentJoinTable: Added new HTTP request to WebComponentJoinTable.");
+            Debug.WriteLine("WebComponentJoinTable: Added new HTTP request to WebComponentJoinTable.");
         } /* PostRequest() */
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace CardWeb.WebComponents
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                        Debug.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                         WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);
                         webViewJoinTable.SendResponse();
                     }
