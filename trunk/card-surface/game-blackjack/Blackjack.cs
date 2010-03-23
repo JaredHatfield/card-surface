@@ -138,6 +138,17 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Move the specified IPhysicalObject into the specified Pile.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>True if the move was successful; otherwise false.</returns>
+        public bool MoveAction(Guid physicalObject, Guid destinationPile)
+        {
+            return base.MoveAction(physicalObject, destinationPile);
+        }
+
+        /// <summary>
         /// Gets the pile containing a physical object with the specified id.
         /// </summary>
         /// <param name="physicalObjectId">The physical object id.</param>

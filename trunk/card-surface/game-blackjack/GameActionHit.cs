@@ -42,9 +42,11 @@ namespace GameBlackjack
             if (p != null)
             {
                 CardPile deck = blackjack.GetPile(blackjack.DeckPile) as CardPile;
-                ICard card = deck.DrawCard();
-                card.Status = Card.CardStatus.FaceUp;
-                p.Hand.AddItem(card);
+
+                // Have the player take a card
+                p.Hand.Open = true;
+                (deck.TopItem as ICard).Status = Card.CardStatus.FaceUp;
+                blackjack.MoveAction(deck.TopItem.Id, p.Hand.Id);
 
                 // Check to see if we need to move to the next players turn
                 if (BlackjackRules.GetPileVale(p.Hand) >= 21)

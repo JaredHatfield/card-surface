@@ -668,14 +668,18 @@ namespace CardGame
         /// <returns>True if the move is compatible; otherwise false.</returns>
         private bool MoveCompatible(Guid physicalObject, Guid destinationPile)
         {
-            Type physicalObjectType = physicalObject.GetType();
-            Type destinationPileType = destinationPile.GetType();
+            IPhysicalObject myPhysicalObject = this.GetPhysicalObject(physicalObject);
+            Pile myPile = this.GetPile(destinationPile);
 
-            if (physicalObjectType == typeof(ICard) && destinationPileType == typeof(CardPile))
+            if (myPhysicalObject is ICard && myPile is CardPile)
             {
                 return true;
             }
-            else if (physicalObjectType == typeof(IChip) && destinationPileType == typeof(ChipPile))
+            else if (myPhysicalObject is IChip && myPile is ChipPile)
+            {
+                return true;
+            }
+            else if (myPhysicalObject is IChip && myPile is BankPile)
             {
                 return true;
             }
