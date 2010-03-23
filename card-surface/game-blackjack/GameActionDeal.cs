@@ -49,12 +49,15 @@ namespace GameBlackjack
             {
                 if (!blackjack.Seats[i].IsEmpty)
                 {
+                    // TODO: Check to make sure the player should be dealt because they placed the minimum bet
+
+                    // Deal the player two cards, the second being face up
                     Player p = blackjack.Seats[i].Player;
-                    ICard card1 = deck.DrawCard();
-                    ICard card2 = deck.DrawCard();
-                    card2.Status = Card.CardStatus.FaceUp;
-                    p.Hand.AddItem(card1);
-                    p.Hand.AddItem(card2);
+                    p.Hand.Open = true;
+                    blackjack.MoveAction(deck.TopItem.Id, p.Hand.Id);
+                    blackjack.MoveAction(deck.TopItem.Id, p.Hand.Id);
+                    (p.Hand.Cards[1] as ICard).Status = Card.CardStatus.FaceUp;
+
                     if (BlackjackRules.GetPileVale(p.Hand) < 21)
                     {
                         blackjack.HandFinished[i] = 0;
