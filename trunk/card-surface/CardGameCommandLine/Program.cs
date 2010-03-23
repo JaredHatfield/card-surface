@@ -50,7 +50,7 @@ namespace CardGameCommandLine
                 }
                 else
                 {
-                    Program.game.ExecuteAction(cmd, "player1");
+                    Program.game.ExecuteAction(cmd, game.GetActivePlayerSeat().Username);
                     Program.DisplayPlayers();
                 }
             }
