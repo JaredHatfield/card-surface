@@ -30,6 +30,11 @@ namespace CardGame
         private PlayingArea playerArea;
 
         /// <summary>
+        /// The Player's Bank.
+        /// </summary>
+        private BankPile bankPile;
+
+        /// <summary>
         /// A flag to indicate if it is this players turn.
         /// </summary>
         private bool turn;
@@ -77,6 +82,15 @@ namespace CardGame
         public PlayingArea PlayerArea
         {
             get { return this.playerArea; }
+        }
+
+        /// <summary>
+        /// Gets the Player's bank pile.
+        /// </summary>
+        /// <value>The bank pile.</value>
+        public BankPile BankPile
+        {
+            get { return this.bankPile; }
         }
 
         /// <summary>
