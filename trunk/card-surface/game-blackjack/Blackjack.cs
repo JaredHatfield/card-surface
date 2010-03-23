@@ -66,6 +66,15 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Gets a value indicating whether betting is enabled.
+        /// </summary>
+        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
+        public override bool BettingEnabled
+        {
+            get { return true; }
+        }
+
+        /// <summary>
         /// Gets or sets the hand finished.
         /// </summary>
         /// <value>The hand finished.</value>

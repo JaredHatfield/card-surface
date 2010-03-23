@@ -113,6 +113,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a value indicating whether betting is enabled.
+        /// </summary>
+        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
+        public abstract bool BettingEnabled
+        {
+            get;
+        }
+
+        /// <summary>
         /// Gets or sets the deck pile.
         /// </summary>
         /// <value>The deck pile.</value>
