@@ -6,6 +6,7 @@ namespace CardWeb
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -336,7 +337,7 @@ namespace CardWeb
 
             /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
             /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
-            Console.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
+            Debug.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
 
             if (this.requestMethod == WebRequestMethods.Http.Post)
             {

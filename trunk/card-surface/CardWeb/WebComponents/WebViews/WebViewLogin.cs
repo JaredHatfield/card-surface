@@ -6,6 +6,7 @@ namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -113,9 +114,9 @@ namespace CardWeb.WebComponents.WebViews
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("WebViewLogin: Sending HTTP response (" + numBytesSent + "bytes).");
-            Console.WriteLine(responseBuffer);
+            Debug.WriteLine("---------------------------------------------------------------------");
+            Debug.WriteLine("WebViewLogin: Sending HTTP response (" + numBytesSent + " bytes).");
+            Debug.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();

@@ -6,6 +6,7 @@ namespace CardWeb.WebComponents
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Text;
@@ -78,8 +79,8 @@ namespace CardWeb.WebComponents
                 this.mailboxQueue.Enqueue(request);
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
-
-            Console.WriteLine("WebComponentResource: Added new HTTP request to WebComponentResource.");
+            
+            Debug.WriteLine("WebComponentResource: Added new HTTP request to WebComponentResource.");
         } /* PostRequest() */
 
         /// <summary>

@@ -58,8 +58,8 @@ namespace CardWeb
             }
             catch (Exception e)
             {
-                Console.WriteLine("WebController: Unable to calculate line number in GetCurrentLine().");
-                Console.WriteLine("-->" + e.Message);
+                Debug.WriteLine("WebController: Unable to calculate line number in GetCurrentLine().");
+                Debug.WriteLine("-->" + e.Message);
                 return 0;
             }
         } /* GetCurrentLine() */
