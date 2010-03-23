@@ -217,12 +217,33 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Have a user sit down in one of the seats
+        /// Attempt to have a user sit down at a table.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="amount">The amount of money the user will place on the table.</param>
+        /// <returns>True if the user was able to sit down; otherwise false.</returns>
+        public virtual bool SitDown(string username, string password, int amount)
+        {
+            if (this.SitDown(username, password))
+            {
+                Player player = this.GetPlayer(username);
+                player.Balance += amount;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Attempt to have a user sit down at a table.
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <returns>True if the user was able to sit down; otherwise false.</returns>
-        public bool SitDown(string username, string password)
+        public virtual bool SitDown(string username, string password)
         {
             for (int i = 0; i < this.seats.Count; i++)
             {
