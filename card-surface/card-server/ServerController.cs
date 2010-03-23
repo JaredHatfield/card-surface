@@ -54,6 +54,7 @@ namespace CardServer
         /// <value>The game controller.</value>
         public GameController GameController
         {
+            /* TODO: REMOVE this property for release! */
             get { return this.gameController; }
         }
     }

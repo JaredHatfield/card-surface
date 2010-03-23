@@ -33,6 +33,9 @@ namespace CardGameCommandLine
             Program.PlayerJoinGame("player1");
             Program.DisplayPlayers();
 
+            ServerController serverController = new ServerController();
+            serverController.GameController.AddGame(Program.game);
+
             do
             {
                 Console.Write("> ");
@@ -40,6 +43,10 @@ namespace CardGameCommandLine
                 if (cmd.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
                     break;
+                }
+                else if (cmd.Equals("showseats", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Program.DisplaySeats();
                 }
                 else
                 {
