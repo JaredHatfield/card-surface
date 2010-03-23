@@ -49,7 +49,8 @@ namespace GameBlackjack
             {
                 blackjack.ExecuteAction("stand", player);
             }
-            
+
+            return true;
         }
 
         /// <summary>
