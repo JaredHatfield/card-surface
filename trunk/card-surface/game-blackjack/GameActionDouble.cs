@@ -37,8 +37,19 @@ namespace GameBlackjack
         {
             Blackjack blackjack = (Blackjack)game;
 
-            // TODO: GameActionDouble - implement a player doubling in the game
-            throw new NotImplementedException("GameAction not implemented.");
+            Player p = blackjack.GetPlayer(player);
+            
+            // TODO: GameActionDouble - the players bet should be doubled
+
+            // Have the player take a hit
+            blackjack.ExecuteAction("hit", player);
+
+            // Have the player stand
+            if (p.IsTurn)
+            {
+                blackjack.ExecuteAction("stand", player);
+            }
+            
         }
 
         /// <summary>
@@ -51,7 +62,13 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            // TODO: GameActionDouble - is executable
+            // Make sure the player can take a hit
+            GameActionHit hit = new GameActionHit();
+            if (hit.IsExecutableByPlayer(game, player) && player.Hand.Cards.Count == 2)
+            {
+                return true;
+            }
+
             return false;
         }
     }
