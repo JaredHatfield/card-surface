@@ -466,6 +466,24 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the active Player's Seat.
+        /// </summary>
+        /// <returns>The active Player's Seat</returns>
+        protected internal Seat GetActivePlayerSeat()
+        {
+            Player player = this.GetActivePlayer();
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (this.seats[i].Player == player)
+                {
+                    return this.seats[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets the specified physical object.
         /// </summary>
         /// <param name="id">The unique id.</param>
