@@ -46,6 +46,15 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Gets a value indicating whether betting is enabled.
+        /// </summary>
+        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
+        public override bool BettingEnabled
+        {
+            get { return true; }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the game is in a hand.
         /// </summary>
         /// <value><c>true</c> if the game is in a hand; otherwise, <c>false</c>.</value>
@@ -66,15 +75,6 @@ namespace GameBlackjack
         }
 
         /// <summary>
-        /// Gets a value indicating whether betting is enabled.
-        /// </summary>
-        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
-        public override bool BettingEnabled
-        {
-            get { return true; }
-        }
-
-        /// <summary>
         /// Gets or sets the hand finished.
         /// </summary>
         /// <value>The hand finished.</value>
@@ -92,6 +92,49 @@ namespace GameBlackjack
         {
             get { return base.DeckPile; }
             set { base.DeckPile = value; }
+        }
+
+        /// <summary>
+        /// Attempt to have a user sit down at a table.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="amount">The amount of money the user will place on the table.</param>
+        /// <returns>
+        /// True if the user was able to sit down; otherwise false.
+        /// </returns>
+        public override bool SitDown(string username, string password, int amount)
+        {
+            if (base.SitDown(username, password, amount))
+            {
+                this.InitializePlayer(username);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Have a user sit down in one of the seats
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>
+        /// True if the user was able to sit down; otherwise false.
+        /// </returns>
+        public override bool SitDown(string username, string password)
+        {
+            if (base.SitDown(username, password))
+            {
+                this.InitializePlayer(username);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -189,6 +232,28 @@ namespace GameBlackjack
         protected override bool MoveTest(Guid physicalObject, Guid destinationPile)
         {
             return base.MoveTest(physicalObject, destinationPile);
+        }
+
+        /// <summary>
+        /// Initializes the specified player.
+        /// </summary>
+        /// <param name="username">The username to initialize.</param>
+        private void InitializePlayer(string username)
+        {
+            // Initialize the player's piles for Blackjack
+            Player player = this.GetPlayer(username);
+
+            // Initialize the player's card piles
+            this.AddCardPileToUser(username);
+            this.AddCardPileToUser(username);
+            player.PlayerArea.Cards[0].Open = true;
+            player.PlayerArea.Cards[1].Open = true;
+
+            // Initialize the player's chip piles
+            this.AddChipPileToUser(username);
+            this.AddChipPileToUser(username);
+            player.PlayerArea.Chips[0].Open = true;
+            player.PlayerArea.Chips[1].Open = true;
         }
     }
 }
