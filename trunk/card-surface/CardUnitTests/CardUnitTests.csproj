@@ -60,7 +60,6 @@
     <Compile Include="DeckTest.cs" />
     <Compile Include="PileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
