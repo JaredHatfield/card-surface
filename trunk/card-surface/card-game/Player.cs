@@ -53,6 +53,8 @@ namespace CardGame
             this.hand = new CardPile(true, true);
             this.hand.Open = true;
             this.playerArea = new PlayingArea();
+            this.bankPile = new BankPile(this);
+            this.turn = false;
             this.actions = new ObservableCollection<string>();
         }
 
