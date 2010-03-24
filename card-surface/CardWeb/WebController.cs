@@ -23,11 +23,6 @@ namespace CardWeb
     public class WebController
     {
         /// <summary>
-        /// Constant byte array representing local IP address
-        /// </summary>
-        private static readonly byte[] localIPv4Byte = new byte[] { 127, 0, 0, 1 };
-
-        /// <summary>
         /// Default listening port for web server
         /// </summary>
         private const int TcpLocalPort = 80;
