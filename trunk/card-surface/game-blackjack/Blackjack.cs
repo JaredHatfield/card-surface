@@ -143,7 +143,7 @@ namespace GameBlackjack
         /// <param name="physicalObject">The physical object.</param>
         /// <param name="destinationPile">The destination pile.</param>
         /// <returns>True if the move was successful; otherwise false.</returns>
-        public bool MoveAction(Guid physicalObject, Guid destinationPile)
+        public new bool MoveAction(Guid physicalObject, Guid destinationPile)
         {
             return base.MoveAction(physicalObject, destinationPile);
         }
