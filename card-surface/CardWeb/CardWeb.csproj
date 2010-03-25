@@ -72,6 +72,8 @@
     <Compile Include="WebComponents\WebViews\WebViewLogin.cs" />
     <Compile Include="WebComponents\WebViews\WebViewManageAccount.cs" />
     <Compile Include="WebCookie.cs" />
+    <Compile Include="WebExceptions\WebServerCouldNotLaunchException.cs" />
+    <Compile Include="WebExceptions\WebServerException.cs" />
     <Compile Include="WebRequest.cs" />
     <Compile Include="WebSession.cs" />
     <Compile Include="WebSessionController.cs" />

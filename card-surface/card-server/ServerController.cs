@@ -11,6 +11,7 @@ namespace CardServer
     using CardAccount;
     using CardCommunication;
     using CardWeb;
+    using CardWeb.WebExceptions;
 
     /// <summary>
     /// The main controller for the server that manages all of the other controllers.
@@ -42,10 +43,20 @@ namespace CardServer
         /// </summary>
         internal ServerController()
         {
-            this.gameController = new GameController();
-            this.webController = new WebController(this.gameController);
-            this.serverCommunicationController = new ServerCommunicationController(this.gameController);
-            this.accountController = AccountController.Instance;
+            try
+            {
+                this.gameController = new GameController();
+                this.webController = new WebController(this.gameController);
+                this.serverCommunicationController = new ServerCommunicationController(this.gameController);
+                this.accountController = AccountController.Instance;
+            }
+            catch (WebServerCouldNotLaunchException wscnle)
+            {
+                Console.WriteLine("ServerController: " + wscnle.Message);
+                Console.ReadKey();
+                /* TODO: Exit codes for end-user applications (like CardGameCommandLine, CardServer, CardTable) should be abstracted as part of the exceptions. */
+                Environment.Exit(1);
+            }
         }
 
         /// <summary>
