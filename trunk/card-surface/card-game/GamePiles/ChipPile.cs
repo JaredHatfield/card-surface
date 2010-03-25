@@ -111,5 +111,27 @@ namespace CardGame
         {
             return base.GetHashCode();
         }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            string chips = string.Empty;
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                chips += "(" + (this.Items[i] as IChip).Amount + ")  ";
+            }
+
+            if (this.Items.Count == 0)
+            {
+                return "No chips";
+            }
+
+            return chips;
+        }
     }
 }

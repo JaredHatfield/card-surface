@@ -30,7 +30,7 @@ namespace CardGameCommandLine
         public static void Main(string[] args)
         {
             // Add a dummy players to the game
-            Program.PlayerJoinGame("player1");
+            Program.PlayerJoinGame("player1", 25);
             Program.DisplayPlayers();
 
             ServerController serverController = new ServerController();
@@ -82,6 +82,8 @@ namespace CardGameCommandLine
                     }
 
                     Console.WriteLine();
+                    Console.WriteLine("Bank: " + p.BankPile.ToString());
+                    Console.WriteLine("Bet: " + p.PlayerArea.Chips[0].ToString());
 
                     Console.WriteLine("Hand: " + BlackjackRules.GetPileVale(p.Hand));
                     if (p.Hand.Cards.Count > 0)
@@ -96,6 +98,11 @@ namespace CardGameCommandLine
                     Console.WriteLine();
                 }
             }
+        }
+
+        private static void PlaceBet(Player player, int chipValue)
+        {
+            // TODO: Make some way for the user to place a bet from the command line.
         }
 
         /// <summary>
@@ -123,14 +130,14 @@ namespace CardGameCommandLine
         /// Join a player to a game.
         /// </summary>
         /// <param name="username">The username of the player.</param>
-        private static void PlayerJoinGame(string username)
+        private static void PlayerJoinGame(string username, int amount)
         {
             for (int i = 0; i < Program.game.Seats.Count; i++)
             {
                 if (Program.game.Seats[i].IsEmpty)
                 {
                     Seat seat = Program.game.Seats[i];
-                    if (game.SitDown(username, seat.Password))
+                    if (game.SitDown(username, seat.Password, amount))
                     {
                         Console.WriteLine(username + " has joined the game at seat " + seat.Location.ToString() + ".");
                     }

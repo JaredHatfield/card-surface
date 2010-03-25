@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Drawing;
     using System.Linq;
     using System.Text;
@@ -13,7 +13,7 @@ namespace CardGame
     /// <summary>
     /// A pile of chips that the user can access money they have placed on the table.
     /// </summary>
-    public class BankPile : CardPile
+    public class BankPile : ChipPile
     {
         /// <summary>
         /// The player who the bank belongs to.
@@ -28,6 +28,8 @@ namespace CardGame
             : base()
         {
             this.player = player;
+            this.RefreshChipPile();
+            this.Open = true;
         }
 
         /// <summary>
@@ -36,6 +38,27 @@ namespace CardGame
         private BankPile()
             : base()
         {
+            throw new Exception("BankPile should not be initialized without referencing a player.");
+        }
+
+        /// <summary>
+        /// Gets the chips.
+        /// </summary>
+        /// <value>The chips.</value>
+        public ReadOnlyObservableCollection<IPhysicalObject> Chips
+        {
+            get { return new ReadOnlyObservableCollection<IPhysicalObject>(this.Items); }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         /// <summary>
@@ -47,10 +70,51 @@ namespace CardGame
 
             // 1) Remove any duplicate value chips and add the money to the users account
             // 2) Add a new chip with value 1 if it is not in the pile
+            this.AddChipToPile(1);
+
             // 3) Add a new chip with value 5 if it is not in the pile
+            this.AddChipToPile(5);
+
             // 4) Add a new chip with value 10 if it is not in the pile
+            this.AddChipToPile(10);
+
             // 5) Add a new chip with value 25 if it is not in the pile
+            this.AddChipToPile(25);
+
             // 6) Add a new chip with value 100 if it is not in the pile
+            this.AddChipToPile(100);
+        }
+
+        /// <summary>
+        /// Adds the chip with the specified value to the pile if necessary.
+        /// The amount will be deducted from the players balance.
+        /// </summary>
+        /// <param name="value">The value of the chip.</param>
+        private void AddChipToPile(int value)
+        {
+            if (this.player.Balance > value && !this.PileContainsChip(value))
+            {
+                this.Items.Add(this.GetNewChip(value));
+                this.player.Balance -= value;
+            }
+        }
+
+        /// <summary>
+        /// Test if the bank already includes a chip with the specified value.
+        /// </summary>
+        /// <param name="value">The value to look for.</param>
+        /// <returns>True if a chip with that value is contained in the pile; otherwise false.</returns>
+        private bool PileContainsChip(int value)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if ((this.Items[i] as IChip).Amount.Equals(value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace CardGame
             s.Add(new Seat(Seat.SeatLocation.West));
             this.seats = new ReadOnlyObservableCollection<Seat>(s);
             this.actions = new Collection<GameAction>();
-            this.UpdatePlayerActions();
+            this.UpdatePlayerState();
         }
 
         /// <summary>
@@ -238,6 +238,7 @@ namespace CardGame
             {
                 Player player = this.GetPlayer(username);
                 player.Balance += amount;
+                player.BankPile.RefreshChipPile();
                 return true;
             }
             else
@@ -261,7 +262,7 @@ namespace CardGame
                     bool result = this.seats[i].SitDown(username, password);
                     if (result)
                     {
-                        this.UpdatePlayerActions();
+                        this.UpdatePlayerState();
                     }
 
                     return result;
@@ -336,7 +337,7 @@ namespace CardGame
                 // Add the physical object to the destination pile
                 locatedDestinationPile.AddItem(locatedPhysicalObject);
 
-                this.UpdatePlayerActions();
+                this.UpdatePlayerState();
                 return true;
             }
         }
@@ -356,7 +357,7 @@ namespace CardGame
                     bool result = this.actions[i].Action(this, player);
                     if (result)
                     {
-                        this.UpdatePlayerActions();
+                        this.UpdatePlayerState();
                     }
 
                     return result;
@@ -605,15 +606,19 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Updates the all of the players with valid actions.
+        /// Updates the all of the Player's state.
+        /// Insures the players action list includes only valid options.
+        /// Removes or add chips to the players bank.
         /// </summary>
-        protected internal void UpdatePlayerActions()
+        protected internal void UpdatePlayerState()
         {
             for (int i = 0; i < this.seats.Count; i++)
             {
                 if (!this.seats[i].IsEmpty)
                 {
                     Player p = this.seats[i].Player;
+
+                    // Update the Player's Actions
                     for (int j = 0; j < this.actions.Count; j++)
                     {
                         if (this.actions[j].IsExecutableByPlayer(this, p))
@@ -625,6 +630,9 @@ namespace CardGame
                             p.RemoveAction(this.actions[j].Name);
                         }
                     }
+
+                    // Update the Player's bank
+                    p.BankPile.RefreshChipPile();
                 }
             }
         }
