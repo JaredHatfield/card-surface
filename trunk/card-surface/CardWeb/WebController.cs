@@ -16,6 +16,7 @@ namespace CardWeb
     using CardWeb.WebComponents;
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
+    using CardWeb.WebExceptions;
 
     /// <summary>
     /// The WebController that hosts the internal web server.
@@ -113,7 +114,14 @@ namespace CardWeb
                 Debug.WriteLine("WebController: Unable to create web server port listener because the port was out of range @ " + WebUtilities.GetCurrentLine() + " (" + TcpLocalPort + ")");
                 Debug.WriteLine("-->" + aoore.Message);
             }
+            catch (SocketException se)
+            {
+                Debug.WriteLine("WebController: Unable to start the web controller @ " + WebUtilities.GetCurrentLine());
+                Debug.WriteLine("-->" + se.Message);
 
+                throw new WebServerCouldNotLaunchException();
+            }
+            
             /* Initiate the web server thread to handle new requests. */
             this.webServerThread = new Thread(new ThreadStart(this.Run));
             this.webServerThread.Name = "WebServerThread";
