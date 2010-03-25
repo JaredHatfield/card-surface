@@ -23,6 +23,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>Publish\</PublishUrl>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ApplicationIcon>Resources\CardTableIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +120,7 @@
   <ItemGroup>
     <Resource Include="Resources\GameSelectionBackground.jpg" />
     <Resource Include="Resources\CardSurfaceLogo.png" />
+    <Resource Include="Resources\CardTableIcon.ico" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
