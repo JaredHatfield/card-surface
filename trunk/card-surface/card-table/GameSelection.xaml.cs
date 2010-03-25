@@ -1,12 +1,11 @@
-// <copyright file="CardTableWindow.xaml.cs" company="University of Louisville Speed School of Engineering">
+// <copyright file="GameSelection.xaml.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>CardTable Window where the game is played.</summary>
+// <summary>The source code responsible for managing the GameSelection.xaml SurfaceWindow</summary>
 namespace CardTable
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -23,25 +22,33 @@ namespace CardTable
     using Microsoft.Surface.Presentation.Controls;
 
     /// <summary>
-    /// Interaction logic for SurfaceWindow1.xaml
+    /// Interaction logic for GameSelection.xaml
     /// </summary>
-    public partial class CardTableWindow : SurfaceWindow
+    public partial class GameSelection : SurfaceWindow
     {
         /// <summary>
-        /// Initializes a new instance of the CardTableWindow class.
+        /// Initializes a new instance of the <see cref="GameSelection"/> class.
         /// </summary>
-        public CardTableWindow()
+        public GameSelection()
         {
             InitializeComponent();
+
+            /* TODO: When the Communication has been entered, retreive a list of supported games to populate the selection list. */
+            /*for (int i = 0; i < 500; i++)
+            {*/
+                SurfaceButton sb = new SurfaceButton();
+                sb.Content = "Blackjack";
+                this.Games.Items.Add(sb);
+            /*}*/
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
         }
 
         /// <summary>
-        /// Occurs when the window is about to close. 
+        /// Occurs when the window is about to close.
         /// </summary>
-        /// <param name="e">Event arguments.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
@@ -75,8 +82,8 @@ namespace CardTable
         /// <summary>
         /// This is called when application has been activated.
         /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">Event arguments.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void OnApplicationActivated(object sender, EventArgs e)
         {
             // TODO: enable audio, animations here
@@ -85,8 +92,8 @@ namespace CardTable
         /// <summary>
         /// This is called when application is in preview mode.
         /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">Event arguments.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void OnApplicationPreviewed(object sender, EventArgs e)
         {
             // TODO: Disable audio here if it is enabled
@@ -95,10 +102,10 @@ namespace CardTable
         }
 
         /// <summary>
-        ///  This is called when application has been deactivated.
+        /// This is called when application has been deactivated.
         /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">Event arguments.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void OnApplicationDeactivated(object sender, EventArgs e)
         {
             // TODO: disable audio, animations here
