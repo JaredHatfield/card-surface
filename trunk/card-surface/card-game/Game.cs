@@ -113,10 +113,10 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets a value indicating whether betting is enabled.
+        /// Gets a value indicating the minimum amount of money required to join a game.
         /// </summary>
-        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
-        public abstract bool BettingEnabled
+        /// <value>The minimum stake for the game.</value>
+        public abstract int MinimumStake
         {
             get;
         }

@@ -21,10 +21,17 @@ namespace GameBlackjack
         private int[] handFinished;
 
         /// <summary>
+        /// The minimum amount of money required to join the game.
+        /// </summary>
+        private int minimumStake;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Blackjack"/> class.
         /// </summary>
-        public Blackjack() : base()
+        /// <param name="minimumStake">The minimum stake.</param>
+        public Blackjack(int minimumStake) : base()
         {
+            this.minimumStake = minimumStake;
             this.handFinished = new int[this.Seats.Count];
             for (int i = 0; i < this.Seats.Count; i++)
             {
@@ -46,12 +53,20 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Prevents a default instance of the Blackjack class from being created.
+        /// </summary>
+        private Blackjack()
+            : base()
+        {
+        }
+
+        /// <summary>
         /// Gets a value indicating whether betting is enabled.
         /// </summary>
         /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
-        public override bool BettingEnabled
+        public override int MinimumStake
         {
-            get { return true; }
+            get { return this.minimumStake; }
         }
 
         /// <summary>
