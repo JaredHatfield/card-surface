@@ -21,7 +21,7 @@ namespace CardGameCommandLine
         /// <summary>
         /// The game of Blackjack that is being played.
         /// </summary>
-        private static Game game = new Blackjack();
+        private static Game game = new Blackjack(10);
 
         /// <summary>
         /// Mains the specified args.
@@ -100,6 +100,11 @@ namespace CardGameCommandLine
             }
         }
 
+        /// <summary>
+        /// Places the bet.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="chipValue">The chip value.</param>
         private static void PlaceBet(Player player, int chipValue)
         {
             // TODO: Make some way for the user to place a bet from the command line.
@@ -130,6 +135,7 @@ namespace CardGameCommandLine
         /// Join a player to a game.
         /// </summary>
         /// <param name="username">The username of the player.</param>
+        /// <param name="amount">The amount.</param>
         private static void PlayerJoinGame(string username, int amount)
         {
             for (int i = 0; i < Program.game.Seats.Count; i++)

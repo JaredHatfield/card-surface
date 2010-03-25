@@ -33,10 +33,10 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Gets a value indicating whether betting is enabled.
+        /// Gets a value indicating the minimum amount of money required to join a game.
         /// </summary>
-        /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
-        public override bool BettingEnabled
+        /// <value>The minimum stake for the game.</value>
+        public override int MinimumStake
         {
             get { throw new NotImplementedException(); }
         }
