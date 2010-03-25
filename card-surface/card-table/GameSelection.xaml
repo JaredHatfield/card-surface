@@ -1,0 +1,33 @@
+﻿<s:SurfaceWindow x:Class="CardTable.GameSelection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    Title="CardTable" Height="700" Width="1000"
+    >
+  <s:SurfaceWindow.Resources>
+    <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/GameSelectionBackground.jpg"/>
+        <Style BasedOn="{StaticResource {x:Type Label}}"
+               TargetType="Label"
+               x:Key="TitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="25"/>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type Label}}"
+               TargetType="Label"
+               x:Key="SubtitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </s:SurfaceWindow.Resources>
+    <Grid Background="{StaticResource WindowBackground}">
+        <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!"/>
+        <Label Style="{StaticResource SubtitleLabel}" Content="Select Your Game" Height="33.94" Margin="410,55,418,0" VerticalAlignment="Top" />
+        <s:SurfaceScrollViewer Height="400" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="GameList">
+            <ItemsControl x:Name="Games"/>
+        </s:SurfaceScrollViewer>
+        <Image Source="Resources/CardSurfaceLogo.png" Margin="338,245,-338,256" />
+        <Image Source="Resources/CardSurfaceLogo.png" Margin="-338,245,338,256" />
+    </Grid>
+</s:SurfaceWindow>
