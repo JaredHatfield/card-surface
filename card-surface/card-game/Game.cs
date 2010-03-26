@@ -9,6 +9,7 @@ namespace CardGame
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A generic card game that is extended to implement a specific game.
@@ -146,7 +147,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePlayerNotFoundException();
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePlayerNotFoundException();
         }
 
         /// <summary>
@@ -182,7 +183,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGameSeatNotFoundException();
         }
 
         /// <summary>
@@ -312,23 +313,15 @@ namespace CardGame
             {
                 // Retreive the physical object's pile
                 Pile locatedSourcePile = this.GetPileContaining(physicalObject);
-                if (locatedSourcePile == null)
-                {
-                    return false;
-                }
 
                 // Retreive the physical object
                 IPhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
-                if (locatedPhysicalObject == null)
-                {
-                    return false;
-                }
 
                 // Retreive the pile
                 Pile locatedDestinationPile = this.GetPile(destinationPile);
-                if (locatedDestinationPile == null || !locatedDestinationPile.Open)
+                if (!locatedDestinationPile.Open)
                 {
-                    return false;
+                    throw new CardGameMoveToNonOpenPileException();
                 }
                 
                 // Removed the object from the source pile
@@ -364,7 +357,7 @@ namespace CardGame
                 }
             }
 
-            return false;
+            throw new CardGameActionNotFoundException();
         }
 
         /// <summary>
@@ -442,7 +435,7 @@ namespace CardGame
                     }
                 }
 
-                throw new Exception("Player turn could not be rotated to the next player.");
+                throw new CardGameException("Player turn could not be rotated to the next player.");
             }
         }
 
@@ -463,7 +456,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePlayerNotFoundException();
         }
 
         /// <summary>
@@ -481,7 +474,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGameSeatNotFoundException();
         }
 
         /// <summary>
@@ -507,7 +500,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePhysicalObjectNotFoundException();
         }
 
         /// <summary>
@@ -533,7 +526,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePileNotFoundException();
         }
 
         /// <summary>
@@ -559,7 +552,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePileNotFoundException();
         }
 
         /// <summary>
