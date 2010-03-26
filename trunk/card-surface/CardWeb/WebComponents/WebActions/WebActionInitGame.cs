@@ -1,7 +1,7 @@
-﻿// <copyright file="WebActionJoinTable.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebActionInitGame.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Action to join a table.</summary>
+// <summary>Action for handling InitGame requests.</summary>
 namespace CardWeb.WebComponents.WebActions
 {
     using System;
@@ -12,12 +12,12 @@ namespace CardWeb.WebComponents.WebActions
     using System.Net.Sockets;
     using System.Text;
     using CardGame;
-    using WebViews;
+    using CardWeb.WebComponents.WebViews;
 
     /// <summary>
-    /// Action to join a table.
+    /// Action for handling InitGame requests.
     /// </summary>
-    public class WebActionJoinTable : WebAction
+    public class WebActionInitGame : WebAction
     {
         /// <summary>
         /// HTTP request.
@@ -30,19 +30,49 @@ namespace CardWeb.WebComponents.WebActions
         private IGameController gameController;
 
         /// <summary>
-        /// Seat code contained in the request
+        /// Minimum stake contained in the request
+        /// </summary>
+        private int minimumStake;
+
+        /// <summary>
+        /// GameId for the corresponding minimum stake submitted
+        /// </summary>
+        private Guid gameId;
+
+        /// <summary>
+        /// SeatCode for the game the user wants to join
         /// </summary>
         private string seatCode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebActionJoinTable"/> class.
+        /// Initializes a new instance of the <see cref="WebActionInitGame"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="gameController">The game controller.</param>
-        public WebActionJoinTable(CardWeb.WebRequest request, IGameController gameController)
+        public WebActionInitGame(CardWeb.WebRequest request, IGameController gameController)
         {
             this.request = request;
             this.gameController = gameController;
+
+            try
+            {
+                this.minimumStake = int.Parse(request.GetUrlParameter(WebViewInitGame.FormFieldNameMinimumStake));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                throw new Exception("Error determining minimum stake.");
+            }
+
+            try
+            {
+                this.gameId = new Guid(request.GetUrlParameter(WebViewInitGame.FormFieldNameGameId));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                throw new Exception("Error determining matching game.");
+            }
 
             try
             {
@@ -50,10 +80,10 @@ namespace CardWeb.WebComponents.WebActions
             }
             catch (Exception e)
             {
-                Debug.WriteLine("WebActionJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Error validating seat code.");
+                Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                throw new Exception("Tried to start a game without selecting a seat.");
             }
-        } /* WebActionJoinTable() */
+        } /* WebActionInitGame() */
 
         /// <summary>
         /// Gets the header.
@@ -74,36 +104,28 @@ namespace CardWeb.WebComponents.WebActions
 
             if (this.request.IsAuthenticated())
             {
-                if (this.gameController.PasswordPeek(this.seatCode))
+                Game desiredGame = this.gameController.GetGame(this.gameId);
+
+                /* TODO: Verify that minimumStake is also <= account balance. */
+                if (this.minimumStake >= desiredGame.MinimumStake)
                 {
-                    Game gameContainingSeat = this.gameController.GetGame(this.seatCode);
-                    
-                    /* If this game requires a minimum stake, redirect the user to WebViewInitGame to enter their initial stake before joining game play. */
-                    if (gameContainingSeat.MinimumStake > 0)
+                    /* The initial stake meet the game's minimum stake requirements; attempt to join the user to the game. */
+                    if (desiredGame.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode, this.minimumStake))
                     {
+                        /* The user has successfully joined the game. */
+                        WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(this.seatCode, desiredGame.Id);
+
                         responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/initgame?" + WebViewInitGame.FormFieldNameGameId + "=" + gameContainingSeat.Id + "&" + WebViewJoinTable.FormFieldNameSeatCode + "=" + this.seatCode + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                        responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     }
                     else
                     {
-                        /* This game does not require a minimum stake; attempt to join the user to the game. */
-                        if (gameContainingSeat.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode))
-                        {
-                            /* The user has successfully joined the game. */
-                            WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(this.seatCode, gameContainingSeat.Id);
-
-                            responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                            responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        }
-                        else
-                        {
-                            throw new Exception("Failed to join the game.");
-                        }
+                        throw new Exception("Failed to join the game.");
                     }
                 }
                 else
                 {
-                    throw new Exception("Invalid seat code.");
+                    throw new Exception("Initial stake did not meet game's minimum stake requirements.");
                 }
             }
             else
@@ -117,7 +139,7 @@ namespace CardWeb.WebComponents.WebActions
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
             Debug.WriteLine("---------------------------------------------------------------------");
-            Debug.WriteLine("WebActionLogin: Sending HTTP response (" + numBytesSent + " bytes).");
+            Debug.WriteLine("WebActionInitGame: Sending HTTP response (" + numBytesSent + " bytes).");
             Debug.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);

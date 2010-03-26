@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebComponents\WebActions\WebAction.cs" />
     <Compile Include="WebComponents\WebActions\WebActionCreateAccount.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionInitGame.cs" />
     <Compile Include="WebComponents\WebActions\WebActionJoinTable.cs" />
     <Compile Include="WebComponents\WebActions\WebActionLogin.cs" />
     <Compile Include="WebComponents\WebActions\WebActionManageAccount.cs" />
@@ -59,10 +60,12 @@
     <Compile Include="WebComponents\WebComponentCreateAccount.cs" />
     <Compile Include="WebComponents\WebComponentDefault.cs" />
     <Compile Include="WebComponents\WebComponentHand.cs" />
+    <Compile Include="WebComponents\WebComponentInitGame.cs" />
     <Compile Include="WebComponents\WebComponentJoinTable.cs" />
     <Compile Include="WebComponents\WebComponentLogin.cs" />
     <Compile Include="WebComponents\WebComponentResource.cs" />
     <Compile Include="WebComponents\WebViews\WebViewDefault.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewInitGame.cs" />
     <Compile Include="WebComponents\WebViews\WebViewResource.cs" />
     <Compile Include="WebController.cs" />
     <Compile Include="WebComponents\WebViews\WebView.cs" />
