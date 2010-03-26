@@ -10,6 +10,7 @@ namespace CardGameCommandLine
     using System.Linq;
     using System.Text;
     using CardGame;
+    using CardGame.GameException;
     using CardServer;
     using GameBlackjack;
 
@@ -50,7 +51,21 @@ namespace CardGameCommandLine
                 }
                 else
                 {
-                    Program.game.ExecuteAction(cmd, game.GetActivePlayerSeat().Username);
+                    try
+                    {
+                        Program.game.ExecuteAction(cmd, game.GetActivePlayerSeat().Username);
+                    }
+                    catch (CardGamePlayerNotFoundException ex)
+                    {
+                        if (cmd.Equals("Deal"))
+                        {
+                            Program.game.ExecuteAction(cmd, null);
+                        }
+                    }
+                    catch (CardGameActionNotFoundException ex)
+                    {
+                        Console.Write("Invalid action.");
+                    }
                     Program.DisplayPlayers();
                 }
             }
