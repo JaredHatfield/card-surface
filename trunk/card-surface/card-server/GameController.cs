@@ -10,6 +10,7 @@ namespace CardServer
     using System.Text;
     using CardAccount;
     using CardGame;
+    using CardGame.GameException;
 
     /// <summary>
     /// The controller that manages all of the game instances and the access to the game instances.
@@ -77,7 +78,7 @@ namespace CardServer
                 }
             }
 
-            throw new Exception("Game with specified Guid " + id.ToString() + " could not be found.");
+            throw new CardGameGameNotFoundException();
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace CardServer
                 }
             }
 
-            throw new Exception("Game with specified seat password " + seatPassword + " could not be found.");
+            throw new CardGameGameNotFoundException();
         }
 
         /// <summary>

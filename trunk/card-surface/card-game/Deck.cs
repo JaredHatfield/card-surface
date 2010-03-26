@@ -9,6 +9,7 @@ namespace CardGame
     using System.Drawing;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A collection of cards that the game uses.
@@ -395,7 +396,7 @@ namespace CardGame
                     break;
             }
 
-            throw new Exception("Card image could not be returned.");
+            throw new CardGameException("Card image could not be returned.");
         }
 
         /// <summary>

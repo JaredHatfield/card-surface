@@ -52,6 +52,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameException\CardGameActionNotFoundException.cs" />
+    <Compile Include="GameException\CardGameException.cs" />
+    <Compile Include="GameException\CardGameGameNotFoundException.cs" />
+    <Compile Include="GameException\CardGameMoveToNonOpenPileException.cs" />
+    <Compile Include="GameException\CardGamePhysicalObjectNotFoundException.cs" />
+    <Compile Include="GameException\CardGamePileNotFoundException.cs" />
+    <Compile Include="GameException\CardGamePlayerNotFoundException.cs" />
+    <Compile Include="GameException\CardGameSeatNotFoundException.cs" />
     <Compile Include="GameObjects\Card.cs" />
     <Compile Include="GamePiles\BankPile.cs" />
     <Compile Include="GamePiles\CardPile.cs" />

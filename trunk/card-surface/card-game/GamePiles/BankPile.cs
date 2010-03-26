@@ -9,6 +9,7 @@ namespace CardGame
     using System.Drawing;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A pile of chips that the user can access money they have placed on the table.
@@ -38,7 +39,7 @@ namespace CardGame
         private BankPile()
             : base()
         {
-            throw new Exception("BankPile should not be initialized without referencing a player.");
+            throw new CardGameException("BankPile should not be initialized without referencing a player.");
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace CardGame
                 case 100:
                     return new Chip(100, Color.Black);
                 default:
-                    throw new Exception("Invalid chip value requested");
+                    throw new CardGameException("Invalid chip value requested");
             }
         }
     }
