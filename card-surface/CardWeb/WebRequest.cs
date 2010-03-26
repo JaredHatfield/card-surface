@@ -282,7 +282,8 @@ namespace CardWeb
                 throw new Exception("No cookie found");
             }
 
-            throw new Exception("Invalid cookie data");
+            /* If we didn't find our cookie identifier, return an WebCookie constructed with an empty Guid (which will never be authenticated). */
+            return new WebCookie(Guid.Empty);
         } /* ExtractCookie() */
 
         /// <summary>
@@ -435,28 +436,25 @@ namespace CardWeb
             string[] firstLineTokens = firstLineOfRequest.Split(new char[] { ' ' });
             string[] resourceTokens = firstLineTokens[HttpRequestResourceIndex].Split(new char[] { '/' });
 
-            if (this.requestMethod == WebRequestMethods.Http.Get)
+            /* Trim off leading '/' part of URI prefix and any trailing ?key=value&key=value... pairs */
+            /* TODO: What if the request terminator equals 0?  We shouldn't do the same thing.  Ex: http://localhost/?gid=aekjaka Do we still need to parse? */
+            int resourceTerminator = resourceTokens[HttpRequestResourceIndex].IndexOf('?');
+            if (resourceTerminator >= 0)
             {
-                /* Trim off leading '/' part of URI prefix and any trailing ?key=value&key=value... pairs */
-                /* TODO: What if the request terminator equals 0?  We shouldn't do the same thing.  Ex: http://localhost/?gid=aekjaka Do we still need to parse? */
-                int resourceTerminator = resourceTokens[HttpRequestResourceIndex].IndexOf('?');
-                if (resourceTerminator >= 0)
+                if (this.requestMethod == WebRequestMethods.Http.Get)
                 {
-                    /* Parse the URL for its key\value pairs.  Remove the actual resource name and the ? separator. */
+                    /* Parse the URL for its key\value pairs.  Remove the actual resource name and the ? separator. 
+                       But only parse the parameters that followed for GET requests.  POST requests should contain
+                       all of their key\value pairs in the request content.  Ignore leftover URL parameters on POST
+                       requests. */
                     this.ParseUrlParameters(resourceTokens[HttpRequestResourceIndex].Remove(0, resourceTerminator + 1));
+                }
 
-                    /* If the resource name contained trailing URL parameters, remove them. */
-                    return resourceTokens[HttpRequestResourceIndex].Remove(resourceTerminator);
-                }
-                else
-                {
-                    return resourceTokens[HttpRequestResourceIndex];
-                }
+                /* If the resource name contained trailing URL parameters, remove them. */
+                return resourceTokens[HttpRequestResourceIndex].Remove(resourceTerminator);
             }
             else
             {
-                /* If the request was an HTTP POST, there should be no URL parameters in the resource.  
-                 * Those should be found in the content. See GetHttpRequestContent() for ParseUrlParameters() call. */
                 return resourceTokens[HttpRequestResourceIndex];
             }
         } /* GetHttpRequestResource() */

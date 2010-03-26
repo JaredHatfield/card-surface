@@ -31,7 +31,7 @@ namespace CardWeb
         /// <summary>
         /// Maximum data bytes to read from an open socket at one time
         /// </summary>
-        private const int SocketMaxRecvDataBytes = 1024;
+        private const int SocketMaxRecvDataBytes = 2048;
         
         /// <summary>
         /// GameController that the web server is able to interact with.
@@ -74,6 +74,7 @@ namespace CardWeb
             this.RegisterWebComponent(new WebComponentJoinTable(gameController));
             this.RegisterWebComponent(new WebComponentHand(gameController));
             this.RegisterWebComponent(new WebComponentResource(gameController));
+            this.RegisterWebComponent(new WebComponentInitGame(gameController));
 
             try
             {
@@ -191,8 +192,8 @@ namespace CardWeb
                         }
                         catch (Exception e)
                         {
-                            Debug.WriteLine("WebController: Unable to receive data from an accepted connection request @ " + WebUtilities.GetCurrentLine());
-                            Debug.WriteLine("-->" + e.Message);
+                            Debug.WriteLine("WebController: Unable to receive data from an accepted connection request @ " + WebUtilities.GetCurrentLine() + " (" + e.Message + ")");
+                            Debug.WriteLine(e.StackTrace);
                             /* TODO: What happens if we're no longer able to read form the socket?  How do we reset? */
                         }
                     }

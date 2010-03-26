@@ -1,28 +1,38 @@
-﻿// <copyright file="WebViewJoinTable.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebViewInitGame.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>View for displaying the form for joining a table.</summary>
+// <summary>View for displaying the form requiring minimum game stake.</summary>
 namespace CardWeb.WebComponents.WebViews
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using CardAccount;
     using CardGame;
 
     /// <summary>
-    /// View for displaying the for joining a table.
+    /// View for displaying the form requiring minimum game stake.
     /// </summary>
-    public sealed class WebViewJoinTable : WebView
+    public class WebViewInitGame : WebView
     {
         /// <summary>
-        /// Name of HTML form field associated with the seat code needed for joining a game.
+        /// Name of HTML form field associated with the minimum stake needed for joining a game.
         /// </summary>
-        public const string FormFieldNameSeatCode = "seatCode";
+        public const string FormFieldNameMinimumStake = "minimumStake";
+
+        /// <summary>
+        /// Name of HTML form field associated with the minimum stake's corresponding game.
+        /// </summary>
+        public const string FormFieldNameGameId = "gid";
+
+        /// <summary>
+        /// Name of the HTML form for initializing a game
+        /// </summary>
+        public const string FormName = "frmMinimumStake";
 
         /// <summary>
         /// HTTP Request that caused creation of this WebView
@@ -40,29 +50,39 @@ namespace CardWeb.WebComponents.WebViews
         private string errorMessage;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebViewJoinTable"/> class.
+        /// The game that the player wants to join corresponding to the initial stake
+        /// </summary>
+        private Game desiredGame;
+
+        /// <summary>
+        /// The seatCode for the game that the player wants to join
+        /// </summary>
+        private string seatCode;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewInitGame"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="gameController">The game controller.</param>
-        public WebViewJoinTable(CardWeb.WebRequest request, IGameController gameController)
+        public WebViewInitGame(CardWeb.WebRequest request, IGameController gameController)
         {
             this.request = request;
             this.gameController = gameController;
             this.errorMessage = String.Empty;
-        } /* WebViewJoinTable() */
+        } /* WebViewInitGame() */
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebViewJoinTable"/> class.
+        /// Initializes a new instance of the <see cref="WebViewInitGame"/> class.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="gameController">The game controller.</param>
         /// <param name="errorMessage">The error message.</param>
-        public WebViewJoinTable(CardWeb.WebRequest request, IGameController gameController, string errorMessage)
+        public WebViewInitGame(CardWeb.WebRequest request, IGameController gameController, string errorMessage)
         {
             this.request = request;
             this.gameController = gameController;
             this.errorMessage = errorMessage;
-        } /* WebViewJoinTable() */
+        } /* WebViewInitGame() */
 
         /// <summary>
         /// Gets the type of the content.
@@ -104,6 +124,13 @@ namespace CardWeb.WebComponents.WebViews
 
             if (this.request.IsAuthenticated())
             {
+                /* TODO: Put these calls in a try catch block.  How is this view handled if someone tries to access it via URL
+                 * but doesn't provide all of the necessary information?  GetGame() will throw specific exception that should
+                 * be caught for desiredGame.  GetUrlParameter() will throw them for seatCode.  If these properties aren't set,
+                 * this view can't continue.  How do we recover? */
+                this.desiredGame = this.gameController.GetGame(new Guid(this.request.GetUrlParameter(FormFieldNameGameId)));
+                this.seatCode = this.request.GetUrlParameter(WebViewJoinTable.FormFieldNameSeatCode);
+
                 /* If the request has not been authenticated, provide them with a list of available games. */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
@@ -120,7 +147,7 @@ namespace CardWeb.WebComponents.WebViews
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
             Debug.WriteLine("---------------------------------------------------------------------");
-            Debug.WriteLine("WebViewJoinTable: Sending HTTP response. (" + numBytesSent + " bytes)");
+            Debug.WriteLine("WebViewInitGame: Sending HTTP response. (" + numBytesSent + " bytes)");
             Debug.WriteLine(responseBuffer);
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
@@ -135,19 +162,38 @@ namespace CardWeb.WebComponents.WebViews
         {
             string content = "<html>\n";
             content += "<head>\n";
-            content += "<title>Seat Code : CardSurface</title>\n";
+            content += "<title>Join Game : CardSurface</title>\n";
+            content += "<script language=\"JavaScript\">\n";
+            content += "function verify()\n";
+            content += "{\n";
+            /* TODO: Also verify that minimumStake is above the account balance. */
+            content += "if(" + FormName + "." + FormFieldNameMinimumStake + ".value < " + this.desiredGame.MinimumStake + ")\n";
+            content += "{\n";
+            content += "alert(\"Your initial stake must be greater than or equal to $" + this.desiredGame.MinimumStake + "!\");\n";
+            content += "return false;\n";
+            content += "}\n";
+            content += "else\n";
+            content += "{\n";
+            content += "return true;\n";
+            content += "}\n";
+            content += "}\n";
+            content += "</script>\n";
             content += "</head>\n";
-            content += "<body onLoad=\"document.frmSeatCode." + FormFieldNameSeatCode + ".focus();\">\n";
+            content += "<body onLoad=\"document." + FormName + "." + FormFieldNameMinimumStake + ".focus();\">\n";
 
             if (!this.errorMessage.Equals(String.Empty))
             {
                 content += "<font color=\"red\"><b>" + this.errorMessage + "</b></font><br/>\n";
             }
 
-            content += "Enter Seat Code:<br/>\n";
-            content += "<form name=\"frmSeatCode\" method=\"POST\">\n";
-            content += "<input type=\"text\" name=\"" + FormFieldNameSeatCode + "\"/><br/>\n";
-            content += "<input type=\"submit\" value=\"Join Game\"/>\n";
+            content += "This game requires a minimum stake of $" + this.desiredGame.MinimumStake + " to join.<br/><br/>";
+            content += "Enter Initial Stake (must be greater than $" + this.desiredGame.MinimumStake + "):\n";
+            content += "<form name=\"" + FormName + "\" method=\"POST\" onSubmit=\"return verify();\">\n";
+            content += "<input type=\"hidden\" name=\"" + WebViewJoinTable.FormFieldNameSeatCode + "\" value=\"" + this.seatCode + "\"/>\n"; 
+            content += "<input type=\"hidden\" name=\"" + FormFieldNameGameId + "\" value=\"" + this.desiredGame.Id + "\"/>\n";
+            content += "$<input type=\"text\" name=\"" + FormFieldNameMinimumStake + "\"/><br/>\n";
+            content += "(Your Account Balance: $" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + ")\n";
+            content += "<input type=\"submit\" value=\"Start Game\"/>\n";
             content += "</form>\n";
             content += "</body>\n";
             content += "</html>\n";

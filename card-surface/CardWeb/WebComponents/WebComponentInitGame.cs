@@ -1,7 +1,7 @@
-﻿// <copyright file="WebComponentJoinTable.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="WebComponentInitGame.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Component for handling JoinTable requests.</summary>
+// <summary>Component responsible for handling InitGame requests.</summary>
 namespace CardWeb.WebComponents
 {
     using System;
@@ -9,17 +9,16 @@ namespace CardWeb.WebComponents
     using System.Diagnostics;
     using System.Linq;
     using System.Net;
-    using System.Net.Sockets;
     using System.Text;
     using System.Threading;
     using CardGame;
-    using WebActions;
-    using WebViews;
+    using CardWeb.WebComponents.WebActions;
+    using CardWeb.WebComponents.WebViews;
 
     /// <summary>
-    /// Component for handling JoinTable requests.
+    /// Component responsible for handling InitGame requests
     /// </summary>
-    public class WebComponentJoinTable : WebComponent
+    public class WebComponentInitGame : WebComponent
     {
         /// <summary>
         /// Semaphore that regulates access to the mailboxQueue
@@ -34,12 +33,12 @@ namespace CardWeb.WebComponents
         /// <summary>
         /// Thread responsible for processing incoming HTTP requests.
         /// </summary>
-        private Thread webComponentJoinTableThread;
+        private Thread webComponentInitGameThread;
 
         /// <summary>
         /// Component URL prefix
         /// </summary>
-        private string componentPrefix = "jointable";
+        private string componentPrefix = "initgame";
 
         /// <summary>
         /// References the server's GameController
@@ -47,19 +46,19 @@ namespace CardWeb.WebComponents
         private IGameController gameController;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebComponentJoinTable"/> class.
+        /// Initializes a new instance of the <see cref="WebComponentInitGame"/> class.
         /// </summary>
         /// <param name="gameController">The game controller.</param>
-        public WebComponentJoinTable(IGameController gameController)
+        public WebComponentInitGame(IGameController gameController)
         {
             this.mailboxQueue = new Queue<CardWeb.WebRequest>();
             this.mailboxQueueSemaphore = new object();
             this.gameController = gameController;
 
-            this.webComponentJoinTableThread = new Thread(new ThreadStart(this.Run));
-            this.webComponentJoinTableThread.Name = "WebComponentJoinTableThread";
-            this.webComponentJoinTableThread.Start();
-        } /* WebComponentJoinTable() */
+            this.webComponentInitGameThread = new Thread(new ThreadStart(this.Run));
+            this.webComponentInitGameThread.Name = "WebComponentInitGameThread";
+            this.webComponentInitGameThread.Start();
+        } /* WebComponentInitGame() */
 
         /// <summary>
         /// Gets the component prefix.
@@ -82,7 +81,7 @@ namespace CardWeb.WebComponents
                 Monitor.Pulse(this.mailboxQueueSemaphore);
             }
 
-            Debug.WriteLine("WebComponentJoinTable: Added new HTTP request to WebComponentJoinTable.");
+            Debug.WriteLine("WebComponentInitGame: Added new HTTP request to WebComponentInitGame.");
         } /* PostRequest() */
 
         /// <summary>
@@ -107,21 +106,21 @@ namespace CardWeb.WebComponents
 
                 if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                 {
-                    WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController);
-                    webViewJoinTable.SendResponse();
+                    WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController);
+                    webViewInitGame.SendResponse();
                 }
                 else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
                 {
                     try
                     {
-                        WebActionJoinTable webActionJoinTable = new WebActionJoinTable(request, this.gameController);
-                        webActionJoinTable.Execute();
+                        WebActionInitGame webActionInitGame = new WebActionInitGame(request, this.gameController);
+                        webActionInitGame.Execute();
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                        WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);
-                        webViewJoinTable.SendResponse();
+                        Debug.WriteLine("WebComponentInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                        WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController, e.Message);
+                        webViewInitGame.SendResponse();
                     }
                 }
                 else
