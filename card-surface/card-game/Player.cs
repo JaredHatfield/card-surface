@@ -157,6 +157,10 @@ namespace CardGame
             {
                 return true;
             }
+            else if (this.bankPile.ContainsPhysicalObject(chipId))
+            {
+                return true;
+            }
 
             return false;
         }
@@ -193,6 +197,10 @@ namespace CardGame
             {
                 return this.PlayerArea.GetPhysicalObject(id);
             }
+            else if (this.bankPile.ContainsPhysicalObject(id))
+            {
+                return this.bankPile.GetPhysicalObject(id);
+            }
             else
             {
                 return this.Hand.GetPhysicalObject(id);
@@ -226,6 +234,10 @@ namespace CardGame
             if (this.hand.ContainsPhysicalObject(physicalObjectId))
             {
                 return this.hand;
+            }
+            else if (this.bankPile.ContainsPhysicalObject(physicalObjectId))
+            {
+                return this.bankPile;
             }
             else
             {
