@@ -31,7 +31,7 @@ namespace CardGameCommandLine
         public static void Main(string[] args)
         {
             // Add a dummy players to the game
-            Program.PlayerJoinGame("player1", 25);
+            Program.PlayerJoinGame("player1", 100);
             Program.DisplayPlayers();
 
             ServerController serverController = new ServerController();
@@ -44,6 +44,22 @@ namespace CardGameCommandLine
                 if (cmd.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
                     break;
+                }
+                else if (cmd.Equals("bet 1", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Program.PlaceBet(game.GetActivePlayer(), 1);
+                }
+                else if (cmd.Equals("bet 5", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Program.PlaceBet(game.GetActivePlayer(), 5);
+                }
+                else if (cmd.Equals("bet 10", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Program.PlaceBet(game.GetActivePlayer(), 10);
+                }
+                else if (cmd.Equals("bet 25", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Program.PlaceBet(game.GetActivePlayer(), 25);
                 }
                 else if (cmd.Equals("showseats", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -61,11 +77,16 @@ namespace CardGameCommandLine
                         {
                             Program.game.ExecuteAction(cmd, null);
                         }
+                        else
+                        {
+                            Console.WriteLine(ex);
+                        }
                     }
                     catch (CardGameActionNotFoundException ex)
                     {
-                        Console.Write("Invalid action.");
+                        Console.Write(ex);
                     }
+
                     Program.DisplayPlayers();
                 }
             }
@@ -122,7 +143,25 @@ namespace CardGameCommandLine
         /// <param name="chipValue">The chip value.</param>
         private static void PlaceBet(Player player, int chipValue)
         {
-            // TODO: Make some way for the user to place a bet from the command line.
+            // Find the physical object
+            IChip chip = null;
+            for (int i = 0; i < player.BankPile.Chips.Count; i++)
+            {
+                if ((player.BankPile.Chips[i] as IChip).Amount.Equals(chipValue))
+                {
+                    chip = player.BankPile.Chips[i] as IChip;
+                    break;
+                }
+            }
+
+            if (chip != null)
+            {
+                Program.game.MoveAction(chip.Id, player.PlayerArea.Chips[0].Id);
+            }
+            else
+            {
+                Console.WriteLine("Invalid bet amount.");
+            }
         }
 
         /// <summary>
