@@ -22,7 +22,7 @@ namespace CardGameCommandLine
         /// <summary>
         /// The game of Blackjack that is being played.
         /// </summary>
-        private static Game game = new Blackjack(10);
+        private static Game game = new Blackjack(10, 5);
 
         /// <summary>
         /// Mains the specified args.

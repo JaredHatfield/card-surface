@@ -47,10 +47,9 @@ namespace GameBlackjack
             // Deal the cards to the player
             for (int i = 0; i < blackjack.Seats.Count; i++)
             {
-                if (!blackjack.Seats[i].IsEmpty)
+                if (!blackjack.Seats[i].IsEmpty &&
+                    blackjack.Seats[i].Player.PlayerArea.Chips[0].Amount >= blackjack.MinimumBet)
                 {
-                    // TODO: Check to make sure the player should be dealt because they placed the minimum bet
-
                     // Deal the player two cards, the second being face up
                     Player p = blackjack.Seats[i].Player;
                     p.Hand.Open = true;
