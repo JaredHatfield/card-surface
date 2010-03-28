@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Blackjack.cs" />
     <Compile Include="BlackjackRules.cs" />
+    <Compile Include="GameActionAwardChips.cs" />
+    <Compile Include="GameActionClearTable.cs" />
     <Compile Include="GameActionDeal.cs" />
     <Compile Include="GameActionDouble.cs" />
     <Compile Include="GameActionHit.cs" />

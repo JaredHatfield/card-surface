@@ -34,7 +34,7 @@ Global
 		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = card-surface3.vsmdi
+		CategoryFile = card-surface.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
