@@ -11,6 +11,7 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
+    ////using GameObject;
 
     /// <summary>
     /// A message for an action that was performed on the table.
@@ -27,27 +28,53 @@ namespace CardCommunication.Messages
         /// </summary>
         private Game game;
 
+        /////// <summary>
+        /////// game object
+        /////// </summary>
+        ////private GameMessage gameObject;
+
         /// <summary>
         /// Messages the specified game state.
         /// </summary>
         /// <param name="gameState">State of the game.</param>
-        public override void MessageConstructSend(Game gameState)
-        {
-            this.game = gameState;
+        /////// <returns>
+        /////// whether the message was constructed and sent.
+        /////// </returns>
+        ////private override bool MessageConstructSend(Game gameState)
+        ////{
+        ////    bool success = false;
+        ////    this.game = gameState;
 
-            this.BuildMessage();
-            this.SendMessage();
-        }
+        ////    this.BuildMessage();
+        ////    success = this.SendMessage();
+
+        ////    return success;
+        ////}
 
         /// <summary>
         /// Builds the message.
         /// </summary>
-        public override void BuildMessage()
+        /// <param name="gameState">State of the game.</param>
+        /// <returns>whether the Message was built.</returns>
+        public override bool BuildMessage(Game gameState)
         {
             XmlElement message = this.messageDoc.DocumentElement;
+            bool success = true;
 
-            this.BuildHeader(ref message);
-            this.BuildActionParam(ref message);
+            try
+            {
+                this.game = gameState;
+
+                this.BuildHeader(ref message);
+                this.BuildBody(ref message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error Building Message", e);
+                success = false;
+            }
+
+            return success;
         }
 
         /// <summary>
@@ -64,17 +91,53 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Builds the header.
+        /// Processes the message.
         /// </summary>
-        /// <param name="message">The message.</param>
-        protected override void BuildHeader(ref XmlElement message)
+        /// <param name="messageDoc">The message document.</param>
+        /// <returns>whether the message was processed.</returns>
+        protected override Game ProcessMessage(XmlDocument messageDoc)
         {
-            XmlElement header = this.messageDoc.CreateElement("Header");
-            DateTime time = DateTime.UtcNow;
+            XmlTextReader tx = new XmlTextReader(messageDoc.InnerText);
+                        
+            while (tx.Read())
+            {
+                XmlElement element = messageDoc.CreateElement(tx.Name);
+                element.InnerXml = tx.ReadInnerXml();
 
-            header.SetAttribute("TimeStamp", time.ToString());
-            message.AppendChild(header);
+                switch (tx.Name)
+                {
+                    case "Header":
+                        this.ProcessHeader(element);
+                        break;
+                    case "Body":
+                        this.ProcessBody(element);
+                        break;
+                }
+            }
+
+            return this.game;
         }
+
+        /////// <summary>
+        /////// Builds the header.
+        /////// </summary>
+        /////// <param name="message">The message.</param>
+        ////protected override void BuildHeader(ref XmlElement message)
+        ////{
+        ////    XmlElement header = this.messageDoc.CreateElement("Header");
+        ////    DateTime time = DateTime.UtcNow;
+            
+        ////    header.SetAttribute("TimeStamp", time.ToString());
+        ////    message.AppendChild(header);
+        ////}
+
+        /////// <summary>
+        /////// Processes the header.
+        /////// </summary>
+        /////// <param name="element">The element to be processed.</param>
+        ////protected override void ProcessHeader(XmlElement element)
+        ////{            
+        ////}
 
         /// <summary>
         /// Builds the body.
@@ -83,10 +146,19 @@ namespace CardCommunication.Messages
         protected override void BuildBody(ref XmlElement message)
         {
             XmlElement body = this.messageDoc.CreateElement("Body");
-
+            
             this.BuildAction(ref body);
 
             message.AppendChild(body);
+        }
+
+        /// <summary>
+        /// Processes the body.
+        /// </summary>
+        /// <param name="element">The element to be processed.</param>
+        protected override void ProcessBody(XmlElement element)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -96,7 +168,7 @@ namespace CardCommunication.Messages
         protected void BuildAction(ref XmlElement message)
         {
             XmlElement action = this.messageDoc.CreateElement("Action");
-
+            
             this.BuildActionParam(ref action);
             
             ////game.action.game);
@@ -109,7 +181,7 @@ namespace CardCommunication.Messages
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected override void BuildActionParam(ref XmlElement message)
+        protected void BuildActionParam(ref XmlElement message)
         {
             XmlElement command = this.messageDoc.CreateElement("Command");
 
@@ -133,6 +205,32 @@ namespace CardCommunication.Messages
             param.SetAttribute("Value", String.Empty);
 
             message.AppendChild(param);
+        }
+
+        /// <summary>
+        /// Processes the action.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="actionType">Type of the action.</param>
+        protected void ProcessAction(XmlElement action, string actionType)
+        {
+            //// Call ExecuteAction for Custom and MoveAction for Action
+            foreach (XmlNode node in action.Attributes)
+            {
+                XmlAttribute childAttribute = this.messageDoc.CreateAttribute(node.Name);
+                childAttribute.InnerXml = node.InnerXml;
+
+                switch (actionType)
+                {
+                    case "Move":
+                        ////ProcessMoveAction();
+                        ////gameObject.MoveAction();
+                        break;
+                    case "Custom":
+                        ////gameObject.ExecuteAction();
+                        break;
+                }
+            }
         }
     }
 }
