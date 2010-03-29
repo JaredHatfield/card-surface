@@ -11,6 +11,8 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
+    using GameBlackjack;
+    ////using GameObject;
 
     /// <summary>
     /// A reflection of the current game state.
@@ -27,30 +29,60 @@ namespace CardCommunication.Messages
         /// </summary>
         private Game game;
 
-        /// <summary>
-        /// Messages all relevent players/tables of the specified game state.
-        /// </summary>
-        /// <param name="gameState">State of the game.</param>
-        public override void MessageConstructSend(Game gameState)
-        {
-            this.game = gameState;
+        ///// <summary>
+        ///// game state
+        ///// </summary>
+        ////private GameMessage gameObject;
 
-            // This may change depending on how a Message is called.
-            this.BuildMessage();
-            this.SendMessage();
-        }
+        /////// <summary>
+        /////// Messages all relevent players/tables of the specified game state.
+        /////// </summary>
+        /////// <param name="gameState">State of the game.</param>
+        /////// <returns>
+        /////// whether the message was constructed and sent.
+        /////// </returns>
+        ////public override bool MessageConstructSend(Game gameState)
+        ////{
+        ////    bool success = false;
+        ////    this.game = gameState;
+
+        ////    // This may change depending on how a Message is called.
+        ////    this.BuildMessage();
+        ////    success = this.SendMessage();
+
+        ////    return success;
+        ////}
 
         /// <summary>
         /// Builds the message.
         /// </summary>
-        public override void BuildMessage()
+        /// <param name="gameState">State of the game.</param>
+        /// <returns>whether the Message was built.</returns>
+        public override bool BuildMessage(Game gameState)
         {
             XmlElement message = this.messageDoc.DocumentElement;
+            bool success = true;
 
-            this.BuildHeader(ref message);
-            this.BuildBody(ref message);
+            ////if (gameObject == null)
+            ////{
+            ////    ////gameObject = new GameMessage();
+            ////}
+            ////////gameObject.Players[0].
 
-            this.messageDoc.DocumentElement.AppendChild(message);
+            try
+            {
+                this.game = gameState;
+
+                this.BuildHeader(ref message);
+                this.BuildBody(ref message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error Building Message", e);
+                success = false;
+            }
+
+            return success;
         }
 
         /// <summary>
@@ -71,17 +103,27 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Builds the header.
+        /// Processes the message.
         /// </summary>
-        /// <param name="message">The message.</param>
-        protected override void BuildHeader(ref XmlElement message)
+        /// <param name="messageDoc">The message document.</param>
+        /// <returns>the Game created with the xml document.</returns>
+        protected override Game ProcessMessage(XmlDocument messageDoc)
         {
-            XmlElement header = this.messageDoc.CreateElement("Header");
-            DateTime time = DateTime.UtcNow;
-
-            header.SetAttribute("TimeStamp", time.ToString());
-            message.AppendChild(header);
+            return this.game;
         }
+
+        /////// <summary>
+        /////// Builds the header.
+        /////// </summary>
+        /////// <param name="message">The message.</param>
+        ////protected override void BuildHeader(ref XmlElement message)
+        ////{
+        ////    XmlElement header = this.messageDoc.CreateElement("Header");
+        ////    DateTime time = DateTime.UtcNow;
+
+        ////    header.SetAttribute("TimeStamp", time.ToString());
+        ////    message.AppendChild(header);
+        ////}
 
         /// <summary>
         /// Builds the body.
@@ -94,6 +136,15 @@ namespace CardCommunication.Messages
             this.BuildGame(ref body);
 
             message.AppendChild(body);
+        }
+
+        /// <summary>
+        /// Processes the body.
+        /// </summary>
+        /// <param name="element">The element to be processed.</param>
+        protected override void ProcessBody(XmlElement element)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -324,7 +375,7 @@ namespace CardCommunication.Messages
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected override void BuildActionParam(ref XmlElement message)
+        protected void BuildActionParam(ref XmlElement message)
         {
             XmlElement param = this.messageDoc.CreateElement("Param");
 
@@ -335,6 +386,278 @@ namespace CardCommunication.Messages
             param.SetAttribute("Value", String.Empty); 
 
             message.AppendChild(param);
+        }
+
+        ////protected bool ProcessXMLElement(ref GameMessage game, XmlElement element)
+        ////{
+        ////    bool success = true;
+
+        ////    try
+        ////    {
+        ////        foreach (XmlNode node in element.ChildNodes)
+        ////        {
+        ////            XmlElement childElement = messageDoc.CreateElement(node.Name);
+        ////            childElement.InnerXml = node.InnerXml;
+
+        ////            switch (node.Name)
+        ////            {
+        ////                case "Body":
+        ////                    success = ProcessBody(ref game, childElement);
+        ////                    break;
+        ////                case "Status":
+        ////                    success = ProcessStatus(ref game, childElement, element.Name);
+        ////                    break;
+        ////                case "Message":
+        ////                    success = ProcessMessage
+        ////            }
+        ////        }
+        ////    }
+        ////    catch (Exception e)
+        ////    {
+        ////        Console.WriteLine("Error while processing the body.", e);
+        ////    }
+
+        ////    return success;
+        ////}
+
+        /// <summary>
+        /// Processes the body.
+        /// </summary>
+        /// <param name="game">The game to be created.</param>
+        /// <param name="body">The body element to be processed.</param>
+        /// <returns>whether the body was processed.</returns>
+        protected bool ProcessBody(ref Game game, XmlElement body)
+        {
+            bool success = true;
+             
+            foreach (XmlNode node in body.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element && success)
+                {
+                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    child.InnerXml = node.InnerXml;
+
+                    switch (node.Name)
+                    {
+                        case "Status":
+                            success = this.ProcessStatus(child, node.Name);
+                            break;
+                        case "Message":
+                            success = this.ProcessGameMessage(child);
+                            break;
+                        case "Players":
+                            success = this.ProcessPlayers(child);
+                            break;
+                        case "Area":
+                            ////PlayingArea area = new PlayingArea();
+                            ////success = ProcessArea(ref area, child);
+                            ////gameObject.GamingArea = area;
+                            break;
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the status.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <param name="parentName">Name of the parent.</param>
+        /// <returns>whether the Status element was processed.</returns>
+        protected bool ProcessStatus(XmlElement status, string parentName)
+        {
+            bool success = true;
+
+            foreach (XmlAttribute attribute in status.Attributes)
+            {
+                switch (attribute.Name)
+                {
+                    case "turn":
+                        ////game.
+                        break;
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the game message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>whether the message was processed.</returns>
+        protected bool ProcessGameMessage(XmlElement message)
+        {
+            bool success = true;
+
+            foreach (XmlAttribute attribute in message.Attributes)
+            {
+                switch (attribute.Name)
+                {
+                    case "value":
+                        ////game.
+                        break;
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the players.
+        /// </summary>
+        /// <param name="players">The players.</param>
+        /// <returns>whether the players element was processed.</returns>
+        protected bool ProcessPlayers(XmlElement players)
+        {
+            bool success = true;
+
+            foreach (XmlNode node in players.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    child.InnerXml = node.InnerXml;
+
+                    switch (node.Name)
+                    {
+                        case "Player":
+                            ////PlayerMessage player = new PlayerMessage();
+                            ////success = ProcessPlayer(ref player, child);
+                            ////gameObject.Players.Add(player);
+                            break;
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the player.
+        /// </summary>
+        /// <param name="playerObject">The player object.</param>
+        /// <param name="player">The player.</param>
+        /// <returns>whether the player element was processed.</returns>
+        protected bool ProcessPlayer(ref Player playerObject, XmlElement player)
+        {
+            bool success = true;
+
+            foreach (XmlNode node in player.ChildNodes)
+            {                
+                try
+                {
+                    if (node.NodeType == XmlNodeType.Element)
+                    {
+                        XmlElement child = this.messageDoc.CreateElement(node.Name);
+                        child.InnerXml = node.InnerXml;
+
+                        switch (node.Name)
+                        {
+                            case "id":
+                                ////playerObject.Id = new Guid(node.Value);
+                                break;
+                            case "balance":
+                                playerObject.Balance = Convert.ToInt32(node.Value);
+                                break;
+                            case "Hand":
+                                ////CardPileMessage hand = new CardPileMessage();
+                                
+                                ////success = ProcessHand(ref hand, child);
+                                ////nextPlayer.Hand = hand;
+                                break;
+                            case "Area":
+                                ////AreaMessage area = new AreaMessage();
+
+                                ////success = ProcessArea(ref area, child);
+                                ////playerObject.PlayerArea = area;
+                                break;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error processing Player from XML.", e);
+                    success = false;
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the hand.
+        /// </summary>
+        /// <param name="cp">The cardpile.</param>
+        /// <param name="hand">The hand element.</param>
+        /// <returns>whether the Hand element was processed.</returns>
+        protected bool ProcessHand(ref CardPile cp, XmlElement hand)
+        {
+            bool success = true;
+
+            ////foreach (XmlNode node in players.ChildNodes)
+            ////{
+            ////    if (node.NodeType == XmlNodeType.Element)
+            ////    {
+            ////        XmlElement child = messageDoc.CreateElement(node.Name);
+            ////        child.InnerXml = node.InnerXml;
+
+            ////        switch (node.Name)
+            ////        {
+            ////            case "Player":
+            ////                success = ProcessPlayer(ref game, child, node.Name);
+            ////                break;
+            ////        }
+            ////    }
+            ////}
+
+            return success;
+        }
+
+        /// <summary>
+        /// Processes the area.
+        /// </summary>
+        /// <param name="areaObject">The area object.</param>
+        /// <param name="area">The area element to be processed.</param>
+        /// <returns>whether the area element was processed.</returns>
+        protected bool ProcessArea(ref PlayingArea areaObject, XmlElement area)
+        {
+            bool success = true;
+
+            foreach (XmlNode node in area.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    child.InnerXml = node.InnerXml;
+
+                    switch (node.Name)
+                    {
+                        case "CardCollection":
+                            ////success = ProcessCardCollection(child, node.Name);
+                            break;
+                        case "ChipPile":
+                            ////success = ProcessGameMessage(child);
+                            break;                        
+                    }
+                }
+                else if (node.NodeType == XmlNodeType.Attribute)
+                {
+                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    child.InnerXml = node.InnerXml;
+
+                    switch (node.Name)
+                    {
+                        case "Status":
+                            ////success = ProcessStatus(ref game, child, node.Name);
+                            break;
+                    }
+                }
+            }
+
+            return success;
         }
 
         /// <summary>

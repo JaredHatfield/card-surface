@@ -35,6 +35,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -65,6 +68,10 @@
     <ProjectReference Include="..\card-game\CardGame.csproj">
       <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
       <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
+      <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
+      <Name>GameBlackjack</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

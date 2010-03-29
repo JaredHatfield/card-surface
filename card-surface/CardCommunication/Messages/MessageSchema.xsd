@@ -89,7 +89,6 @@
       <xs:element name="balance" type="xs:double"></xs:element>
       <xs:element name="Area" type="AreaType"></xs:element>
       <xs:element name="Hand" type="HandType"></xs:element>
-      <xs:element name="Action" type="ActionType"></xs:element>
     </xs:all>
   </xs:complexType>
   <xs:complexType name="AreaType">
