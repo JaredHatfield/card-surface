@@ -175,6 +175,12 @@ namespace CardAccount
         {
             bool success = true;
 
+            if (File.Exists(file))
+            {
+                //// overwrite Backup file if exists
+                File.Copy(file, file + "Backup", true);
+            }
+
             try
             {
                 FileStream filestream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 1000, true);
@@ -215,76 +221,6 @@ namespace CardAccount
 
             return success;
         }
-
-        /*/// <summary>
-        /// Updates the flat file.
-        /// </summary>
-        /// <param name="file">The filepath to update the file.</param>
-        /// <returns>whether the file was updated.</returns>
-        private bool UpdateFlatFile(string file)
-        {
-            bool success = false;
-
-            // Read in the XML document and load all of the data into memory
-            FileStream filestream = new FileStream(file, FileMode.Open, FileAccess.Write, FileShare.Write);
-            GZipStream gzipstream = new GZipStream(filestream, CompressionMode.Compress, true);
-            XmlReader r = new XmlTextReader(gzipstream);
-            while (r.Read())
-            {
-                if (r.NodeType == XmlNodeType.Element && r.Name == "Username")
-                {
-                    // Read the room's attributes and make a new instance of a room
-                    this.width = Int32.Parse(r.GetAttribute("Width"));
-                    this.height = Int32.Parse(r.GetAttribute("Height"));
-                    this.roomName = r.GetAttribute("Name");
-                    this.location = r.GetAttribute("Location");
-                    this.description = r.GetAttribute("Description");
-                    this.chairs = new Chair[this.height, this.width];
-
-                    // Get all of the information contained in a room
-                    while (!(r.NodeType == XmlNodeType.EndElement && r.Name == "Username"))
-                    {
-                        r.Read();
-
-                        // Read in all of the chairs
-                        if (r.NodeType == XmlNodeType.Element && r.Name == "Chairs")
-                        {
-                            while (!(r.NodeType == XmlNodeType.EndElement && r.Name == "Chairs"))
-                            {
-                                r.Read();
-
-                                // Read in the information about a chair
-                                if (r.NodeType == XmlNodeType.Element && r.Name == "Chair")
-                                {
-                                    // Get the position of the chair in the room
-                                    int x = Int32.Parse(r.GetAttribute("PosX"));
-                                    int y = Int32.Parse(r.GetAttribute("PosY"));
-
-                                    // For the student, we assume the chair is blank.
-                                    Student s = null;
-
-                                    // Replace the chair from the default constructor with the information contained in the stored version of the chair
-                                    this.Chairs[x, y] = new Chair(
-                                        Boolean.Parse(r.GetAttribute("LeftHanded")),
-                                        Int32.Parse(r.GetAttribute("FbPosition")),
-                                        Int32.Parse(r.GetAttribute("LrPosition")),
-                                        Boolean.Parse(r.GetAttribute("NonChair")),
-                                        Boolean.Parse(r.GetAttribute("MustBeEmpty")),
-                                        r.GetAttribute("Name"),
-                                        s);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            r.Close();
-            gzipstream.Close();
-            filestream.Close();
-
-            return success;
-        }*/
 
         /// <summary>
         /// Reads the flat file.
@@ -370,6 +306,12 @@ namespace CardAccount
                 {
                     Console.WriteLine("Error occurred writing to Flat file.", e);
                     success = false;
+
+                    if (this.file == file)
+                    {
+                        Console.WriteLine("Attempt to read from backup file.");
+                        this.ReadFlatFile(file + "Backup");
+                    }
                 }
             }
             else
