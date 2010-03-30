@@ -68,6 +68,15 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Gets the name of the game.
+        /// </summary>
+        /// <value>The game's name.</value>
+        public override string Name
+        {
+            get { return "Blackjack"; }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether betting is enabled.
         /// </summary>
         /// <value><c>true</c> if betting is enabled; otherwise, <c>false</c>.</value>
