@@ -19,15 +19,15 @@ namespace CardCommunication.Messages
     /// </summary>
     public class MessageGameState : Message
     {
-        /// <summary>
-        /// Document containing xml message.
-        /// </summary>
-        private XmlDocument messageDoc;
+        /////// <summary>
+        /////// Document containing xml message.
+        /////// </summary>
+        ////private XmlDocument MessageDocument;
 
-        /// <summary>
-        /// game state.
-        /// </summary>
-        private Game game;
+        /////// <summary>
+        /////// game state.
+        /////// </summary>
+        ////private Game game;
 
         ///// <summary>
         ///// game state
@@ -60,7 +60,7 @@ namespace CardCommunication.Messages
         /// <returns>whether the Message was built.</returns>
         public override bool BuildMessage(Game gameState)
         {
-            XmlElement message = this.messageDoc.DocumentElement;
+            XmlElement message = this.MessageDocument.CreateElement("Message");
             bool success = true;
 
             ////if (gameObject == null)
@@ -71,10 +71,12 @@ namespace CardCommunication.Messages
 
             try
             {
-                this.game = gameState;
+                this.Game = gameState;
 
                 this.BuildHeader(ref message);
                 this.BuildBody(ref message);
+
+                this.MessageDocument.InnerXml = message.InnerXml;
             }
             catch (Exception e)
             {
@@ -96,8 +98,8 @@ namespace CardCommunication.Messages
             /* XmlSchema schema =;
              ValidationEventHandler schemaCheck;
              ValidationEventHandler schemaCheck = new ValidationEventHandler(ValidateSchema);
-             messageDoc.Schemas.Add(
-            messageDoc.Validate(schemaCheck);*/
+             MessageDocument.Schemas.Add(
+            MessageDocument.Validate(schemaCheck);*/
 
             return sent;
         }
@@ -109,7 +111,7 @@ namespace CardCommunication.Messages
         /// <returns>the Game created with the xml document.</returns>
         protected override Game ProcessMessage(XmlDocument messageDoc)
         {
-            return this.game;
+            return this.Game;
         }
 
         /////// <summary>
@@ -118,7 +120,7 @@ namespace CardCommunication.Messages
         /////// <param name="message">The message.</param>
         ////protected override void BuildHeader(ref XmlElement message)
         ////{
-        ////    XmlElement header = this.messageDoc.CreateElement("Header");
+        ////    XmlElement header = this.MessageDocument.CreateElement("Header");
         ////    DateTime time = DateTime.UtcNow;
 
         ////    header.SetAttribute("TimeStamp", time.ToString());
@@ -131,7 +133,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected override void BuildBody(ref XmlElement message)
         {
-            XmlElement body = this.messageDoc.CreateElement("Body");
+            XmlElement body = this.MessageDocument.CreateElement("Body");
 
             this.BuildGame(ref body);
 
@@ -153,7 +155,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildGame(ref XmlElement message)
         {
-            XmlElement gameState = this.messageDoc.CreateElement("Game");
+            XmlElement gameState = this.MessageDocument.CreateElement("Game");
 
             this.BuildStatus(ref gameState);
             this.BuildMessageValue(ref gameState);
@@ -169,7 +171,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildStatus(ref XmlElement message)
         {
-            XmlElement status = this.messageDoc.CreateElement("Status");
+            XmlElement status = this.MessageDocument.CreateElement("Status");
 
             ////game.turn);
             status.SetAttribute("turn", String.Empty); 
@@ -183,7 +185,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildMessageValue(ref XmlElement message)
         {
-            XmlElement value = this.messageDoc.CreateElement("Message");
+            XmlElement value = this.MessageDocument.CreateElement("Message");
 
             ////game.value);
             value.SetAttribute("Value", String.Empty); 
@@ -197,7 +199,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildPlayers(ref XmlElement message)
         {
-            XmlElement players = this.messageDoc.CreateElement("Players");
+            XmlElement players = this.MessageDocument.CreateElement("Players");
 
             ////foreach (Player player in game.players)
             ////{
@@ -213,7 +215,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildPlayer(ref XmlElement message)
         {
-            XmlElement player = this.messageDoc.CreateElement("Player");
+            XmlElement player = this.MessageDocument.CreateElement("Player");
             
             ////game.player.id);
             player.SetAttribute("ID", String.Empty);
@@ -233,7 +235,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildArea(ref XmlElement message)
         {
-            XmlElement area = this.messageDoc.CreateElement("Area");
+            XmlElement area = this.MessageDocument.CreateElement("Area");
 
             this.BuildCardCollection(ref area);
             this.BuildChipPile(ref area);
@@ -247,7 +249,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildCardCollection(ref XmlElement message)
         {
-            XmlElement cardCollection = this.messageDoc.CreateElement("CardCollection");
+            XmlElement cardCollection = this.MessageDocument.CreateElement("CardCollection");
 
             ////foreach (CardPile cardPile in game.player.cardPiles)
             ////{
@@ -262,7 +264,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildChipPile(ref XmlElement message)
         {
-            XmlElement chipPile = this.messageDoc.CreateElement("ChipPile");
+            XmlElement chipPile = this.MessageDocument.CreateElement("ChipPile");
 
             ////foreach (Chip chip in game.player.chips)
             ////{
@@ -281,7 +283,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildCardPile(ref XmlElement message)
         {
-            XmlElement cardPile = this.messageDoc.CreateElement("CardPile");
+            XmlElement cardPile = this.MessageDocument.CreateElement("CardPile");
 
             ////foreach (Card card in game.player.cardPiles.cardPile)
             ////{
@@ -307,7 +309,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildCard(ref XmlElement message)
         {
-            XmlElement card = this.messageDoc.CreateElement("Card");
+            XmlElement card = this.MessageDocument.CreateElement("Card");
 
             ////game.player.area.cardpiles.cardpile.card.id);
             card.SetAttribute("guid", String.Empty);
@@ -325,7 +327,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildChip(ref XmlElement message)
         {
-            XmlElement chip = this.messageDoc.CreateElement("Chip");
+            XmlElement chip = this.MessageDocument.CreateElement("Chip");
 
             ////game.player.area.chippile.chip.guid);
             chip.SetAttribute("guid", String.Empty);
@@ -345,7 +347,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildHand(ref XmlElement message)
         {
-            XmlElement hand = this.messageDoc.CreateElement("Hand");
+            XmlElement hand = this.MessageDocument.CreateElement("Hand");
 
             this.BuildCardPile(ref hand);
 
@@ -358,7 +360,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildAction(ref XmlElement message)
         {
-            XmlElement action = this.messageDoc.CreateElement("Action");
+            XmlElement action = this.MessageDocument.CreateElement("Action");
 
             ////foreach (Command com in game.player.commands)
             ////{
@@ -377,7 +379,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildActionParam(ref XmlElement message)
         {
-            XmlElement param = this.messageDoc.CreateElement("Param");
+            XmlElement param = this.MessageDocument.CreateElement("Param");
 
             ////game.player.command.name);
             param.SetAttribute("Name", String.Empty);
@@ -396,7 +398,7 @@ namespace CardCommunication.Messages
         ////    {
         ////        foreach (XmlNode node in element.ChildNodes)
         ////        {
-        ////            XmlElement childElement = messageDoc.CreateElement(node.Name);
+        ////            XmlElement childElement = MessageDocument.CreateElement(node.Name);
         ////            childElement.InnerXml = node.InnerXml;
 
         ////            switch (node.Name)
@@ -434,7 +436,7 @@ namespace CardCommunication.Messages
             {
                 if (node.NodeType == XmlNodeType.Element && success)
                 {
-                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    XmlElement child = this.MessageDocument.CreateElement(node.Name);
                     child.InnerXml = node.InnerXml;
 
                     switch (node.Name)
@@ -518,7 +520,7 @@ namespace CardCommunication.Messages
             {
                 if (node.NodeType == XmlNodeType.Element)
                 {
-                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    XmlElement child = this.MessageDocument.CreateElement(node.Name);
                     child.InnerXml = node.InnerXml;
 
                     switch (node.Name)
@@ -551,7 +553,7 @@ namespace CardCommunication.Messages
                 {
                     if (node.NodeType == XmlNodeType.Element)
                     {
-                        XmlElement child = this.messageDoc.CreateElement(node.Name);
+                        XmlElement child = this.MessageDocument.CreateElement(node.Name);
                         child.InnerXml = node.InnerXml;
 
                         switch (node.Name)
@@ -601,7 +603,7 @@ namespace CardCommunication.Messages
             ////{
             ////    if (node.NodeType == XmlNodeType.Element)
             ////    {
-            ////        XmlElement child = messageDoc.CreateElement(node.Name);
+            ////        XmlElement child = MessageDocument.CreateElement(node.Name);
             ////        child.InnerXml = node.InnerXml;
 
             ////        switch (node.Name)
@@ -630,7 +632,7 @@ namespace CardCommunication.Messages
             {
                 if (node.NodeType == XmlNodeType.Element)
                 {
-                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    XmlElement child = this.MessageDocument.CreateElement(node.Name);
                     child.InnerXml = node.InnerXml;
 
                     switch (node.Name)
@@ -645,7 +647,7 @@ namespace CardCommunication.Messages
                 }
                 else if (node.NodeType == XmlNodeType.Attribute)
                 {
-                    XmlElement child = this.messageDoc.CreateElement(node.Name);
+                    XmlElement child = this.MessageDocument.CreateElement(node.Name);
                     child.InnerXml = node.InnerXml;
 
                     switch (node.Name)

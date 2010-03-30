@@ -233,6 +233,7 @@ namespace CardCommunication
             byte[] data = ms.ToArray();
 
             this.socketTransporter.Poll(10, SelectMode.SelectWrite);
+            this.socketTransporter.Connect(this.hostReceiveEndPoint);
             this.socketTransporter.BeginSend(
                 data,
                 0, 
@@ -248,7 +249,10 @@ namespace CardCommunication
         /// <param name="asynchResult">The asynch result.</param>
         protected void SuccessfulTransport(IAsyncResult asynchResult)
         {
-            this.socketTransporter.EndSend(asynchResult);            
+            bool reuse = true;
+
+            this.socketTransporter.EndSend(asynchResult);
+            this.socketTransporter.Disconnect(reuse);
         }
     }
 }

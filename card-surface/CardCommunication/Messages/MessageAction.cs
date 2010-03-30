@@ -18,15 +18,15 @@ namespace CardCommunication.Messages
     /// </summary>
     public class MessageAction : Message
     {
-        /// <summary>
-        /// Document containing xml message.
-        /// </summary>
-        private XmlDocument messageDoc;
+        /////// <summary>
+        /////// Document containing xml message.
+        /////// </summary>
+        ////private XmlDocument MessageDocument;
 
-        /// <summary>
-        /// game state.
-        /// </summary>
-        private Game game;
+        /////// <summary>
+        /////// game state.
+        /////// </summary>
+        ////private Game game;
 
         /////// <summary>
         /////// game object
@@ -58,12 +58,12 @@ namespace CardCommunication.Messages
         /// <returns>whether the Message was built.</returns>
         public override bool BuildMessage(Game gameState)
         {
-            XmlElement message = this.messageDoc.DocumentElement;
+            XmlElement message = this.MessageDocument.DocumentElement;
             bool success = true;
 
             try
             {
-                this.game = gameState;
+                this.Game = gameState;
 
                 this.BuildHeader(ref message);
                 this.BuildBody(ref message);
@@ -86,7 +86,7 @@ namespace CardCommunication.Messages
             bool sent = false;
             
             // ValidationEventHandler schemaCheck;
-            // messageDoc.Validate(schemaCheck);
+            // MessageDocument.Validate(schemaCheck);
             return sent;
         }
 
@@ -115,7 +115,7 @@ namespace CardCommunication.Messages
                 }
             }
 
-            return this.game;
+            return this.Game;
         }
 
         /////// <summary>
@@ -124,7 +124,7 @@ namespace CardCommunication.Messages
         /////// <param name="message">The message.</param>
         ////protected override void BuildHeader(ref XmlElement message)
         ////{
-        ////    XmlElement header = this.messageDoc.CreateElement("Header");
+        ////    XmlElement header = this.MessageDocument.CreateElement("Header");
         ////    DateTime time = DateTime.UtcNow;
             
         ////    header.SetAttribute("TimeStamp", time.ToString());
@@ -145,7 +145,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected override void BuildBody(ref XmlElement message)
         {
-            XmlElement body = this.messageDoc.CreateElement("Body");
+            XmlElement body = this.MessageDocument.CreateElement("Body");
             
             this.BuildAction(ref body);
 
@@ -167,7 +167,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildAction(ref XmlElement message)
         {
-            XmlElement action = this.messageDoc.CreateElement("Action");
+            XmlElement action = this.MessageDocument.CreateElement("Action");
             
             this.BuildActionParam(ref action);
             
@@ -183,7 +183,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildActionParam(ref XmlElement message)
         {
-            XmlElement command = this.messageDoc.CreateElement("Command");
+            XmlElement command = this.MessageDocument.CreateElement("Command");
 
             this.BuildParam(ref command);
 
@@ -196,7 +196,7 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildParam(ref XmlElement message)
         {
-            XmlElement param = this.messageDoc.CreateElement("Param");
+            XmlElement param = this.MessageDocument.CreateElement("Param");
 
             ////game.action.command.param.name);
             param.SetAttribute("Name", String.Empty);
@@ -217,7 +217,7 @@ namespace CardCommunication.Messages
             //// Call ExecuteAction for Custom and MoveAction for Action
             foreach (XmlNode node in action.Attributes)
             {
-                XmlAttribute childAttribute = this.messageDoc.CreateAttribute(node.Name);
+                XmlAttribute childAttribute = this.MessageDocument.CreateAttribute(node.Name);
                 childAttribute.InnerXml = node.InnerXml;
 
                 switch (actionType)
