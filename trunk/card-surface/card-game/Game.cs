@@ -66,6 +66,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the name of the game.
+        /// </summary>
+        /// <value>The game's name.</value>
+        public abstract string Name
+        {
+            get;
+        }
+
+        /// <summary>
         /// Gets the unique id for a game.
         /// </summary>
         /// <value>The unique id.</value>

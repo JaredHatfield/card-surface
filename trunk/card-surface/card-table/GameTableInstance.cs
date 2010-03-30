@@ -33,6 +33,15 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Gets the name of the game.
+        /// </summary>
+        /// <value>The game's name.</value>
+        public override string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
         /// Gets a value indicating the minimum amount of money required to join a game.
         /// </summary>
         /// <value>The minimum stake for the game.</value>
