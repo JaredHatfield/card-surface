@@ -5,6 +5,7 @@
 namespace CardServer
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
@@ -23,6 +24,11 @@ namespace CardServer
         private ObservableCollection<Game> games;
 
         /// <summary>
+        /// The array of games that can be started.
+        /// </summary>
+        private Dictionary<string, Type> availableGames;
+
+        /// <summary>
         /// The account controller.
         /// </summary>
         private AccountController accountController;
@@ -33,6 +39,7 @@ namespace CardServer
         internal GameController()
         {
             this.games = new ObservableCollection<Game>();
+            this.availableGames = new Dictionary<string, Type>();
             this.accountController = AccountController.Instance;
         }
 
@@ -55,12 +62,22 @@ namespace CardServer
         }
 
         /// <summary>
-        /// Adds a game to the list of games.
+        /// Gets the list of available game types.
         /// </summary>
-        /// <param name="game">The game to add to the list of games.</param>
-        public void AddGame(Game game)
+        /// <value>The list of game types.</value>
+        public ReadOnlyCollection<string> GameTypes
         {
-            this.games.Add(game);
+            get
+            {
+                // TODO: Is this really the best method?
+                Collection<string> games = new Collection<string>();
+                foreach (var pair in this.availableGames)
+                {
+                    games.Add(pair.Key);
+                }
+
+                return new ReadOnlyCollection<string>(games);
+            }
         }
 
         /// <summary>
@@ -99,6 +116,31 @@ namespace CardServer
             }
 
             throw new CardGameGameNotFoundException();
+        }
+
+        /// <summary>
+        /// Adds a game so that it can be created.
+        /// </summary>
+        /// <param name="gameType">Type of the game.</param>
+        /// <param name="gameName">Name of the game.</param>
+        public void SubscribeGame(Type gameType, string gameName)
+        {
+            // TODO: Maybe we should check to see if the type passed inherited Game.
+            this.availableGames.Add(gameName, gameType);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the Game.
+        /// </summary>
+        /// <param name="gameName">Name of the game.</param>
+        /// <returns>The id of the game that was created.</returns>
+        public Guid CreateGame(string gameName)
+        {
+            // TODO: There is the potential for lots of Exceptions to be thrown in the following code.
+            Type type = this.availableGames[gameName];
+            Game game = Activator.CreateInstance(type) as Game;
+            this.games.Add(game);
+            return game.Id;
         }
 
         /// <summary>

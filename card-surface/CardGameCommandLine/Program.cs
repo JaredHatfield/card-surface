@@ -22,7 +22,7 @@ namespace CardGameCommandLine
         /// <summary>
         /// The game of Blackjack that is being played.
         /// </summary>
-        private static Game game = new Blackjack(10, 5);
+        private static Game game = new Blackjack();
 
         /// <summary>
         /// Mains the specified args.
@@ -35,7 +35,9 @@ namespace CardGameCommandLine
             Program.DisplayPlayers();
 
             ServerController serverController = new ServerController();
-            serverController.GameController.AddGame(Program.game);
+            serverController.GameController.SubscribeGame(typeof(Blackjack), "Blackjack");
+            Guid guid = serverController.GameController.CreateGame("Blackjackq");
+            Blackjack blackjack = serverController.GameController.GetGame(guid) as Blackjack;
 
             do
             {

@@ -33,12 +33,10 @@ namespace GameBlackjack
         /// <summary>
         /// Initializes a new instance of the <see cref="Blackjack"/> class.
         /// </summary>
-        /// <param name="minimumStake">The minimum stake.</param>
-        /// <param name="minimumBet">The minimum bet.</param>
-        public Blackjack(int minimumStake, int minimumBet) : base()
+        public Blackjack() : base()
         {
-            this.minimumStake = minimumStake;
-            this.minimumBet = minimumBet;
+            this.minimumStake = 10;
+            this.minimumBet = 1;
             this.handFinished = new int[this.Seats.Count];
             for (int i = 0; i < this.Seats.Count; i++)
             {
@@ -57,14 +55,6 @@ namespace GameBlackjack
             destinationDeck.Open = true;
             CardPile sourceDeck = Deck.StandardDeck();
             this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
-        }
-
-        /// <summary>
-        /// Prevents a default instance of the Blackjack class from being created.
-        /// </summary>
-        private Blackjack()
-            : base()
-        {
         }
 
         /// <summary>
