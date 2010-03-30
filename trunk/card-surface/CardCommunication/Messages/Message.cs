@@ -17,12 +17,6 @@ namespace CardCommunication.Messages
     /// </summary>
     public abstract class Message
     {
-        public enum MessageType
-        {
-            Action,
-            GameState
-        }
-
         /// <summary>
         /// Document containing xml message.
         /// </summary>
@@ -39,13 +33,47 @@ namespace CardCommunication.Messages
         ////private GameMessage gameObject;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Message"/> class.
+        /// </summary>
+        internal Message()
+        {
+            this.messageDoc = new XmlDocument();
+        }
+
+        /// <summary>
+        /// The types of Messages.
+        /// </summary>
+        public enum MessageType
+        {
+            /// <summary>
+            /// The Action Message
+            /// </summary>
+            Action,
+
+            /// <summary>
+            /// The Game State Message
+            /// </summary>
+            GameState
+        }
+
+        /// <summary>
         /// Gets the message document.
         /// </summary>
         /// <value>The message document.</value>
         public XmlDocument MessageDocument
         {
-            get{ return this.messageDoc; }
-        }            
+            get { return this.messageDoc; }
+        }
+
+        /// <summary>
+        /// Gets or sets the game.
+        /// </summary>
+        /// <value>The game object.</value>
+        public Game Game
+        {
+            get { return this.game; }
+            set { this.game = value; }
+        }
 
         /////// <summary>
         /////// Messages all relevent players/tables of the specified game state.
@@ -75,13 +103,6 @@ namespace CardCommunication.Messages
         /// </summary>
         /// <returns>whether or not the message was sent successfully</returns>
         public abstract bool SendMessage();
-
-        /// <summary>
-        /// Processes the message.
-        /// </summary>
-        /// <param name="messageDoc">The message document.</param>
-        /// <returns>whether the message was processed.</returns>
-        protected abstract Game ProcessMessage(XmlDocument messageDoc);
 
         /// <summary>
         /// Converts to game.
@@ -137,6 +158,13 @@ namespace CardCommunication.Messages
 
             return this.game;
         }
+
+        /// <summary>
+        /// Processes the message.
+        /// </summary>
+        /// <param name="messageDoc">The message document.</param>
+        /// <returns>whether the message was processed.</returns>
+        protected abstract Game ProcessMessage(XmlDocument messageDoc);
 
         /// <summary>
         /// Builds the header.

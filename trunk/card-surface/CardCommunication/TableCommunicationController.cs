@@ -23,7 +23,7 @@ namespace CardCommunication
         /// <summary>
         /// IPAddress of the server
         /// </summary>
-        private IPAddress serverIPAddress = null;
+        private IPEndPoint serverIP = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
@@ -31,6 +31,9 @@ namespace CardCommunication
         public TableCommunicationController()
             : base()
         {
+            string ip = String.Empty;
+            IPAddress serverIPAddress = new IPAddress(Convert.ToInt64(ip));
+            this.serverIP = new IPEndPoint(serverIPAddress, ListenerPortNumber);
         }
 
         /////// <summary>
