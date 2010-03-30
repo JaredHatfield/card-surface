@@ -38,8 +38,6 @@ namespace CardAccount
         /// </summary>
         private AccountController()
         {
-            // https://code.google.com/p/student-educational-arrangement-tool/source/browse/trunk/SEAT/SEATLibrary/Room.cs
-            // This is for saving to a file from FLAT file
             this.file += "\\Accounts";
             this.ReadFlatFile(this.file);
         }
@@ -215,10 +213,6 @@ namespace CardAccount
                 success = false;
             }
 
-            /* Mark the file as no longer dirty
-            SeatManager.dirty = false;
-            SeatManager.FileBecameDirty.Invoke(null, null);*/
-
             return success;
         }
 
@@ -249,7 +243,7 @@ namespace CardAccount
                             string username, password, profileImage;
                             int balance, gamesPlayed, gamesWon, gamesLost;
 
-                            //// Read the room's attributes and make a new instance of a room
+                            //// Read the account's attributes and make a new instance of an account
                             username = r.GetAttribute("Username");
                             password = r.GetAttribute("Password");
                             profileImage = r.GetAttribute("Image");
@@ -260,41 +254,6 @@ namespace CardAccount
                             newAccount = new GameAccount(username, password, profileImage, balance, gamesPlayed, gamesWon, gamesLost);
 
                             this.users.Add(newAccount);
-                            /*// Get all of the information contained in a room
-                            while (!(r.NodeType == XmlNodeType.EndElement && r.Name == "Username"))
-                            {
-                                r.Read();
-
-                                // Read in all of the chairs
-                                if (r.NodeType == XmlNodeType.Element && r.Name == "Chairs")
-                                {
-                                    while (!(r.NodeType == XmlNodeType.EndElement && r.Name == "Chairs"))
-                                    {
-                                        r.Read();
-
-                                        // Read in the information about a chair
-                                        if (r.NodeType == XmlNodeType.Element && r.Name == "Chair")
-                                        {
-                                            // Get the position of the chair in the room
-                                            int x = Int32.Parse(r.GetAttribute("PosX"));
-                                            int y = Int32.Parse(r.GetAttribute("PosY"));
-
-                                            // For the student, we assume the chair is blank.
-                                            Student s = null;
-
-                                            // Replace the chair from the default constructor with the information contained in the stored version of the chair
-                                            this.Chairs[x, y] = new Chair(
-                                                Boolean.Parse(r.GetAttribute("LeftHanded")),
-                                                Int32.Parse(r.GetAttribute("FbPosition")),
-                                                Int32.Parse(r.GetAttribute("LrPosition")),
-                                                Boolean.Parse(r.GetAttribute("NonChair")),
-                                                Boolean.Parse(r.GetAttribute("MustBeEmpty")),
-                                                r.GetAttribute("Name"),
-                                                s);
-                                        }
-                                    }
-                                }
-                            }*/
                         }
                     }
 
