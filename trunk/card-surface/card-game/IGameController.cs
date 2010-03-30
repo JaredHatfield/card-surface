@@ -33,10 +33,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Adds a game.
+        /// Gets the list of available game types.
         /// </summary>
-        /// <param name="game">The game to add.</param>
-        void AddGame(Game game);
+        /// <value>The list of game types.</value>
+        ReadOnlyCollection<string> GameTypes
+        {
+            get;
+        }
 
         /// <summary>
         /// Gets a game.
@@ -51,6 +54,20 @@ namespace CardGame
         /// <param name="seatPassword">The seat password.</param>
         /// <returns>The instance of the game containing the specified seat password.</returns>
         Game GetGame(string seatPassword);
+
+        /// <summary>
+        /// Adds a game so that it can be created.
+        /// </summary>
+        /// <param name="gameType">Type of the game.</param>
+        /// <param name="gameName">Name of the game.</param>
+        void SubscribeGame(Type gameType, string gameName);
+
+        /// <summary>
+        /// Creates a new instance of the Game.
+        /// </summary>
+        /// <param name="gameName">Name of the game.</param>
+        /// <returns>The id of the game that was created.</returns>
+        Guid CreateGame(string gameName);
 
         /// <summary>
         /// Tests to see if the password is valid for any open seat in any game.

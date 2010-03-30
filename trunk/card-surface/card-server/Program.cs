@@ -5,9 +5,10 @@
 namespace CardServer
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using GameBlackjack;
 
     /// <summary>
     /// Main application.
@@ -22,6 +23,13 @@ namespace CardServer
         {
             // TODO: Implement CardServer.
             ServerController serverController = new ServerController();
+            serverController.GameController.SubscribeGame(typeof(Blackjack), "Blackjack");
+            ReadOnlyCollection<string> s = serverController.GameController.GameTypes;
+            Console.WriteLine("Available Game Types on this Server:");
+            for (int i = 0; i < s.Count; i++)
+            {
+                Console.WriteLine(s[i]);
+            }
         }
     }
 }
