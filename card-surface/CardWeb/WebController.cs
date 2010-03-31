@@ -251,6 +251,16 @@ namespace CardWeb
         } /* IsRegisteredWebComponent() */
 
         /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        public void Close(object sender, EventArgs args)
+        {
+            // TODO: Clean up the WebController in preparation for the application to close.
+        }
+
+        /// <summary>
         /// Unregisters a WebComponent.
         /// </summary>
         /// <param name="registrableComponent">The WebComponent to unregsiter.</param>
