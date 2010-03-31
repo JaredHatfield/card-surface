@@ -112,10 +112,10 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Removes the specified physical object
+        /// Removes the specified PhysicalObject from the pile.
         /// </summary>
-        /// <param name="item">The physical object to remove.</param>
-        /// <returns>True if the physical object was removed; otherwise false.</returns>
+        /// <param name="item">The PhysicalObject. to remove.</param>
+        /// <returns>True if the PhysicalObject was removed; otherwise false.</returns>
         public bool RemoveItem(IPhysicalObject item)
         {
             // TODO: Should a non-open pile be able to have items removed from it?
@@ -134,6 +134,17 @@ namespace CardGame
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Removes the specified PhysicalObject from the pile.
+        /// </summary>
+        /// <param name="id">The id of the PhysicalObject to remove.</param>
+        /// <returns>True if the PhysicalObject was removed; otherwise false.</returns>
+        public bool RemoveItem(Guid id)
+        {
+            IPhysicalObject po = this.GetPhysicalObject(id);
+            return this.RemoveItem(po);
         }
 
         /// <summary>

@@ -67,23 +67,58 @@ namespace CardGame
         /// </summary>
         internal void RefreshChipPile()
         {
-            // TODO: Implement the RefreshChipPile function for the BankPile
+            int[] amounts = { 1, 5, 10, 25, 100 };
 
             // 1) Remove any duplicate value chips and add the money to the users account
-            // 2) Add a new chip with value 1 if it is not in the pile
-            this.AddChipToPile(1);
+            for (int i = 0; i < amounts.Length; i++)
+            {
+                if (this.ChipAmountCount(amounts[i]) > 1)
+                {
+                    // We need to get all of the IDs of these chips
+                    Collection<Guid> chips = new Collection<Guid>();
+                    for (int j = 0; j < this.Items.Count; j++)
+                    {
+                        if ((this.Items[j] as IChip).Amount.Equals(amounts[i]))
+                        {
+                            chips.Add(this.Items[j].Id);
+                        }
+                    }
 
-            // 3) Add a new chip with value 5 if it is not in the pile
-            this.AddChipToPile(5);
+                    // Now we remove all except the first item from the list and credit the players account
+                    for (int j = 1; j < chips.Count; j++)
+                    {
+                        if (this.RemoveItem(chips[j]))
+                        {
+                            this.player.Balance += amounts[i];
+                        }
+                    }
+                }
+            }
 
-            // 4) Add a new chip with value 10 if it is not in the pile
-            this.AddChipToPile(10);
+            // 2) Add all of the chips of each value to the pile if they are missing
+            for (int i = 0; i < amounts.Length; i++)
+            {
+                this.AddChipToPile(amounts[i]);
+            }
+        }
 
-            // 5) Add a new chip with value 25 if it is not in the pile
-            this.AddChipToPile(25);
+        /// <summary>
+        /// Returns the number of chips in the pile with the specified value.
+        /// </summary>
+        /// <param name="value">The value to look for.</param>
+        /// <returns>The number of chips.</returns>
+        private int ChipAmountCount(int value)
+        {
+            int count = 0;
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if ((this.Items[i] as IChip).Amount.Equals(value))
+                {
+                    count++;
+                }
+            }
 
-            // 6) Add a new chip with value 100 if it is not in the pile
-            this.AddChipToPile(100);
+            return count;
         }
 
         /// <summary>
