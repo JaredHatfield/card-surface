@@ -121,6 +121,16 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        public void Close(object sender, EventArgs args)
+        {
+            // TODO: Close all open connections because the program is about to close
+        }
+
+        /// <summary>
         /// Initializes the communication controller.
         /// </summary>
         protected void InitializeCommunicationController()

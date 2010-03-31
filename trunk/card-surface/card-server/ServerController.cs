@@ -68,5 +68,18 @@ namespace CardServer
             /* TODO: REMOVE this property for release! */
             get { return this.gameController; }
         }
+
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        public void Close(object sender, EventArgs args)
+        {
+            this.serverCommunicationController.Close(this, args);
+            this.gameController.Close(this, args);
+            this.webController.Close(this, args);
+            this.accountController.Close(this, args);
+        }
     }
 }

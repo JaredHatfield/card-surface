@@ -24,6 +24,8 @@ namespace CardServer
             // TODO: Implement CardServer.
             ServerController serverController = new ServerController();
             serverController.GameController.SubscribeGame(typeof(Blackjack), "Blackjack");
+            System.Diagnostics.Process.GetCurrentProcess().Exited += new EventHandler(serverController.Close);
+
             ReadOnlyCollection<string> s = serverController.GameController.GameTypes;
             Console.WriteLine("Available Game Types on this Server:");
             for (int i = 0; i < s.Count; i++)
