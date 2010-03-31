@@ -36,7 +36,7 @@ namespace CardGameCommandLine
 
             ServerController serverController = new ServerController();
             serverController.GameController.SubscribeGame(typeof(Blackjack), "Blackjack");
-            Guid guid = serverController.GameController.CreateGame("Blackjackq");
+            Guid guid = serverController.GameController.CreateGame("Blackjack");
             Blackjack blackjack = serverController.GameController.GetGame(guid) as Blackjack;
 
             do
