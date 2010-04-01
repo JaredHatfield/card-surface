@@ -33,7 +33,7 @@ namespace CardCommunication
         {
             string ip = String.Empty;
             IPAddress serverIPAddress = new IPAddress(Convert.ToInt64(ip));
-            this.serverIP = new IPEndPoint(serverIPAddress, ListenerPortNumber);
+            this.serverIP = RemoteEndPoint;
         }
 
         /////// <summary>
