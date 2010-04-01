@@ -32,12 +32,6 @@ namespace CardGame
         private CardStatus status;
 
         /// <summary>
-        /// The image of the card.
-        /// </summary>
-        [NonSerialized]
-        private Bitmap image;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
         protected internal Card()
@@ -46,7 +40,6 @@ namespace CardGame
             this.suit = CardSuit.Spades;
             this.face = CardFace.Ace;
             this.status = CardStatus.FaceDown;
-            this.image = CardGame.Properties.Resources.AceSpades;
         }
 
         /// <summary>
@@ -61,23 +54,6 @@ namespace CardGame
             this.suit = suit;
             this.face = face;
             this.status = status;
-            this.image = null;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Card"/> class.
-        /// </summary>
-        /// <param name="suit">The card's suit.</param>
-        /// <param name="face">The card's face.</param>
-        /// <param name="status">The card's status.</param>
-        /// <param name="image">The card's image.</param>
-        protected internal Card(CardSuit suit, CardFace face, CardStatus status, Bitmap image)
-            : base()
-        {
-            this.suit = suit;
-            this.face = face;
-            this.status = status;
-            this.image = image;
         }
 
         /// <summary>
