@@ -32,6 +32,7 @@ namespace CardGameCommandLine
         {
             // Add a dummy players to the game
             Program.PlayerJoinGame("player1", 100);
+            Player player = Program.game.GetPlayer("player1");
             Program.DisplayPlayers();
 
             ServerController serverController = new ServerController();
@@ -49,19 +50,59 @@ namespace CardGameCommandLine
                 }
                 else if (cmd.Equals("bet 1", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Program.PlaceBet(game.GetActivePlayer(), 1);
+                    Player p;
+                    try
+                    {
+                        p = game.GetActivePlayer();
+                    }
+                    catch
+                    {
+                        p = player;
+                    }
+
+                    Program.PlaceBet(p, 1);
                 }
                 else if (cmd.Equals("bet 5", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Program.PlaceBet(game.GetActivePlayer(), 5);
+                    Player p;
+                    try
+                    {
+                        p = game.GetActivePlayer();
+                    }
+                    catch
+                    {
+                        p = player;
+                    }
+
+                    Program.PlaceBet(p, 5);
                 }
                 else if (cmd.Equals("bet 10", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Program.PlaceBet(game.GetActivePlayer(), 10);
+                    Player p;
+                    try
+                    {
+                        p = game.GetActivePlayer();
+                    }
+                    catch
+                    {
+                        p = player;
+                    }
+
+                    Program.PlaceBet(p, 10);
                 }
                 else if (cmd.Equals("bet 25", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Program.PlaceBet(game.GetActivePlayer(), 25);
+                    Player p;
+                    try
+                    {
+                        p = game.GetActivePlayer();
+                    }
+                    catch
+                    {
+                        p = player;
+                    }
+
+                    Program.PlaceBet(p, 25);
                 }
                 else if (cmd.Equals("showseats", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -88,9 +129,9 @@ namespace CardGameCommandLine
                     {
                         Console.Write(ex);
                     }
-
-                    Program.DisplayPlayers();
                 }
+
+                Program.DisplayPlayers();
             }
             while (true);
 
