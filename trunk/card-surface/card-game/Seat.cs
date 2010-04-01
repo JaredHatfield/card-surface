@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A seat at the game.
     /// </summary>
-    public class Seat
+    [Serializable] public class Seat
     {
         /// <summary>
         /// The length of the seat passwords that are used to join a table.

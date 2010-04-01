@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// Clears the table of chips.
     /// </summary>
+    [Serializable]
     internal class GameActionClearTable : GameAction
     {
         /// <summary>

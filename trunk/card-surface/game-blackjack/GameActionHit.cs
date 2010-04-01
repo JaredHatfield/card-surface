@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The hit action for blackjack.
     /// </summary>
+    [Serializable]
     internal class GameActionHit : GameAction
     {
         /// <summary>

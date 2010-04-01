@@ -12,6 +12,7 @@ namespace CardGame
     /// <summary>
     /// A collection of IPhysicalObjects.
     /// </summary>
+    [Serializable]
     public abstract class Pile
     {
         /// <summary>

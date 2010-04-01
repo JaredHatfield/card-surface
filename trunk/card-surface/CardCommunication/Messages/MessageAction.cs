@@ -36,7 +36,6 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Messages the specified game state.
         /// </summary>
-        /// <param name="gameState">State of the game.</param>
         /////// <returns>
         /////// whether the message was constructed and sent.
         /////// </returns>
@@ -51,43 +50,51 @@ namespace CardCommunication.Messages
         ////    return success;
         ////}
 
-        /// <summary>
-        /// Builds the message.
-        /// </summary>
-        /// <param name="gameState">State of the game.</param>
-        /// <returns>whether the Message was built.</returns>
-        public override bool BuildMessage(Game gameState)
-        {
-            XmlElement message = this.MessageDocument.DocumentElement;
-            bool success = true;
+        /////// <summary>
+        /////// Builds the message.
+        /////// </summary>
+        /////// <param name="gameState">State of the game.</param>
+        /////// <returns>whether the Message was built.</returns>
+        ////public override bool BuildMessage(Game gameState)
+        ////{
+        ////    XmlElement message = this.MessageDocument.DocumentElement;
+        ////    bool success = true;
 
-            try
-            {
-                this.Game = gameState;
+        ////    try
+        ////    {
+        ////        this.Game = gameState;
 
-                this.BuildHeader(ref message);
-                this.BuildBody(ref message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error Building Message", e);
-                success = false;
-            }
+        ////        this.BuildHeader(ref message);
+        ////        this.BuildBody(ref message);
+        ////    }
+        ////    catch (Exception e)
+        ////    {
+        ////        Console.WriteLine("Error Building Message", e);
+        ////        success = false;
+        ////    }
 
-            return success;
-        }
+        ////    return success;
+        ////}
 
-        /// <summary>
-        /// Sends the message.
-        /// </summary>
-        /// <returns>whether or not message was sent</returns>
-        public override bool SendMessage()
-        {
-            bool sent = false;
+        /////// <summary>
+        /////// Sends the message.
+        /////// </summary>
+        /////// <returns>whether or not message was sent</returns>
+        ////public override bool SendMessage()
+        ////{
+        ////    bool sent = false;
             
-            // ValidationEventHandler schemaCheck;
-            // MessageDocument.Validate(schemaCheck);
-            return sent;
+        ////    // ValidationEventHandler schemaCheck;
+        ////    // MessageDocument.Validate(schemaCheck);
+        ////    return sent;
+        ////}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageAction"/> class.
+        /// </summary>
+        public MessageAction()
+        {
+            MessageTypeName = "MessageAction";
         }
 
         /// <summary>
@@ -146,7 +153,13 @@ namespace CardCommunication.Messages
         protected override void BuildBody(ref XmlElement message)
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
-            
+      
+            ////foreach (Seat s in Game.Seats)
+            ////{
+            ////    Player p = Game.GetPlayer(s.Location);
+
+            ////    foreach (p.Actions)
+
             this.BuildAction(ref body);
 
             message.AppendChild(body);
@@ -198,7 +211,7 @@ namespace CardCommunication.Messages
         {
             XmlElement param = this.MessageDocument.CreateElement("Param");
 
-            ////game.action.command.param.name);
+            ////Game.action.command.param.name);
             param.SetAttribute("Name", String.Empty);
 
             ////game.action.command.param.value);

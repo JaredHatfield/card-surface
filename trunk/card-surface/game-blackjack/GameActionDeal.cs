@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// Deals the hands for a blackjack game.
     /// </summary>
+    [Serializable]
     internal class GameActionDeal : GameAction
     {
         /// <summary>

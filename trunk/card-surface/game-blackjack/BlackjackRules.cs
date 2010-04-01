@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The supporting functions that help implement the rules of Blackjack.
     /// </summary>
+    [Serializable]
     internal class BlackjackRules
     {
         /// <summary>

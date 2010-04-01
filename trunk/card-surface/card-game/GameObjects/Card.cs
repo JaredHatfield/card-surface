@@ -13,6 +13,7 @@ namespace CardGame
     /// <summary>
     /// A single playing card.
     /// </summary>
+    [Serializable]
     public class Card : PhysicalObject, ICard
     {
         /// <summary>
@@ -33,6 +34,7 @@ namespace CardGame
         /// <summary>
         /// The image of the card.
         /// </summary>
+        [NonSerialized]
         private Bitmap image;
 
         /// <summary>

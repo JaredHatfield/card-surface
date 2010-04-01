@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The double action for blackjack.
     /// </summary>
+    [Serializable]
     internal class GameActionDouble : GameAction
     {
         /// <summary>

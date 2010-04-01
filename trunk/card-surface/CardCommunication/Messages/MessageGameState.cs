@@ -53,55 +53,63 @@ namespace CardCommunication.Messages
         ////    return success;
         ////}
 
+        /////// <summary>
+        /////// Builds the message.
+        /////// </summary>
+        /////// <param name="gameState">State of the game.</param>
+        /////// <returns>whether the Message was built.</returns>
+        ////public override bool BuildMessage(Game gameState)
+        ////{
+        ////    XmlElement message = this.MessageDocument.CreateElement("Message");
+        ////    bool success = true;
+
+        ////    ////if (gameObject == null)
+        ////    ////{
+        ////    ////    ////gameObject = new GameMessage();
+        ////    ////}
+        ////    ////////gameObject.Players[0].
+
+        ////    try
+        ////    {
+        ////        this.Game = gameState;
+
+        ////        this.BuildHeader(ref message);
+        ////        this.BuildBody(ref message);
+
+        ////        this.MessageDocument.InnerXml = message.InnerXml;
+        ////    }
+        ////    catch (Exception e)
+        ////    {
+        ////        Console.WriteLine("Error Building Message", e);
+        ////        success = false;
+        ////    }
+
+        ////    return success;
+        ////}
+
+        /////// <summary>
+        /////// Sends the message.
+        /////// </summary>
+        /////// <returns>whether or not the message sent successfully</returns>
+        ////public override bool SendMessage()
+        ////{
+        ////    bool sent = false;
+
+        ////    /* XmlSchema schema =;
+        ////     ValidationEventHandler schemaCheck;
+        ////     ValidationEventHandler schemaCheck = new ValidationEventHandler(ValidateSchema);
+        ////     MessageDocument.Schemas.Add(
+        ////    MessageDocument.Validate(schemaCheck);*/
+
+        ////    return sent;
+        ////}
+
         /// <summary>
-        /// Builds the message.
+        /// Initializes a new instance of the <see cref="MessageGameState"/> class.
         /// </summary>
-        /// <param name="gameState">State of the game.</param>
-        /// <returns>whether the Message was built.</returns>
-        public override bool BuildMessage(Game gameState)
+        public MessageGameState()
         {
-            XmlElement message = this.MessageDocument.CreateElement("Message");
-            bool success = true;
-
-            ////if (gameObject == null)
-            ////{
-            ////    ////gameObject = new GameMessage();
-            ////}
-            ////////gameObject.Players[0].
-
-            try
-            {
-                this.Game = gameState;
-
-                this.BuildHeader(ref message);
-                this.BuildBody(ref message);
-
-                this.MessageDocument.InnerXml = message.InnerXml;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error Building Message", e);
-                success = false;
-            }
-
-            return success;
-        }
-
-        /// <summary>
-        /// Sends the message.
-        /// </summary>
-        /// <returns>whether or not the message sent successfully</returns>
-        public override bool SendMessage()
-        {
-            bool sent = false;
-
-            /* XmlSchema schema =;
-             ValidationEventHandler schemaCheck;
-             ValidationEventHandler schemaCheck = new ValidationEventHandler(ValidateSchema);
-             MessageDocument.Schemas.Add(
-            MessageDocument.Validate(schemaCheck);*/
-
-            return sent;
+            MessageTypeName = "MessageGameState";
         }
 
         /// <summary>

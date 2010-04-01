@@ -13,7 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The game of Blackjack.
     /// </summary>
-    public class Blackjack : Game
+    [Serializable] public class Blackjack : Game
     {
         /// <summary>
         /// An array that indicates for each player if they are in the game and if they finished their hand.

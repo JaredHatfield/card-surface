@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A playing area for chips and cards.
     /// </summary>
-    public class PlayingArea
+    [Serializable] public class PlayingArea
     {
         /// <summary>
         /// The piles of chips.

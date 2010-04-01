@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The split action for blackjack.
     /// </summary>
+    [Serializable]
     internal class GameActionSplit : GameAction
     {
         /// <summary>

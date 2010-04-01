@@ -49,8 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommunicationController.cs" />
+    <Compile Include="CommunicationObject.cs" />
     <Compile Include="Messages\Message.cs" />
     <Compile Include="Messages\MessageAction.cs" />
+    <Compile Include="Messages\MessageGameList.cs" />
     <Compile Include="Messages\MessageGameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCommunicationController.cs" />
