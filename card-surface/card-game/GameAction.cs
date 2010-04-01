@@ -12,6 +12,7 @@ namespace CardGame
     /// <summary>
     /// An abstract class that implements an action for the game.
     /// </summary>
+    [Serializable]
     public abstract class GameAction
     {
         /// <summary>

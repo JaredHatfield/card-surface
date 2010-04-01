@@ -1,26 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name ="Header">
+  <xs:element name="Message">
     <xs:complexType>
-      <xs:attribute name ="TimeStamp" type="xs:string" use="required"/>
+      <xs:all>
+        <xs:element name="Header" type="HeaderType"></xs:element>
+        <xs:element name="Body" type="BodyType"></xs:element>
+      </xs:all>
     </xs:complexType>
   </xs:element>
-  <xs:element name ="Body">
-    <xs:complexType>
-      <xs:choice>
-        <xs:element name ="Action">
-          <xs:complexType>
-            <xs:choice>
-              <xs:element name="Move" type="ActionType"></xs:element>
-              <xs:element name="Custom" type="ActionType"></xs:element>
-            </xs:choice>
-            <xs:attribute name="game" type="xs:string"></xs:attribute>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="Game" type="GameType"></xs:element>
-      </xs:choice>
-    </xs:complexType>
-  </xs:element>
+  <xs:complexType name ="HeaderType">
+    <xs:attribute name ="TimeStamp" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name ="BodyType">
+    <xs:choice>
+      <xs:element name ="Action">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Move" type="ActionType"></xs:element>
+            <xs:element name="Custom" type="ActionType"></xs:element>
+          </xs:choice>
+          <xs:attribute name="game" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Game" type="GameType"></xs:element>
+    </xs:choice>
+  </xs:complexType>
   <xs:complexType name="ActionType">
     <xs:sequence>
       <xs:element name="Param" type="ParamType"></xs:element>

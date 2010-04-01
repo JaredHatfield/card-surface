@@ -64,7 +64,8 @@ namespace CardCommunication
         {
             try
             {
-                Socket socketProcessor = this.SocketListener.EndAccept(asyncResult);
+                Socket socketWorker = (Socket)asyncResult.AsyncState;
+                Socket socketProcessor = socketWorker.EndAccept(asyncResult);
                 bool found = false;
 
                 foreach (IPEndPoint ep in this.clientList)
@@ -82,15 +83,22 @@ namespace CardCommunication
 
                 try
                 {
-                    byte[] data = { 0 };
+                    CommunicationObject commObject = new CommunicationObject();
+                    byte[] data = { };
+                    
+                    commObject.WorkSocket = socketProcessor;
+                    commObject.Data = data;
 
+                    ////socketProcessor.Receive(data, 0, CommunicationObject.BufferSize, SocketFlags.None);
+                    ////this.ProcessCommunicationData(data);
+                    ////this.ProcessCommunicationData(asyncResult);
                     socketProcessor.BeginReceive(
-                        data,
-                        0, 
-                        data.Length, 
+                        commObject.Buffer,
+                        0,
+                        CommunicationObject.BufferSize,
                         SocketFlags.None,
                         new AsyncCallback(this.ProcessCommunicationData),
-                        data);
+                        commObject);
                 }
                 catch (Exception e)
                 {

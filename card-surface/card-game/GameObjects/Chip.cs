@@ -13,6 +13,7 @@ namespace CardGame
     /// <summary>
     /// A single chip.
     /// </summary>
+    [Serializable]
     public class Chip : PhysicalObject, IChip
     {
         /// <summary>

@@ -12,6 +12,7 @@ namespace CardGame
     /// <summary>
     /// A physical object that is manipulated as part of the game.
     /// </summary>
+    [Serializable]
     public class PhysicalObject : IPhysicalObject
     {
         /// <summary>

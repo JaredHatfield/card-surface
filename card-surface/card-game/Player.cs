@@ -12,7 +12,7 @@ namespace CardGame
     /// <summary>
     /// A player in the game.
     /// </summary>
-    public class Player
+    [Serializable] public class Player
     {
         /// <summary>
         /// The players balance on the table.

@@ -13,6 +13,7 @@ namespace GameBlackjack
     /// <summary>
     /// The stand action for blackjack.
     /// </summary>
+    [Serializable]
     internal class GameActionStand : GameAction
     {
         /// <summary>

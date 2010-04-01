@@ -14,6 +14,7 @@ namespace CardGame
     /// <summary>
     /// A pile of chips that the user can access money they have placed on the table.
     /// </summary>
+    [Serializable]
     public class BankPile : ChipPile
     {
         /// <summary>

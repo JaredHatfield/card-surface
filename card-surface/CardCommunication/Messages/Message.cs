@@ -6,9 +6,11 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using System.Xml.Schema;
     using CardGame;
     ////using GameObject;
 
@@ -26,6 +28,16 @@ namespace CardCommunication.Messages
         /// game state.
         /// </summary>
         private Game game;
+
+        /// <summary>
+        /// The String representation of the Message Type.
+        /// </summary>
+        private string messageTypeName;
+
+        /////// <summary>
+        /////// Whether the xmlDocumnet was validated against the schema.
+        /////// </summary>
+        ////private bool schemaValidated = true;
 
         /////// <summary>
         /////// game object
@@ -51,6 +63,11 @@ namespace CardCommunication.Messages
             Action,
 
             /// <summary>
+            /// The Game List Message
+            /// </summary>
+            GameList,
+
+            /// <summary>
             /// The Game State Message
             /// </summary>
             GameState
@@ -63,6 +80,16 @@ namespace CardCommunication.Messages
         public XmlDocument MessageDocument
         {
             get { return this.messageDoc; }
+        }
+
+        /// <summary>
+        /// Gets or sets the string representation of the message type.
+        /// </summary>
+        /// <value>The string representation of the message type.</value>
+        public string MessageTypeName
+        {
+            get { return this.messageTypeName; }
+            set { this.messageTypeName = value; }
         }
 
         /// <summary>
@@ -82,27 +109,62 @@ namespace CardCommunication.Messages
         /////// <returns>whether the message was constructed and sent.</returns>
         ////public bool MessageConstructSend(Game gameState);
 
-        ////public void BuildMessage(MessageType type)
-        ////{
-        ////    switch(type)
-        ////    {
-        ////        case MessageType.Action:
-        ////            MessageAction action = new MessageAction();
-        ////            action.BuildMessage(
-        ////}
-
         /// <summary>
         /// Builds the message.
         /// </summary>
-        /// <param name="game">The game to be converted into a message.</param>
-        /// <returns>whether message was built.</returns>
-        public abstract bool BuildMessage(Game game);
+        /// <param name="gameState">State of the game.</param>
+        /// <returns>whether the Message was built.</returns>
+        public bool BuildMessage(Game gameState)
+        {
+            XmlElement message = this.MessageDocument.CreateElement("Message");
+            ////string filename = Directory.GetDirectoryRoot(Directory.GetCurrentDirectory());
+            ////StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + "MessageSchema.xsd");
+            bool success = true;
 
-        /// <summary>
-        /// Sends the message.
-        /// </summary>
-        /// <returns>whether or not the message was sent successfully</returns>
-        public abstract bool SendMessage();
+            try
+            {
+                ////XmlSchema schema = XmlSchema.Read(sr, new ValidationEventHandler(this.ValidateSchema));
+                
+                this.Game = gameState;
+
+                message.SetAttribute("MessageType", this.messageTypeName);
+                this.BuildHeader(ref message);
+                this.BuildBody(ref message);
+
+                ////this.messageDoc.InnerXml = message.OuterXml;
+
+                ////schema.Compile(new ValidationEventHandler(this.ValidateSchema));
+
+                ////if (!this.schemaValidated)
+                ////{
+                ////    throw new Exception("Validation Error");
+                ////}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error Building Message", e);
+                success = false;
+            }
+            ////finally
+            ////{
+            ////    sr.Close();
+            ////}
+
+            return success;
+        }
+
+        /////// <summary>
+        /////// Builds the message.
+        /////// </summary>
+        /////// <param name="game">The game to be converted into a message.</param>
+        /////// <returns>whether message was built.</returns>
+        ////public abstract bool BuildMessage(Game game);
+
+        /////// <summary>
+        /////// Sends the message.
+        /////// </summary>
+        /////// <returns>whether or not the message was sent successfully</returns>
+        ////public abstract bool SendMessage();
 
         /// <summary>
         /// Converts to game.
@@ -198,5 +260,16 @@ namespace CardCommunication.Messages
         /// </summary>
         /// <param name="element">The element to be processed.</param>
         protected abstract void ProcessBody(XmlElement element);
+        
+        /// <summary>
+        /// Validates the schema.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
+        private void ValidateSchema(object sender, ValidationEventArgs e)
+        {
+            Console.WriteLine("Schema Validation.", e);
+            ////this.schemaValidated = false;
+        }
     }
 }

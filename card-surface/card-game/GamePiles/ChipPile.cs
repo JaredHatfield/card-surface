@@ -12,6 +12,7 @@ namespace CardGame
     /// <summary>
     /// A pile of chips.
     /// </summary>
+    [Serializable]
     public class ChipPile : Pile, IComparable, IEquatable<ChipPile>
     {
         /// <summary>
