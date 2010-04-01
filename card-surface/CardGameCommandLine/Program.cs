@@ -9,6 +9,8 @@ namespace CardGameCommandLine
     using System.Drawing;
     using System.Linq;
     using System.Text;
+    using CardCommunication;
+    using CardCommunication.Messages;
     using CardGame;
     using CardGame.GameException;
     using CardServer;
@@ -112,13 +114,14 @@ namespace CardGameCommandLine
                 {
                     try
                     {
+                        serverController.ServerCommunicationController.SendMessage(game, Message.MessageType.GameState);
                         Program.game.ExecuteAction(cmd, game.GetActivePlayerSeat().Username);
                     }
                     catch (CardGamePlayerNotFoundException ex)
                     {
                         if (cmd.Equals("Deal"))
                         {
-                            Program.game.ExecuteAction(cmd, null);
+                           Program.game.ExecuteAction(cmd, null);
                         }
                         else
                         {
