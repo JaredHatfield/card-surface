@@ -14,7 +14,7 @@ namespace CardTable
     /// <summary>
     /// The game instance on the table.
     /// </summary>
-    internal class GameTableInstance : Game
+    internal class GameTableInstance : GameNetworkClient
     {
         /// <summary>
         /// The TableCommunicationController that coordinates the communication to the server.
@@ -24,8 +24,9 @@ namespace CardTable
         /// <summary>
         /// Initializes a new instance of the <see cref="GameTableInstance"/> class.
         /// </summary>
-        internal GameTableInstance()
-            : base()
+        /// <param name="server">The server to connect to.</param>
+        internal GameTableInstance(string server)
+            : base(server)
         {
             this.tableCommunicationController = new TableCommunicationController();
 
