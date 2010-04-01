@@ -36,6 +36,7 @@ namespace GameBlackjack
         /// <returns>True if the action was successful; otherwise false.</returns>
         public override bool Action(Game game, string player)
         {
+            this.PlayerCanExecuteAction(game.GetPlayer(player));
             Blackjack blackjack = (Blackjack)game;
 
             // TODO: GameActionSplit - implement a player spliting in the game
