@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// An abstract class that implements an action for the game.
@@ -41,5 +42,17 @@ namespace CardGame
         /// <c>true</c> if [is executable by player] [the specified game]; otherwise, <c>false</c>.
         /// </returns>
         public abstract bool IsExecutableByPlayer(Game game, Player player);
+
+        protected bool PlayerCanExecuteAction(Player player)
+        {
+            if (!player.Actions.Contains(this.Name))
+            {
+                throw new CardGameGameActionAccessDenied();
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
