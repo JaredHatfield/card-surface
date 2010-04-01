@@ -93,11 +93,19 @@ namespace GameBlackjack
             Blackjack blackjack = game as Blackjack;
             if (blackjack.InHand)
             {
+                // We are currently in a game
                 return false;
+            }
+            else if (player.PlayerArea.Chips.Count > 0 &&
+                player.PlayerArea.Chips[0].Amount > blackjack.MinimumBet)
+            {
+                // The minimum bet has been placed
+                return true;
             }
             else
             {
-                return true;
+                // The minimum bet has not been placed
+                return false;
             }
         }
     }
