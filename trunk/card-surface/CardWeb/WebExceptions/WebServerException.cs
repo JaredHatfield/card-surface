@@ -15,10 +15,25 @@ namespace CardWeb.WebExceptions
     public class WebServerException : Exception
     {
         /// <summary>
+        /// The exception message
+        /// </summary>
+        private string message;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebServerException"/> class.
         /// </summary>
-        public WebServerException()
+        public WebServerException() : base()
         {
+            this.message = string.Empty;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebServerException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public WebServerException(string message) : base()
+        {
+            this.message = message;
         }
 
         /// <summary>
@@ -30,7 +45,14 @@ namespace CardWeb.WebExceptions
         {
             get
             {
-                return "Web server exception thrown";
+                if (this.message == string.Empty)
+                {
+                    return "Web server exception thrown";
+                }
+                else
+                {
+                    return this.message;
+                }
             }
         }
     }

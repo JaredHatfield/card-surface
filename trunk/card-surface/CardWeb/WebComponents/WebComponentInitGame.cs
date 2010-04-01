@@ -14,6 +14,7 @@ namespace CardWeb.WebComponents
     using CardGame;
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Component responsible for handling InitGame requests
@@ -116,7 +117,7 @@ namespace CardWeb.WebComponents
                         WebActionInitGame webActionInitGame = new WebActionInitGame(request, this.gameController);
                         webActionInitGame.Execute();
                     }
-                    catch (Exception e)
+                    catch (WebServerException e)
                     {
                         Debug.WriteLine("WebComponentInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                         WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController, e.Message);

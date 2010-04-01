@@ -11,6 +11,7 @@ namespace CardWeb
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using WebExceptions;
 
     /// <summary>
     /// Describes HTTP request
@@ -198,7 +199,7 @@ namespace CardWeb
             }
             else
             {
-                throw new Exception("Request for value of \"" + key + "\" not found");
+                throw new WebServerUrlParameterNotFoundException(key);
             }
         } /* GetUrlParameter() */
 

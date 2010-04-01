@@ -13,6 +13,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Text;
     using CardGame;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Action for handling InitGame requests.
@@ -58,7 +59,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 this.minimumStake = int.Parse(request.GetUrlParameter(WebViewInitGame.FormFieldNameMinimumStake));
             }
-            catch (Exception e)
+            catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Error determining minimum stake.");
@@ -68,7 +69,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 this.gameId = new Guid(request.GetUrlParameter(WebViewInitGame.FormFieldNameGameId));
             }
-            catch (Exception e)
+            catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Error determining matching game.");
@@ -78,7 +79,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 this.seatCode = request.GetUrlParameter(WebViewJoinTable.FormFieldNameSeatCode);
             }
-            catch (Exception e)
+            catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Tried to start a game without selecting a seat.");

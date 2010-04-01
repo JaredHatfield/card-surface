@@ -14,6 +14,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Text;
     using CardAccount;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Action to create an account on the server.
@@ -57,16 +58,16 @@ namespace CardWeb.WebComponents.WebActions
                     this.password = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePassword);
                     this.verifiedPassword = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePasswordVerification);
                 }
-                catch (Exception e)
+                catch (WebServerUrlParameterNotFoundException wsupnfe)
                 {
-                    Debug.WriteLine("WebActionCreateAccount: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                    throw new Exception("Unable to create account.");
+                    Debug.WriteLine("WebActionCreateAccount: " + wsupnfe.Message + " @ " + WebUtilities.GetCurrentLine());
+                    throw new WebServerException("Unable to create account.");
                 }
             }
             else
             {
                 Debug.WriteLine("WebActionCreateAccount: WebActionCreateAccount did not receive any POST content @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Invalid account parameters.");
+                throw new WebServerException("Invalid account parameters.");
             }
         }
 
@@ -109,15 +110,15 @@ namespace CardWeb.WebComponents.WebActions
             {
                 if (!passwordsMatched)
                 {
-                    throw new Exception("Passwords do not match.");
+                    throw new WebServerException("Passwords do not match.");
                 }
                 else if (!accountDoesNotAlreadyExist)
                 {
-                    throw new Exception("Account already exists.");
+                    throw new WebServerException("Account already exists.");
                 }
                 else
                 {
-                    throw new Exception("Account creation failed.");
+                    throw new WebServerException("Account creation failed.");
                 }
             }
         } /* Execute() */

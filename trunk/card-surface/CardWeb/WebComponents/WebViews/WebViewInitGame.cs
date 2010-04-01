@@ -13,6 +13,7 @@ namespace CardWeb.WebComponents.WebViews
     using System.Text;
     using CardAccount;
     using CardGame;
+    using WebExceptions;
 
     /// <summary>
     /// View for displaying the form requiring minimum game stake.
@@ -103,6 +104,15 @@ namespace CardWeb.WebComponents.WebViews
         } /* GetHeader() */
 
         /// <summary>
+        /// Gets the error header.
+        /// </summary>
+        /// <returns>A string of the WebView's error header.</returns>
+        public string GetErrorHeader()
+        {
+            return this.request.RequestVersion + " 500 Internal Server Error";
+        } /* GetErrorHeader() */
+
+        /// <summary>
         /// Gets the length of the content.
         /// </summary>
         /// <returns>
@@ -124,18 +134,25 @@ namespace CardWeb.WebComponents.WebViews
 
             if (this.request.IsAuthenticated())
             {
-                /* TODO: Put these calls in a try catch block.  How is this view handled if someone tries to access it via URL
-                 * but doesn't provide all of the necessary information?  GetGame() will throw specific exception that should
-                 * be caught for desiredGame.  GetUrlParameter() will throw them for seatCode.  If these properties aren't set,
-                 * this view can't continue.  How do we recover? */
-                this.desiredGame = this.gameController.GetGame(new Guid(this.request.GetUrlParameter(FormFieldNameGameId)));
-                this.seatCode = this.request.GetUrlParameter(WebViewJoinTable.FormFieldNameSeatCode);
+                try
+                {
+                    /* TODO: What if this authenticated user has already joined a game? */
+                    this.desiredGame = this.gameController.GetGame(new Guid(this.request.GetUrlParameter(FormFieldNameGameId)));
+                    this.seatCode = this.request.GetUrlParameter(WebViewJoinTable.FormFieldNameSeatCode);
 
-                /* If the request has not been authenticated, provide them with a list of available games. */
-                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += this.GetContent();
+                    /* If the request has not been authenticated, provide them with a list of available games. */
+                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += this.GetContent();
+                }
+                catch (WebServerUrlParameterNotFoundException wsupnfe)
+                {
+                    /* A required parameter for this view was not found. */
+                    /* TODO: Recover gracefully?  Implement custon 500 error message? */
+                    responseBuffer = this.GetErrorHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    Debug.WriteLine("WebViewInitGame: " + wsupnfe.Message + " @ " + WebUtilities.GetCurrentLine());
+                }             
             }
             else
             {
