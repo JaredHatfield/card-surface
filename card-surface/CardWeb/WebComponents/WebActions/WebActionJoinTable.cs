@@ -12,6 +12,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Net.Sockets;
     using System.Text;
     using CardGame;
+    using WebExceptions;
     using WebViews;
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 this.seatCode = request.GetUrlParameter(WebViewJoinTable.FormFieldNameSeatCode);
             }
-            catch (Exception e)
+            catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new Exception("Error validating seat code.");

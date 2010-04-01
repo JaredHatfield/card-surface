@@ -17,7 +17,7 @@ namespace CardWeb.WebExceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServerCouldNotLaunchException"/> class.
         /// </summary>
-        public WebServerCouldNotLaunchException()
+        public WebServerCouldNotLaunchException() : base()
         {
         }
 

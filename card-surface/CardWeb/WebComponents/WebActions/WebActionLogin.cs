@@ -13,6 +13,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Text;
     using CardAccount;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Action to login to the server.
@@ -49,7 +50,7 @@ namespace CardWeb.WebComponents.WebActions
                     this.username = request.GetUrlParameter(WebViewLogin.FormFieldNameUsername);
                     this.password = request.GetUrlParameter(WebViewLogin.FormFieldNamePassword);
                 }
-                catch (Exception e)
+                catch (WebServerUrlParameterNotFoundException e)
                 {
                     Debug.WriteLine("WebActionLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                     throw new Exception("Login attempt failed.");

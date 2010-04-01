@@ -16,6 +16,7 @@ namespace CardWeb.WebComponents.WebViews
     using System.Text;
     using System.Web;
     using CardGame;
+    using WebExceptions;
     
     /// <summary>
     /// Responds to HTTP requests for system resources.
@@ -86,7 +87,15 @@ namespace CardWeb.WebComponents.WebViews
             if (this.request.IsAuthenticated())
             {
                 MemoryStream ms = new MemoryStream();
-                Deck.CardImage(this.request.GetUrlParameter("resid")).Save(ms, ImageFormat.Jpeg);
+                try
+                {
+                    Deck.CardImage(this.request.GetUrlParameter("resid")).Save(ms, ImageFormat.Jpeg);
+                }
+                catch (WebServerUrlParameterNotFoundException e)
+                {
+                    /* TODO: We should load the memory stream with a default image that says, "Image not found!" */
+                    Debug.WriteLine("WebViewResource: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                }
 
                 byte[] resourceBytes = ms.GetBuffer();
                 ms.Close();
