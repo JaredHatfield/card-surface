@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="GameException\CardGameActionNotFoundException.cs" />
     <Compile Include="GameException\CardGameException.cs" />
-    <Compile Include="GameException\CardGameGameActionAccessDenied.cs" />
+    <Compile Include="GameException\CardGameActionAccessDeniedException.cs" />
     <Compile Include="GameException\CardGameGameNotFoundException.cs" />
     <Compile Include="GameException\CardGameMoveToNonOpenPileException.cs" />
     <Compile Include="GameException\CardGamePhysicalObjectNotFoundException.cs" />

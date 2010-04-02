@@ -303,9 +303,13 @@ namespace CardGame
 
         /// <summary>
         /// Move the specified IPhysicalObject into the specified Pile.
+        /// This method takes the Guid of the PhysicalObject to move and the Guid of the pile to move it to.
+        /// If the move was successful, this function returns true.
+        /// This method will throw a CardGamePhysicalObjectNotFoundException if the PhysicalObject is not part of the game.
+        /// This method will throw a CardGamePileNotFoundException if the pile is not part of the game.
         /// </summary>
-        /// <param name="physicalObject">The physical object.</param>
-        /// <param name="destinationPile">The destination pile.</param>
+        /// <param name="physicalObject">The PhysicalObject's Guid.</param>
+        /// <param name="destinationPile">The destination pile's Guid.</param>
         /// <returns>True if the move was successful; otherwise false.</returns>
         public bool MoveAction(Guid physicalObject, Guid destinationPile)
         {
@@ -346,11 +350,17 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Executes the action.
+        /// Execute a GameAction.
+        /// This method takes the string representation of a GameAction and the username of the player that triggered the action.
+        /// This method returns true if the action was executed successfully.
+        /// This method will throw a CardGameActionNotFoundException if the specified action does not exist.
+        /// This method will throw a CardGameActionAccessDeniedException if the user is not allowed to execute the action.
+        /// This method will throw a CardGamePlayerNotFoundExcepting if the username is in the game.
+        /// Other exceptions may be thrown depending on the implementation of the GameAction.
         /// </summary>
-        /// <param name="name">The name of the action.</param>
-        /// <param name="player">The player.</param>
-        /// <returns>True if the action was successful; otherwise false.</returns>
+        /// <param name="name">The name of the GameAction.</param>
+        /// <param name="player">The Player's username.</param>
+        /// <returns>True if the GameAction was successful; otherwise false.</returns>
         public bool ExecuteAction(string name, string player)
         {
             for (int i = 0; i < this.actions.Count; i++)

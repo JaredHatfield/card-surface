@@ -114,7 +114,8 @@ namespace CardGameCommandLine
                 {
                     try
                     {
-                        serverController.ServerCommunicationController.SendMessage(game, Message.MessageType.GameState);
+                        // SOMEONE BROKE THIS!
+                        //serverController.ServerCommunicationController.SendMessage(game, Message.MessageType.GameState);
                         Program.game.ExecuteAction(cmd, game.GetActivePlayerSeat().Username);
                     }
                     catch (CardGamePlayerNotFoundException ex)
