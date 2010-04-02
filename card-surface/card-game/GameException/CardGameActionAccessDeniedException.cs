@@ -1,4 +1,4 @@
-﻿// <copyright file="CardGameGameActionAccessDenied.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="CardGameActionAccessDeniedException.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
 // <summary>An exception thrown by CardGame when a Game is not found.</summary>
@@ -12,12 +12,12 @@ namespace CardGame.GameException
     /// <summary>
     /// An exception thrown by CardGame when a Game is not found.
     /// </summary>
-    public class CardGameGameActionAccessDenied : CardGameException
+    public class CardGameActionAccessDeniedException : CardGameException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardGameGameActionAccessDenied"/> class.
+        /// Initializes a new instance of the <see cref="CardGameActionAccessDeniedException"/> class.
         /// </summary>
-        public CardGameGameActionAccessDenied()
+        public CardGameActionAccessDeniedException()
             : base()
         {
         }

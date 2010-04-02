@@ -43,11 +43,18 @@ namespace CardGame
         /// </returns>
         public abstract bool IsExecutableByPlayer(Game game, Player player);
 
+        /// <summary>
+        /// Tests if the Player can execute this action.
+        /// This test references the local GameAction name.
+        /// This does not actually perform the test using the IsExecutableByPlayer function, rather depends on the Player.Actions lists to perform the test.
+        /// </summary>
+        /// <param name="player">The Player to test.</param>
+        /// <returns>True if the Player can execute the GameAction; otherwise false.</returns>
         protected bool PlayerCanExecuteAction(Player player)
         {
             if (!player.Actions.Contains(this.Name))
             {
-                throw new CardGameGameActionAccessDenied();
+                throw new CardGameActionAccessDeniedException();
             }
             else
             {

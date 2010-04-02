@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{357675F6-3B15-4D69-BECA-2D4C7D748020}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -60,6 +60,10 @@
     <ProjectReference Include="..\card-server\CardServer.csproj">
       <Project>{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}</Project>
       <Name>CardServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardCommunication\CardCommunication.csproj">
+      <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
+      <Name>CardCommunication</Name>
     </ProjectReference>
     <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
       <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
