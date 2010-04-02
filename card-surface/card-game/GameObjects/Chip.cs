@@ -153,7 +153,7 @@ namespace CardGame
         /// </returns>
         public override string ToString()
         {
-            return this.chipColor.ToString() + " (" + this.amount + ")";
+            return "[" + this.amount + "]";
         }
     }
 }

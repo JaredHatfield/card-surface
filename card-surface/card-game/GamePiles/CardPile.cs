@@ -201,6 +201,28 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            string cards = string.Empty;
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                cards += i + "=[" + this.Items[i].ToString() + "] ";
+            }
+
+            if (this.Items.Count == 0)
+            {
+                return "Empty.";
+            }
+
+            return cards;
+        }
+
+        /// <summary>
         /// Empties the pile of cards into another pile of cards.
         /// </summary>
         /// <param name="destination">The destination pile of cards.</param>

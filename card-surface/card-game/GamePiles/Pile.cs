@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A collection of IPhysicalObjects.
@@ -169,6 +170,24 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a PhysicalObject at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The PhysicalObject requested.</returns>
+        public IPhysicalObject GetPhysicalObject(int index)
+        {
+            // TODO: Do we really need this function?  It was added to make things easier, but is it necessary to have public access?
+            if (index < this.pileItems.Count)
+            {
+                return this.pileItems[index];
+            }
+            else
+            {
+                throw new CardGamePhysicalObjectNotFoundException();
+            }
+        }
+
+        /// <summary>
         /// Gets the physical object specified by a unique id.
         /// </summary>
         /// <param name="physicalObjectId">The unique id.</param>
@@ -183,7 +202,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePhysicalObjectNotFoundException();
         }
     }
 }
