@@ -34,6 +34,7 @@ namespace CardGame
         /// <summary>
         /// The actions that can be performed in this game.
         /// </summary>
+        [NonSerialized]
         private Collection<GameAction> actions;
 
         /// <summary>
