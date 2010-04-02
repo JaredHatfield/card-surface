@@ -179,15 +179,33 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets a seat based off of a Guid.
+        /// Gets a Seat based off of a Guid.
         /// </summary>
         /// <param name="seatId">The seat id.</param>
-        /// <returns>The instance of the seat.</returns>
+        /// <returns>The instance of the Seat.</returns>
         public Seat GetSeat(Guid seatId)
         {
             for (int i = 0; i < this.seats.Count; i++)
             {
                 if (!this.seats[i].IsEmpty && this.seats[i].Id.Equals(seatId))
+                {
+                    return this.seats[i];
+                }
+            }
+
+            throw new CardGameSeatNotFoundException();
+        }
+
+        /// <summary>
+        /// Gets a Seat based off of a SeatLocation.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns>The instance of the Seat.</returns>
+        public Seat GetSeat(Seat.SeatLocation location)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (this.seats[i].Location.Equals(location))
                 {
                     return this.seats[i];
                 }

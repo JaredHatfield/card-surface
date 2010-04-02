@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A seat at the game.
@@ -170,6 +171,36 @@ namespace CardGame
                     return false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a SeatLocation based on the string name of a SeatLocation.
+        /// </summary>
+        /// <param name="name">The string representation of a SeatLocation.</param>
+        /// <returns>The SeatLocation requested.</returns>
+        public static SeatLocation ParseSeatLocation(string name)
+        {
+            switch (name.ToLower())
+            {
+                case "east":
+                    return SeatLocation.East;
+                case "north":
+                    return SeatLocation.North;
+                case "northeast":
+                    return SeatLocation.NorthEast;
+                case "northwest":
+                    return SeatLocation.NorthWest;
+                case "south":
+                    return SeatLocation.South;
+                case "southeast":
+                    return SeatLocation.SouthEast;
+                case "southwest":
+                    return SeatLocation.SouthWest;
+                case "west":
+                    return SeatLocation.West;
+            }
+
+            throw new CardGameSeatNotFoundException();
         }
 
         /// <summary>

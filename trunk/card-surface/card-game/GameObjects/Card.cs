@@ -299,11 +299,11 @@ namespace CardGame
         {
             if (this.status == CardStatus.FaceUp)
             {
-                return this.face + " of " + this.suit + ".";
+                return this.face + " of " + this.suit;
             }
             else
             {
-                return "Face down card.";
+                return "Face down.";
             }
         }
     }

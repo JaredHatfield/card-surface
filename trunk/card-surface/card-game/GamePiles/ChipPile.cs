@@ -124,12 +124,12 @@ namespace CardGame
             string chips = string.Empty;
             for (int i = 0; i < this.Items.Count; i++)
             {
-                chips += "(" + (this.Items[i] as IChip).Amount + ")  ";
+                chips += i + "=" + (this.Items[i] as IChip).ToString() + " ";
             }
 
             if (this.Items.Count == 0)
             {
-                return "No chips";
+                return "Empty.";
             }
 
             return chips;
