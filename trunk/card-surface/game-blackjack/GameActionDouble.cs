@@ -38,10 +38,34 @@ namespace GameBlackjack
         {
             this.PlayerCanExecuteAction(game.GetPlayer(player));
             Blackjack blackjack = (Blackjack)game;
-
             Player p = blackjack.GetPlayer(player);
-            
-            // TODO: GameActionDouble - the players bet should be doubled
+
+            // Double the Player's bet
+            int targetBet = p.PlayerArea.Chips[0].Amount * 2;
+            while (p.PlayerArea.Chips[0].Amount < targetBet)
+            {
+                int needed = targetBet - p.PlayerArea.Chips[0].Amount;
+                if (needed >= 100)
+                {
+                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                }
+                else if (needed >= 25)
+                {
+                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                }
+                else if (needed >= 10)
+                {
+                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                }
+                else if (needed >= 5)
+                {
+                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                }
+                else if (needed >= 1)
+                {
+                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                }
+            }
 
             // Have the player take a hit
             blackjack.ExecuteAction("Hit", player);
