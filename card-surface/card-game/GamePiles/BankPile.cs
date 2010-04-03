@@ -64,6 +64,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the Guid of the chip of the specified value.
+        /// If Chip can not be located this will throw a CardGamePhysicalObjectNotFoundException.
+        /// </summary>
+        /// <param name="value">The value of the chip to locate.</param>
+        /// <returns>The Guid of the requested Chip.</returns>
+        public Guid GetChip(int value)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if ((this.Items[i] as IChip).Amount.Equals(value))
+                {
+                    return this.Items[i].Id;
+                }
+            }
+
+            throw new CardGamePhysicalObjectNotFoundException();
+        }
+
+        /// <summary>
         /// Refreshes the chip pile so that the pile only contains valid chips that can be removed by the player.
         /// </summary>
         internal void RefreshChipPile()
