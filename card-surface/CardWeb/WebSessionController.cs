@@ -8,6 +8,7 @@ namespace CardWeb
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using WebExceptions;
 
     /// <summary>
     /// Singleton class that controlls HTTP sessions
@@ -58,6 +59,7 @@ namespace CardWeb
         /// </summary>
         /// <param name="csid">The CardSurface Session ID as a GUID.</param>
         /// <returns>The authenticated WebSession.</returns>
+        /// <exception cref="WebServerSessionNotFoundException"></exception>
         public WebSession GetSession(Guid csid)
         {
             foreach (WebSession session in this.sessions)
@@ -68,7 +70,7 @@ namespace CardWeb
                 }
             }
 
-            throw new Exception("No matching session found");
+            throw new WebServerSessionNotFoundException(csid);
         }
     }
 }

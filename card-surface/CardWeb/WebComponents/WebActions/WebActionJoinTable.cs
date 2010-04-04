@@ -52,7 +52,7 @@ namespace CardWeb.WebComponents.WebActions
             catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Error validating seat code.");
+                throw new WebServerException("Error validating seat code.");
             }
         } /* WebActionJoinTable() */
 
@@ -98,13 +98,13 @@ namespace CardWeb.WebComponents.WebActions
                         }
                         else
                         {
-                            throw new Exception("Failed to join the game.");
+                            throw new WebServerException("Failed to join the game.");
                         }
                     }
                 }
                 else
                 {
-                    throw new Exception("Invalid seat code.");
+                    throw new WebServerException("Invalid seat code.");
                 }
             }
             else

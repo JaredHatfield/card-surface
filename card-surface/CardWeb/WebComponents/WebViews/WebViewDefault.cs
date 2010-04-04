@@ -11,6 +11,7 @@ namespace CardWeb.WebComponents.WebViews
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using WebExceptions;
 
     /// <summary>
     /// WebView representing default URL request
@@ -125,7 +126,11 @@ namespace CardWeb.WebComponents.WebViews
                 content += "<a href=\"http://" + Dns.GetHostName() + "/ManageAccount/\">Manage Account</a><br/>\n";
                 content += "Logout</a><br/>";
             }
-            catch (Exception e)
+            catch (SocketException se)
+            {
+                Debug.WriteLine("WebViewDefault : " + se.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
+            catch (WebServerSessionNotFoundException e)
             {
                 Debug.WriteLine("WebViewDefault: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 /* TODO: Should we just cancel the login process? */

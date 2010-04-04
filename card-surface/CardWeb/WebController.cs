@@ -184,12 +184,6 @@ namespace CardWeb
                                 }
                             }
                         }
-                        catch (InvalidOperationException ioe)
-                        {
-                            /* We didn't recognize the HTTP request type. */
-                            Debug.WriteLine("WebController: " + ioe.Message + " @ " + WebUtilities.GetCurrentLine() + ".");
-                            /* TODO: What happens next? */
-                        }
                         catch (Exception e)
                         {
                             Debug.WriteLine("WebController: Unable to receive data from an accepted connection request @ " + WebUtilities.GetCurrentLine() + " (" + e.Message + ")");
@@ -281,7 +275,8 @@ namespace CardWeb
         /// Gets the registered WebComponent.
         /// </summary>
         /// <param name="prefix">The WebComponent's prefix.</param>
-        /// <returns>A WebComponent with a prefix that matches the string or throws if an Exception if one is not registered.</returns>
+        /// <returns>A WebComponent with a prefix that matches the string.</returns>
+        /// <exception cref="WebServerException"></exception>
         private WebComponent GetRegisteredComponent(string prefix)
         {
             foreach (WebComponent component in this.registeredComponents)
@@ -292,7 +287,7 @@ namespace CardWeb
                 }
             }
 
-            throw new Exception("Requested an Unregistered WebComponent.");
+            throw new WebServerException("Requested an Unregistered WebComponent.");
         } /* GetRegisteredComponent() */
     }
 }

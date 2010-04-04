@@ -62,7 +62,7 @@ namespace CardWeb.WebComponents.WebActions
             catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Error determining minimum stake.");
+                throw new WebServerException("Error determining minimum stake.");
             }
 
             try
@@ -72,7 +72,7 @@ namespace CardWeb.WebComponents.WebActions
             catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Error determining matching game.");
+                throw new WebServerException("Error determining matching game.");
             }
 
             try
@@ -82,7 +82,7 @@ namespace CardWeb.WebComponents.WebActions
             catch (WebServerUrlParameterNotFoundException e)
             {
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                throw new Exception("Tried to start a game without selecting a seat.");
+                throw new WebServerException("Tried to start a game without selecting a seat.");
             }
         } /* WebActionInitGame() */
 
@@ -121,12 +121,12 @@ namespace CardWeb.WebComponents.WebActions
                     }
                     else
                     {
-                        throw new Exception("Failed to join the game.");
+                        throw new WebServerException("Failed to join the game.");
                     }
                 }
                 else
                 {
-                    throw new Exception("Initial stake did not meet game's minimum stake requirements.");
+                    throw new WebServerException("Initial stake did not meet game's minimum stake requirements.");
                 }
             }
             else
