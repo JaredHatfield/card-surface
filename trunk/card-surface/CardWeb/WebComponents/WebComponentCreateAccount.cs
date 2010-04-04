@@ -13,6 +13,7 @@ namespace CardWeb.WebComponents
     using System.Threading;
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Component for managing HTTP requests from CreateAccount/ URL.
@@ -108,7 +109,7 @@ namespace CardWeb.WebComponents
                         WebActionCreateAccount webActionCreateAccount = new WebActionCreateAccount(request);
                         webActionCreateAccount.Execute();
                     }
-                    catch (Exception e)
+                    catch (WebServerException e)
                     {
                         WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request, e.Message);
                         webViewCreateAccount.SendResponse();

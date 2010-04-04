@@ -53,7 +53,7 @@ namespace CardWeb.WebComponents.WebActions
                 catch (WebServerUrlParameterNotFoundException e)
                 {
                     Debug.WriteLine("WebActionLogin: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                    throw new Exception("Login attempt failed.");
+                    throw new WebServerException("Login attempt failed.");
                 }
             }
             else
@@ -100,7 +100,7 @@ namespace CardWeb.WebComponents.WebActions
             }
             else
             {
-                throw new Exception("Invalid Username\\Password");
+                throw new WebServerException("Invalid Username\\Password");
             }
         } /* Execute() */
     }

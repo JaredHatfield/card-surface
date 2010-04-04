@@ -178,7 +178,7 @@ namespace CardWeb
             }
             else
             {
-                throw new Exception("No cookie found in HTTP request");
+                throw new WebServerException("No cookie found in HTTP request");
             }
         } /* GetSessionId() */
 
@@ -280,7 +280,7 @@ namespace CardWeb
             }
             else
             {
-                throw new Exception("No cookie found");
+                throw new WebServerException("No cookie found");
             }
 
             /* If we didn't find our cookie identifier, return an WebCookie constructed with an empty Guid (which will never be authenticated). */

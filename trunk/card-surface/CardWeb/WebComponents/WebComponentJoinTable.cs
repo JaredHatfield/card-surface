@@ -14,6 +14,7 @@ namespace CardWeb.WebComponents
     using System.Threading;
     using CardGame;
     using WebActions;
+    using WebExceptions;
     using WebViews;
 
     /// <summary>
@@ -117,7 +118,7 @@ namespace CardWeb.WebComponents
                         WebActionJoinTable webActionJoinTable = new WebActionJoinTable(request, this.gameController);
                         webActionJoinTable.Execute();
                     }
-                    catch (Exception e)
+                    catch (WebServerException e)
                     {
                         Debug.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                         WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);

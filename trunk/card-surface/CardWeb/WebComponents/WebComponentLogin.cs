@@ -14,6 +14,7 @@ namespace CardWeb.WebComponents
     using System.Threading;
     using CardWeb.WebComponents.WebActions;
     using CardWeb.WebComponents.WebViews;
+    using WebExceptions;
 
     /// <summary>
     /// Responsible for managing login related HTTP requests.
@@ -109,7 +110,7 @@ namespace CardWeb.WebComponents
                         WebActionLogin webActionLogin = new WebActionLogin(request);
                         webActionLogin.Execute();
                     }
-                    catch (Exception e)
+                    catch (WebServerException e)
                     {
                         /* Proccesing HTTP POST command failed. */
                         WebViewLogin webViewLogin = new WebViewLogin(request, e.Message);
