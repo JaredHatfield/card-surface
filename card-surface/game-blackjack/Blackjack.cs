@@ -9,6 +9,7 @@ namespace GameBlackjack
     using System.Linq;
     using System.Text;
     using CardGame;
+    using CardGame.GameException;
 
     /// <summary>
     /// The game of Blackjack.
@@ -225,7 +226,7 @@ namespace GameBlackjack
                 }
             }
 
-            throw new Exception("Player index could not be found.");
+            throw new CardGamePlayerNotFoundException();
         }
 
         /// <summary>
@@ -243,7 +244,7 @@ namespace GameBlackjack
                 }
             }
 
-            throw new Exception("Player index could not be found.");
+            throw new CardGamePlayerNotFoundException();
         }
 
         /// <summary>

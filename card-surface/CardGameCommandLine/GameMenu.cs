@@ -194,7 +194,7 @@ namespace CardGameCommandLine
             }
             else
             {
-                throw new Exception("The Move command did not receive the correct number of parameters.");
+                throw new CardGameException("The Move command did not receive the correct number of parameters.");
             }
         }
 
