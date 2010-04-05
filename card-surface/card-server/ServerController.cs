@@ -70,6 +70,15 @@ namespace CardServer
         }
 
         /// <summary>
+        /// Gets the server communication controller.
+        /// </summary>
+        /// <value>The server communication controller.</value>
+        public ServerCommunicationController ServerCommunicationController
+        {
+            get { return this.serverCommunicationController; }
+        }
+
+        /// <summary>
         /// Closes this instance.
         /// </summary>
         /// <param name="sender">The sender.</param>

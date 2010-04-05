@@ -6,6 +6,7 @@ namespace CardCommunication
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using System.Text;
@@ -22,12 +23,18 @@ namespace CardCommunication
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
+        /// list of all games that can be played on the server.
+        /// </summary>
+        private Collection<string> availiableGameList;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameNetworkClient"/> class.
         /// </summary>
         /// <param name="server">The server to connect to.</param>
         public GameNetworkClient(string server)
         {
             this.tableCommunicationController = new TableCommunicationController();
+            this.SubscribeEvents();
 
             // TODO: Connect to the game and do lots of awesome stuff
         }
@@ -39,5 +46,42 @@ namespace CardCommunication
             : base()
         {
         } 
+
+        /// <summary>
+        /// Function where all event that Update the game are subscribed to.
+        /// </summary>
+        protected void SubscribeEvents()
+        {
+            this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.UpdateGameList);
+            this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.UpdateGameState);
+            this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.UpdateExistingGames);
+        }
+
+        /// <summary>
+        /// Updates the game list.
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        private void UpdateGameList(Collection<string> gameList)
+        {
+            this.availiableGameList = gameList;
+        }
+
+        /// <summary>
+        /// Updates the existing games.
+        /// </summary>
+        /// <param name="existingGames">The existing games.</param>
+        private void UpdateExistingGames(Collection<string> existingGames)
+        {
+            //// Function to updaate list of existing games.
+        }
+
+        /// <summary>
+        /// Updates the state of the game.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        private void UpdateGameState(Game game)
+        {
+            //// This is where the FUNCTION OF DOOM goes that updates the game.
+        }
     }
 }

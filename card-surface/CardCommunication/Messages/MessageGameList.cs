@@ -1,8 +1,8 @@
 ﻿// <copyright file="MessageGameList.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>An message that is sent to the server communication controllers
-// to retreive a list of playable games.</summary>
+// <summary>An message that is sent to the table communication controller
+// to send a list of playable games.</summary>
 namespace CardCommunication.Messages
 {
     using System;
@@ -19,30 +19,15 @@ namespace CardCommunication.Messages
     /// </summary>
     public class MessageGameList : Message
     {
-        /////// <summary>
-        /////// Initializes a new instance of the <see cref="MessageGameList"/> class.
-        /////// </summary>
-        ////public MessageGameList()
-        ////{
-        ////}
-
-        /////// <summary>
-        /////// Sends the message.
-        /////// </summary>
-        /////// <returns>whether or not message was sent</returns>
-        ////public override bool SendMessage()
-        ////{
-        ////    bool sent = false;
-
-        ////    // ValidationEventHandler schemaCheck;
-        ////    // MessageDocument.Validate(schemaCheck);
-        ////    return sent;
-        ////}
-
         /// <summary>
         /// ReadOnlyCollection of games that can be played.
         /// </summary>
-        private ReadOnlyCollection<string> gameNameList;
+        private ReadOnlyCollection<string> gameNames;
+
+        /// <summary>
+        /// Collection of games that can be played.
+        /// </summary>
+        private Collection<string> gameNameList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageGameList"/> class.
@@ -50,6 +35,15 @@ namespace CardCommunication.Messages
         public MessageGameList()
         {
             MessageTypeName = "MessageGameList";
+        }
+
+        /// <summary>
+        /// Gets the game name list.
+        /// </summary>
+        /// <value>The game name list.</value>
+        public Collection<string> GameNameList
+        {
+            get { return this.gameNameList; }
         }
 
         /// <summary>
@@ -64,7 +58,7 @@ namespace CardCommunication.Messages
 
             try
             {
-                this.gameNameList = gameNameList;
+                this.gameNames = gameNameList;
                 
                 message.SetAttribute("MessageType", this.MessageTypeName);
                 this.BuildHeader(ref message);
@@ -85,8 +79,7 @@ namespace CardCommunication.Messages
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
-        /// <returns>whether the message was processed.</returns>
-        protected override Game ProcessMessage(XmlDocument messageDoc)
+        public override void ProcessMessage(XmlDocument messageDoc)
         {
             XmlTextReader tx = new XmlTextReader(messageDoc.InnerText);
 
@@ -105,8 +98,6 @@ namespace CardCommunication.Messages
                         break;
                 }
             }
-
-            return this.Game;
         }
             
         /// <summary>
@@ -151,7 +142,7 @@ namespace CardCommunication.Messages
             XmlElement gameList = this.MessageDocument.CreateElement("GameList");
             string name = String.Empty;
 
-            foreach (string n in this.gameNameList)
+            foreach (string n in this.gameNames)
             {
                 name.Insert(0, n + ".");
             }
@@ -167,6 +158,37 @@ namespace CardCommunication.Messages
         /// <param name="gameList">The game list.</param>
         protected void ProcessGameList(XmlElement gameList)
         {
+            foreach (XmlNode node in gameList.ChildNodes)
+            {
+                XmlAttribute childAttribute = MessageDocument.CreateAttribute(node.Name);
+                childAttribute.InnerXml = node.InnerXml;
+
+                switch (childAttribute.Name)
+                {
+                    case "NameList":
+                        this.ParseGameList(childAttribute.Value);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Parses the game list.
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        protected void ParseGameList(string gameList)
+        {
+            ////DO SOMETHING to update the game state.
+            Collection<string> gameListNames = new Collection<string>();
+            char[] splitChar = { '.' };
+            string[] name = gameList.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i <= name.Length; i++)
+            {
+                gameListNames.Add(name[i]);
+            }
+
+            this.gameNameList = gameListNames;
         }
     }
 }

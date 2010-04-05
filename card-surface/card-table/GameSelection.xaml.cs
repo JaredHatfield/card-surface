@@ -17,6 +17,9 @@ namespace CardTable
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using CardCommunication;
+    using CardGame;
+    using GameBlackjack;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
@@ -32,6 +35,10 @@ namespace CardTable
         public GameSelection()
         {
             InitializeComponent();
+
+            TableCommunicationController tcc = new TableCommunicationController();
+
+            tcc.SendRequestGameListMessage();
 
             /* TODO: When the Communication has been entered, retreive a list of supported games to populate the selection list. */
             /*for (int i = 0; i < 500; i++)

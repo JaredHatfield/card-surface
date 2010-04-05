@@ -155,6 +155,10 @@
       <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
       <Name>CardCommunication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
+      <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
+      <Name>GameBlackjack</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

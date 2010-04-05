@@ -6,6 +6,7 @@ namespace CardCommunication
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -21,33 +22,163 @@ namespace CardCommunication
     public class TableCommunicationController : CommunicationController
     {
         /// <summary>
-        /// IPAddress of the server
-        /// </summary>
-        private IPEndPoint serverIP = null;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
+        /// When a string representation of an IPAddress is not passed, the server is defaulted to
+        /// the system's IPAddress.
         /// </summary>
         public TableCommunicationController()
             : base()
         {
-            string ip = String.Empty;
-            IPAddress serverIPAddress = new IPAddress(Convert.ToInt64(ip));
-            this.serverIP = RemoteEndPoint;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
+        /// </summary>
+        /// <param name="ipaddress">The ip address of the server.</param>
+        public TableCommunicationController(string ipaddress)
+        {
+            MemoryStream ms = new MemoryStream();
+            char[] splitChar = { '.' };
+            string[] iparray = ipaddress.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
+            byte[] ip = { };
+            try
+            {
+                foreach (string s in iparray)
+                {
+                    ms.WriteByte(Byte.Parse(s));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error converting IPAddress.", e);
+            }
+
+            ip = ms.ToArray();
+            IPAddress serverIPAddress = new IPAddress(ip);
+            RemoteEndPoint = new IPEndPoint(serverIPAddress, ServerListenerPortNumber);
+        }
+
+        /// <summary>
+        /// Delegate for Updating the list of availiable games.
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        public delegate void UpdateGameListHandler(Collection<string> gameList);
+
+        /// <summary>
+        /// Delegate for Updating the list of existing games.
+        /// </summary>
+        /// <param name="existingGames">The list of existing games.</param>
+        public delegate void UpdateExistingGamesHandler(Collection<string> existingGames); //// don't know contents yet.
+
+        /// <summary>
+        /// Delegate for updating the game state.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        public delegate void UpdateGameStateHandler(Game game);
+
+        /// <summary>
+        /// Event occurs when game list is updated.
+        /// </summary>
+        public event UpdateGameListHandler OnUpdateGameList;
+
+        /// <summary>
+        /// Event occurs when existing games is updated.
+        /// </summary>
+        public event UpdateExistingGamesHandler OnUpdateExistingGames;
+
+        /// <summary>
+        /// Event occurs when Game State is updated.
+        /// </summary>
+        public event UpdateGameStateHandler OnUpdateGameState;
+
+        /// <summary>
+        /// Sends the request game list message.
+        /// </summary>
+        public void SendRequestGameListMessage()
+        {
+            MessageRequestGameList message = new MessageRequestGameList();
+
+            message.BuildMessage();
+
+            this.TransportCommunication(message.MessageDocument);
+        }
+
+        /// <summary>
+        /// Sends the request existing games.
+        /// </summary>
+        /// <param name="selectedGame">The selected game.</param>
+        public void SendRequestExistingGames(string selectedGame)
+        {
+            MessageRequestExistingGames message = new MessageRequestExistingGames();
+
+            message.BuildMessage(selectedGame);
+
+            this.TransportCommunication(message.MessageDocument);
+        }
+
+        /// <summary>
+        /// Sends the action message.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        public void SendActionMessage(Collection<string> action)
+        {
+            MessageAction message = new MessageAction();
+
+            message.BuildMessage(action);
+
+            this.TransportCommunication(message.MessageDocument);
+        }
+
+        /// <summary>
+        /// Called when game list is updated.
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        protected void OnUpdatedGameList(Collection<string> gameList)
+        {
+            if (this.OnUpdateGameList != null)
+            {
+                this.OnUpdateGameList(gameList);
+            }
+        }
+
+        /// <summary>
+        /// Called when [updated existing games].
+        /// </summary>
+        /// <param name="existingGames">The existing games.</param>
+        protected void OnUpdatedExistingGames(Collection<string> existingGames)
+        {
+            if (this.OnUpdateExistingGames != null)
+            {
+                this.OnUpdateExistingGames(existingGames);
+            }
+        }
+
+        /// <summary>
+        /// Called when game state is updated.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        protected void OnUpdatedGameState(Game game)
+        {
+            if (this.OnUpdateGameState != null)
+            {
+                this.OnUpdateGameState(game);
+            }
         }
 
         /////// <summary>
-        /////// Sends the state of the game.
+        /////// Sends the action message.
         /////// </summary>
-        /////// <param name="game">The game.</param>
-        /////// <returns></returns>
-        ////public bool SendMessage(Game game)
+        /////// <param name="game">The game to be sent.</param>
+        /////// <returns>whether the Action Message was sent.</returns>
+        ////public bool SendActionMessage()
         ////{
         ////    bool success = true;
 
         ////    try
         ////    {
-        ////        success = this.SendMessage(game, Message.MessageType.GameState);
+        ////        MessageAction message = new MessageAction();
+
+        ////        success = message.BuildMessage(game);
         ////    }
         ////    catch (Exception e)
         ////    {
@@ -57,30 +188,6 @@ namespace CardCommunication
 
         ////    return success;
         ////}
-
-        /// <summary>
-        /// Sends the action message.
-        /// </summary>
-        /// <param name="game">The game to be sent.</param>
-        /// <returns>whether the Action Message was sent.</returns>
-        public bool SendActionMessage(Game game)
-        {
-            bool success = true;
-
-            try
-            {
-                MessageAction message = new MessageAction();
-
-                success = message.BuildMessage(game);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error sending message", e);
-                success = false;
-            }
-
-            return success;
-        }
 
         ////public bool ProcessMessage()
         ////{
@@ -103,15 +210,40 @@ namespace CardCommunication
         ////}
 
         /// <summary>
+        /// Initializes the IP address ports.
+        /// </summary>
+        protected override void InitializeIPAddressPorts()
+        {
+            HostReceiveEndPoint = new IPEndPoint(BaseIPAddress, ClientListenerPortNumber);
+            HostSendEndPoint = new IPEndPoint(BaseIPAddress, ClientSendPortNumber);
+            RemoteEndPoint = new IPEndPoint(BaseIPAddress, ServerListenerPortNumber);
+        }
+
+        /// <summary>
+        /// Transports the communication.
+        /// </summary>
+        /// <param name="game">The game to be sent.</param>
+        protected override void TransportCommunication(Game game)
+        {
+            //// There is no reason this function should be implemented.
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Processes the client communication.
         /// </summary>
         /// <param name="asyncResult">The async result.</param>
-        protected override void ProcessClientCommunication(IAsyncResult asyncResult)
+        protected override void ProcessCommunication(IAsyncResult asyncResult)
         {
             try
             {
                 Socket socketProcessor = this.SocketListener.EndAccept(asyncResult);
+                CommunicationObject commObject = new CommunicationObject();
                 byte[] data = { 0 };
+
+                commObject.WorkSocket = socketProcessor;
+                commObject.Data = data;
+                commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
                 socketProcessor.BeginReceive(
                     data,
@@ -125,6 +257,48 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error Receiving Data from client", e);
             }
+        }
+
+        /// <summary>
+        /// Updates the state of the game.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        protected override void UpdateGameState(Game game)
+        {
+            //// Triggers event to update the state of the game.
+            this.OnUpdatedGameState(game);
+        }
+
+        /// <summary>
+        /// Converts from XML to message.
+        /// </summary>
+        /// <param name="messageDoc">The message document.</param>
+        /// <param name="remoteIPAddress">The remote IP address.</param>
+        protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
+        {
+            XmlElement message = messageDoc.CreateElement("Message");
+            XmlAttribute messageType;
+            IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ServerListenerPortNumber);
+            string mt;
+
+            message.InnerXml = messageDoc.OuterXml;
+            messageType = message.Attributes[0];
+
+            mt = messageType.Value;
+
+            if (mt == Message.MessageType.GameList.ToString())
+            {
+                MessageGameList messageGameList = new MessageGameList();
+
+                messageGameList.ProcessMessage(messageDoc);
+            }
+
+            ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
+            ////{
+            ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+
+            ////    messageRequestExistingGames.ProcessMessage(messageDoc);
+            ////}
         }
     }
 }
