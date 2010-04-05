@@ -6,6 +6,7 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Xml;
@@ -18,76 +19,10 @@ namespace CardCommunication.Messages
     /// </summary>
     public class MessageAction : Message
     {
-        /////// <summary>
-        /////// Document containing xml message.
-        /////// </summary>
-        ////private XmlDocument MessageDocument;
-
-        /////// <summary>
-        /////// game state.
-        /////// </summary>
-        ////private Game game;
-
-        /////// <summary>
-        /////// game object
-        /////// </summary>
-        ////private GameMessage gameObject;
-
         /// <summary>
-        /// Messages the specified game state.
+        /// Action and Parameters.
         /// </summary>
-        /////// <returns>
-        /////// whether the message was constructed and sent.
-        /////// </returns>
-        ////private override bool MessageConstructSend(Game gameState)
-        ////{
-        ////    bool success = false;
-        ////    this.game = gameState;
-
-        ////    this.BuildMessage();
-        ////    success = this.SendMessage();
-
-        ////    return success;
-        ////}
-
-        /////// <summary>
-        /////// Builds the message.
-        /////// </summary>
-        /////// <param name="gameState">State of the game.</param>
-        /////// <returns>whether the Message was built.</returns>
-        ////public override bool BuildMessage(Game gameState)
-        ////{
-        ////    XmlElement message = this.MessageDocument.DocumentElement;
-        ////    bool success = true;
-
-        ////    try
-        ////    {
-        ////        this.Game = gameState;
-
-        ////        this.BuildHeader(ref message);
-        ////        this.BuildBody(ref message);
-        ////    }
-        ////    catch (Exception e)
-        ////    {
-        ////        Console.WriteLine("Error Building Message", e);
-        ////        success = false;
-        ////    }
-
-        ////    return success;
-        ////}
-
-        /////// <summary>
-        /////// Sends the message.
-        /////// </summary>
-        /////// <returns>whether or not message was sent</returns>
-        ////public override bool SendMessage()
-        ////{
-        ////    bool sent = false;
-            
-        ////    // ValidationEventHandler schemaCheck;
-        ////    // MessageDocument.Validate(schemaCheck);
-        ////    return sent;
-        ////}
+        private Collection<string> action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageAction"/> class.
@@ -98,11 +33,50 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Enumeration of all Action Types.
+        /// </summary>
+        public enum ActionType
+        {
+            /// <summary>
+            /// Move Action.
+            /// </summary>
+            Move,
+
+            /// <summary>
+            /// Custom defined Action.
+            /// </summary>
+            Custom
+        }
+
+        /// <summary>
+        /// Gets the action and parameters.
+        /// </summary>
+        /// <value>The action and parameters.</value>
+        public Collection<string> Action
+        {
+            get { return this.action; }
+        }
+
+        /// <summary>
+        /// Builds the message.
+        /// </summary>
+        /// <param name="action">The action, then parameters</param>
+        /// <returns>whether the message was built.</returns>
+        public bool BuildMessage(Collection<string> action)
+        {
+            bool success = true;
+
+            this.action = action;
+            success = this.BuildM();
+
+            return success;
+        }
+
+        /// <summary>
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
-        /// <returns>whether the message was processed.</returns>
-        protected override Game ProcessMessage(XmlDocument messageDoc)
+        public override void ProcessMessage(XmlDocument messageDoc)
         {
             XmlTextReader tx = new XmlTextReader(messageDoc.InnerText);
                         
@@ -121,8 +95,6 @@ namespace CardCommunication.Messages
                         break;
                 }
             }
-
-            return this.Game;
         }
 
         /////// <summary>
@@ -171,7 +143,10 @@ namespace CardCommunication.Messages
         /// <param name="element">The element to be processed.</param>
         protected override void ProcessBody(XmlElement element)
         {
-            throw new NotImplementedException();
+            XmlElement action = this.MessageDocument.CreateElement("Action");
+            
+            action.InnerXml = element.InnerXml;
+            this.ProcessAction(action);
         }
 
         /// <summary>
@@ -196,9 +171,12 @@ namespace CardCommunication.Messages
         /// <param name="message">The message.</param>
         protected void BuildActionParam(ref XmlElement message)
         {
-            XmlElement command = this.MessageDocument.CreateElement("Command");
+            XmlElement command = this.MessageDocument.CreateElement(this.action[0]);
 
-            this.BuildParam(ref command);
+            for (int i = 0; i < this.action.Count / 2; i++)
+            {
+                this.BuildParam(ref command, i);
+            }
 
             message.AppendChild(command);
         }
@@ -207,15 +185,14 @@ namespace CardCommunication.Messages
         /// Builds the param.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected void BuildParam(ref XmlElement message)
+        /// <param name="counter">The counter.</param>
+        protected void BuildParam(ref XmlElement message, int counter)
         {
             XmlElement param = this.MessageDocument.CreateElement("Param");
 
-            ////Game.action.command.param.name);
-            param.SetAttribute("Name", String.Empty);
+            //// param.SetAttribute("Name", action[2 * counter + 1]);
 
-            ////game.action.command.param.value);
-            param.SetAttribute("Value", String.Empty);
+            param.SetAttribute("Value", this.action[counter + 1]);
 
             message.AppendChild(param);
         }
@@ -224,25 +201,49 @@ namespace CardCommunication.Messages
         /// Processes the action.
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <param name="actionType">Type of the action.</param>
-        protected void ProcessAction(XmlElement action, string actionType)
+        protected void ProcessAction(XmlElement action)
         {
-            //// Call ExecuteAction for Custom and MoveAction for Action
+            string gameGuid = String.Empty;
+            string actionType = String.Empty;
+
+            foreach (XmlAttribute a in action.Attributes)
+            {
+                if (a.Name == "Game")
+                {
+                    gameGuid = a.Value;
+                }
+            }
+
+            this.action.Add(gameGuid);
+            this.action.Add(actionType);
+
+            foreach (XmlNode node in action.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    XmlElement actionParam = (XmlElement)node;
+
+                    actionType = node.Name;
+                    this.ProcessActionParam(actionParam);
+                }
+            }           
+       }
+
+        /// <summary>
+        /// Processes the action param.
+        /// </summary>
+        /// <param name="action">The action parameter to be processed.</param>
+        protected void ProcessActionParam(XmlElement action)
+        {
+            string name = String.Empty;
+
             foreach (XmlNode node in action.Attributes)
             {
                 XmlAttribute childAttribute = this.MessageDocument.CreateAttribute(node.Name);
+
                 childAttribute.InnerXml = node.InnerXml;
 
-                switch (actionType)
-                {
-                    case "Move":
-                        ////ProcessMoveAction();
-                        ////gameObject.MoveAction();
-                        break;
-                    case "Custom":
-                        ////gameObject.ExecuteAction();
-                        break;
-                }
+                this.action.Add(childAttribute.Value);
             }
         }
     }

@@ -10,7 +10,6 @@ namespace CardCommunication
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
-    using System.Reflection;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
@@ -29,12 +28,22 @@ namespace CardCommunication
         /// <summary>
         /// The Port number of the listening socket.
         /// </summary>
-        protected const int ListenerPortNumber = 30567;
+        protected const int ServerListenerPortNumber = 30565;
 
         /// <summary>
         /// The Port number of the transporter socket.
         /// </summary>
-        protected const int SendPortNumber = 30568;
+        protected const int ServerSendPortNumber = 30566;
+
+        /// <summary>
+        /// The Port number of the listening socket.
+        /// </summary>
+        protected const int ClientListenerPortNumber = 30567;
+
+        /// <summary>
+        /// The Port number of the transporter socket.
+        /// </summary>
+        protected const int ClientSendPortNumber = 30568;
 
         /// <summary>
         /// The listening socket.
@@ -45,6 +54,11 @@ namespace CardCommunication
         /// The transporter socket.
         /// </summary>
         private Socket socketTransporter = null;
+
+        /// <summary>
+        /// The IP Address of the system.
+        /// </summary>
+        private IPAddress baseIPAddress;
 
         /// <summary>
         /// The IPEndPoint of the listening socket.
@@ -65,6 +79,11 @@ namespace CardCommunication
         /// The GameController that the communication controller is able to interact with.
         /// </summary>
         private IGameController gameController;
+
+        /// <summary>
+        /// The header to the serialized game object.
+        /// </summary>
+        private byte[] gameHeader = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationController"/> class.
@@ -94,6 +113,15 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Gets the socket transporter.
+        /// </summary>
+        /// <value>The socket transporter.</value>
+        protected Socket SocketTransporter
+        {
+            get { return this.socketTransporter; }
+        }
+
+        /// <summary>
         /// Gets the game controller.
         /// </summary>
         /// <value>The game controller.</value>
@@ -103,53 +131,52 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Gets or sets the base IP address.
+        /// </summary>
+        /// <value>The base IP address.</value>
+        protected IPAddress BaseIPAddress
+        {
+            get { return this.baseIPAddress; }
+            set { this.baseIPAddress = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the host receive end point of the system.
+        /// </summary>
+        /// <value>The host receive end point.</value>
+        protected IPEndPoint HostReceiveEndPoint
+        {
+            get { return this.hostReceiveEndPoint; }
+            set { this.hostReceiveEndPoint = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the host send end point of the system.
+        /// </summary>
+        /// <value>The host send end point.</value>
+        protected IPEndPoint HostSendEndPoint
+        {
+            get { return this.hostSendEndPoint; }
+            set { this.hostSendEndPoint = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the remote end point.
         /// </summary>
         /// <value>The remote end point.</value>
         protected IPEndPoint RemoteEndPoint
         {
-            get { return this.hostReceiveEndPoint; }
+            get { return this.remoteEndPoint; }
             set { this.remoteEndPoint = value; }
         }
 
         /// <summary>
-        /// Sends the state of the game.
+        /// Gets the game header.
         /// </summary>
-        /// <param name="game">The game to be transformed to XML.</param>
-        /// <param name="type">The type of message to be sent.</param>
-        /// <returns>whether the message was sent.</returns>
-        public bool SendMessage(Game game, Message.MessageType type)
+        /// <value>The game header.</value>
+        protected byte[] GameHeader
         {
-            bool success = true;
-
-            try
-            {
-                switch (type)
-                {
-                    case Message.MessageType.Action:
-                        MessageAction messageAction = new MessageAction();
-                        messageAction.BuildMessage(game);
-                        this.TransportCommunication(messageAction.MessageDocument);
-                        break;
-                    case Message.MessageType.GameState:
-                        MessageGameState messageGameState = new MessageGameState();
-                        messageGameState.BuildMessage(game);
-                        ////this.TransportCommunication(messageGameState.MessageDocument);
-                        this.TransportCommunication(game);
-                        break;
-                    case Message.MessageType.GameList:
-                        MessageGameList messageGameList = new MessageGameList();
-                        messageGameList.BuildMessage(this.gameController.GameTypes);
-                        break;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error sending message", e);
-                success = false;
-            }
-
-            return success;
+            get { return this.gameHeader; }
         }
 
         /// <summary>
@@ -161,6 +188,11 @@ namespace CardCommunication
         {
             this.SuccessfulTransport();
         }
+
+        /// <summary>
+        /// Initializes the IP address ports.
+        /// </summary>
+        protected abstract void InitializeIPAddressPorts();
 
         /// <summary>
         /// Initializes the communication controller.
@@ -182,8 +214,8 @@ namespace CardCommunication
                 }
             }
 
-            this.hostReceiveEndPoint = new IPEndPoint(hostAddress, ListenerPortNumber);
-            this.hostSendEndPoint = new IPEndPoint(hostAddress, SendPortNumber);
+            this.baseIPAddress = hostAddress;
+            this.InitializeIPAddressPorts();
 
             if (this.socketListener == null)
             {
@@ -192,10 +224,16 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Updates the state of the game.
+        /// </summary>
+        /// <param name="game">The updated game state.</param>
+        protected abstract void UpdateGameState(Game game);
+
+        /// <summary>
         /// Processes the client communication.
         /// </summary>
         /// <param name="asyncResult">The async result.</param>
-        protected abstract void ProcessClientCommunication(IAsyncResult asyncResult);
+        protected abstract void ProcessCommunication(IAsyncResult asyncResult);
 
         /// <summary>
         /// Starts the listener socket.
@@ -214,7 +252,7 @@ namespace CardCommunication
                     this.socketListener.Listen(10);
                 }
 
-                this.socketListener.BeginAccept(new AsyncCallback(this.ProcessClientCommunication), this.socketListener);
+                this.socketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.socketListener);
             }
             catch (Exception e)
             {
@@ -232,10 +270,6 @@ namespace CardCommunication
         {
             this.socketTransporter = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.socketTransporter.Bind(this.hostSendEndPoint);
-            ////Use these calls in debug mode before you stop debugging or you will not be able
-            ////to bind to the port without restarting your computer.
-            ////this.socketTransporter.Shutdown(SocketShutdown.Both);
-            ////this.socketTransporter.Close();
             this.socketTransporter.NoDelay = true;
         }
 
@@ -252,10 +286,26 @@ namespace CardCommunication
             if (read > 0)
             {
                 MemoryStream ms = new MemoryStream();
-
-                // Appends Buffer to Data in commObject.
+                //// Appends Buffer to Data in commObject.
                 ms.Write(commObject.Data, 0, commObject.Data.Length);
                 ms.Write(commObject.Buffer, 0, commObject.Buffer.Length);
+
+                if (commObject.FirstKB)
+                {
+                    string header = this.gameHeader.ToString();
+                    string buffer = commObject.Buffer.ToString().Substring(0, header.Length);
+                    if (header == buffer)
+                    {
+                        byte[] b = { };
+
+                        //// Needs to check if first bytes are equal to the header and remove
+                        ms.Read(b, 0, this.gameHeader.Length);
+                        commObject.GameState = true;
+                    }
+
+                    commObject.FirstKB = false;
+                }
+
                 commObject.Data = ms.ToArray();
 
                 socketWorker.BeginReceive(
@@ -273,21 +323,58 @@ namespace CardCommunication
                     byte[] message = commObject.Data;
 
                     MemoryStream ms = new MemoryStream(message);
-                    
-                    BinaryFormatter bf = new BinaryFormatter();
-                    Game game = (Game)bf.Deserialize(ms);
 
-                    ////XmlDocument messageDoc = new XmlDocument();
+                    if (commObject.GameState)
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        Game game = (Game)bf.Deserialize(ms);
 
-                    ////messageDoc.Load(ms);
+                        this.UpdateGameState(game);
+                    }
+                    else
+                    {
+                        XmlDocument messageDoc = new XmlDocument();
 
-                    ////Message m = null;
-                    ////Game game = m.ConvertToGame(messageDoc);
+                        messageDoc.Load(ms);
+
+                        this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
+                    }
                 }
             }
             ////Update the game using the gameController.
             ////gameController.Games.
         }
+
+        /// <summary>
+        /// Converts from XML to message.
+        /// </summary>
+        /// <param name="messageDoc">The message document.</param>
+        /// <param name="remoteIP">The remote IPEndPoint.</param>
+        protected abstract void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIP);
+
+        ////{
+        ////    XmlElement message = messageDoc.CreateElement("Message");
+        ////    XmlAttribute messageType;
+        ////    string mt;
+
+        ////    message.InnerXml = messageDoc.OuterXml;
+        ////    messageType = message.Attributes[0];
+
+        ////    mt = messageType.Value;
+
+        ////    if (mt == Message.MessageType.Action.ToString())//Server
+        ////    {
+        ////        MessageAction messageAction = new MessageAction();
+
+        ////        messageAction.ProcessMessage(messageDoc);
+        ////    }
+        ////    else if (mt == Message.MessageType.GameList.ToString())//Table
+        ////    {
+        ////        MessageGameList messageGameList = new MessageGameList();
+
+        ////        messageGameList.ProcessMessage(messageDoc);
+        ////    }
+        ////}
 
         ////protected void ProcessCommunicationData(byte[] data)
         ////{
@@ -328,6 +415,12 @@ namespace CardCommunication
         /// <summary>
         /// Transports the communication.
         /// </summary>
+        /// <param name="game">The game to be transported.</param>
+        protected abstract void TransportCommunication(Game game);
+
+        /// <summary>
+        /// Transports the communication.
+        /// </summary>
         /// <param name="message">The message document to be transported.</param>
         protected void TransportCommunication(XmlDocument message)
         {            
@@ -357,35 +450,15 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Transports the communication.
+        /// Gets the IP address.
         /// </summary>
-        /// <param name="game">The game to be sent.</param>
-        protected void TransportCommunication(Game game)
+        /// <param name="ep">The IPEndPoint.</param>
+        /// <returns>The IPAddress.</returns>
+        protected IPAddress GetIPAddress(IPEndPoint ep)
         {
-            MemoryStream gameStream = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(gameStream, game);
-            byte[] data = gameStream.ToArray();
+            IPAddress ip = ep.Address;
 
-            try
-            {
-                this.StartTransporter();
-                this.socketTransporter.Poll(10, SelectMode.SelectWrite);
-                this.socketTransporter.Connect(this.RemoteEndPoint);
-                this.socketTransporter.Send(data, 0, data.Length, SocketFlags.None);
-                this.SuccessfulTransport();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error Sending Communication.", e);
-            }
-            ////this.socketTransporter.BeginSend(
-            ////data,
-            ////0, 
-            ////data.Length, 
-            ////SocketFlags.None, 
-            ////new AsyncCallback(this.SuccessfulTransport), 
-            ////data);
+            return ip;
         }
 
         /// <summary>
@@ -397,6 +470,7 @@ namespace CardCommunication
 
             if (this.socketTransporter != null)
             {
+                this.socketTransporter.EndReceive(null);
                 this.socketTransporter.Shutdown(SocketShutdown.Both);
                 this.socketTransporter.Disconnect(reuse);
                 this.socketTransporter.Close(30);

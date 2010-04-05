@@ -22,6 +22,11 @@
           <xs:attribute name="game" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
+      <xs:element name="GameList">
+        <xs:complexType>
+          <xs:attribute name="NameList" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="Game" type="GameType"></xs:element>
     </xs:choice>
   </xs:complexType>

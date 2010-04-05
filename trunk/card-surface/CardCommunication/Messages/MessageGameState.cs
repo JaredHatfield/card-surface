@@ -116,10 +116,10 @@ namespace CardCommunication.Messages
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
-        /// <returns>the Game created with the xml document.</returns>
-        protected override Game ProcessMessage(XmlDocument messageDoc)
+        public override void ProcessMessage(XmlDocument messageDoc)
         {
-            return this.Game;
+            //// Do not implement; this code is never executed.
+            throw new NotImplementedException();
         }
 
         /////// <summary>

@@ -49,7 +49,11 @@ namespace CardCommunication.Messages
         /// </summary>
         internal Message()
         {
+            string filePath = Directory.GetCurrentDirectory();
+            filePath = filePath.Replace("card-table\\bin\\Debug", "CardCommunication\\Messages\\MessageSchema.xsd");
+
             this.messageDoc = new XmlDocument();
+            this.messageDoc.Schemas.Add(null, filePath);
         }
 
         /// <summary>
@@ -58,19 +62,29 @@ namespace CardCommunication.Messages
         public enum MessageType
         {
             /// <summary>
-            /// The Action Message
+            /// The Action Message.
             /// </summary>
             Action,
 
             /// <summary>
-            /// The Game List Message
+            /// The Game List Message.
             /// </summary>
             GameList,
 
             /// <summary>
-            /// The Game State Message
+            /// The Game State Message.
             /// </summary>
-            GameState
+            GameState,
+
+            /// <summary>
+            /// The Request Existing Games Message.
+            /// </summary>
+            RequestExistingGames,
+
+            /// <summary>
+            /// The Request Game List Message.
+            /// </summary>
+            RequestGameList
         }
 
         /// <summary>
@@ -108,50 +122,6 @@ namespace CardCommunication.Messages
         /////// <param name="gameState">State of the game.</param>
         /////// <returns>whether the message was constructed and sent.</returns>
         ////public bool MessageConstructSend(Game gameState);
-
-        /// <summary>
-        /// Builds the message.
-        /// </summary>
-        /// <param name="gameState">State of the game.</param>
-        /// <returns>whether the Message was built.</returns>
-        public bool BuildMessage(Game gameState)
-        {
-            XmlElement message = this.MessageDocument.CreateElement("Message");
-            ////string filename = Directory.GetDirectoryRoot(Directory.GetCurrentDirectory());
-            ////StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + "MessageSchema.xsd");
-            bool success = true;
-
-            try
-            {
-                ////XmlSchema schema = XmlSchema.Read(sr, new ValidationEventHandler(this.ValidateSchema));
-                
-                this.Game = gameState;
-
-                message.SetAttribute("MessageType", this.messageTypeName);
-                this.BuildHeader(ref message);
-                this.BuildBody(ref message);
-
-                ////this.messageDoc.InnerXml = message.OuterXml;
-
-                ////schema.Compile(new ValidationEventHandler(this.ValidateSchema));
-
-                ////if (!this.schemaValidated)
-                ////{
-                ////    throw new Exception("Validation Error");
-                ////}
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error Building Message", e);
-                success = false;
-            }
-            ////finally
-            ////{
-            ////    sr.Close();
-            ////}
-
-            return success;
-        }
 
         /////// <summary>
         /////// Builds the message.
@@ -225,8 +195,46 @@ namespace CardCommunication.Messages
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
-        /// <returns>whether the message was processed.</returns>
-        protected abstract Game ProcessMessage(XmlDocument messageDoc);
+        public abstract void ProcessMessage(XmlDocument messageDoc);
+
+        /// <summary>
+        /// Builds the message.
+        /// </summary>
+        /// <returns>whether the Message was built.</returns>
+        protected bool BuildM()
+        {
+            XmlElement message = this.MessageDocument.CreateElement("Message");
+            bool success = true;
+
+            try
+            {
+                ValidationEventHandler veh = new ValidationEventHandler(this.Error);
+
+                message.SetAttribute("MessageType", this.messageTypeName);
+                this.BuildHeader(ref message);
+                this.BuildBody(ref message);
+
+                this.messageDoc.InnerXml = message.OuterXml;
+                this.messageDoc.Validate(veh);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error Building Message", e);
+                success = false;
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Errors the specified sender.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
+        protected void Error(object sender, ValidationEventArgs e)
+        {
+            Console.WriteLine(e.Severity + ".  " + e.Message + "  " + e.Exception);
+        }
 
         /// <summary>
         /// Builds the header.
@@ -261,15 +269,15 @@ namespace CardCommunication.Messages
         /// <param name="element">The element to be processed.</param>
         protected abstract void ProcessBody(XmlElement element);
         
-        /// <summary>
-        /// Validates the schema.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
-        private void ValidateSchema(object sender, ValidationEventArgs e)
-        {
-            Console.WriteLine("Schema Validation.", e);
-            ////this.schemaValidated = false;
-        }
+        /////// <summary>
+        /////// Validates the schema.
+        /////// </summary>
+        /////// <param name="sender">The sender.</param>
+        /////// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
+        ////private void ValidateSchema(object sender, ValidationEventArgs e)
+        ////{
+        ////    Console.WriteLine("Schema Validation.", e);
+        ////    ////this.schemaValidated = false;
+        ////}
     }
 }
