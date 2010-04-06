@@ -5,7 +5,7 @@
 namespace CardGameCommandLine
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using CardCommunication;
@@ -48,8 +48,16 @@ namespace CardGameCommandLine
                 }
                 else if (input.Equals("games", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    // TODO: This should print the list of games
-                    Console.WriteLine("This is not implemented");
+                    // Get the list of games from the server.  Danger, danger!
+                    Collection<string> games =  tableCommunicationController.SendRequestGameListMessage();
+
+                    // Print out that list that we hopefully retreived.
+                    Console.WriteLine("Games:");
+                    for (int i = 0; i < games.Count; i++)
+                    {
+                        Console.WriteLine(games[i]);
+                    }
+
                     this.PrompForEnter();
                 }
                 else
