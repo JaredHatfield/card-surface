@@ -291,6 +291,8 @@ namespace CardCommunication
                 MessageGameList messageGameList = new MessageGameList();
 
                 messageGameList.ProcessMessage(messageDoc);
+
+                OnUpdateGameList(messageGameList.GameNameList);
             }
 
             ////else if (mt == Message.MessageType.RequestExistingGames.ToString())

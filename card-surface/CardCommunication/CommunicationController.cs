@@ -33,7 +33,7 @@ namespace CardCommunication
         /// <summary>
         /// The Port number of the transporter socket.
         /// </summary>
-        protected const int ServerSendPortNumber = 30566;
+        protected const int ServerSendPortNumber = 30558;
 
         /// <summary>
         /// The Port number of the listening socket.
@@ -43,7 +43,7 @@ namespace CardCommunication
         /// <summary>
         /// The Port number of the transporter socket.
         /// </summary>
-        protected const int ClientSendPortNumber = 30568;
+        protected const int ClientSendPortNumber = 30557;
 
         /// <summary>
         /// The listening socket.
@@ -472,10 +472,12 @@ namespace CardCommunication
 
             if (this.socketTransporter != null)
             {
+                LingerOption lo = new LingerOption(false, 0);
                 //// this.socketTransporter.EndReceive(null);
+                this.socketTransporter.LingerState = lo;
                 this.socketTransporter.Shutdown(SocketShutdown.Both);
-                this.socketTransporter.Disconnect(reuse);
-                this.socketTransporter.Close(30);
+                ////this.socketTransporter.Disconnect(reuse);
+                this.socketTransporter.Close();
             }
         }
     }
