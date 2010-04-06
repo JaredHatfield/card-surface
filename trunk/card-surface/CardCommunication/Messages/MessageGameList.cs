@@ -34,7 +34,7 @@ namespace CardCommunication.Messages
         /// </summary>
         public MessageGameList()
         {
-            MessageTypeName = "MessageGameList";
+            MessageTypeName = MessageType.GameList.ToString();
         }
 
         /// <summary>
@@ -81,14 +81,13 @@ namespace CardCommunication.Messages
         /// <param name="messageDoc">The message document.</param>
         public override void ProcessMessage(XmlDocument messageDoc)
         {
-            XmlTextReader tx = new XmlTextReader(messageDoc.InnerText);
+            XmlElement message = messageDoc.DocumentElement;
 
-            while (tx.Read())
+            foreach (XmlNode node in message.ChildNodes)
             {
-                XmlElement element = messageDoc.CreateElement(tx.Name);
-                element.InnerXml = tx.ReadInnerXml();
+                XmlElement element = (XmlElement)node;
 
-                switch (tx.Name)
+                switch (node.Name)
                 {
                     case "Header":
                         this.ProcessHeader(element);
