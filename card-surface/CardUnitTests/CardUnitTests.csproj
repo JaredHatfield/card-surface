@@ -53,12 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardPileTest.cs" />
-    <Compile Include="CardTest.cs" />
-    <Compile Include="ChipPileTest.cs" />
-    <Compile Include="ChipTest.cs" />
-    <Compile Include="DeckTest.cs" />
-    <Compile Include="PileTest.cs" />
+    <Compile Include="CardGame\CardPileTest.cs" />
+    <Compile Include="CardGame\CardTest.cs" />
+    <Compile Include="CardGame\ChipPileTest.cs" />
+    <Compile Include="CardGame\ChipTest.cs" />
+    <Compile Include="CardGame\DeckTest.cs" />
+    <Compile Include="CardGame\PileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
