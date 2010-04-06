@@ -6,6 +6,7 @@
         <xs:element name="Header" type="HeaderType"></xs:element>
         <xs:element name="Body" type="BodyType"></xs:element>
       </xs:all>
+      <xs:attribute name="MessageType" type ="xs:string"></xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:complexType name ="HeaderType">
@@ -25,6 +26,16 @@
       <xs:element name="GameList">
         <xs:complexType>
           <xs:attribute name="NameList" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestGameList">
+        <xs:complexType>
+          <xs:attribute name="MessageType" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestExistingGames">
+        <xs:complexType>
+          <xs:attribute name="SelectedGame" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
       <xs:element name="Game" type="GameType"></xs:element>
