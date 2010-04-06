@@ -22,6 +22,11 @@ namespace CardCommunication
     public class TableCommunicationController : CommunicationController
     {
         /// <summary>
+        /// Holds the type Collection of strings to return
+        /// </summary>
+        private Collection<string> stringCollection;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// When a string representation of an IPAddress is not passed, the server is defaulted to
         /// the system's IPAddress.
@@ -94,7 +99,8 @@ namespace CardCommunication
         /// <summary>
         /// Sends the request game list message.
         /// </summary>
-        public void SendRequestGameListMessage()
+        /// <returns>the gameList</returns>
+        public Collection<string> SendRequestGameListMessage()
         {
             MessageRequestGameList message = new MessageRequestGameList();
 
@@ -107,6 +113,8 @@ namespace CardCommunication
             while (!CommunicationCompleted)
             {
             }
+
+            return this.stringCollection;
         }
 
         /// <summary>
@@ -298,7 +306,9 @@ namespace CardCommunication
 
                 messageGameList.ProcessMessage(messageDoc);
 
-                this.OnUpdateGameList(messageGameList.GameNameList);
+                this.stringCollection = messageGameList.GameNameList;
+
+                this.OnUpdateGameList(this.stringCollection);
             }
 
             ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
