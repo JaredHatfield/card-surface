@@ -88,6 +88,17 @@ namespace CardWeb
         } /* WebRequest() */
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="WebRequest"/> class.
+        /// </summary>
+        internal WebRequest()
+        {
+            this.urlParameters = new Dictionary<string, string>();
+
+            this.request = null;
+            this.socket = null;
+        }
+
+        /// <summary>
         /// Gets the connection.
         /// </summary>
         /// <value>The connection.</value>

@@ -59,6 +59,15 @@ namespace CardWeb.WebComponents.WebViews
         } /* WebViewLogin() */
 
         /// <summary>
+        /// Gets the error message.
+        /// </summary>
+        /// <value>The error message.</value>
+        internal string ErrorMessage
+        {
+            get { return this.errorMessage; }
+        }
+
+        /// <summary>
         /// Gets the type of the content.
         /// </summary>
         /// <returns>A string of the WebView's content type.</returns>
