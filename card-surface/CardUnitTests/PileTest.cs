@@ -77,7 +77,18 @@ namespace CardUnitTests
             target.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
             Card c = new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
             Guid cid = c.Id;
-            Assert.IsNull(target.GetPhysicalObject(cid), "Pile does not contain an object Guid.");
+            try
+            {
+                IPhysicalObject i = target.GetPhysicalObject(cid);
+
+                // We should not reach this line because an exception should be thrown!
+                Assert.Fail("Pile does not contain an object Guid.");
+            }
+            catch
+            {
+                // An exception was thrown so we are good.
+            }
+
             target.Open = true;
             target.AddItem(c);
             Assert.IsNotNull(target.GetPhysicalObject(cid), "Pile does contain an object Guid.");
@@ -101,7 +112,16 @@ namespace CardUnitTests
             target.AddItem(new Card(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
             Assert.IsNotNull(target.GetPhysicalObject(cid), "Object is in the pile.");
             target.RemoveItem(c);
-            Assert.IsNull(target.GetPhysicalObject(cid), "Object is not in the pile.");
+
+            try
+            {
+                IPhysicalObject i = target.GetPhysicalObject(cid);
+                Assert.Fail("Object is not in the pile.");
+            }
+            catch
+            {
+                // We are good, an exception was thrown.
+            }
         }
 
         /// <summary>
