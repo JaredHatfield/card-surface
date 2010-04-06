@@ -360,9 +360,6 @@ namespace CardCommunication
 
                         this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
                     }
-                }
-                else
-                {
                     this.communicationCompleted = true;
                 }
             }
