@@ -17,12 +17,12 @@ namespace CardGameCommandLine
     internal class MainMenu : BaseMenu
     {
         /// <summary>
-        /// This is just temporary, we run the server local because we are just testing.
+        /// The copy of the server that is running.
         /// </summary>
         private ServerController serverController;
 
         /// <summary>
-        /// This is also temporary, this makes it easier to access the games.
+        /// Since we are in local mode, we are ok with having access to the controller.
         /// </summary>
         private GameController gameController;
 

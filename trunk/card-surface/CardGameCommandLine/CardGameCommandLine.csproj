@@ -52,6 +52,7 @@
     <Compile Include="BaseMenu.cs" />
     <Compile Include="CommandLineGraphics.cs" />
     <Compile Include="GameMenu.cs" />
+    <Compile Include="JoinMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

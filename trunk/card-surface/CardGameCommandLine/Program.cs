@@ -22,17 +22,36 @@ namespace CardGameCommandLine
     public class Program
     {
         /// <summary>
-        /// The game of Blackjack that is being played.
-        /// </summary>
-        private static Game game = new Blackjack();
-
-        /// <summary>
         /// Mains the specified args.
         /// </summary>
         /// <param name="args">The args for the application.</param>
         public static void Main(string[] args)
         {
-            MainMenu m = new MainMenu();
+            bool loop = true;
+            string input = string.Empty;
+            while (!input.Equals("empty", StringComparison.CurrentCultureIgnoreCase) && loop)
+            {
+                Console.WriteLine("Local or Remote?");
+                Console.Write(" > ");
+                input = Console.ReadLine();
+                if (input.Equals("local", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // We are running the server locally and have direct access to the game.
+                    MainMenu m = new MainMenu();
+                    loop = false;
+                }
+                else if (input.Equals("remote", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // We are accessing the game through the network, even though it is still a local server.
+                    JoinMenu m = new JoinMenu();
+                    loop = false;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection.");
+                }
+            }
+
             Environment.Exit(0);
         }
     }
