@@ -120,7 +120,7 @@ namespace CardCommunication.Messages
         {
             foreach (XmlNode node in body.ChildNodes)
             {
-                XmlElement childElement = MessageDocument.CreateElement(node.Name);
+                XmlElement childElement = (XmlElement)body.FirstChild;
                 childElement.InnerXml = node.InnerXml;
 
                 switch (childElement.Name)
@@ -143,7 +143,7 @@ namespace CardCommunication.Messages
 
             foreach (string n in this.gameNames)
             {
-                name.Insert(0, n + ".");
+                name = name.Insert(0, n + ".");
             }
 
             gameList.SetAttribute("NameList", name);
@@ -157,7 +157,7 @@ namespace CardCommunication.Messages
         /// <param name="gameList">The game list.</param>
         protected void ProcessGameList(XmlElement gameList)
         {
-            foreach (XmlNode node in gameList.ChildNodes)
+            foreach (XmlNode node in gameList.Attributes)
             {
                 XmlAttribute childAttribute = MessageDocument.CreateAttribute(node.Name);
                 childAttribute.InnerXml = node.InnerXml;
@@ -182,7 +182,7 @@ namespace CardCommunication.Messages
             char[] splitChar = { '.' };
             string[] name = gameList.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int i = 0; i <= name.Length; i++)
+            for (int i = 0; i < name.Length; i++)
             {
                 gameListNames.Add(name[i]);
             }
