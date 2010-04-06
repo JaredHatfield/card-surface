@@ -64,6 +64,19 @@
     <Compile Include="CardCommunication Test\MessageRequestExistingGamesTest.cs" />
     <Compile Include="CardCommunication Test\MessageRequestGameListTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CardWebTests\WebActionCreateAccountTest.cs" />
+    <Compile Include="CardWebTests\WebActionInitGameTest.cs" />
+    <Compile Include="CardWebTests\WebActionJoinTableTest.cs" />
+    <Compile Include="CardWebTests\WebActionLoginTest.cs" />
+    <Compile Include="CardWebTests\WebActionManageAccountTest.cs" />
+    <Compile Include="CardWebTests\WebViewCreateAccountTest.cs" />
+    <Compile Include="CardWebTests\WebViewDefaultTest.cs" />
+    <Compile Include="CardWebTests\WebViewHandTest.cs" />
+    <Compile Include="CardWebTests\WebViewInitGameTest.cs" />
+    <Compile Include="CardWebTests\WebViewJoinTableTest.cs" />
+    <Compile Include="CardWebTests\WebViewLoginTest.cs" />
+    <Compile Include="CardWebTests\WebViewManageAccountTest.cs" />
+    <Compile Include="CardWebTests\WebViewResourceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
