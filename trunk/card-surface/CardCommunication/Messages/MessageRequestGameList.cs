@@ -95,6 +95,10 @@ namespace CardCommunication.Messages
             }
         }
 
+        /// <summary>
+        /// Builds the request game list.
+        /// </summary>
+        /// <param name="message">The message.</param>
         protected void BuildRequestGameList(ref XmlElement message)
         {
             XmlElement gameList = this.MessageDocument.CreateElement("RequestGameList");
