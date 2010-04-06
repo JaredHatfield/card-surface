@@ -29,7 +29,7 @@ namespace CardCommunication.Messages
         /// </summary>
         public MessageAction()
         {
-            MessageTypeName = "MessageAction";
+            MessageTypeName = MessageType.Action.ToString();
         }
 
         /// <summary>
@@ -78,14 +78,13 @@ namespace CardCommunication.Messages
         /// <param name="messageDoc">The message document.</param>
         public override void ProcessMessage(XmlDocument messageDoc)
         {
-            XmlTextReader tx = new XmlTextReader(messageDoc.InnerText);
-                        
-            while (tx.Read())
-            {
-                XmlElement element = messageDoc.CreateElement(tx.Name);
-                element.InnerXml = tx.ReadInnerXml();
+            XmlElement message = messageDoc.DocumentElement;
 
-                switch (tx.Name)
+            foreach (XmlNode node in message.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+
+                switch (node.Name)
                 {
                     case "Header":
                         this.ProcessHeader(element);

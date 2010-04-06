@@ -26,7 +26,7 @@ namespace CardCommunication
         /// <summary>
         /// list of all clients and their game guids that have communicated with the server.
         /// </summary>
-        private Collection<ClientObject> clientList = null;
+        private Collection<ClientObject> clientList = new Collection<ClientObject>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerCommunicationController"/> class.
@@ -200,13 +200,13 @@ namespace CardCommunication
         /// <param name="remoteIPAddress">The remote IP address.</param>
         protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
         {
-            XmlElement message = messageDoc.CreateElement("Message");
+            XmlElement message = messageDoc.DocumentElement;
             XmlAttribute messageType;
             IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
             Guid gameGuid = this.GetGameGuid(remoteIPEndPoint);
             string mt;
 
-            message.InnerXml = messageDoc.OuterXml;
+            this.RemoteEndPoint = remoteIPEndPoint;
             messageType = message.Attributes[0];
 
             mt = messageType.Value;

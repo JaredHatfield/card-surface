@@ -25,6 +25,7 @@ namespace CardCommunication.Messages
         /// </summary>
         public MessageRequestExistingGames()
         {
+            MessageTypeName = MessageType.RequestExistingGames.ToString();
         }
 
         /// <summary>

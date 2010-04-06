@@ -239,19 +239,19 @@ namespace CardCommunication
             {
                 Socket socketProcessor = this.SocketListener.EndAccept(asyncResult);
                 CommunicationObject commObject = new CommunicationObject();
-                byte[] data = { 0 };
+                byte[] data = { };
 
                 commObject.WorkSocket = socketProcessor;
                 commObject.Data = data;
                 commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
                 socketProcessor.BeginReceive(
-                    data,
+                    commObject.Buffer,
                     0,
-                    data.Length,
+                    CommunicationObject.BufferSize,
                     SocketFlags.None,
                     new AsyncCallback(this.ProcessCommunicationData),
-                    data);
+                    commObject);
             }
             catch (Exception e)
             {
@@ -276,12 +276,12 @@ namespace CardCommunication
         /// <param name="remoteIPAddress">The remote IP address.</param>
         protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
         {
-            XmlElement message = messageDoc.CreateElement("Message");
+            XmlElement message = messageDoc.DocumentElement;
             XmlAttribute messageType;
-            IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ServerListenerPortNumber);
+            ////IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
             string mt;
 
-            message.InnerXml = messageDoc.OuterXml;
+            ////this.RemoteEndPoint = remoteIPEndPoint;
             messageType = message.Attributes[0];
 
             mt = messageType.Value;

@@ -292,8 +292,12 @@ namespace CardCommunication
 
                 if (commObject.FirstKB)
                 {
-                    string header = this.gameHeader.ToString();
-                    string buffer = commObject.Buffer.ToString().Substring(0, header.Length);
+                    byte[] header = new byte[gameHeader.Length];
+                    byte[] buffer = new byte[gameHeader.Length];
+
+                    Array.Copy(this.gameHeader, header, this.gameHeader.Length);
+                    Array.Copy(commObject.Buffer, 0, buffer, 0, this.gameHeader.Length);
+
                     if (header == buffer)
                     {
                         byte[] b = { };
@@ -341,8 +345,6 @@ namespace CardCommunication
                     }
                 }
             }
-            ////Update the game using the gameController.
-            ////gameController.Games.
         }
 
         /// <summary>
@@ -470,7 +472,7 @@ namespace CardCommunication
 
             if (this.socketTransporter != null)
             {
-                this.socketTransporter.EndReceive(null);
+                //// this.socketTransporter.EndReceive(null);
                 this.socketTransporter.Shutdown(SocketShutdown.Both);
                 this.socketTransporter.Disconnect(reuse);
                 this.socketTransporter.Close(30);
