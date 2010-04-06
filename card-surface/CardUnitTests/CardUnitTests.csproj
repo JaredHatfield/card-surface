@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{96DEC71A-1645-4084-973A-634EC187D873}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -59,6 +59,10 @@
     <Compile Include="CardGameTest\ChipTest.cs" />
     <Compile Include="CardGameTest\DeckTest.cs" />
     <Compile Include="CardGameTest\PileTest.cs" />
+    <Compile Include="CardCommunication Test\MessageActionTest.cs" />
+    <Compile Include="CardCommunication Test\MessageGameListTest.cs" />
+    <Compile Include="CardCommunication Test\MessageRequestExistingGamesTest.cs" />
+    <Compile Include="CardCommunication Test\MessageRequestGameListTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
