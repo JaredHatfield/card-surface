@@ -72,7 +72,7 @@ namespace CardCommunication.Messages
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
 
-            body.SetAttribute("MessageType", "MessageRequestGameList");
+            this.BuildRequestGameList(ref body);
 
             message.AppendChild(body);
         }
@@ -89,10 +89,20 @@ namespace CardCommunication.Messages
 
                 switch (node.Name)
                 {
-                    case "Message":
+                    case "MessageType":
                         break;
                 }
             }
+        }
+
+        protected void BuildRequestGameList(ref XmlElement message)
+        {
+            XmlElement gameList = this.MessageDocument.CreateElement("RequestGameList");
+            string name = String.Empty;
+
+            gameList.SetAttribute("MessageType", MessageTypeName);
+
+            message.AppendChild(gameList);
         }
     }
 }
