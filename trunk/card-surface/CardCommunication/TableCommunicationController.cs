@@ -98,9 +98,15 @@ namespace CardCommunication
         {
             MessageRequestGameList message = new MessageRequestGameList();
 
+            this.CommunicationCompleted = false;
+
             message.BuildMessage();
 
             this.TransportCommunication(message.MessageDocument);
+
+            while (!CommunicationCompleted)
+            {
+            }
         }
 
         /// <summary>
@@ -292,7 +298,7 @@ namespace CardCommunication
 
                 messageGameList.ProcessMessage(messageDoc);
 
-                OnUpdateGameList(messageGameList.GameNameList);
+                this.OnUpdateGameList(messageGameList.GameNameList);
             }
 
             ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
@@ -300,6 +306,8 @@ namespace CardCommunication
             ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
 
             ////    messageRequestExistingGames.ProcessMessage(messageDoc);
+
+            ////    this.OnUpdateExistingGames(messageRequestExistingGames.
             ////}
         }
     }

@@ -33,7 +33,7 @@ namespace CardCommunication
         /// <summary>
         /// The Port number of the transporter socket.
         /// </summary>
-        protected const int ServerSendPortNumber = 30558;
+        protected const int ServerSendPortNumber = 30566;
 
         /// <summary>
         /// The Port number of the listening socket.
@@ -43,7 +43,7 @@ namespace CardCommunication
         /// <summary>
         /// The Port number of the transporter socket.
         /// </summary>
-        protected const int ClientSendPortNumber = 30557;
+        protected const int ClientSendPortNumber = 30568;
 
         /// <summary>
         /// The listening socket.
@@ -81,6 +81,11 @@ namespace CardCommunication
         private IGameController gameController;
 
         /// <summary>
+        /// If the main thread is not waiting on a response from the server.
+        /// </summary>
+        private bool communicationCompleted = true;
+
+        /// <summary>
         /// The header to the serialized game object.
         /// </summary>
         private byte[] gameHeader = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
@@ -101,6 +106,18 @@ namespace CardCommunication
         {
             this.gameController = gameController;
             this.InitializeCommunicationController();
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [communication completed].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [communication completed]; otherwise, <c>false</c>.
+        /// </value>
+        public bool CommunicationCompleted
+        {
+            get { return this.communicationCompleted; }
+            set { this.communicationCompleted = value; }
         }
 
         /// <summary>
@@ -292,8 +309,8 @@ namespace CardCommunication
 
                 if (commObject.FirstKB)
                 {
-                    byte[] header = new byte[gameHeader.Length];
-                    byte[] buffer = new byte[gameHeader.Length];
+                    byte[] header = new byte[this.gameHeader.Length];
+                    byte[] buffer = new byte[this.gameHeader.Length];
 
                     Array.Copy(this.gameHeader, header, this.gameHeader.Length);
                     Array.Copy(commObject.Buffer, 0, buffer, 0, this.gameHeader.Length);
@@ -343,6 +360,10 @@ namespace CardCommunication
 
                         this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
                     }
+                }
+                else
+                {
+                    this.communicationCompleted = true;
                 }
             }
         }
@@ -468,15 +489,12 @@ namespace CardCommunication
         /// </summary>
         protected void SuccessfulTransport()
         {
-            bool reuse = true;
-
             if (this.socketTransporter != null)
             {
                 LingerOption lo = new LingerOption(false, 0);
-                //// this.socketTransporter.EndReceive(null);
+
                 this.socketTransporter.LingerState = lo;
                 this.socketTransporter.Shutdown(SocketShutdown.Both);
-                ////this.socketTransporter.Disconnect(reuse);
                 this.socketTransporter.Close();
             }
         }
