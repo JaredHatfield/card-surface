@@ -72,7 +72,7 @@ namespace CardCommunication.Messages
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
 
-            body.SetAttribute("Message", "MessageTequestGameList");
+            body.SetAttribute("MessageType", "MessageRequestGameList");
 
             message.AppendChild(body);
         }

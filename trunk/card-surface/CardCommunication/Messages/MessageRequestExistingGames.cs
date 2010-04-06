@@ -15,10 +15,10 @@ namespace CardCommunication.Messages
     /// </summary>
     public class MessageRequestExistingGames : Message
     {
-        /////// <summary>
-        /////// 
-        /////// </summary>
-        ////private object existingGames = null; // name, num players
+        /// <summary>
+        /// String representation of the selected Game.
+        /// </summary>
+        private string selectedGame = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageRequestExistingGames"/> class.
@@ -37,6 +37,8 @@ namespace CardCommunication.Messages
         {
             XmlElement message = this.MessageDocument.CreateElement("Message");
             bool success = true;
+
+            this.selectedGame = selectedGame;
 
             try
             {
@@ -66,17 +68,31 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Processes the body.
         /// </summary>
-        /// <param name="body">The body to be processed.</param>
-        protected override void ProcessBody(XmlElement body)
+        /// <param name="message">The message to be processed.</param>
+        protected override void BuildBody(ref XmlElement message)
+        {
+            XmlElement body = MessageDocument.CreateElement("Body");
+
+            this.BuildExistingGames(ref body);
+
+            message.AppendChild(body);
+        }
+
+        /// <summary>
+        /// Processes the body.
+        /// </summary>
+        /// <param name="message">The message to be processed.</param>
+        protected override void ProcessBody(XmlElement message)
         {
         }
 
         /// <summary>
-        /// Builds the body.
+        /// Builds the existing games.
         /// </summary>
-        /// <param name="body">The body to be built.</param>
-        protected override void BuildBody(ref XmlElement body)
+        /// <param name="existingGames">The existing games.</param>
+        protected void BuildExistingGames(ref XmlElement existingGames)
         {
+            existingGames.SetAttribute("SelectedType", this.selectedGame);
         }
     }
 }
