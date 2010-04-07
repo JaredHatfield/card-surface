@@ -115,6 +115,9 @@
     <Compile Include="CardTableWindow.xaml.cs">
       <DependentUpon>CardTableWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SurfacePlayerArea.xaml.cs">
+      <DependentUpon>SurfacePlayerArea.xaml</DependentUpon>
+    </Compile>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +141,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GameSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurfacePlayerArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
