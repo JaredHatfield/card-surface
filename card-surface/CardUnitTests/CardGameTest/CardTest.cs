@@ -25,15 +25,8 @@ namespace CardUnitTests
         /// </summary>
         public TestContext TestContext
         {
-            get
-            {
-                return this.testContextInstance;
-            }
-
-            set
-            {
-                this.testContextInstance = value;
-            }
+            get { return this.testContextInstance; }
+            set { this.testContextInstance = value; }
         }
 
         /// <summary>
