@@ -31,25 +31,24 @@ namespace CardTable
     public partial class GameSelection : SurfaceWindow
     {
         /// <summary>
+        /// The TableCommunicationController for this GameTableInstance
+        /// </summary>
+        private TableCommunicationController tcc;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameSelection"/> class.
         /// </summary>
         public GameSelection()
         {
             InitializeComponent();
 
-            TableCommunicationController tcc = new TableCommunicationController();
+            this.tcc = new TableCommunicationController();
 
-            tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
+            this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
 
-            tcc.SendRequestGameListMessage();
+            this.tcc.SendRequestGameListMessage();
 
-            /* TODO: When the Communication has been entered, retreive a list of supported games to populate the selection list. */
-            /*for (int i = 0; i < 500; i++)
-            {*/
-                SurfaceButton sb = new SurfaceButton();
-                sb.Content = "Blackjack";
-                this.Games.Items.Add(sb);
-            /*}*/
+            this.tcc.SendRequestGameListMessage();
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
@@ -74,6 +73,20 @@ namespace CardTable
 
             // Remove handlers for Application activation events
             this.RemoveActivationHandlers();
+        }
+
+        /// <summary>
+        /// Updates the game list.
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        private void UpdateGameList(System.Collections.ObjectModel.Collection<string> gameList)
+        {
+            for (int i = 0; i < gameList.Count; i++)
+            {
+                SurfaceButton sb = new SurfaceButton();
+                sb.Content = gameList.ElementAt(i);
+                this.Games.Items.Add(sb);
+            }
         }
 
         /// <summary>
