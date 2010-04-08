@@ -6,6 +6,7 @@ namespace CardTable
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -38,6 +39,8 @@ namespace CardTable
 
             TableCommunicationController tcc = new TableCommunicationController();
 
+            tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
+
             tcc.SendRequestGameListMessage();
 
             /* TODO: When the Communication has been entered, retreive a list of supported games to populate the selection list. */
@@ -50,6 +53,15 @@ namespace CardTable
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
+        }
+
+        /// <summary>
+        /// Called when [update game list].
+        /// </summary>
+        /// <param name="gameList">The game list.</param>
+        protected void OnUpdateGameList(Collection<string> gameList)
+        {
+            ////This function updates the game list.
         }
 
         /// <summary>

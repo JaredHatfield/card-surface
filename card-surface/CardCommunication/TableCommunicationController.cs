@@ -14,6 +14,7 @@ namespace CardCommunication
     using System.Text;
     using System.Xml;
     using CardGame;
+    using CommunicationException;
     using Messages;
 
     /// <summary>
@@ -179,50 +180,6 @@ namespace CardCommunication
             }
         }
 
-        /////// <summary>
-        /////// Sends the action message.
-        /////// </summary>
-        /////// <param name="game">The game to be sent.</param>
-        /////// <returns>whether the Action Message was sent.</returns>
-        ////public bool SendActionMessage()
-        ////{
-        ////    bool success = true;
-
-        ////    try
-        ////    {
-        ////        MessageAction message = new MessageAction();
-
-        ////        success = message.BuildMessage(game);
-        ////    }
-        ////    catch (Exception e)
-        ////    {
-        ////        Console.WriteLine("Error sending message", e);
-        ////        success = false;
-        ////    }
-
-        ////    return success;
-        ////}
-
-        ////public bool ProcessMessage()
-        ////{
-        ////    bool success = true;
-
-        ////    try
-        ////    {
-        ////        MessageAction message = new MessageAction();
-        ////        GameMessage game = new GameMessage();
-
-        ////        success = message.ProcessMessage(xmldo);
-        ////    }
-        ////    catch (Exception e)
-        ////    {
-        ////        Console.WriteLine("Error sending message", e);
-        ////        success = false;
-        ////    }
-
-        ////    return success;
-        ////}
-
         /// <summary>
         /// Initializes the IP address ports.
         /// </summary>
@@ -267,10 +224,18 @@ namespace CardCommunication
                     new AsyncCallback(this.ProcessCommunicationData),
                     commObject);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("Error Receiving Data from client", e);
+                throw new MessageProcessException("Table.ProcessCommunication.");
             }
+        }
+
+        /// <summary>
+        /// Sets the communication completed.
+        /// </summary>
+        protected override void SetCommunicationCompleted()
+        {
+            CommunicationCompleted = true;
         }
 
         /// <summary>
@@ -290,35 +255,43 @@ namespace CardCommunication
         /// <param name="remoteIPAddress">The remote IP address.</param>
         protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
         {
-            XmlElement message = messageDoc.DocumentElement;
-            XmlAttribute messageType;
-            ////IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
-            string mt;
-
-            ////this.RemoteEndPoint = remoteIPEndPoint;
-            messageType = message.Attributes[0];
-
-            mt = messageType.Value;
-
-            if (mt == Message.MessageType.GameList.ToString())
+            try
             {
-                MessageGameList messageGameList = new MessageGameList();
+                XmlElement message = messageDoc.DocumentElement;
+                XmlAttribute messageType;
+                ////IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
+                string mt;
 
-                messageGameList.ProcessMessage(messageDoc);
+                ////this.RemoteEndPoint = remoteIPEndPoint;
+                messageType = message.Attributes[0];
 
-                this.stringCollection = messageGameList.GameNameList;
+                mt = messageType.Value;
 
-                this.OnUpdateGameList(this.stringCollection);
+                if (mt == Message.MessageType.GameList.ToString())
+                {
+                    MessageGameList messageGameList = new MessageGameList();
+
+                    messageGameList.ProcessMessage(messageDoc);
+
+                    this.stringCollection = messageGameList.GameNameList;
+
+                    this.OnUpdateGameList(this.stringCollection);
+                }
+
+                ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
+                ////{
+                ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+
+                ////    messageRequestExistingGames.ProcessMessage(messageDoc);
+
+                ////    this.OnUpdateExistingGames(messageRequestExistingGames.
+                ////}
             }
-
-            ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
-            ////{
-            ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
-
-            ////    messageRequestExistingGames.ProcessMessage(messageDoc);
-
-            ////    this.OnUpdateExistingGames(messageRequestExistingGames.
-            ////}
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new MessageProcessException("Table.ConvertFromXMLToMessage");
+            }
         }
     }
 }

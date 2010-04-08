@@ -52,6 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientObject.cs" />
+    <Compile Include="CommunicationException\CardCommunicationException.cs" />
+    <Compile Include="CommunicationException\MessageProcessException.cs" />
+    <Compile Include="CommunicationException\MessageTransportException.cs" />
+    <Compile Include="CommunicationException\SocketBindingException.cs" />
     <Compile Include="CommunicationController.cs" />
     <Compile Include="CommunicationObject.cs" />
     <Compile Include="GameNetworkClient.cs" />

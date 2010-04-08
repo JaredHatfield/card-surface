@@ -12,7 +12,7 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
-    using CommException;
+    using CommunicationException;
 
     /// <summary>
     /// An abstract message that is sent between the server and table communication controllers.
