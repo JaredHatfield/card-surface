@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardAccount Test\AccountControllerTest.cs" />
+    <Compile Include="CardAccountTest\AccountControllerTest.cs" />
     <Compile Include="CardGameTest\BankPileTest.cs" />
     <Compile Include="CardGameTest\CardPileTest.cs" />
     <Compile Include="CardGameTest\CardTest.cs" />
@@ -64,10 +64,10 @@
     <Compile Include="CardGameTest\ChipTest.cs" />
     <Compile Include="CardGameTest\DeckTest.cs" />
     <Compile Include="CardGameTest\PileTest.cs" />
-    <Compile Include="CardCommunication Test\MessageActionTest.cs" />
-    <Compile Include="CardCommunication Test\MessageGameListTest.cs" />
-    <Compile Include="CardCommunication Test\MessageRequestExistingGamesTest.cs" />
-    <Compile Include="CardCommunication Test\MessageRequestGameListTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageActionTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageGameListTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageRequestExistingGamesTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageRequestGameListTest.cs" />
     <Compile Include="CardGameTest\PhysicalObjectTest.cs" />
     <Compile Include="CardGameTest\PlayerTest.cs" />
     <Compile Include="CardGameTest\PlayingAreaTest.cs" />
