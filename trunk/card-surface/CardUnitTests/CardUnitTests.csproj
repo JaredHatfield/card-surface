@@ -44,6 +44,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Presentation">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -53,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardAccount Test\AccountControllerTest.cs" />
     <Compile Include="CardGameTest\CardPileTest.cs" />
     <Compile Include="CardGameTest\CardTest.cs" />
     <Compile Include="CardGameTest\ChipPileTest.cs" />
@@ -94,6 +98,10 @@
       <Project>{A1B0F52B-2F60-4BE3-B21B-D3597AF688B1}</Project>
       <Name>CardAccount</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CardCommunication\CardCommunication.csproj">
+      <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
+      <Name>CardCommunication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CardWeb\CardWeb.csproj">
       <Project>{EAADF0BE-508A-414F-B37C-B5BA632998AC}</Project>
       <Name>CardWeb</Name>
@@ -104,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\CardWeb.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\CardAccount.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
