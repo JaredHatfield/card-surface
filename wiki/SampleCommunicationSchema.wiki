@@ -1,4 +1,5 @@
 #summary The Schema used for network communication
+#labels Document-Design,Phase-Design
 
 = Game State =
 {{{
