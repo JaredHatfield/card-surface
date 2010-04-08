@@ -32,7 +32,8 @@ namespace CardGameCommandLine
         public JoinMenu()
         {
             this.serverController = new ServerController();
-            this.tableCommunicationController = new TableCommunicationController("127.0.0.1");
+            this.tableCommunicationController = new TableCommunicationController();
+            this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
             this.tableCommunicationController.SendRequestGameListMessage();
 
             string input = string.Empty;
@@ -49,7 +50,7 @@ namespace CardGameCommandLine
                 else if (input.Equals("games", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // Get the list of games from the server.  Danger, danger!
-                    Collection<string> games =  tableCommunicationController.SendRequestGameListMessage();
+                    Collection<string> games = this.tableCommunicationController.SendRequestGameListMessage();
 
                     // Print out that list that we hopefully retreived.
                     Console.WriteLine("Games:");
@@ -66,6 +67,14 @@ namespace CardGameCommandLine
                     this.PrompForEnter();
                 }
             }
+        }
+
+        /// <summary>
+        /// Does the nothing.
+        /// </summary>
+        /// <param name="games">The games.</param>
+        private void DoNothing(Collection<string> games)
+        {
         }
     }
 }

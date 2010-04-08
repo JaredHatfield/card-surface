@@ -1,7 +1,12 @@
-﻿using CardAccount;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// <copyright file="AccountControllerTest.cs" company="University of Louisville Speed School of Engineering">
+// GNU General Public License v3
+// </copyright>
+// <summary>A test for AccountController.</summary>
 namespace CardUnitTests
 {
+    using CardAccount;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// This is a test class for AccountControllerTest and is intended
     /// to contain all AccountControllerTest Unit Tests

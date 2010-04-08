@@ -16,6 +16,7 @@ namespace CardCommunication
     using System.Text;
     using System.Xml;
     using CardGame;
+    using CommunicationException;
     using Messages;
 
     /// <summary>
@@ -54,6 +55,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error sending message", e);
                 success = false;
+                throw new MessageProcessException("Server.SendGameStateMessage");
             }
 
             return success;
@@ -79,6 +81,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error sending message", e);
                 success = false;
+                throw new MessageProcessException("Server.SendGameListMessage");
             }
 
             return success;
@@ -122,6 +125,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine("Error Sending Communication.", e);
+                throw new MessageProcessException("Server.TransportCommunication");
             }
         }
 
@@ -152,35 +156,34 @@ namespace CardCommunication
                     this.clientList.Add(co);
                 }
 
-                try
-                {
-                    CommunicationObject commObject = new CommunicationObject();
-                    byte[] data = { };
-                    
-                    commObject.WorkSocket = socketProcessor;
-                    commObject.Data = data;
-                    commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
+                CommunicationObject commObject = new CommunicationObject();
+                byte[] data = { };
+                
+                commObject.WorkSocket = socketProcessor;
+                commObject.Data = data;
+                commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
-                    ////socketProcessor.Receive(data, 0, CommunicationObject.BufferSize, SocketFlags.None);
-                    ////this.ProcessCommunicationData(data);
-                    ////this.ProcessCommunicationData(asyncResult);
-                    socketProcessor.BeginReceive(
-                        commObject.Buffer,
-                        0,
-                        CommunicationObject.BufferSize,
-                        SocketFlags.None,
-                        new AsyncCallback(this.ProcessCommunicationData),
-                        commObject);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error Receiving Data from client", e);
-                }
+                socketProcessor.BeginReceive(
+                    commObject.Buffer,
+                    0,
+                    CommunicationObject.BufferSize,
+                    SocketFlags.None,
+                    new AsyncCallback(this.ProcessCommunicationData),
+                    commObject);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error Receiving Data from client", e);
+                throw new MessageProcessException("Server.ProcessCommunication");
             }
+        }
+
+        /// <summary>
+        /// Sets the communication completed.
+        /// </summary>
+        protected override void SetCommunicationCompleted()
+        {
+            CommunicationCompleted = true;
         }
 
         /// <summary>
@@ -200,53 +203,60 @@ namespace CardCommunication
         /// <param name="remoteIPAddress">The remote IP address.</param>
         protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
         {
-            XmlElement message = messageDoc.DocumentElement;
-            XmlAttribute messageType;
-            IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
-            Guid gameGuid = this.GetGameGuid(remoteIPEndPoint);
-            string mt;
-
-            this.RemoteEndPoint = remoteIPEndPoint;
-            messageType = message.Attributes[0];
-
-            mt = messageType.Value;
-
-            if (mt == Message.MessageType.RequestGameList.ToString())
+            try
             {
-                MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
+                XmlElement message = messageDoc.DocumentElement;
+                XmlAttribute messageType;
+                IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
+                Guid gameGuid = this.GetGameGuid(remoteIPEndPoint);
+                string mt;
 
-                messageRequestGameList.ProcessMessage(messageDoc);
+                this.RemoteEndPoint = remoteIPEndPoint;
+                messageType = message.Attributes[0];
 
-                MessageGameList messageGameList = new MessageGameList();
-                
-                messageGameList.BuildMessage(GameController.GameTypes);
+                mt = messageType.Value;
 
-                this.TransportCommunication(messageGameList.MessageDocument);
+                if (mt == Message.MessageType.RequestGameList.ToString())
+                {
+                    MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
+
+                    messageRequestGameList.ProcessMessage(messageDoc);
+
+                    MessageGameList messageGameList = new MessageGameList();
+
+                    messageGameList.BuildMessage(GameController.GameTypes);
+
+                    this.TransportCommunication(messageGameList.MessageDocument);
+                }
+                else if (mt == Message.MessageType.Action.ToString())
+                {
+                    Collection<string> action;
+                    MessageAction messageAction = new MessageAction();
+
+                    messageAction.ProcessMessage(messageDoc);
+                    action = messageAction.Action;
+
+                    if (action[0] == MessageAction.ActionType.Move.ToString())
+                    {
+                        Guid physicalObject = new Guid(action[1]);
+                        Guid destinationPile = new Guid(action[2]);
+
+                        // Executes Move
+                        GameController.GetGame(gameGuid).MoveAction(physicalObject, destinationPile);
+                    }
+                    else if (action[0] == MessageAction.ActionType.Custom.ToString())
+                    {
+                        string actionName = action[1];
+                        string playerName = action[2];
+
+                        // Executes Custum Action
+                        GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
+                    }
+                }
             }
-            else if (mt == Message.MessageType.Action.ToString())
+            catch (Exception)
             {
-                Collection<string> action;
-                MessageAction messageAction = new MessageAction();
-
-                messageAction.ProcessMessage(messageDoc);
-                action = messageAction.Action;
-
-                if (action[0] == MessageAction.ActionType.Move.ToString())
-                {
-                    Guid physicalObject = new Guid(action[1]);
-                    Guid destinationPile = new Guid(action[2]);
-
-                    // Executes Move
-                    GameController.GetGame(gameGuid).MoveAction(physicalObject, destinationPile);
-                }
-                else if (action[0] == MessageAction.ActionType.Custom.ToString())
-                {
-                    string actionName = action[1];
-                    string playerName = action[2];
-
-                    // Executes Custum Action
-                    GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
-                }
+                throw new MessageProcessException("Server.ConvertXMLToMessage");
             }
         }
 
