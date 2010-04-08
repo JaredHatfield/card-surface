@@ -1,3 +1,4 @@
 #summary The official low level design document for the project.
+#labels Featured,Document-Design,Phase-Design
 
 <wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/low_level_design_gadget.xml" height="1000" width="700" border="1"/>
