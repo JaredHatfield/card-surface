@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{96DEC71A-1645-4084-973A-634EC187D873}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardAccount Test\AccountControllerTest.cs" />
+    <Compile Include="CardGameTest\BankPileTest.cs" />
     <Compile Include="CardGameTest\CardPileTest.cs" />
     <Compile Include="CardGameTest\CardTest.cs" />
     <Compile Include="CardGameTest\ChipPileTest.cs" />
@@ -67,6 +68,11 @@
     <Compile Include="CardCommunication Test\MessageGameListTest.cs" />
     <Compile Include="CardCommunication Test\MessageRequestExistingGamesTest.cs" />
     <Compile Include="CardCommunication Test\MessageRequestGameListTest.cs" />
+    <Compile Include="CardGameTest\PhysicalObjectTest.cs" />
+    <Compile Include="CardGameTest\PlayerTest.cs" />
+    <Compile Include="CardGameTest\PlayingAreaTest.cs" />
+    <Compile Include="CardGameTest\GameActionTest.cs" />
+    <Compile Include="CardGameTest\GameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardWebTests\WebActionCreateAccountTest.cs" />
     <Compile Include="CardWebTests\WebActionInitGameTest.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="CardWebTests\WebViewLoginTest.cs" />
     <Compile Include="CardWebTests\WebViewManageAccountTest.cs" />
     <Compile Include="CardWebTests\WebViewResourceTest.cs" />
+    <Compile Include="CardGameTest\SeatTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
