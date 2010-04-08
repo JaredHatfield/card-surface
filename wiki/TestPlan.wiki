@@ -1,0 +1,3 @@
+#summary The test plan for the project.
+
+<wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/test_plan_gadget.xml" height="1000" width="700" border="1"/>
