@@ -1,4 +1,5 @@
 #summary A description of how the classes in CardGame are structured
+#labels Document-Design,Phase-Design
 
 = Game = 
 An instance of a game is used as the underlying logic to implement a specific card game.
