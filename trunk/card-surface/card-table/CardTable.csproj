@@ -80,13 +80,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\SurfaceArea.cs" />
-    <Compile Include="Component\SurfaceAreaGame.cs" />
-    <Compile Include="Component\SurfaceAreaPlayer.cs" />
-    <Compile Include="Component\SurfaceBank.cs" />
-    <Compile Include="Component\SurfaceCard.cs" />
-    <Compile Include="Component\SurfaceChip.cs" />
-    <Compile Include="Component\SurfacePile.cs" />
     <Compile Include="GameSelection.xaml.cs">
       <DependentUpon>GameSelection.xaml</DependentUpon>
     </Compile>
