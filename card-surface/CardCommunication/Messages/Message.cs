@@ -12,7 +12,7 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
-    ////using GameObject;
+    using CommException;
 
     /// <summary>
     /// An abstract message that is sent between the server and table communication controllers.
@@ -33,6 +33,11 @@ namespace CardCommunication.Messages
         /// The String representation of the Message Type.
         /// </summary>
         private string messageTypeName;
+
+        /// <summary>
+        /// Whether the message was validated successfully.
+        /// </summary>
+        private bool validated = true;
 
         /////// <summary>
         /////// Whether the xmlDocumnet was validated against the schema.
@@ -62,7 +67,6 @@ namespace CardCommunication.Messages
 
             this.messageDoc = new XmlDocument();
             this.messageDoc.Schemas.Add(null, filePath);
-
         }
 
         /// <summary>
@@ -125,25 +129,14 @@ namespace CardCommunication.Messages
             set { this.game = value; }
         }
 
-        /////// <summary>
-        /////// Messages all relevent players/tables of the specified game state.
-        /////// </summary>
-        /////// <param name="gameState">State of the game.</param>
-        /////// <returns>whether the message was constructed and sent.</returns>
-        ////public bool MessageConstructSend(Game gameState);
-
-        /////// <summary>
-        /////// Builds the message.
-        /////// </summary>
-        /////// <param name="game">The game to be converted into a message.</param>
-        /////// <returns>whether message was built.</returns>
-        ////public abstract bool BuildMessage(Game game);
-
-        /////// <summary>
-        /////// Sends the message.
-        /////// </summary>
-        /////// <returns>whether or not the message was sent successfully</returns>
-        ////public abstract bool SendMessage();
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="Message"/> is validated.
+        /// </summary>
+        /// <value><c>true</c> if validated; otherwise, <c>false</c>.</value>
+        public bool Validated
+        {
+            get { return this.validated; }
+        }
 
         /// <summary>
         /// Converts to game.
@@ -191,9 +184,9 @@ namespace CardCommunication.Messages
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("Error while processing the body.", e);
+                    throw new MessageTransportException("Message.ConvertToGame");
                 }
             }
 
@@ -230,6 +223,7 @@ namespace CardCommunication.Messages
             {
                 Console.WriteLine("Error Building Message", e);
                 success = false;
+                throw new MessageTransportException("BuildM");
             }
 
             return success;
@@ -243,6 +237,8 @@ namespace CardCommunication.Messages
         protected void Error(object sender, ValidationEventArgs e)
         {
             Console.WriteLine(e.Severity + ".  " + e.Message + "  " + e.Exception);
+            this.validated = false;
+            throw new MessageTransportException("Message Validation Error");
         }
 
         /// <summary>

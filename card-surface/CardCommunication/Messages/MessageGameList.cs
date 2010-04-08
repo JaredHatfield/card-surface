@@ -120,7 +120,7 @@ namespace CardCommunication.Messages
         {
             foreach (XmlNode node in body.ChildNodes)
             {
-                XmlElement childElement = (XmlElement)body.FirstChild;
+                XmlElement childElement = (XmlElement)node;
                 childElement.InnerXml = node.InnerXml;
 
                 switch (childElement.Name)
@@ -159,7 +159,7 @@ namespace CardCommunication.Messages
         {
             foreach (XmlNode node in gameList.Attributes)
             {
-                XmlAttribute childAttribute = MessageDocument.CreateAttribute(node.Name);
+                XmlAttribute childAttribute = (XmlAttribute)node;
                 childAttribute.InnerXml = node.InnerXml;
 
                 switch (childAttribute.Name)
