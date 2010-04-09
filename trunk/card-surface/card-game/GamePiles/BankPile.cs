@@ -10,6 +10,7 @@ namespace CardGame
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
+    using CardGame.GameFactory;
 
     /// <summary>
     /// A pile of chips that the user can access money they have placed on the table.
@@ -17,6 +18,11 @@ namespace CardGame
     [Serializable]
     public class BankPile : ChipPile
     {
+        /// <summary>
+        /// The factory, used to create new chips.
+        /// </summary>
+        private PhysicalObjectFactory factory;
+
         /// <summary>
         /// The player who the bank belongs to.
         /// </summary>
@@ -29,6 +35,7 @@ namespace CardGame
         internal BankPile(Player player)
             : base()
         {
+            this.factory = PhysicalObjectFactory.Instance();
             this.player = player;
             this.RefreshChipPile();
             this.Open = true;
@@ -180,21 +187,7 @@ namespace CardGame
         /// <returns>A new chip of the requested value.</returns>
         private IChip GetNewChip(int amount)
         {
-            switch (amount)
-            {
-                case 1:
-                    return new Chip(1, Color.White);
-                case 5:
-                    return new Chip(5, Color.Red);
-                case 10:
-                    return new Chip(10, Color.Blue);
-                case 25:
-                    return new Chip(25, Color.Green);
-                case 100:
-                    return new Chip(100, Color.Black);
-                default:
-                    throw new CardGameException("Invalid chip value requested");
-            }
+            return this.factory.MakeChip(amount);
         }
     }
 }

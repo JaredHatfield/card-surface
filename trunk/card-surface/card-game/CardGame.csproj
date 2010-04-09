@@ -53,8 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameException\CardGameActionNotFoundException.cs" />
+    <Compile Include="GameException\CardGameDuplicatePhysicalObjectException.cs" />
     <Compile Include="GameException\CardGameException.cs" />
     <Compile Include="GameException\CardGameActionAccessDeniedException.cs" />
+    <Compile Include="GameException\CardGameFactoryException.cs" />
     <Compile Include="GameException\CardGameGameNotFoundException.cs" />
     <Compile Include="GameException\CardGameMinimumStakeException.cs" />
     <Compile Include="GameException\CardGameMoveToNonOpenPileException.cs" />
@@ -62,6 +64,9 @@
     <Compile Include="GameException\CardGamePileNotFoundException.cs" />
     <Compile Include="GameException\CardGamePlayerNotFoundException.cs" />
     <Compile Include="GameException\CardGameSeatNotFoundException.cs" />
+    <Compile Include="GameFactory\CardFactory.cs" />
+    <Compile Include="GameFactory\ChipFactory.cs" />
+    <Compile Include="GameFactory\PhysicalObjectFactory.cs" />
     <Compile Include="GameObjects\Card.cs" />
     <Compile Include="GamePiles\BankPile.cs" />
     <Compile Include="GamePiles\CardPile.cs" />

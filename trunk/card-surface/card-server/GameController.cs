@@ -12,6 +12,7 @@ namespace CardServer
     using CardAccount;
     using CardGame;
     using CardGame.GameException;
+    using CardGame.GameFactory;
 
     /// <summary>
     /// The controller that manages all of the game instances and the access to the game instances.
@@ -38,6 +39,12 @@ namespace CardServer
         /// </summary>
         internal GameController()
         {
+            // We need to set up the PhysicalObjectFactory before we can do anything
+            PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
+            PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
+            PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
+
+            // Set up everything else
             this.games = new ObservableCollection<Game>();
             this.availableGames = new Dictionary<string, Type>();
             this.accountController = AccountController.Instance;

@@ -29,11 +29,14 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="Chip"/> class.
         /// </summary>
-        protected internal Chip()
-            : base()
+        /// <param name="id">The chip's id.</param>
+        /// <param name="amount">The chip's amount.</param>
+        /// <param name="chipColor">The chip's color.</param>
+        protected internal Chip(Guid id, int amount, Color chipColor)
+            : base(id)
         {
-            this.amount = 10;
-            this.chipColor = Color.Blue;
+            this.amount = amount;
+            this.chipColor = chipColor;
         }
 
         /// <summary>
@@ -46,6 +49,15 @@ namespace CardGame
         {
             this.amount = amount;
             this.chipColor = chipColor;
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the Chip class from being created.
+        /// </summary>
+        private Chip()
+            : base()
+        {
+            // DO NOT USE THIS CONSTRUCTOR!
         }
 
         /// <summary>
