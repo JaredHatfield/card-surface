@@ -117,6 +117,11 @@
     <Resource Include="Resources\GameSelectionBackground.jpg" />
     <Resource Include="Resources\CardSurfaceLogo.png" />
     <Resource Include="Resources\CardTableIcon.ico" />
+    <Resource Include="Resources\chipBlack.png" />
+    <Resource Include="Resources\chipBlue.png" />
+    <Resource Include="Resources\chipGreen.png" />
+    <Resource Include="Resources\chipRed.png" />
+    <Resource Include="Resources\chipWhite.png" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
