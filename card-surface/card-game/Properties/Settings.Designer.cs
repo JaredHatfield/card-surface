@@ -22,5 +22,17 @@ namespace CardGame.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int SeatPasswordLength {
+            get {
+                return ((int)(this["SeatPasswordLength"]));
+            }
+            set {
+                this["SeatPasswordLength"] = value;
+            }
+        }
     }
 }
