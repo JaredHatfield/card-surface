@@ -263,8 +263,14 @@ namespace CardGame
         /// <returns>True if the user was able to sit down; otherwise false.</returns>
         public virtual bool SitDown(string username, string password, int amount)
         {
-            if (this.SitDown(username, password))
+            if (amount < this.MinimumStake)
             {
+                // If the player did not provide the minimum stake, we thrown an exception
+                throw new CardGameMinimumStakeException();
+            }
+            else if (this.SitDown(username, password))
+            {
+                // Get the player and add the money to their account
                 Player player = this.GetPlayer(username);
                 player.Balance += amount;
                 player.BankPile.RefreshChipPile();
@@ -272,6 +278,7 @@ namespace CardGame
             }
             else
             {
+                // TODO: Should this be an exception?
                 return false;
             }
         }
