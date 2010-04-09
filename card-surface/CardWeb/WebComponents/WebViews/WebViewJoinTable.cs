@@ -146,7 +146,7 @@ namespace CardWeb.WebComponents.WebViews
 
             content += "Enter Seat Code:<br/>\n";
             content += "<form name=\"frmSeatCode\" method=\"POST\">\n";
-            content += "<input type=\"text\" name=\"" + FormFieldNameSeatCode + "\"/><br/>\n";
+            content += "<input type=\"text\" name=\"" + FormFieldNameSeatCode + "\" maxlength=\"" + CardGame.Properties.Settings.Default.SeatPasswordLength + "\"/><br/>\n";
             content += "<input type=\"submit\" value=\"Join Game\"/>\n";
             content += "</form>\n";
             content += "</body>\n";
