@@ -12,6 +12,7 @@ namespace CardCommunication
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using CardGame;
     using CommunicationException;
@@ -148,11 +149,13 @@ namespace CardCommunication
         /// Called when game list is updated.
         /// </summary>
         /// <param name="gameList">The game list.</param>
-        protected void OnUpdatedGameList(Collection<string> gameList)
+        protected void OnUpdatedGameList(object gameList)
         {
             if (this.OnUpdateGameList != null)
             {
-                this.OnUpdateGameList(gameList);
+                /* The gameList object must be casted as a collection because the method signature
+                 * requires an object parameter to function as a ParameterizedThreadStart. */
+                this.OnUpdateGameList((Collection<string>) gameList);
             }
         }
 
@@ -275,7 +278,13 @@ namespace CardCommunication
 
                     this.stringCollection = messageGameList.GameNameList;
 
-                    this.OnUpdateGameList(this.stringCollection);
+                    /* Because OnUpdatedGameList() triggers an event in the table components,
+                     * we need to call this from an STA thread to enable UI updates. */
+                    Thread onUpdateGameListThread = new Thread(new ParameterizedThreadStart(this.OnUpdatedGameList));
+                    onUpdateGameListThread.Name = "UpdateGameListThread";
+                    onUpdateGameListThread.SetApartmentState(ApartmentState.STA);
+                    onUpdateGameListThread.Start(this.stringCollection);
+                    onUpdateGameListThread.Join();      // Wait for this event call to finish
                 }
 
                 ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
