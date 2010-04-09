@@ -16,11 +16,6 @@ namespace CardGame
     [Serializable] public class Seat
     {
         /// <summary>
-        /// The length of the seat passwords that are used to join a table.
-        /// </summary>
-        private const int PasswordLength = 4;
-
-        /// <summary>
         /// The list of all of the passwords, used to prevent duplicate passwords from being generated.
         /// </summary>
         private static ObservableCollection<string> passwordBank = new ObservableCollection<string>();
@@ -257,9 +252,10 @@ namespace CardGame
         /// <returns>A string for a password.</returns>
         private static string GeneratePassword()
         {
+            int length = CardGame.Properties.Settings.Default.SeatPasswordLength;
             StringBuilder builder = new StringBuilder();
             Random random = new Random();
-            for (int i = 0; i < PasswordLength; i++)
+            for (int i = 0; i < length; i++)
             {
                 builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor((26 * random.NextDouble()) + 65))));
             }
