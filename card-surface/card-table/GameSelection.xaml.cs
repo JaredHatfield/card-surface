@@ -42,11 +42,9 @@ namespace CardTable
         {
             InitializeComponent();
 
-            this.tcc = new TableCommunicationController();
+            this.tcc = GameTableInstance.Instance.CommunicationController;
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
-
-            this.tcc.SendRequestGameListMessage();
 
             this.tcc.SendRequestGameListMessage();
 
@@ -55,13 +53,23 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for single string argument methods
+        /// </summary>
+        /// <param name="param">The single string parameter</param>
+        private delegate void OneArgDelegate(string param);
+
+        /// <summary>
         /// Called when [update game list].
+        /// Responsible for invoking the dispatcher for creating new SurfaceButtons on the window.
         /// </summary>
         /// <param name="gameList">The game list.</param>
         protected void OnUpdateGameList(Collection<string> gameList)
         {
-            ////This function updates the game list.
-        }
+            for (int i = 0; i < gameList.Count; i++)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddNewGameOption), gameList.ElementAt(i));
+            }
+        }        
 
         /// <summary>
         /// Occurs when the window is about to close.
@@ -76,17 +84,15 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Updates the game list.
+        /// Adds the new game option.  
+        /// This method should only be called via Dispatcher invocation.
         /// </summary>
-        /// <param name="gameList">The game list.</param>
-        private void UpdateGameList(System.Collections.ObjectModel.Collection<string> gameList)
+        /// <param name="gameName">Name of the game.</param>
+        private void AddNewGameOption(string gameName)
         {
-            for (int i = 0; i < gameList.Count; i++)
-            {
-                SurfaceButton sb = new SurfaceButton();
-                sb.Content = gameList.ElementAt(i);
-                this.Games.Items.Add(sb);
-            }
+            SurfaceButton sb = new SurfaceButton();
+            sb.Content = gameName;
+            this.Games.Items.Add(sb);
         }
 
         /// <summary>

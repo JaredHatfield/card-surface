@@ -14,19 +14,22 @@ namespace CardTable
     /// <summary>
     /// The game instance on the table.
     /// </summary>
-    internal class GameTableInstance : GameNetworkClient
+    internal class GameTableInstance
     {
+        /// <summary>
+        /// The singleton instance of GameTableInstance
+        /// </summary>
+        private static GameTableInstance instance = new GameTableInstance();
+
         /// <summary>
         /// The TableCommunicationController that coordinates the communication to the server.
         /// </summary>
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameTableInstance"/> class.
+        /// Prevents a default instance of the <see cref="GameTableInstance"/> class from being created.
         /// </summary>
-        /// <param name="server">The server to connect to.</param>
-        internal GameTableInstance(string server)
-            : base(server)
+        private GameTableInstance()
         {
             this.tableCommunicationController = new TableCommunicationController();
 
@@ -34,21 +37,21 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Gets the name of the game.
+        /// Gets the instance.
         /// </summary>
-        /// <value>The game's name.</value>
-        public override string Name
+        /// <value>The instance.</value>
+        public static GameTableInstance Instance
         {
-            get { throw new NotImplementedException(); }
+            get { return instance; }
         }
 
         /// <summary>
-        /// Gets a value indicating the minimum amount of money required to join a game.
+        /// Gets the communication controller.
         /// </summary>
-        /// <value>The minimum stake for the game.</value>
-        public override int MinimumStake
+        /// <value>The communication controller.</value>
+        public TableCommunicationController CommunicationController
         {
-            get { throw new NotImplementedException(); }
+            get { return this.tableCommunicationController; }
         }
     }
 }
