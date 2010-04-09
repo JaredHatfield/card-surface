@@ -31,29 +31,14 @@ namespace CardCommunication
         protected const int ServerListenerPortNumber = 30565;
 
         /// <summary>
-        /// The Port number of the transporter socket.
-        /// </summary>
-        protected const int ServerSendPortNumber = 30566;
-
-        /// <summary>
         /// The Port number of the listening socket.
         /// </summary>
         protected const int ClientListenerPortNumber = 30567;
 
         /// <summary>
-        /// The Port number of the transporter socket.
-        /// </summary>
-        protected const int ClientSendPortNumber = 30568;
-
-        /// <summary>
         /// The listening socket.
         /// </summary>
         private Socket socketListener = null;
-
-        /// <summary>
-        /// The transporter socket.
-        /// </summary>
-        private Socket socketTransporter = null;
 
         /// <summary>
         /// The IP Address of the system.
@@ -64,11 +49,6 @@ namespace CardCommunication
         /// The IPEndPoint of the listening socket.
         /// </summary>
         private IPEndPoint hostReceiveEndPoint;
-
-        /// <summary>
-        /// The IPEndPoint of the trasnporter socket.
-        /// </summary>
-        private IPEndPoint hostSendEndPoint;
 
         /// <summary>
         /// The IPEndPoint of the listnening socket of the remote machine.
@@ -130,15 +110,6 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets the socket transporter.
-        /// </summary>
-        /// <value>The socket transporter.</value>
-        protected Socket SocketTransporter
-        {
-            get { return this.socketTransporter; }
-        }
-
-        /// <summary>
         /// Gets the game controller.
         /// </summary>
         /// <value>The game controller.</value>
@@ -168,16 +139,6 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets or sets the host send end point of the system.
-        /// </summary>
-        /// <value>The host send end point.</value>
-        protected IPEndPoint HostSendEndPoint
-        {
-            get { return this.hostSendEndPoint; }
-            set { this.hostSendEndPoint = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the remote end point.
         /// </summary>
         /// <value>The remote end point.</value>
@@ -203,7 +164,7 @@ namespace CardCommunication
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Close(object sender, EventArgs args)
         {
-            this.SuccessfulTransport();
+            /* TODO: This should close the listener! */
         }
 
         /// <summary>
@@ -284,16 +245,16 @@ namespace CardCommunication
         /// <summary>
         /// Starts the transporter socket.
         /// </summary>
-        protected void StartTransporter()
+        /// <returns>A new Socket</returns>
+        protected Socket StartTransporter()
         {
             try
             {
-                if (this.socketTransporter == null)
-                {
-                    this.socketTransporter = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    this.socketTransporter.Bind(this.hostSendEndPoint);
-                    this.socketTransporter.NoDelay = true;
-                }
+                Socket socketTransporter = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socketTransporter.Connect(this.RemoteEndPoint);
+                socketTransporter.NoDelay = true;
+
+                return socketTransporter;
             }
             catch (Exception)
             {
@@ -415,15 +376,11 @@ namespace CardCommunication
 
             try
             {
-                this.StartTransporter();
-                this.socketTransporter.Poll(10, SelectMode.SelectWrite);
-                if (!this.socketTransporter.Connected)
-                {
-                    this.socketTransporter.Connect(this.RemoteEndPoint);
-                }
+                Socket transporter = this.StartTransporter();
+                transporter.Poll(10, SelectMode.SelectWrite);
 
-                this.socketTransporter.Send(data, 0, data.Length, SocketFlags.None);
-                this.SuccessfulTransport();
+                transporter.Send(data, 0, data.Length, SocketFlags.None);
+                this.SuccessfulTransport(transporter);
             }
             catch (Exception e)
             {
@@ -447,17 +404,18 @@ namespace CardCommunication
         /// <summary>
         /// Ends the Connection after a successful transport.
         /// </summary>
-        protected void SuccessfulTransport()
+        /// <param name="transporter">The transport socket.</param>
+        protected void SuccessfulTransport(Socket transporter)
         {
             try
             {
-                if (this.socketTransporter != null)
+                if (transporter != null)
                 {
                     LingerOption lo = new LingerOption(false, 0);
 
-                    this.socketTransporter.LingerState = lo;
-                    this.socketTransporter.Shutdown(SocketShutdown.Both);
-                    ////this.socketTransporter.Close();
+                    transporter.LingerState = lo;
+                    transporter.Shutdown(SocketShutdown.Both);
+                    transporter.Close();
                 }
             }
             catch (Exception)
