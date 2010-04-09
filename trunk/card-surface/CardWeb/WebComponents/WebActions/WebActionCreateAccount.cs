@@ -93,18 +93,29 @@ namespace CardWeb.WebComponents.WebActions
 
             if (passwordsMatched && accountDoesNotAlreadyExist)
             {
-                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/createaccount" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                if (AccountController.Instance.Authenticate(this.username, this.password))
+                {
+                    WebSession authenticatedSession = new WebSession(this.username);
+                    WebSessionController.Instance.Sessions.Add(authenticatedSession);
 
-                byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
-                numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
+                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Set-Cookie: " + WebCookie.CsidIdentifier + "=" + authenticatedSession.SessionId + "; expires=" + authenticatedSession.Expires + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
-                Debug.WriteLine("---------------------------------------------------------------------");
-                Debug.WriteLine("WebActionCreateAccount: Sending HTTP response (" + numBytesSent + " bytes).");
-                Debug.WriteLine(responseBuffer);
+                    byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
+                    numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-                this.request.Connection.Shutdown(SocketShutdown.Both);
-                this.request.Connection.Close();
+                    Debug.WriteLine("---------------------------------------------------------------------");
+                    Debug.WriteLine("WebActionCreateAccount: Sending HTTP response (" + numBytesSent + " bytes).");
+                    Debug.WriteLine(responseBuffer);
+
+                    this.request.Connection.Shutdown(SocketShutdown.Both);
+                    this.request.Connection.Close();
+                }
+                else
+                {
+                    throw new WebServerException("Successfully created account but automatic login attempt failed.");
+                }
             }
             else
             {
