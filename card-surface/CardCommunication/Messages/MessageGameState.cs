@@ -24,7 +24,7 @@ namespace CardCommunication.Messages
         /// </summary>
         public MessageGameState()
         {
-            MessageTypeName = MessageType.GameState.ToString();
+            ////MessageTypeName = MessageType.GameState.ToString();
         }
 
         /// <summary>

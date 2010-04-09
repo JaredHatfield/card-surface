@@ -228,6 +228,27 @@ namespace CardCommunication
 
                     this.TransportCommunication(messageGameList.MessageDocument);
                 }
+                else if (mt == Message.MessageType.RequestGame.ToString())
+                {
+                    MessageRequestGame messageRequestGame = new MessageRequestGame();
+
+                    messageRequestGame.ProcessMessage(messageDoc);
+
+                    if (messageRequestGame.GameType != String.Empty)
+                    {
+                        string gameType = messageRequestGame.GameType;
+
+                        Guid newGame = GameController.CreateGame(gameType);
+
+                        this.TransportCommunication(GameController.GetGame(newGame));
+                    }
+                    else
+                    {
+                        Guid selectedGameGuid = messageRequestGame.GameGuid;
+
+                        this.TransportCommunication(GameController.GetGame(selectedGameGuid));
+                    }
+                }
                 else if (mt == Message.MessageType.Action.ToString())
                 {
                     Collection<string> action;
