@@ -130,20 +130,9 @@ namespace CardCommunication.Messages
         /// <param name="body">The body to be processed.</param>
         protected override void ProcessBody(XmlElement body)
         {
-            foreach (XmlNode node in body.Attributes)
-            {
-                XmlAttribute a = (XmlAttribute)node;
+            XmlElement child = (XmlElement)body.FirstChild;
 
-                switch (node.Name)
-                {
-                    case "GameType":
-                        this.gameType = a.Value;
-                        break;
-                    case "GameGuid":
-                        this.gameGuid = new Guid(a.Value);
-                        break;
-                }
-            }
+            this.ProcessRequestGame(child);
         }
 
         /// <summary>
@@ -165,6 +154,28 @@ namespace CardCommunication.Messages
             }
 
             message.AppendChild(game);
+        }
+
+        /// <summary>
+        /// Processes the request game.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void ProcessRequestGame(XmlElement message)
+        {
+            foreach (XmlNode node in message.Attributes)
+            {
+                XmlAttribute a = (XmlAttribute)node;
+
+                switch (node.Name)
+                {
+                    case "GameType":
+                        this.gameType = a.Value;
+                        break;
+                    case "GameGuid":
+                        this.gameGuid = new Guid(a.Value);
+                        break;
+                }
+            }
         }
     }
 }
