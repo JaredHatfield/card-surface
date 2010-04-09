@@ -120,8 +120,8 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void GameSelectionClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Do you really want to create a new " + sender.ToString() + " game? (Click Event)");
-            this.tcc.SendRequestGameMessage(sender.ToString());
+            Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
+            this.tcc.SendRequestGameMessage(((SurfaceButton)sender).Content.ToString());
         }
 
         /// <summary>
