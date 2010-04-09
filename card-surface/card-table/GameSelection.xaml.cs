@@ -7,6 +7,7 @@ namespace CardTable
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -90,9 +91,22 @@ namespace CardTable
         /// <param name="gameName">Name of the game.</param>
         private void AddNewGameOption(string gameName)
         {
+            Debug.WriteLine("GameSelection.xaml.cs: Adding new " + gameName + " Game Option to the GameSelection SurfaceWindow.");
             SurfaceButton sb = new SurfaceButton();
             sb.Content = gameName;
+            /* The Surface, Surface Emulator, or Touch Screen may require additional event handlers to perform the needed action. */
+            sb.Click += new RoutedEventHandler(this.GameSelectionClick);
             this.Games.Items.Add(sb);
+        }
+
+        /// <summary>
+        /// Games the selection click.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void GameSelectionClick(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Do you really want to create a new " + sender.ToString() + " game? (Click Event)");
         }
 
         /// <summary>
