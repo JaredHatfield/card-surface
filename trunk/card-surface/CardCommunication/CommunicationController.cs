@@ -289,12 +289,33 @@ namespace CardCommunication
                         Array.Copy(this.gameHeader, header, this.gameHeader.Length);
                         Array.Copy(commObject.Buffer, 0, buffer, 0, this.gameHeader.Length);
 
-                        if (header == buffer)
-                        {
-                            byte[] b = { };
+                        bool same = true;
 
+                        for (int i = 0; i < header.Length && same; i++)
+                        {
+                            if (header[i] != buffer[i])
+                            {
+                                same = false;
+                            }
+                        }
+
+                        if (same)
+                        {
+                            byte[] temp = new byte[ms.ToArray().Length];
+                            byte[] newMS = new byte[temp.Length - this.gameHeader.Length];
+                            
                             //// Needs to check if first bytes are equal to the header and remove
-                            ms.Read(b, 0, this.gameHeader.Length);
+                            temp = ms.ToArray();
+
+                            for (int i = 0; i < newMS.Length; i++)
+                            {
+                                newMS[i] = temp[i + 15];
+                            }
+
+                            ms = new MemoryStream();
+
+                            ms.Write(newMS, 0, newMS.Length);
+
                             commObject.GameState = true;
                         }
 
@@ -411,9 +432,9 @@ namespace CardCommunication
             {
                 if (transporter != null)
                 {
-                    LingerOption lo = new LingerOption(false, 0);
+                    ////LingerOption lo = new LingerOption(false, 0);
 
-                    transporter.LingerState = lo;
+                    ////transporter.LingerState = lo;
                     transporter.Shutdown(SocketShutdown.Both);
                     transporter.Close();
                 }

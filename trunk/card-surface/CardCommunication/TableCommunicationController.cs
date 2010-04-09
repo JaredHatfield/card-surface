@@ -133,10 +133,6 @@ namespace CardCommunication
 
             /* TODO: Why are you using this instead of base? */
             this.TransportCommunication(message.MessageDocument);
-
-            while (!CommunicationCompleted)
-            {
-            }
         }
 
         /// <summary>
@@ -150,6 +146,10 @@ namespace CardCommunication
             message.BuildMessage(selectedGame);
 
             this.TransportCommunication(message.MessageDocument);
+
+            while (!CommunicationCompleted)
+            {
+            }
         }
 
         /// <summary>
@@ -262,6 +262,7 @@ namespace CardCommunication
         protected override void SetCommunicationCompleted()
         {
             CommunicationCompleted = true;
+            this.SocketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.SocketListener);
         }
 
         /// <summary>

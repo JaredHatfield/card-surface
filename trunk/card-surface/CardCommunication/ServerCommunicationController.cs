@@ -109,16 +109,17 @@ namespace CardCommunication
 
             try
             {
-                foreach (ClientObject co in this.clientList)
-                {
-                    if (co.Game == game.Id)
-                    {
+                //// TODO: this needs to be done depending on how the clientlist is created.
+                ////foreach (ClientObject co in this.clientList)
+                ////{
+                ////    if (co.Game == game.Id)
+                ////    {
                         Socket transporter = this.StartTransporter();
                         transporter.Poll(10, SelectMode.SelectWrite);
                         transporter.Send(data, 0, data.Length, SocketFlags.None);
                         this.SuccessfulTransport(transporter);
-                    }
-                }
+                ////    }
+                ////}
             }
             catch (Exception e)
             {
@@ -182,6 +183,7 @@ namespace CardCommunication
         protected override void SetCommunicationCompleted()
         {
             CommunicationCompleted = true;
+            this.SocketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.SocketListener);
         }
 
         /// <summary>
