@@ -10,6 +10,7 @@ namespace CardGameCommandLine
     using System.Text;
     using CardServer;
     using GameBlackjack;
+    using GameFreeplay;
 
     /// <summary>
     /// The Main Menu of the application.
@@ -33,8 +34,9 @@ namespace CardGameCommandLine
         {
             // Set the server up and teach it Blackjack
             this.serverController = new ServerController();
-            this.serverController.GameController.SubscribeGame(typeof(Blackjack), "Blackjack");
             this.gameController = this.serverController.GameController;
+            this.gameController.SubscribeGame(typeof(Blackjack), "Blackjack");
+            this.gameController.SubscribeGame(typeof(Freeplay), "Freeplay");
 
             // Keep prompting until the user decides to exit
             string input = string.Empty;
