@@ -93,7 +93,6 @@ namespace CardCommunication
         protected override void InitializeIPAddressPorts()
         {
             HostReceiveEndPoint = new IPEndPoint(BaseIPAddress, ServerListenerPortNumber);
-            HostSendEndPoint = new IPEndPoint(BaseIPAddress, ServerSendPortNumber);
         }
 
         /// <summary>
@@ -114,11 +113,10 @@ namespace CardCommunication
                 {
                     if (co.Game == game.Id)
                     {
-                        this.StartTransporter();
-                        SocketTransporter.Poll(10, SelectMode.SelectWrite);
-                        SocketTransporter.Connect(this.RemoteEndPoint);
-                        SocketTransporter.Send(data, 0, data.Length, SocketFlags.None);
-                        this.SuccessfulTransport();
+                        Socket transporter = this.StartTransporter();
+                        transporter.Poll(10, SelectMode.SelectWrite);
+                        transporter.Send(data, 0, data.Length, SocketFlags.None);
+                        this.SuccessfulTransport(transporter);
                     }
                 }
             }

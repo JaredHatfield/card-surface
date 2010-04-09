@@ -131,6 +131,7 @@ namespace CardCommunication
 
             message.BuildMessage(gameType);
 
+            /* TODO: Why are you using this instead of base? */
             this.TransportCommunication(message.MessageDocument);
 
             while (!CommunicationCompleted)
@@ -212,7 +213,6 @@ namespace CardCommunication
         protected override void InitializeIPAddressPorts()
         {
             HostReceiveEndPoint = new IPEndPoint(BaseIPAddress, ClientListenerPortNumber);
-            HostSendEndPoint = new IPEndPoint(BaseIPAddress, ClientSendPortNumber);
             RemoteEndPoint = new IPEndPoint(BaseIPAddress, ServerListenerPortNumber);
         }
 
@@ -270,11 +270,8 @@ namespace CardCommunication
         /// <param name="game">The game update.</param>
         protected override void UpdateGameState(Game game)
         {
-            //// Triggers event to update the state of the game.
-            //// this.OnUpdatedGameState(game);
-
             /* Because OnUpdatedGameList() triggers an event in the table components,
-                                 * we need to call this from an STA thread to enable UI updates. */
+             * we need to call this from an STA thread to enable UI updates. */
             Thread onUpdateGameListThread = new Thread(new ParameterizedThreadStart(this.OnUpdatedGameState));
             onUpdateGameListThread.Name = "UpdateGameStateThread";
             onUpdateGameListThread.SetApartmentState(ApartmentState.STA);
