@@ -34,12 +34,16 @@ namespace CardGame
         /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
-        protected internal Card()
-            : base()
+        /// <param name="id">The card's id.</param>
+        /// <param name="suit">The card's suit.</param>
+        /// <param name="face">The card's face.</param>
+        /// <param name="status">The card's status.</param>
+        internal Card(Guid id, CardSuit suit, CardFace face, CardStatus status)
+            : base(id)
         {
-            this.suit = CardSuit.Spades;
-            this.face = CardFace.Ace;
-            this.status = CardStatus.FaceDown;
+            this.suit = suit;
+            this.face = face;
+            this.status = status;
         }
 
         /// <summary>
@@ -48,12 +52,21 @@ namespace CardGame
         /// <param name="suit">The card's suit.</param>
         /// <param name="face">The card's face.</param>
         /// <param name="status">The card's status.</param>
-        protected internal Card(CardSuit suit, CardFace face, CardStatus status)
+        internal Card(CardSuit suit, CardFace face, CardStatus status)
             : base()
         {
             this.suit = suit;
             this.face = face;
             this.status = status;
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the Card class from being created.
+        /// </summary>
+        private Card()
+            : base()
+        {
+            // DO NOT USE THIS CONSTRUCTOR!
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace CardUnitTests
         public void ContainsTest()
         {
             Pile target = this.CreatePile();
-            PhysicalObject physicalObject = new Card();
+            PhysicalObject physicalObject = new Card(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
             Assert.IsFalse(target.ContainsPhysicalObject(physicalObject.Id), "Pile does not contain the object.");
             target.Open = true;
             target.AddItem(physicalObject);
