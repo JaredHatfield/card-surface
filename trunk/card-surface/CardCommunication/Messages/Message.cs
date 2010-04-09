@@ -85,14 +85,15 @@ namespace CardCommunication.Messages
             GameList,
 
             /// <summary>
-            /// The Game State Message.
-            /// </summary>
-            GameState,
-
-            /// <summary>
             /// The Request Existing Games Message.
             /// </summary>
             RequestExistingGames,
+
+            /// <summary>
+            /// The Request Game Message.
+            /// Requests to join or start a new game.
+            /// </summary>
+            RequestGame,
 
             /// <summary>
             /// The Request Game List Message.

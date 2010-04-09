@@ -46,7 +46,9 @@ namespace CardTable
             this.tcc = GameTableInstance.Instance.CommunicationController;
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
+            this.tcc.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
 
+            //// Out for testing purposes only.  Must be retained.
             this.tcc.SendRequestGameListMessage();
 
             // Add handlers for Application activation events
@@ -70,7 +72,19 @@ namespace CardTable
             {
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddNewGameOption), gameList.ElementAt(i));
             }
-        }        
+        }
+
+        /// <summary>
+        /// Called when [update game state].
+        /// Responsible for updating the game state.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        protected void OnUpdateGameState(Game game)
+        {
+            for (int i = 0; i < game.Seats.Count; i++)
+            {
+            }
+        }
 
         /// <summary>
         /// Occurs when the window is about to close.
@@ -107,6 +121,7 @@ namespace CardTable
         private void GameSelectionClick(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("Do you really want to create a new " + sender.ToString() + " game? (Click Event)");
+            this.tcc.SendRequestGameMessage(sender.ToString());
         }
 
         /// <summary>

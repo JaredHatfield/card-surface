@@ -33,6 +33,12 @@
           <xs:attribute name="MessageType" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
+      <xs:element name="RequestGame">
+        <xs:complexType>
+          <xs:attribute name="GameType" type="xs:string"></xs:attribute>
+          <xs:attribute name="GameGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="RequestExistingGames">
         <xs:complexType>
           <xs:attribute name="SelectedGame" type="xs:string"></xs:attribute>

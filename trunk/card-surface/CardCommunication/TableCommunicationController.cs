@@ -120,6 +120,25 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Sends the request join or create a game.
+        /// </summary>
+        /// <param name="gameType">Type of the game.</param>
+        public void SendRequestGameMessage(string gameType)
+        {
+            MessageRequestGame message = new MessageRequestGame();
+
+            this.CommunicationCompleted = false;
+
+            message.BuildMessage(gameType);
+
+            this.TransportCommunication(message.MessageDocument);
+
+            while (!CommunicationCompleted)
+            {
+            }
+        }
+
+        /// <summary>
         /// Sends the request existing games.
         /// </summary>
         /// <param name="selectedGame">The selected game.</param>
@@ -163,11 +182,13 @@ namespace CardCommunication
         /// Called when [updated existing games].
         /// </summary>
         /// <param name="existingGames">The existing games.</param>
-        protected void OnUpdatedExistingGames(Collection<string> existingGames)
+        protected void OnUpdatedExistingGames(object existingGames)
         {
             if (this.OnUpdateExistingGames != null)
             {
-                this.OnUpdateExistingGames(existingGames);
+                /* The existingGames object must be casted as a collection because the method signature
+                 * requires an object parameter to function as a ParameterizedThreadStart. */
+                this.OnUpdateExistingGames((Collection<string>)existingGames);
             }
         }
 
@@ -175,11 +196,13 @@ namespace CardCommunication
         /// Called when game state is updated.
         /// </summary>
         /// <param name="game">The game update.</param>
-        protected void OnUpdatedGameState(Game game)
+        protected void OnUpdatedGameState(object game)
         {
             if (this.OnUpdateGameState != null)
             {
-                this.OnUpdateGameState(game);
+                /* The game object must be casted as a collection because the method signature
+                 * requires an object parameter to function as a ParameterizedThreadStart. */
+                this.OnUpdateGameState((Game)game);
             }
         }
 
@@ -248,7 +271,15 @@ namespace CardCommunication
         protected override void UpdateGameState(Game game)
         {
             //// Triggers event to update the state of the game.
-            this.OnUpdatedGameState(game);
+            //// this.OnUpdatedGameState(game);
+
+            /* Because OnUpdatedGameList() triggers an event in the table components,
+                                 * we need to call this from an STA thread to enable UI updates. */
+            Thread onUpdateGameListThread = new Thread(new ParameterizedThreadStart(this.OnUpdatedGameState));
+            onUpdateGameListThread.Name = "UpdateGameStateThread";
+            onUpdateGameListThread.SetApartmentState(ApartmentState.STA);
+            onUpdateGameListThread.Start(game);
+            onUpdateGameListThread.Join();      // Wait for this event call to finish        
         }
 
         /// <summary>
