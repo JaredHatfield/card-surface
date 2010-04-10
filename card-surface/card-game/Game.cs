@@ -601,7 +601,7 @@ namespace CardGame
         /// <returns>The instance of the pile containing the specified physical object; otherwise null.</returns>
         protected internal Pile GetPileContaining(Guid physicalObjectId)
         {
-            if (this.GamingArea.GetPhysicalObject(physicalObjectId) != null)
+            if (this.GamingArea.ContainsCard(physicalObjectId) || this.GamingArea.ContainsChip(physicalObjectId))
             {
                 return this.GamingArea.GetPileContaining(physicalObjectId);
             }

@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A pile of cards
@@ -114,7 +115,7 @@ namespace CardGame
             }
             else
             {
-                return null;
+                throw new CardGamePhysicalObjectNotFoundException();
             }
         }
 
@@ -251,11 +252,10 @@ namespace CardGame
             // Lets make sure we are not doing this to the same pile and avoid a nasty infinite loop.
             if (!this.Id.Equals(destination.Id))
             {
-                ICard card = this.DrawCard();
-                while (card != null)
+                while (this.NumberOfItems > 0)
                 {
+                    ICard card = this.DrawCard();
                     destination.AddItem(card);
-                    card = this.DrawCard();
                 }
             }
         }

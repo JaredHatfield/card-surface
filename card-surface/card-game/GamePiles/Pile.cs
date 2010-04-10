@@ -83,7 +83,7 @@ namespace CardGame
                 }
                 else
                 {
-                    return null;
+                    throw new CardGamePhysicalObjectNotFoundException();
                 }
             }
         }
@@ -158,9 +158,9 @@ namespace CardGame
         /// </returns>
         public bool ContainsPhysicalObject(Guid physicalObject)
         {
-            for (int i = 0; i < this.Items.Count; i++)
+            for (int i = 0; i < this.pileItems.Count; i++)
             {
-                if (this.Items[i].Id.Equals(physicalObject))
+                if (this.pileItems[i].Id.Equals(physicalObject))
                 {
                     return true;
                 }
