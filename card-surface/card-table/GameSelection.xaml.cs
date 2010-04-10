@@ -37,6 +37,11 @@ namespace CardTable
         private object gameReceivedSemaphore;
 
         /// <summary>
+        /// The latest game object to be updated.  Should only be access when in control of gameReceivedSemaphore.
+        /// </summary>
+        private Game gameToUpdate;
+
+        /// <summary>
         /// The TableCommunicationController for this GameTableInstance
         /// </summary>
         private TableCommunicationController tcc;
@@ -95,9 +100,9 @@ namespace CardTable
             /* When GameSelection.xaml receives this event, it means a new Game has been created.
              * We need to send it to GameTableInstance to create the new CardTableWindow. */
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
-            GameTableInstance.Instance.CreateNewGame(game);
             lock (this.gameReceivedSemaphore)
             {
+                this.gameToUpdate = game;
                 /* Notify the window UI that we've attached a new game for play. */
                 Monitor.Pulse(this.gameReceivedSemaphore);
             }
@@ -155,11 +160,13 @@ namespace CardTable
             {
                 while (GameTableInstance.Instance.CurrentGame == null)
                 {
+                    Debug.WriteLine("GameSelection.xaml.cs: Waiting for GameState response...");
                     Monitor.Wait(this.gameReceivedSemaphore);
+                    Debug.WriteLine("GameSelection.xaml.cs: New Game Received!");
+                    GameTableInstance.Instance.CreateNewGame(this.gameToUpdate);
+                    GameTableInstance.Instance.GameWindow.Show();
                 }
             }
-
-            GameTableInstance.Instance.GameWindow.Show();
         }
 
         /// <summary>

@@ -43,7 +43,6 @@ namespace CardTable
         private GameTableInstance()
         {
             this.game = null;
-            this.gameWindow = new CardTableWindow();
             this.tableCommunicationController = new TableCommunicationController();
 
             // TODO: Customize this class so that it does something useful.
@@ -92,6 +91,7 @@ namespace CardTable
         public void CreateNewGame(Game game)
         {
             this.game = game;
+            this.gameWindow = new CardTableWindow();
         }
     }
 }

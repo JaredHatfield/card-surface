@@ -1,7 +1,8 @@
 ﻿<s:SurfaceUserControl x:Class="CardTable.SurfacePlayerArea"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="http://schemas.microsoft.com/surface/2008" Height="300" Width="300">
+    xmlns:s="http://schemas.microsoft.com/surface/2008" 
+    xmlns:local="clr-namespace:CardTable" Height="233" Width="333">
     <Grid>
         <Grid.Resources>
             <!-- A template describing the view of each piece of library data -->
