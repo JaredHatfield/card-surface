@@ -13,14 +13,12 @@ namespace GameFreeplay
     /// <summary>
     /// A freeplay mode that does not restrict game movements and provides no actions.
     /// </summary>
-    public class Freeplay : Game
+    [Serializable] public class Freeplay : Game
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Freeplay"/> class.
         /// </summary>
-        [Serializable]
-        public Freeplay()
-            : base()
+        public Freeplay() : base()
         {
             // Add a deck of cards to the game
             CardPile destinationDeck = (CardPile)this.GetPile(this.DeckPile);
