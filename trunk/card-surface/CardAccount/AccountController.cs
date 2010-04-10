@@ -12,6 +12,7 @@ namespace CardAccount
     using System.Reflection;
     using System.Text;
     using System.Xml;
+    using AccountException;
 
     /// <summary>
     /// The AccountController is responsible for managing the systems users.
@@ -108,10 +109,9 @@ namespace CardAccount
 
                     success = this.CreateFlatFile(this.file);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("Exception caught creating Game Account.", e);
-                    success = false;
+                    throw new CardAccountCreationException();
                 }
             }
 
@@ -219,8 +219,7 @@ namespace CardAccount
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error has occurred while creating file.", e);
-                success = false;
+                throw new CardAccountFileAccessException();
             }
 
             return success;
