@@ -54,6 +54,7 @@ namespace CardGame
             this.hand.Open = true;
             this.playerArea = new PlayingArea();
             this.bankPile = new BankPile(this);
+            this.bankPile.Open = true;
             this.turn = false;
             this.actions = new ObservableCollection<string>();
         }
@@ -197,6 +198,10 @@ namespace CardGame
             {
                 return true;
             }
+            else if (this.bankPile.Id.Equals(pileId))
+            {
+                return true;
+            }
             else if (this.playerArea.ContainsPile(pileId))
             {
                 return true;
@@ -236,6 +241,10 @@ namespace CardGame
             if (this.hand.Id.Equals(pileId))
             {
                 return this.hand;
+            }
+            else if (this.bankPile.Id.Equals(pileId))
+            {
+                return this.bankPile;
             }
             else
             {
