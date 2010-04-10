@@ -159,7 +159,7 @@ namespace CardGame
             {
                 if (this.Chips[i].ContainsPhysicalObject(id))
                 {
-                    return this.Cards[i].GetPhysicalObject(id);
+                    return this.Chips[i].GetPhysicalObject(id);
                 }
             }
 
