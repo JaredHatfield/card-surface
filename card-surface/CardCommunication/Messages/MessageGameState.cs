@@ -11,7 +11,6 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
-    using GameBlackjack;
     ////using GameObject;
 
     /// <summary>
@@ -28,28 +27,57 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Builds the message.
+        /// </summary>
+        /// <param name="gameNameList">The game name list.</param>
+        /// <returns>whether the message was built.</returns>
+        public bool BuildMessage(Game game)
+        {
+            XmlElement message = this.MessageDocument.CreateElement("Message");
+            bool success = true;
+
+            try
+            {
+                this.Game = game;
+
+                message.SetAttribute("MessageType", this.MessageTypeName);
+                this.BuildHeader(ref message);
+                this.BuildBody(ref message);
+
+                this.MessageDocument.InnerXml = message.OuterXml;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error Building Message", e);
+                success = false;
+            }
+
+            return success;
+        }
+
+        /// <summary>
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
         public override void ProcessMessage(XmlDocument messageDoc)
         {
-            //// Do not implement; this code is never executed.
-            throw new NotImplementedException();
+            XmlElement message = messageDoc.DocumentElement;
+
+            foreach (XmlNode node in message.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+
+                switch (node.Name)
+                {
+                    case "Header":
+                        this.ProcessHeader(element);
+                        break;
+                    case "Body":
+                        this.ProcessBody(element);
+                        break;
+                }
+            }
         }
-
-        /////// <summary>
-        /////// Builds the header.
-        /////// </summary>
-        /////// <param name="message">The message.</param>
-        ////protected override void BuildHeader(ref XmlElement message)
-        ////{
-        ////    XmlElement header = this.MessageDocument.CreateElement("Header");
-        ////    DateTime time = DateTime.UtcNow;
-
-        ////    header.SetAttribute("TimeStamp", time.ToString());
-        ////    message.AppendChild(header);
-        ////}
-
         /// <summary>
         /// Builds the body.
         /// </summary>

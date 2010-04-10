@@ -80,6 +80,16 @@ namespace CardCommunication.Messages
             Action,
 
             /// <summary>
+            /// The Existing Games Message
+            /// </summary>
+            ExistingGames,
+
+            /// <summary>
+            /// The Flip Card Message.
+            /// </summary>
+            FlipCard,
+
+            /// <summary>
             /// The Game List Message.
             /// </summary>
             GameList,

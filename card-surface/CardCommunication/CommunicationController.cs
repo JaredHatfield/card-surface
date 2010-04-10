@@ -12,8 +12,10 @@ namespace CardCommunication
     using System.Net.Sockets;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Runtime.Serialization.Formatters.Soap;
     using System.Text;
     using System.Xml;
+    using System.Xml.Serialization;
     using CardGame;
     using CommunicationException;
     using Messages;
@@ -343,7 +345,9 @@ namespace CardCommunication
                         if (commObject.GameState)
                         {
                             BinaryFormatter bf = new BinaryFormatter();
-                            Game game = (Game)bf.Deserialize(ms);
+                            ////bf.Binder = new AllowAllVersionsDeserializationBinder();
+
+                            GameNetworkClient game = (GameNetworkClient)bf.Deserialize(ms);
 
                             this.UpdateGameState(game);
                         }

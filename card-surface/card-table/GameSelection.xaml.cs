@@ -53,7 +53,7 @@ namespace CardTable
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
             this.tcc.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
-
+            this.tcc.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(OnUpdateExistingGames);
             //// Out for testing purposes only.  Must be retained.
             this.tcc.SendRequestGameListMessage();
 
@@ -100,6 +100,13 @@ namespace CardTable
             {
                 /* Notify the window UI that we've attached a new game for play. */
                 Monitor.Pulse(this.gameReceivedSemaphore);
+            }
+        }
+
+        protected void OnUpdateExistingGames(Collection<object> existingGames)
+        {
+            for (int i = 0; i < existingGames.Count; i++)
+            {
             }
         }
 

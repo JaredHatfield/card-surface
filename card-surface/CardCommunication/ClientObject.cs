@@ -21,17 +21,17 @@ namespace CardCommunication
         private Guid game;
 
         /// <summary>
-        /// IPEndPoint of the Client.
+        /// IPAddress of the Client.
         /// </summary>
-        private IPEndPoint clientIPEndPoint;
+        private IPAddress clientIPAddress;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientObject"/> class.
         /// </summary>
         /// <param name="ip">The ip end point.</param>
-        public ClientObject(IPEndPoint ip)
+        public ClientObject(IPAddress ip)
         {
-            this.clientIPEndPoint = ip;
+            this.clientIPAddress = ip;
         }
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets or sets the client IP end point.
+        /// Gets or sets the client IP address.
         /// </summary>
-        /// <value>The client IP end point.</value>
-        public IPEndPoint ClientIPEndPoint
+        /// <value>The client IP address.</value>
+        public IPAddress ClientIPAddress
         {
-            get { return this.clientIPEndPoint; }
-            set { this.clientIPEndPoint = value; }
+            get { return this.clientIPAddress; }
+            set { this.clientIPAddress = value; }
         }
     }
 }
