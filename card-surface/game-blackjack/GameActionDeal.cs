@@ -57,6 +57,7 @@ namespace GameBlackjack
                     p.Hand.Open = true;
                     blackjack.MoveAction(deck.TopItem.Id, p.Hand.Id);
                     blackjack.MoveAction(deck.TopItem.Id, p.Hand.Id);
+                    (p.Hand.Cards[0] as ICard).Status = Card.CardStatus.FaceDown;
                     (p.Hand.Cards[1] as ICard).Status = Card.CardStatus.FaceUp;
 
                     if (BlackjackRules.GetPileVale(p.Hand) < 21)

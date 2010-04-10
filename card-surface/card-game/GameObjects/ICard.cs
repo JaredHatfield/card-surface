@@ -41,5 +41,11 @@ namespace CardGame
             get;
             set;
         }
+
+        /// <summary>
+        /// Flips this card from face up to face down or face down to face up.
+        /// </summary>
+        /// <returns>True if card was flipped; otherwise false.</returns>
+        bool Flip();
     }
 }

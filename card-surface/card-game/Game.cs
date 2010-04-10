@@ -143,6 +143,26 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Flips a card from face up to face down or face down to face up.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <returns>
+        /// True if card was flipped; otherwise false.
+        /// </returns>
+        public bool FlipCard(Guid id)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Player.ContainsCard(id))
+                {
+                    return this.seats[i].Player.FlipCard(id);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets the player at a specific seat.
         /// </summary>
         /// <param name="location">The location of the player.</param>

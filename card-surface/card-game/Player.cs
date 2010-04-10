@@ -124,6 +124,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Flips a card from face up to face down or face down to face up.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <returns>
+        /// True if card was flipped; otherwise false.
+        /// </returns>
+        public bool FlipCard(Guid id)
+        {
+            if (this.hand.ContainsPhysicalObject(id))
+            {
+                return this.hand.Flip(id);
+            }
+            else
+            {
+                return this.playerArea.FlipCard(id);
+            }
+        }
+
+        /// <summary>
         /// Determines whether the specified card id is held by the player.
         /// </summary>
         /// <param name="cardId">The unique card id.</param>

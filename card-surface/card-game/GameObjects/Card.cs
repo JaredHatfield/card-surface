@@ -221,6 +221,31 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Flips this card from face up to face down or face down to face up.
+        /// </summary>
+        /// <returns>True if card was flipped; otherwise false.</returns>
+        public bool Flip()
+        {
+            if (this.status.Equals(CardStatus.FaceDown))
+            {
+                // FaceDown -> FaceUp
+                this.status = CardStatus.FaceUp;
+                return true;
+            }
+            else if (this.status.Equals(CardStatus.FaceUp))
+            {
+                // FaceUp -> FaceDown
+                this.status = CardStatus.FaceDown;
+                return true;
+            }
+            else
+            {
+                // If card is hidden or disabled, we can't flip it!
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type.
         /// </summary>
         /// <param name="obj">An object to compare with this instance.</param>
