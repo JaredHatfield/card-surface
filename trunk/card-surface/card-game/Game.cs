@@ -67,6 +67,20 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Game"/> class.
+        /// This creates a copy of a Game and is used in converting a specific instance of a Game from one type to another.
+        /// </summary>
+        /// <param name="game">The game to mimic.</param>
+        protected Game(Game game)
+        {
+            this.id = game.id;
+            this.gamingArea = game.gamingArea;
+            this.deckPile = game.deckPile;
+            this.seats = game.seats;
+            this.actions = game.actions;
+        }
+
+        /// <summary>
         /// Gets the name of the game.
         /// </summary>
         /// <value>The game's name.</value>

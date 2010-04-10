@@ -17,6 +17,7 @@ namespace CardCommunication
     using System.Xml;
     using CardGame;
     using CommunicationException;
+    using GameObject;
     using Messages;
 
     /// <summary>
@@ -105,7 +106,7 @@ namespace CardCommunication
             {
                 MemoryStream gameStream = new MemoryStream();
                 BinaryFormatter bf = new BinaryFormatter();
-                GameNetworkClient gameNetworkClient = new GameNetworkClient(game);
+                Game gameNetworkClient = new GameMessage(game);
 
                 gameStream.Write(GameHeader, 0, GameHeader.Length);
                 bf.Serialize(gameStream, gameNetworkClient);
