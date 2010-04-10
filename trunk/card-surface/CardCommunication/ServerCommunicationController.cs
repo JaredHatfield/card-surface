@@ -101,25 +101,29 @@ namespace CardCommunication
         /// <param name="game">The game to be sent.</param>
         protected override void TransportCommunication(Game game)
         {
-            MemoryStream gameStream = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            gameStream.Write(GameHeader, 0, GameHeader.Length);
-            bf.Serialize(gameStream, game);
-            byte[] data = gameStream.ToArray();
-
             try
             {
-                //// TODO: this needs to be done depending on how the clientlist is created.
-                ////foreach (ClientObject co in this.clientList)
-                ////{
-                ////    if (co.Game == game.Id)
-                ////    {
+                MemoryStream gameStream = new MemoryStream();
+                BinaryFormatter bf = new BinaryFormatter();
+                GameNetworkClient gameNetworkClient = new GameNetworkClient(game);
+
+                gameStream.Write(GameHeader, 0, GameHeader.Length);
+                bf.Serialize(gameStream, gameNetworkClient);
+                byte[] data = gameStream.ToArray();
+           
+                /* Send Game State to every table that are playing this game. */
+                foreach (ClientObject co in this.clientList)
+                {
+                    if (co.Game == game.Id)
+                    {
+                        RemoteEndPoint = new IPEndPoint(co.ClientIPAddress, ClientListenerPortNumber);
+
                         Socket transporter = this.StartTransporter();
                         transporter.Poll(10, SelectMode.SelectWrite);
                         transporter.Send(data, 0, data.Length, SocketFlags.None);
                         this.SuccessfulTransport(transporter);
-                ////    }
-                ////}
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -139,10 +143,12 @@ namespace CardCommunication
                 Socket socketWorker = (Socket)asyncResult.AsyncState;
                 Socket socketProcessor = socketWorker.EndAccept(asyncResult);
                 bool found = false;
+                IPEndPoint remoteEP = (IPEndPoint)socketProcessor.RemoteEndPoint;
+                IPAddress address = remoteEP.Address;
 
                 foreach (ClientObject co in this.clientList)
                 {
-                    if (socketProcessor.RemoteEndPoint == co.ClientIPEndPoint)
+                    if (address.Equals(co.ClientIPAddress))
                     {
                         found = true;
                     }
@@ -150,7 +156,7 @@ namespace CardCommunication
 
                 if (!found)
                 {
-                    ClientObject co = new ClientObject((IPEndPoint)socketProcessor.RemoteEndPoint);
+                    ClientObject co = new ClientObject(address);
 
                     this.clientList.Add(co);
                 }
@@ -208,7 +214,7 @@ namespace CardCommunication
                 XmlElement message = messageDoc.DocumentElement;
                 XmlAttribute messageType;
                 IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
-                Guid gameGuid = this.GetGameGuid(remoteIPEndPoint);
+                Guid gameGuid = this.GetGameGuid(remoteIPAddress);
                 string mt;
 
                 this.RemoteEndPoint = remoteIPEndPoint;
@@ -237,14 +243,34 @@ namespace CardCommunication
                     if (messageRequestGame.GameType != String.Empty)
                     {
                         string gameType = messageRequestGame.GameType;
+                        bool found = false;
 
                         Guid newGame = GameController.CreateGame(gameType);
+
+                        foreach (ClientObject co in this.clientList)
+                        {
+                            if (co.ClientIPAddress.Equals(remoteIPAddress) && !found)
+                            {
+                                co.Game = newGame;
+                                found = true;
+                            }
+                        }
 
                         this.TransportCommunication(GameController.GetGame(newGame));
                     }
                     else
                     {
                         Guid selectedGameGuid = messageRequestGame.GameGuid;
+                        bool found = false;
+
+                        foreach (ClientObject co in this.clientList)
+                        {
+                            if (co.ClientIPAddress.Equals(remoteIPAddress) && !found)
+                            {
+                                co.Game = selectedGameGuid;
+                                found = true;
+                            }
+                        }
 
                         this.TransportCommunication(GameController.GetGame(selectedGameGuid));
                     }
@@ -274,9 +300,23 @@ namespace CardCommunication
                         GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
                     }
                 }
+                else if (mt == Message.MessageType.FlipCard.ToString())
+                {
+                    MessageFlipCard messageFlipCard = new MessageFlipCard();
+
+                    messageFlipCard.ProcessMessage(messageDoc);
+
+                    Guid cardGuid = messageFlipCard.CardGuid;
+
+                    GameController.GetGame(gameGuid).FlipCard(cardGuid);
+                }
+                else if (mt == Message.MessageType.RequestExistingGames.ToString())
+                {
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw new MessageProcessException("Server.ConvertXMLToMessage");
             }
         }
@@ -284,16 +324,16 @@ namespace CardCommunication
         /// <summary>
         /// Gets the game GUID.
         /// </summary>
-        /// <param name="remoteIPEndPoint">The remote IP end point.</param>
+        /// <param name="remoteIPEndPoint">The remote IP address.</param>
         /// <returns>the guid of the game.</returns>
-        protected Guid GetGameGuid(IPEndPoint remoteIPEndPoint)
+        protected Guid GetGameGuid(IPAddress remoteIPAddress)
         {
             Guid gameGuid = Guid.Empty;
             bool found = false;
 
             foreach (ClientObject co in this.clientList)
             {
-                if (co.ClientIPEndPoint == remoteIPEndPoint && !found)
+                if (co.ClientIPAddress.Equals(remoteIPAddress) && !found)
                 {
                     gameGuid = co.Game;
                     found = true;

@@ -23,6 +23,16 @@
           <xs:attribute name="game" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
+      <xs:element name="ExistingGames">
+        <xs:complexType>
+          <xs:attribute name="ExistingGamesList" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FlipCard">
+        <xs:complexType>
+          <xs:attribute name="CardGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="GameList">
         <xs:complexType>
           <xs:attribute name="NameList" type="xs:string"></xs:attribute>

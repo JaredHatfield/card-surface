@@ -11,7 +11,6 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
-    using GameBlackjack;
     ////using GameObject;
 
     /// <summary>

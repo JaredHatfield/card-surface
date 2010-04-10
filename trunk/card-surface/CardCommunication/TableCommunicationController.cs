@@ -75,7 +75,7 @@ namespace CardCommunication
         /// Delegate for Updating the list of existing games.
         /// </summary>
         /// <param name="existingGames">The list of existing games.</param>
-        public delegate void UpdateExistingGamesHandler(Collection<string> existingGames); //// don't know contents yet.
+        public delegate void UpdateExistingGamesHandler(Collection<object> existingGames); //// don't know contents yet.
 
         /// <summary>
         /// Delegate for updating the game state.
@@ -165,6 +165,15 @@ namespace CardCommunication
             this.TransportCommunication(message.MessageDocument);
         }
 
+        public void SendFlipCardMessage(Guid cardGuid)
+        {
+            MessageFlipCard message = new MessageFlipCard();
+
+            message.BuildMessage(cardGuid);
+
+            this.TransportCommunication(message.MessageDocument);
+        }
+
         /// <summary>
         /// Called when game list is updated.
         /// </summary>
@@ -189,7 +198,7 @@ namespace CardCommunication
             {
                 /* The existingGames object must be casted as a collection because the method signature
                  * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateExistingGames((Collection<string>)existingGames);
+                this.OnUpdateExistingGames((Collection<object>)existingGames);
             }
         }
 
@@ -316,7 +325,7 @@ namespace CardCommunication
                     onUpdateGameListThread.Join();      // Wait for this event call to finish
                 }
 
-                ////else if (mt == Message.MessageType.RequestExistingGames.ToString())
+                ////else if (mt == Message.MessageType.ExistingGames.ToString())
                 ////{
                 ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
 
