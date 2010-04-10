@@ -347,7 +347,7 @@ namespace CardCommunication
                             BinaryFormatter bf = new BinaryFormatter();
                             ////bf.Binder = new AllowAllVersionsDeserializationBinder();
 
-                            GameNetworkClient game = (GameNetworkClient)bf.Deserialize(ms);
+                            Game game = (Game)bf.Deserialize(ms);
 
                             this.UpdateGameState(game);
                         }

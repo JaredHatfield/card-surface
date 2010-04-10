@@ -325,7 +325,7 @@ namespace CardCommunication
         /// <summary>
         /// Gets the game GUID.
         /// </summary>
-        /// <param name="remoteIPEndPoint">The remote IP address.</param>
+        /// <param name="remoteIPAddress">The remote IP address.</param>
         /// <returns>the guid of the game.</returns>
         protected Guid GetGameGuid(IPAddress remoteIPAddress)
         {
