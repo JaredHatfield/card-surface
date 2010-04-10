@@ -29,7 +29,7 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Builds the message.
         /// </summary>
-        /// <param name="gameNameList">The game name list.</param>
+        /// <param name="game">The game to be built.</param>
         /// <returns>whether the message was built.</returns>
         public bool BuildMessage(Game game)
         {
@@ -78,6 +78,7 @@ namespace CardCommunication.Messages
                 }
             }
         }
+
         /// <summary>
         /// Builds the body.
         /// </summary>

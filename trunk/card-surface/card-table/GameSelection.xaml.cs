@@ -53,7 +53,7 @@ namespace CardTable
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
             this.tcc.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
-            this.tcc.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(OnUpdateExistingGames);
+            this.tcc.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.OnUpdateExistingGames);
             //// Out for testing purposes only.  Must be retained.
             this.tcc.SendRequestGameListMessage();
 
@@ -103,6 +103,10 @@ namespace CardTable
             }
         }
 
+        /// <summary>
+        /// Called when [update existing games].
+        /// </summary>
+        /// <param name="existingGames">The existing games.</param>
         protected void OnUpdateExistingGames(Collection<object> existingGames)
         {
             for (int i = 0; i < existingGames.Count; i++)

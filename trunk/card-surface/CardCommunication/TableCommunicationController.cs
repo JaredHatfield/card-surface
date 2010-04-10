@@ -165,6 +165,10 @@ namespace CardCommunication
             this.TransportCommunication(message.MessageDocument);
         }
 
+        /// <summary>
+        /// Sends the flip card message.
+        /// </summary>
+        /// <param name="cardGuid">The card GUID.</param>
         public void SendFlipCardMessage(Guid cardGuid)
         {
             MessageFlipCard message = new MessageFlipCard();
