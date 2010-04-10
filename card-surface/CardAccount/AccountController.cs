@@ -6,6 +6,7 @@ namespace CardAccount
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.IO.Compression;
     using System.Linq;
@@ -217,7 +218,7 @@ namespace CardAccount
                 gzipstream.Close();
                 filestream.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new CardAccountFileAccessException();
             }
@@ -270,15 +271,19 @@ namespace CardAccount
                     gzipstream.Close();
                     filestream.Close();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("Error occurred writing to Flat file.", e);
+                    Debug.WriteLine("Error occurred writing to Flat file.", e);
                     success = false;
 
                     if (this.file == file)
                     {
-                        Console.WriteLine("Attempt to read from backup file.");
-                        this.ReadFlatFile(file + "Backup");
+                        Debug.WriteLine("Attempt to read from backup file.");
+                        return this.ReadFlatFile(file + "Backup");
+                    }
+                    else
+                    {
+                        throw new CardAccountFileAccessException();
                     }
                 }
             }
