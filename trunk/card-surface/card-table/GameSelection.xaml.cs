@@ -10,6 +10,7 @@ namespace CardTable
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -32,6 +33,11 @@ namespace CardTable
     public partial class GameSelection : SurfaceWindow
     {
         /// <summary>
+        /// Semaphore for waiting and notifying this window that a Game object has been received via communication
+        /// </summary>
+        private object gameReceivedSemaphore;
+
+        /// <summary>
         /// The TableCommunicationController for this GameTableInstance
         /// </summary>
         private TableCommunicationController tcc;
@@ -43,6 +49,7 @@ namespace CardTable
         {
             InitializeComponent();
 
+            this.gameReceivedSemaphore = new object();
             this.tcc = GameTableInstance.Instance.CommunicationController;
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
@@ -56,10 +63,15 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Generic delegate utilized by Dispatcher invocations for single string argument methods
+        /// Generic delegate utilized by Dispatcher invocations for single string argument methods returning void
         /// </summary>
         /// <param name="param">The single string parameter</param>
         private delegate void OneArgDelegate(string param);
+
+        /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for methods containing no arugments and returning void
+        /// </summary>
+        private delegate void NoArgDelegate();
 
         /// <summary>
         /// Called when [update game list].
@@ -81,8 +93,14 @@ namespace CardTable
         /// <param name="game">The game update.</param>
         protected void OnUpdateGameState(Game game)
         {
-            for (int i = 0; i < game.Seats.Count; i++)
+            /* When GameSelection.xaml receives this event, it means a new Game has been created.
+             * We need to send it to GameTableInstance to create the new CardTableWindow. */
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
+            GameTableInstance.Instance.CreateNewGame(game);
+            lock (this.gameReceivedSemaphore)
             {
+                /* Notify the window UI that we've attached a new game for play. */
+                Monitor.Pulse(this.gameReceivedSemaphore);
             }
         }
 
@@ -122,6 +140,16 @@ namespace CardTable
         {
             Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
             this.tcc.SendRequestGameMessage(((SurfaceButton)sender).Content.ToString());
+
+            lock (this.gameReceivedSemaphore)
+            {
+                while (GameTableInstance.Instance.CurrentGame == null)
+                {
+                    Monitor.Wait(this.gameReceivedSemaphore);
+                }
+            }
+
+            GameTableInstance.Instance.GameWindow.Show();
         }
 
         /// <summary>
