@@ -8,6 +8,7 @@ namespace CardGame
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
+    using CardGame.GameException;
 
     /// <summary>
     /// A playing area for chips and cards.
@@ -162,7 +163,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePhysicalObjectNotFoundException();
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePileNotFoundException();
         }
 
         /// <summary>
@@ -214,7 +215,7 @@ namespace CardGame
                 }
             }
 
-            return null;
+            throw new CardGamePileNotFoundException();
         }
 
         /// <summary>
