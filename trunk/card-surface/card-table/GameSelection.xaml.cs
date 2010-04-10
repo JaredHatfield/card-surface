@@ -22,7 +22,6 @@ namespace CardTable
     using System.Windows.Threading;
     using CardCommunication;
     using CardGame;
-    using GameBlackjack;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
