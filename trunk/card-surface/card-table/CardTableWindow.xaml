@@ -3,27 +3,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:CardTable"
+    xmlns:g="clr-namespace:CardGame;assembly=CardGame"
     Title="CardTable" Height="700" Width="1000"
     Icon="Resources/CardTableIcon.ico">
   <s:SurfaceWindow.Resources>
     <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/WindowBackground.jpg"/>
-    </s:SurfaceWindow.Resources>
-  <Grid Background="{StaticResource WindowBackground}" >
-        <local:SurfacePlayerArea x:Name="PlayerSouth" Margin="300,0,0,0" Height="300" Width="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <local:SurfacePlayerArea x:Name="PlayerNorth" Margin="300,0,0,0" Height="300" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <local:SurfacePlayerArea.RenderTransform>
-                <RotateTransform Angle="180" CenterX="150" CenterY="150" />
-            </local:SurfacePlayerArea.RenderTransform>
-        </local:SurfacePlayerArea>
-        <local:SurfacePlayerArea x:Name="PlayerWest" Margin="0,200,0,0" Height="300" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <local:SurfacePlayerArea.RenderTransform>
-                <RotateTransform Angle="90" CenterX="150" CenterY="150" />
-            </local:SurfacePlayerArea.RenderTransform>
-        </local:SurfacePlayerArea>
-        <local:SurfacePlayerArea x:Name="PlayerEast" Margin="0,200,0,0" Height="300" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <local:SurfacePlayerArea.RenderTransform>
-                <RotateTransform Angle="270" CenterX="150" CenterY="150" />
-            </local:SurfacePlayerArea.RenderTransform>
-        </local:SurfacePlayerArea>
+  </s:SurfaceWindow.Resources>
+  <Grid Background="{StaticResource WindowBackground}">
+        <local:SurfaceSeat x:Name="PlayerSouth" SeatLocation="South" Margin="0,0,0,0" Height="220" Width="326" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        <local:SurfaceSeat x:Name="PlayerSouthWest" SeatLocation="SouthWest" Margin="55,0,0,-52" Height="326" Width="220" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+        <local:SurfaceSeat x:Name="PlayerWest" SeatLocation="West" Margin="55,0,0,0" Height="326" Width="220" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+        <local:SurfaceSeat x:Name="PlayerNorthWest" SeatLocation="NorthWest" Margin="55,-52,0,0" Height="326" Width="220" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+        <local:SurfaceSeat x:Name="PlayerNorth" SeatLocation="North" Margin="326,0,326,0" Height="220" Width="326" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="180" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+        <local:SurfaceSeat x:Name="PlayerNorthEast" SeatLocation="NorthEast" Margin="0,-52,55,0" Height="326" Width="220" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="-90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+        <local:SurfaceSeat x:Name="PlayerEast" SeatLocation="East" Margin="0,0,55,0" Height="326" Width="220" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="-90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
+      <local:SurfaceSeat x:Name="PlayerSouthEast" SeatLocation="SouthEast" Margin="0,0,55,-52" Height="326" Width="220" HorizontalAlignment="Right" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+            <local:SurfaceSeat.RenderTransform>
+                <RotateTransform Angle="-90" CenterX="0" CenterY="0" />
+            </local:SurfaceSeat.RenderTransform>
+        </local:SurfaceSeat>
     </Grid>
 </s:SurfaceWindow>

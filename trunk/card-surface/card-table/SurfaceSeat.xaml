@@ -1,0 +1,14 @@
+﻿<s:SurfaceUserControl x:Class="CardTable.SurfaceSeat"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:local="clr-namespace:CardTable" Height="220" Width="326">
+    <Grid>
+        <Grid x:Name="JoinButton">
+            <s:SurfaceButton Content="Join!" Width="100" Height="25" Click="SurfaceButton_Click"/>
+        </Grid>
+        <Grid x:Name="SeatPasswordGrid" Visibility="Hidden">
+            <Label x:Name="SeatPassword" Width="100" Height="25" HorizontalContentAlignment="Center"/>
+        </Grid>
+    </Grid>
+</s:SurfaceUserControl>

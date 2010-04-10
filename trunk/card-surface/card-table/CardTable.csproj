@@ -114,6 +114,9 @@
     <Compile Include="SurfacePlayerArea.xaml.cs">
       <DependentUpon>SurfacePlayerArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SurfaceSeat.xaml.cs">
+      <DependentUpon>SurfaceSeat.xaml</DependentUpon>
+    </Compile>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SurfacePlayerArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurfaceSeat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
