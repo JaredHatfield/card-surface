@@ -8,6 +8,7 @@ namespace CardTable
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Windows.Threading;
     using CardCommunication;
     using CardGame;
 
@@ -27,10 +28,22 @@ namespace CardTable
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
+        /// The game that is currently being played on the table.
+        /// </summary>
+        private Game game;
+
+        /// <summary>
+        /// The CardTableWindow that contains the currently playable game.
+        /// </summary>
+        private CardTableWindow gameWindow;
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="GameTableInstance"/> class from being created.
         /// </summary>
         private GameTableInstance()
         {
+            this.game = null;
+            this.gameWindow = new CardTableWindow();
             this.tableCommunicationController = new TableCommunicationController();
 
             // TODO: Customize this class so that it does something useful.
@@ -52,6 +65,33 @@ namespace CardTable
         public TableCommunicationController CommunicationController
         {
             get { return this.tableCommunicationController; }
+        }
+
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <value>The current game.</value>
+        public Game CurrentGame
+        {
+            get { return this.game; }
+        }
+
+        /// <summary>
+        /// Gets the game window.
+        /// </summary>
+        /// <value>The game window.</value>
+        public CardTableWindow GameWindow
+        {
+            get { return this.gameWindow; }
+        }
+
+        /// <summary>
+        /// Creates the new game.
+        /// </summary>
+        /// <param name="game">The game to create.</param>
+        public void CreateNewGame(Game game)
+        {
+            this.game = game;
         }
     }
 }
