@@ -273,7 +273,7 @@ namespace CardAccount
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("Error occurred writing to Flat file.", e);
+                    Debug.WriteLine("Error occurred writing to Flat file." + e.ToString());
                     success = false;
 
                     if (this.file == file)
