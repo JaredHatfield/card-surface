@@ -3,10 +3,35 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008" Height="300" Width="300">
     <Grid>
-        <s:LibraryContainer Name="chip0" Height="80" Width="80" Margin="0,0,50,180"  HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-        <s:LibraryContainer Name="chip1" Height="80" Width="80" Margin="50,0,0,180"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  />
-        <s:LibraryContainer Name="card0" Height="80" Width="80" Margin="0,0,50,80" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-        <s:LibraryContainer Name="card1" Height="80" Width="80" Margin="50,0,0,80" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+        <Grid.Resources>
+            <!-- A template describing the view of each piece of library data -->
+            <DataTemplate x:Key="LibraryItemTemplate">
+                <Viewbox Stretch="Uniform">
+                    <Image Source="{Binding}" />
+                </Viewbox>
+            </DataTemplate>
+            <!-- Styles to define the templates for Stack and Bar item containers -->
+            <Style x:Key="StackItemContainerStyle" TargetType="{x:Type s:LibraryStackItem}"></Style>
+            <Style x:Key="BarItemContainerStyle" TargetType="{x:Type s:LibraryBarItem}"></Style>
+
+            <!-- Styles to ensure each library control uses the above defined templates -->
+            <Style TargetType="{x:Type s:LibraryStack}">
+                <Setter Property="ItemTemplate" Value="{StaticResource LibraryItemTemplate}"/>
+                <Setter Property="ItemContainerStyle" Value="{StaticResource StackItemContainerStyle}"/>
+            </Style>
+            <Style TargetType="{x:Type s:LibraryBar}">
+                <Setter Property="ItemTemplate" Value="{StaticResource LibraryItemTemplate}"/>
+                <Setter Property="ItemContainerStyle" Value="{StaticResource BarItemContainerStyle}"/>
+            </Style>
+            <DataTemplate x:Key="itemTemplate">
+                <Image Source="{Binding XPath=@Path}"/>
+            </DataTemplate>
+        </Grid.Resources>
+        <!-- The piles that the Player's objects will be housed in. -->
+        <s:LibraryStack Name="chip0" Height="80" Width="80" Margin="0,0,50,180"  HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <s:LibraryStack Name="chip1" Height="80" Width="80" Margin="50,0,0,180"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  />
+        <s:LibraryStack Name="card0" Height="80" Width="80" Margin="0,0,50,80" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <s:LibraryStack Name="card1" Height="80" Width="80" Margin="50,0,0,80" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         <s:LibraryBar Name="hand" Height="52" Width="130" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         <s:LibraryBar Name="bank" Height="52" Width="130" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </Grid>
