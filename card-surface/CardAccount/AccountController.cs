@@ -271,7 +271,7 @@ namespace CardAccount
                     gzipstream.Close();
                     filestream.Close();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     Debug.WriteLine("Error occurred writing to Flat file.", e);
                     success = false;
