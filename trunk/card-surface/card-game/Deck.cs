@@ -33,61 +33,61 @@ namespace CardGame
             CardPile cardPile = new CardPile();
             cardPile.Open = true;
             
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ten, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Nine, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Eight, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Seven, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Six, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Five, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Four, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Three, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Two, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ace, Card.CardStatus.FaceDown));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ten, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Nine, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Eight, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Seven, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Six, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Five, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Four, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Three, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Two, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ace, Card.CardStatus.Hidden));
 
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.King, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Queen, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Jack, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ten, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Nine, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Eight, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Seven, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Six, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Five, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Four, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Three, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Two, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.FaceDown));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.King, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Queen, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Jack, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ten, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Nine, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Eight, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Seven, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Six, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Five, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Four, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Three, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Two, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.Hidden));
 
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.King, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Queen, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Jack, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ten, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Nine, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Eight, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Seven, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Six, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Four, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Three, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Two, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ace, Card.CardStatus.FaceDown));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.King, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Queen, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Jack, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ten, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Nine, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Eight, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Seven, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Six, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Four, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Three, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Two, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ace, Card.CardStatus.Hidden));
 
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.King, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Queen, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Jack, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ten, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Nine, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Eight, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Seven, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Six, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Five, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Four, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Three, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Two, Card.CardStatus.FaceDown));
-            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.King, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Queen, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Jack, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ten, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Nine, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Eight, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Seven, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Six, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Five, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Four, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Three, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Two, Card.CardStatus.Hidden));
+            cardPile.AddItem(Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.Hidden));
 
             return cardPile;
         }
@@ -103,160 +103,160 @@ namespace CardGame
             switch (cardname)
             {
                 case "AceClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ace, Card.CardStatus.Hidden);
                     break;
                 case "AceDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ace, Card.CardStatus.Hidden);
                     break;
                 case "AceHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ace, Card.CardStatus.Hidden);
                     break;
                 case "AceSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ace, Card.CardStatus.Hidden);
                     break;
                 case "EightClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Eight, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Eight, Card.CardStatus.Hidden);
                     break;
                 case "EightDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Eight, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Eight, Card.CardStatus.Hidden);
                     break;
                 case "EightHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Eight, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Eight, Card.CardStatus.Hidden);
                     break;
                 case "EightSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Eight, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Eight, Card.CardStatus.Hidden);
                     break;
                 case "FiveClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Five, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Five, Card.CardStatus.Hidden);
                     break;
                 case "FiveDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Five, Card.CardStatus.Hidden);
                     break;
                 case "FiveHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Five, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Five, Card.CardStatus.Hidden);
                     break;
                 case "FiveSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Five, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Five, Card.CardStatus.Hidden);
                     break;
                 case "FourClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Four, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Four, Card.CardStatus.Hidden);
                     break;
                 case "FourDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Four, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Four, Card.CardStatus.Hidden);
                     break;
                 case "FourHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Four, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Four, Card.CardStatus.Hidden);
                     break;
                 case "FourSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Four, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Four, Card.CardStatus.Hidden);
                     break;
                 case "JackClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Jack, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Jack, Card.CardStatus.Hidden);
                     break;
                 case "JackDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Jack, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Jack, Card.CardStatus.Hidden);
                     break;
                 case "JackHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Jack, Card.CardStatus.Hidden);
                     break;
                 case "JackSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Jack, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Jack, Card.CardStatus.Hidden);
                     break;
                 case "KingClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.King, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.King, Card.CardStatus.Hidden);
                     break;
                 case "KingDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.King, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.King, Card.CardStatus.Hidden);
                     break;
                 case "KingHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.King, Card.CardStatus.Hidden);
                     break;
                 case "KingSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.King, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.King, Card.CardStatus.Hidden);
                     break;
                 case "NineClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Nine, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Nine, Card.CardStatus.Hidden);
                     break;
                 case "NineDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Nine, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Nine, Card.CardStatus.Hidden);
                     break;
                 case "NineHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Nine, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Nine, Card.CardStatus.Hidden);
                     break;
                 case "NineSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Nine, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Nine, Card.CardStatus.Hidden);
                     break;
                 case "QueenClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Queen, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Queen, Card.CardStatus.Hidden);
                     break;
                 case "QueenDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Queen, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Queen, Card.CardStatus.Hidden);
                     break;
                 case "QueenHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Queen, Card.CardStatus.Hidden);
                     break;
                 case "QueenSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Queen, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Queen, Card.CardStatus.Hidden);
                     break;
                 case "SevenClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Seven, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Seven, Card.CardStatus.Hidden);
                     break;
                 case "SevenDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Seven, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Seven, Card.CardStatus.Hidden);
                     break;
                 case "SevenHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Seven, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Seven, Card.CardStatus.Hidden);
                     break;
                 case "SevenSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Seven, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Seven, Card.CardStatus.Hidden);
                     break;
                 case "SixClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Six, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Six, Card.CardStatus.Hidden);
                     break;
                 case "SixDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Six, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Six, Card.CardStatus.Hidden);
                     break;
                 case "SixHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Six, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Six, Card.CardStatus.Hidden);
                     break;
                 case "SixSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Six, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Six, Card.CardStatus.Hidden);
                     break;
                 case "TenClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ten, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Ten, Card.CardStatus.Hidden);
                     break;
                 case "TenDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ten, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Ten, Card.CardStatus.Hidden);
                     break;
                 case "TenHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ten, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Ten, Card.CardStatus.Hidden);
                     break;
                 case "TenSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ten, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Ten, Card.CardStatus.Hidden);
                     break;
                 case "ThreeClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Three, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Three, Card.CardStatus.Hidden);
                     break;
                 case "ThreeDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Three, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Three, Card.CardStatus.Hidden);
                     break;
                 case "ThreeHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Three, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Three, Card.CardStatus.Hidden);
                     break;
                 case "ThreeSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Three, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Three, Card.CardStatus.Hidden);
                     break;
                 case "TwoClubs":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Two, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Clubs, Card.CardFace.Two, Card.CardStatus.Hidden);
                     break;
                 case "TwoDiamonds":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Two, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Diamonds, Card.CardFace.Two, Card.CardStatus.Hidden);
                     break;
                 case "TwoHearts":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Two, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Hearts, Card.CardFace.Two, Card.CardStatus.Hidden);
                     break;
                 case "TwoSpades":
-                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Two, Card.CardStatus.FaceDown);
+                    card = Deck.factory.MakeCard(Card.CardSuit.Spades, Card.CardFace.Two, Card.CardStatus.Hidden);
                     break;
                 default:
                     throw new CardGamePhysicalObjectNotFoundException();

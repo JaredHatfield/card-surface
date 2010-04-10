@@ -80,6 +80,26 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Flips a card from face up to face down or face down to face up.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <returns>
+        /// True if card was flipped; otherwise false.
+        /// </returns>
+        public bool Flip(Guid id)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].Id.Equals(id))
+                {
+                    return (this.Items[i] as ICard).Flip();
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Draws the card on the top of the pile and removes it.
         /// </summary>
         /// <returns>The card on the top of the pile</returns>
