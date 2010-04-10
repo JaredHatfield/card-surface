@@ -18,6 +18,7 @@ namespace GameFreeplay
         /// <summary>
         /// Initializes a new instance of the <see cref="Freeplay"/> class.
         /// </summary>
+        [Serializable]
         public Freeplay()
             : base()
         {
