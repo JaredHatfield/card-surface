@@ -38,6 +38,7 @@
     <Reference Include="System.Net">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -59,8 +60,11 @@
     <Compile Include="CommunicationController.cs" />
     <Compile Include="CommunicationObject.cs" />
     <Compile Include="GameNetworkClient.cs" />
+    <Compile Include="GameObject\GameMessage.cs" />
     <Compile Include="Messages\Message.cs" />
     <Compile Include="Messages\MessageAction.cs" />
+    <Compile Include="Messages\MessageExistingGames.cs" />
+    <Compile Include="Messages\MessageFlipCard.cs" />
     <Compile Include="Messages\MessageGameList.cs" />
     <Compile Include="Messages\MessageGameState.cs" />
     <Compile Include="Messages\MessageRequestGame.cs" />
@@ -82,10 +86,6 @@
     <ProjectReference Include="..\card-game\CardGame.csproj">
       <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
       <Name>CardGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
-      <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
-      <Name>GameBlackjack</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
