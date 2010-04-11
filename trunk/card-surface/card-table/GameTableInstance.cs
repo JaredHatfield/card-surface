@@ -6,6 +6,7 @@ namespace CardTable
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Windows.Threading;
@@ -44,8 +45,6 @@ namespace CardTable
         {
             this.game = null;
             this.tableCommunicationController = new TableCommunicationController();
-
-            // TODO: Customize this class so that it does something useful.
         }
 
         /// <summary>
@@ -90,8 +89,31 @@ namespace CardTable
         /// <param name="game">The game to create.</param>
         public void CreateNewGame(Game game)
         {
+            if (this.game == null)
+            {
+                this.game = game;
+
+                /* Create the CardTableWindow after we install the game because the window requires binding to game properties. */
+                this.gameWindow = new CardTableWindow();
+
+                /* Transition ownership of handling GameUpdates to GameTableInstance. */
+                Debug.WriteLine("GameTableInstance: Accepted responsible for processing incoming GameState updates.");
+                this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
+            }
+            else
+            {
+                Debug.WriteLine("GameTableInstance: A game has already been created on this table instance!");
+            }
+        }
+
+        /// <summary>
+        /// Updates the game.
+        /// </summary>
+        /// <param name="game">The new game.</param>
+        public void OnUpdateGameState(Game game)
+        {
+            Debug.WriteLine("GameTableInstance: Updating the current game...");
             this.game = game;
-            this.gameWindow = new CardTableWindow();
         }
     }
 }

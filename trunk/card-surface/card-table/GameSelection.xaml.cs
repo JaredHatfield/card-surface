@@ -37,7 +37,13 @@ namespace CardTable
         private object gameReceivedSemaphore;
 
         /// <summary>
-        /// The latest game object to be updated.  Should only be access when in control of gameReceivedSemaphore.
+        /// String holding the temporary value for the selected Game type.  Used to determine the submenu New Game selection type.
+        /// This property should NOT be relied upon after a game has been selected.
+        /// </summary>
+        private string gameTypeSelection;
+
+        /// <summary>
+        /// The latest game object to be updated.  Should only be accessed when in control of gameReceivedSemaphore!
         /// </summary>
         private Game gameToUpdate;
 
@@ -54,12 +60,14 @@ namespace CardTable
             InitializeComponent();
 
             this.gameReceivedSemaphore = new object();
+            this.gameTypeSelection = String.Empty;
+            this.gameToUpdate = null;
             this.tcc = GameTableInstance.Instance.CommunicationController;
 
             this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
             this.tcc.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
             this.tcc.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.OnUpdateExistingGames);
-            //// Out for testing purposes only.  Must be retained.
+
             this.tcc.SendRequestGameListMessage();
 
             // Add handlers for Application activation events
@@ -99,13 +107,19 @@ namespace CardTable
         {
             /* When GameSelection.xaml receives this event, it means a new Game has been created.
              * We need to send it to GameTableInstance to create the new CardTableWindow. */
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
             lock (this.gameReceivedSemaphore)
             {
+                /* The user has selected a game.  Reset the gameTypeSelection "menu" tracker. */
+                this.gameTypeSelection = String.Empty;
+                /* Install the game state for this GameTableInstance. */
                 this.gameToUpdate = game;
+                /* Release the GameSelection window from its responsibility of processing GameState updates. 
+                 * GameTableInstance is now in charge. */
+                this.tcc.OnUpdateGameState -= this.OnUpdateGameState;
                 /* Notify the window UI that we've attached a new game for play. */
                 Monitor.Pulse(this.gameReceivedSemaphore);
-            }
+                /* GameSelection's responsibilitiy is done. The game has been installed! */
+            }            
         }
 
         /// <summary>
@@ -114,17 +128,22 @@ namespace CardTable
         /// <param name="existingGames">The existing games.</param>
         protected void OnUpdateExistingGames(Collection<string> existingGames)
         {
-            string newGame = "New Game%00000000-0000-0000-0000-000000000000%0/8";
+            /* This is the cryptic string format which existing game information will be received in.
+             * TODO: CardTable and whoever sends this need to agree on a format programmatically. */
+            /* TODO: We need to determine 8 from the max players option in the CardGame library! */
+            string newGame = "New Game%" + Guid.Empty + "%0/8";
 
-            //// Logic for this function
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
+            /* Remove the Game Type selection buttons so we can show the games we have available. */
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Games.Items.Clear));
+
+            /* Add the new game option first.  If lots of games are currently available, players shouldn't have to scroll
+             * to arrive at the default option each time. */
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), newGame);
       
             for (int i = 0; i < existingGames.Count; i++)
             {
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), existingGames.ElementAt(i));
             }
-
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), newGame);
         }
 
         /// <summary>
@@ -165,8 +184,9 @@ namespace CardTable
             string[] game = gameName.Split(splitter);
             Debug.WriteLine("GameSelection.xaml.cs: Adding new " + game[0] + " Game Option to the GameSelection SurfaceWindow.");
             SurfaceButton sb = new SurfaceButton();
-            sb.Content = game[0] + " players: " + game[2];
-            sb.Tag = game[1];
+            sb.Content = game[0] + " (Players: " + game[2] + ")";
+            sb.Tag = this.gameTypeSelection;
+            sb.Uid = game[1];
             /* The Surface, Surface Emulator, or Touch Screen may require additional event handlers to perform the needed action. */
             sb.Click += new RoutedEventHandler(this.ActiveGameClick);
             this.Games.Items.Add(sb);
@@ -179,8 +199,9 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void GameSelectionClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
-            this.tcc.SendRequestExistingGames(((SurfaceButton)sender).Content.ToString());
+            this.gameTypeSelection = ((SurfaceButton)sender).Content.ToString();
+            Debug.WriteLine("GameSelection.xaml.cs: Requesting existing " + this.gameTypeSelection + " games... (Click Event)");
+            this.tcc.SendRequestExistingGames(this.gameTypeSelection);
         }
 
         /// <summary>
@@ -190,21 +211,39 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void ActiveGameClick(object sender, RoutedEventArgs e)
         {
-            //// Logic for this function
-            Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
-            this.tcc.SendRequestGameMessage(((SurfaceButton)sender).Content.ToString());
+            SurfaceButton clickedButton = (SurfaceButton)sender;
 
+            if ((new Guid(clickedButton.Uid)).Equals(Guid.Empty))
+            {
+                Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + this.gameTypeSelection + " game... (Click Event)");
+                this.tcc.SendRequestGameMessage(this.gameTypeSelection);
+            }
+            else
+            {
+                Debug.WriteLine("GameSelection.xaml.cs: Joining an existing " + this.gameTypeSelection + " game... (Click Event)");
+                this.tcc.SendRequestGameMessage(clickedButton.Uid);
+            }
+            
             lock (this.gameReceivedSemaphore)
             {
                 while (GameTableInstance.Instance.CurrentGame == null)
                 {
                     Debug.WriteLine("GameSelection.xaml.cs: Waiting for GameState response...");
                     Monitor.Wait(this.gameReceivedSemaphore);
-                    Debug.WriteLine("GameSelection.xaml.cs: New Game Received!");
-                    GameTableInstance.Instance.CreateNewGame(this.gameToUpdate);
-                    GameTableInstance.Instance.GameWindow.Show();
+                    if (this.gameToUpdate != null)
+                    {
+                        Debug.WriteLine("GameSelection.xaml.cs: New Game Received!");
+                        GameTableInstance.Instance.CreateNewGame(this.gameToUpdate);
+                        GameTableInstance.Instance.GameWindow.Show();
+                    }
+                    else
+                    {
+                        Debug.WriteLine("GameSelection.xaml.cs: Uh oh!  This is definitely not good...  Someone tricked us into thinking we received a new game state.");
+                    }
                 }
             }
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));            
         }
 
         /// <summary>
