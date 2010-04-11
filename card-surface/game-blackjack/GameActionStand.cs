@@ -13,7 +13,6 @@ namespace GameBlackjack
     /// <summary>
     /// The stand action for blackjack.
     /// </summary>
-    [Serializable]
     internal class GameActionStand : GameAction
     {
         /// <summary>
@@ -38,11 +37,32 @@ namespace GameBlackjack
         {
             this.PlayerCanExecuteAction(game.GetPlayer(player));
             Blackjack blackjack = (Blackjack)game;
+            Player p = blackjack.GetPlayer(player);
+            PlayerState playerState = blackjack.GetPlayerState(p);
 
-            // Indicate that this player has finished their turn and move on to the next player.
-            int pid = blackjack.GetPlayerIndex(player);
-            blackjack.HandFinished[pid] = 1;
-            blackjack.MoveToNextPlayersTurn();
+            // The player is playing, has been dealt cards, and is not finished yet
+            if (playerState.IsPlaying && playerState.IsDealt && !playerState.IsFinished)
+            {
+                if (playerState.HasSplit)
+                {
+                    // The player has split so things are a bit more complicated
+                    if (!playerState.HasHandOneStand)
+                    {
+                        playerState.StandHandOne();
+                    }
+                    else if (!playerState.HasHandTwoStand)
+                    {
+                        playerState.StandHandTwo();
+                        blackjack.MoveToNextPlayersTurn();
+                    }
+                }
+                else
+                {
+                    // The player has not split so things are easy
+                    playerState.StandHandOne();
+                    blackjack.MoveToNextPlayersTurn();
+                }
+            }
 
             return true;
         }
@@ -58,13 +78,41 @@ namespace GameBlackjack
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
             Blackjack blackjack = game as Blackjack;
-            int pid = blackjack.GetPlayerIndex(player);
+            PlayerState playerState = blackjack.GetPlayerState(player);
 
-            if (player.IsTurn &&
-                BlackjackRules.GetPileVale(player.Hand) < 21
-                && blackjack.HandFinished[pid] == 0)
+            // It is the players turn, they have cards, and they are not finished
+            if (player.IsTurn && playerState.IsDealt && !playerState.IsFinished)
             {
-                return true;
+                if (playerState.HasSplit)
+                {
+                    // The player has split so things are a bit more complicated
+                    if (!playerState.HasHandOneStand)
+                    {
+                        // Player is still working on first hand
+                        return true;
+                    }
+                    else if (!playerState.HasHandTwoStand)
+                    {
+                        // Player has moved on to the second hand
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    // The player has not split so things are easy
+                    if (!playerState.HasHandOneStand)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
             else
             {

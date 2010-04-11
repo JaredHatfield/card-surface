@@ -91,15 +91,7 @@ namespace CardGame
             if (obj is Chip)
             {
                 Chip temp = (Chip)obj;
-                int cmp1 = this.chipColor.ToArgb().CompareTo(temp.chipColor.ToArgb());
-                if (cmp1 != 0)
-                {
-                    return cmp1;
-                }
-                else
-                {
-                    return this.amount - temp.amount;
-                }
+                return this.Id.CompareTo(temp.Id);
             }
 
             throw new ArgumentException("object is not a Chip");

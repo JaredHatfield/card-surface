@@ -349,7 +349,7 @@ namespace CardGame
             }
             else
             {
-                return "Face down.";
+                return "Face down";
             }
         }
     }

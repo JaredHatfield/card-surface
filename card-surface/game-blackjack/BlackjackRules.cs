@@ -9,13 +9,75 @@ namespace GameBlackjack
     using System.Linq;
     using System.Text;
     using CardGame;
+    using GameBlackjack.BlackjackExceptions;
 
     /// <summary>
     /// The supporting functions that help implement the rules of Blackjack.
     /// </summary>
-    [Serializable]
     internal class BlackjackRules
     {
+        /// <summary>
+        /// The possible results of a Blackjack hand.
+        /// </summary>
+        internal enum Result
+        {
+            /// <summary>
+            /// The player won the hand.
+            /// </summary>
+            Win,
+
+            /// <summary>
+            /// The player lost the hand.
+            /// </summary>
+            Lose,
+
+            /// <summary>
+            /// The hand was a push.
+            /// </summary>
+            Push
+        }
+
+        /// <summary>
+        /// Determine the outcome of a hand of Blackjack.
+        /// </summary>
+        /// <param name="player">The player's cards.</param>
+        /// <param name="house">The house's cards.</param>
+        /// <returns>The outcome of the hand from the playrs prospective.</returns>
+        internal static Result HandOutcome(CardPile player, CardPile house)
+        {
+            int p = BlackjackRules.GetPileVale(player);
+            int h = BlackjackRules.GetPileVale(house);
+
+            if (p > 21)
+            {
+                // If the player bust, they lost, regardless of the house
+                return Result.Lose;
+            }
+            else if (h > 21)
+            {
+                // If the house bust, the player won! (As long as the player didn't bust, satiafied by previous statement)
+                return Result.Win;
+            }
+            else if (p == h)
+            {
+                // It was a push
+                return Result.Push;
+            }
+            else if (p > h)
+            {
+                // The player won
+                return Result.Win;
+            }
+            else if (h > p)
+            {
+                return Result.Lose;
+            }
+            else
+            {
+                throw new BlackjackException("Something very stranged happend and we don't know who won!");
+            }
+        }
+
         /// <summary>
         /// Gets the pile vale.  Automatically handels soft aces.
         /// </summary>
