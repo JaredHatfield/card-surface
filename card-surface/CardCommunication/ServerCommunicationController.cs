@@ -284,7 +284,7 @@ namespace CardCommunication
 
                     messageRequestGame.ProcessMessage(messageDoc);
 
-                    if (messageRequestGame.GameType != String.Empty)
+                    if (messageRequestGame.GameType != null)
                     {
                         string gameType = messageRequestGame.GameType;
                         bool found = false;
