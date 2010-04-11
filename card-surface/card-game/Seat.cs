@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
@@ -13,7 +14,8 @@ namespace CardGame
     /// <summary>
     /// A seat at the game.
     /// </summary>
-    [Serializable] public class Seat
+    [Serializable]
+    public class Seat : INotifyPropertyChanged
     {
         /// <summary>
         /// The list of all of the passwords, used to prevent duplicate passwords from being generated.
@@ -57,6 +59,11 @@ namespace CardGame
             this.username = null;
             this.id = Guid.NewGuid();
         }
+
+        /// <summary>
+        /// Occurs when [property changed].
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// The locations at the table.
@@ -223,9 +230,11 @@ namespace CardGame
 
             // 4) Assign the username to this seat
             this.username = username;
+            this.NotifyPropertyChanged("Username");
 
             // 5) Make a player and add them to the seat
             this.player = new Player();
+            this.NotifyPropertyChanged("Player");
 
             // 6) Indicate that everything was successful
             return true;
@@ -264,6 +273,18 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Notifies the property changed.
+        /// </summary>
+        /// <param name="info">The name of the property that changed.</param>
+        private void NotifyPropertyChanged(string info)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
+        /// <summary>
         /// Assigns a new seat password to this object.
         /// </summary>
         private void AssignSeatPassword()
@@ -285,6 +306,7 @@ namespace CardGame
 
             // Assign the password and add it to the bank.
             this.password = newpassword;
+            this.NotifyPropertyChanged("Password");
             Seat.passwordBank.Add(this.password);
         }
     }
