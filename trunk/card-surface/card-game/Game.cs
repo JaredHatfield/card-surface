@@ -645,6 +645,14 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Adds the chip pile to game.
+        /// </summary>
+        protected internal void AddChipPileToGame()
+        {
+            this.gamingArea.AddChipPile(new ChipPile());
+        }
+
+        /// <summary>
         /// Adds a CardPile to a user.
         /// </summary>
         /// <param name="username">The username.</param>
@@ -652,6 +660,14 @@ namespace CardGame
         {
             Player p = this.GetPlayer(username);
             p.PlayerArea.AddCardPile(new CardPile());
+        }
+
+        /// <summary>
+        /// Adds the card pile to game.
+        /// </summary>
+        protected internal void AddCardPileToGame()
+        {
+            this.gamingArea.AddCardPile(new CardPile());
         }
 
         /// <summary>

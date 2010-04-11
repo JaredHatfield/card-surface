@@ -13,7 +13,6 @@ namespace GameBlackjack
     /// <summary>
     /// Clears the table of chips.
     /// </summary>
-    [Serializable]
     internal class GameActionClearTable : GameAction
     {
         /// <summary>
@@ -36,11 +35,36 @@ namespace GameBlackjack
         /// <returns>True if the action was successful; otherwise false.</returns>
         public override bool Action(Game game, string player)
         {
-            this.PlayerCanExecuteAction(game.GetPlayer(player));
+            // This is a special action that is executed from within the Next command.
             Blackjack blackjack = game as Blackjack;
 
-            // TODO: Write an algorithm to move all of the players chips to the bank or to the house
-            return false;
+            // Clear all of the chips off of the table
+            for (int i = 0; i < blackjack.Seats.Count; i++)
+            {
+                if (!blackjack.Seats[i].IsEmpty)
+                {
+                    Player p = blackjack.Seats[i].Player;
+
+                    // Empty chip0 into the bank
+                    while (p.PlayerArea.Chips[0].NumberOfItems > 0)
+                    {
+                        p.BankPile.Open = true;
+                        
+                        blackjack.MoveAction(p.PlayerArea.Chips[0].TopItem.Id, p.BankPile.Id);
+                    }
+
+                    // Empty chip1 into the bank
+                    while (p.PlayerArea.Chips[1].NumberOfItems > 0)
+                    {
+                        blackjack.MoveAction(p.PlayerArea.Chips[1].TopItem.Id, p.BankPile.Id);
+                    }
+                }
+            }
+
+            // Clear all of the cards off of the table
+            blackjack.ClearGameBoard();
+
+            return true;
         }
 
         /// <summary>
@@ -53,7 +77,7 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            // TODO: Check to see if a game is not in progress.
+            // This is a special action that is executed from within the Next command.
             return false;
         }
     }

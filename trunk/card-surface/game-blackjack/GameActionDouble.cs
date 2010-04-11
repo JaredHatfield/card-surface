@@ -13,7 +13,6 @@ namespace GameBlackjack
     /// <summary>
     /// The double action for blackjack.
     /// </summary>
-    [Serializable]
     internal class GameActionDouble : GameAction
     {
         /// <summary>
@@ -40,6 +39,9 @@ namespace GameBlackjack
             Blackjack blackjack = (Blackjack)game;
             Player p = blackjack.GetPlayer(player);
 
+            // Right now we only allow the player to double if they have not split!
+            // TODO: Allow the player to double after they have split...
+
             // Double the Player's bet
             int targetBet = p.PlayerArea.Chips[0].Amount * 2;
             while (p.PlayerArea.Chips[0].Amount < targetBet)
@@ -51,19 +53,19 @@ namespace GameBlackjack
                 }
                 else if (needed >= 25)
                 {
-                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                    game.MoveAction(p.BankPile.GetChip(25), p.PlayerArea.Chips[0].Id);
                 }
                 else if (needed >= 10)
                 {
-                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                    game.MoveAction(p.BankPile.GetChip(10), p.PlayerArea.Chips[0].Id);
                 }
                 else if (needed >= 5)
                 {
-                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                    game.MoveAction(p.BankPile.GetChip(5), p.PlayerArea.Chips[0].Id);
                 }
                 else if (needed >= 1)
                 {
-                    game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
+                    game.MoveAction(p.BankPile.GetChip(1), p.PlayerArea.Chips[0].Id);
                 }
             }
 
@@ -89,11 +91,35 @@ namespace GameBlackjack
         /// </returns>
         public override bool IsExecutableByPlayer(Game game, Player player)
         {
-            // Make sure the player can take a hit
-            GameActionHit hit = new GameActionHit();
-            if (hit.IsExecutableByPlayer(game, player) && player.Hand.Cards.Count == 2)
+            Blackjack blackjack = game as Blackjack;
+            PlayerState playerState = blackjack.GetPlayerState(player);
+
+            // It is the players turn, they have cards, and they are not finished
+            if (player.IsTurn && playerState.IsDealt && !playerState.IsFinished)
             {
-                return true;
+                if (playerState.HasSplit)
+                {
+                    // For now, if the player has split we do not allow them to double
+                    // TODO: Allow a player to double after they split
+                    return false;
+                }
+                else
+                {
+                    // The player has not split so things are easy
+                    if (!playerState.HasHandOneStand)
+                    {
+                        // Make sure the player can take a hit and only has two cards and sufficient funds
+                        GameActionHit hit = new GameActionHit();
+                        if (hit.IsExecutableByPlayer(game, player) && player.Hand.Cards.Count == 2 && player.PlayerArea.Chips[0].Amount <= player.Balance)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
 
             return false;

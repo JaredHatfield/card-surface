@@ -14,12 +14,17 @@ namespace GameBlackjack
     /// <summary>
     /// The game of Blackjack.
     /// </summary>
-    [Serializable] public class Blackjack : Game
+    public class Blackjack : Game
     {
         /// <summary>
         /// An array that indicates for each player if they are in the game and if they finished their hand.
         /// </summary>
-        private int[] handFinished;
+        private PlayerState[] playerState;
+
+        /// <summary>
+        /// The current state of the game;
+        /// </summary>
+        private GameState gameState;
 
         /// <summary>
         /// The minimum amount of money required to join the game.
@@ -38,11 +43,19 @@ namespace GameBlackjack
         {
             this.minimumStake = 10;
             this.minimumBet = 1;
-            this.handFinished = new int[this.Seats.Count];
+
+            // This is how we keep track of the Game's state.
+            this.playerState = new PlayerState[this.Seats.Count];
             for (int i = 0; i < this.Seats.Count; i++)
             {
-                this.handFinished[i] = -1;
+                this.playerState[i] = new PlayerState();
             }
+
+            // Initialize the GameState
+            this.gameState = new GameState();
+
+            // Set up the house's card pile for playing (card1)
+            this.AddCardPileToGame();
 
             // Subscribe all of the possible game actions
             this.SubscribeAction(new GameActionHit());
@@ -50,6 +63,7 @@ namespace GameBlackjack
             this.SubscribeAction(new GameActionSplit());
             this.SubscribeAction(new GameActionDeal());
             this.SubscribeAction(new GameActionDouble());
+            this.SubscribeAction(new GameActionNext());
 
             // Add a deck of cards to the game
             CardPile destinationDeck = (CardPile)this.GetPile(this.DeckPile);
@@ -93,9 +107,9 @@ namespace GameBlackjack
         {
             get
             {
-                for (int i = 0; i < this.handFinished.Length; i++)
+                for (int i = 0; i < this.playerState.Length; i++)
                 {
-                    if (this.handFinished[i] == 0)
+                    if (this.playerState[i].IsPlaying && !this.playerState[i].IsFinished)
                     {
                         return true;
                     }
@@ -103,16 +117,6 @@ namespace GameBlackjack
 
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the hand finished.
-        /// </summary>
-        /// <value>The hand finished.</value>
-        internal int[] HandFinished
-        {
-            get { return this.handFinished; }
-            set { this.handFinished = value; }
         }
 
         /// <summary>
@@ -126,25 +130,21 @@ namespace GameBlackjack
         }
 
         /// <summary>
-        /// Attempt to have a user sit down at a table.
+        /// Gets the house's set of cards.
         /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="amount">The amount of money the user will place on the table.</param>
-        /// <returns>
-        /// True if the user was able to sit down; otherwise false.
-        /// </returns>
-        public override bool SitDown(string username, string password, int amount)
+        /// <value>The house's set of cards.</value>
+        internal CardPile House
         {
-            if (base.SitDown(username, password, amount))
-            {
-                this.InitializePlayer(username);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            get { return this.GamingArea.Cards[1]; }
+        }
+
+        /// <summary>
+        /// Gets the game state.
+        /// </summary>
+        /// <value>The game state.</value>
+        internal GameState State
+        {
+            get { return this.gameState; }
         }
 
         /// <summary>
@@ -212,6 +212,16 @@ namespace GameBlackjack
         }
 
         /// <summary>
+        /// Gets the state of the player.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <returns>The PlayerState.</returns>
+        internal PlayerState GetPlayerState(Player player)
+        {
+            return this.playerState[this.GetPlayerIndex(player)];
+        }
+
+        /// <summary>
         /// Gets the index of the player.
         /// </summary>
         /// <param name="player">The player.</param>
@@ -261,6 +271,10 @@ namespace GameBlackjack
         protected internal new void MoveToNextPlayersTurn()
         {
             base.MoveToNextPlayersTurn();
+            if (!this.InHand && this.gameState.Current == GameState.State.Playing)
+            {
+                this.gameState.Advance();
+            }
         }
 
         /// <summary>
@@ -284,6 +298,8 @@ namespace GameBlackjack
         {
             // Initialize the player's piles for Blackjack
             Player player = this.GetPlayer(username);
+            int i = this.GetPlayerIndex(username);
+            this.playerState[i].Join();
 
             // Initialize the player's card piles
             this.AddCardPileToUser(username);
