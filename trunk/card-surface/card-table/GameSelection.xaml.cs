@@ -112,11 +112,19 @@ namespace CardTable
         /// Called when [update existing games].
         /// </summary>
         /// <param name="existingGames">The existing games.</param>
-        protected void OnUpdateExistingGames(Collection<object> existingGames)
+        protected void OnUpdateExistingGames(Collection<string> existingGames)
         {
+            string newGame = "New Game%00000000-0000-0000-0000-000000000000%0/8";
+
+            //// Logic for this function
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
+      
             for (int i = 0; i < existingGames.Count; i++)
             {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), existingGames.ElementAt(i));
             }
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), newGame);
         }
 
         /// <summary>
@@ -147,12 +155,42 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Adds the existing game option.
+        /// </summary>
+        /// <param name="gameName">String composite of the game.</param>
+        private void AddExistingGameOption(string gameName)
+        {
+            //// Logic for this function
+            char[] splitter = { '%' };
+            string[] game = gameName.Split(splitter);
+            Debug.WriteLine("GameSelection.xaml.cs: Adding new " + game[0] + " Game Option to the GameSelection SurfaceWindow.");
+            SurfaceButton sb = new SurfaceButton();
+            sb.Content = game[0] + " players: " + game[2];
+            sb.Tag = game[1];
+            /* The Surface, Surface Emulator, or Touch Screen may require additional event handlers to perform the needed action. */
+            sb.Click += new RoutedEventHandler(this.ActiveGameClick);
+            this.Games.Items.Add(sb);
+        }
+
+        /// <summary>
         /// Games the selection click.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void GameSelectionClick(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
+            this.tcc.SendRequestExistingGames(((SurfaceButton)sender).Content.ToString());
+        }
+
+        /// <summary>
+        /// Games the selection click.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void ActiveGameClick(object sender, RoutedEventArgs e)
+        {
+            //// Logic for this function
             Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + ((SurfaceButton)sender).Content.ToString() + " game... (Click Event)");
             this.tcc.SendRequestGameMessage(((SurfaceButton)sender).Content.ToString());
 

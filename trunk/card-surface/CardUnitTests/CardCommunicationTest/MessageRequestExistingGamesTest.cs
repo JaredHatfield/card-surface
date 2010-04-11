@@ -19,7 +19,7 @@ namespace CardUnitTests
         /// A test for BuildMessage
         /// </summary>
         [TestMethod()]
-        public void BuildMessageTest()
+        public void BuildMessageRequestExistingGamesTest()
         {
             MessageRequestExistingGames target = new MessageRequestExistingGames(); // TODO: Initialize to an appropriate value
             string selectedGame = string.Empty; // TODO: Initialize to an appropriate value

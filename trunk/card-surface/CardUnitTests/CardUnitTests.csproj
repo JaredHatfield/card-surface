@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{96DEC71A-1645-4084-973A-634EC187D873}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -44,6 +44,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Windows.Presentation">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -73,6 +77,9 @@
     <Compile Include="CardGameTest\PlayingAreaTest.cs" />
     <Compile Include="CardGameTest\GameActionTest.cs" />
     <Compile Include="CardGameTest\GameTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageExistingGamesTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageFlipCardTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageRequestGameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardWebTests\WebActionCreateAccountTest.cs" />
     <Compile Include="CardWebTests\WebActionInitGameTest.cs" />

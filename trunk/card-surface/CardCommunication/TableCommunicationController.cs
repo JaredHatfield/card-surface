@@ -75,7 +75,7 @@ namespace CardCommunication
         /// Delegate for Updating the list of existing games.
         /// </summary>
         /// <param name="existingGames">The list of existing games.</param>
-        public delegate void UpdateExistingGamesHandler(Collection<object> existingGames); //// don't know contents yet.
+        public delegate void UpdateExistingGamesHandler(Collection<string> existingGames);
 
         /// <summary>
         /// Delegate for updating the game state.
@@ -110,7 +110,7 @@ namespace CardCommunication
 
             message.BuildMessage();
 
-            this.TransportCommunication(message.MessageDocument);
+            base.TransportCommunication(message.MessageDocument);
 
             while (!CommunicationCompleted)
             {
@@ -131,8 +131,7 @@ namespace CardCommunication
 
             message.BuildMessage(gameType);
 
-            /* TODO: Why are you using this instead of base? */
-            this.TransportCommunication(message.MessageDocument);
+            base.TransportCommunication(message.MessageDocument);
         }
 
         /// <summary>
@@ -145,7 +144,7 @@ namespace CardCommunication
 
             message.BuildMessage(selectedGame);
 
-            this.TransportCommunication(message.MessageDocument);
+            base.TransportCommunication(message.MessageDocument);
 
             while (!CommunicationCompleted)
             {
@@ -162,7 +161,7 @@ namespace CardCommunication
 
             message.BuildMessage(action);
 
-            this.TransportCommunication(message.MessageDocument);
+            base.TransportCommunication(message.MessageDocument);
         }
 
         /// <summary>
@@ -175,7 +174,7 @@ namespace CardCommunication
 
             message.BuildMessage(cardGuid);
 
-            this.TransportCommunication(message.MessageDocument);
+            base.TransportCommunication(message.MessageDocument);
         }
 
         /// <summary>
@@ -202,7 +201,7 @@ namespace CardCommunication
             {
                 /* The existingGames object must be casted as a collection because the method signature
                  * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateExistingGames((Collection<object>)existingGames);
+                this.OnUpdateExistingGames((Collection<string>)existingGames);
             }
         }
 
@@ -328,15 +327,14 @@ namespace CardCommunication
                     onUpdateGameListThread.Start(this.stringCollection);
                     onUpdateGameListThread.Join();      // Wait for this event call to finish
                 }
+                else if (mt == Message.MessageType.ExistingGames.ToString())
+                {
+                    MessageExistingGames messageExistingGames = new MessageExistingGames();
 
-                ////else if (mt == Message.MessageType.ExistingGames.ToString())
-                ////{
-                ////    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+                    messageExistingGames.ProcessMessage(messageDoc);
 
-                ////    messageRequestExistingGames.ProcessMessage(messageDoc);
-
-                ////    this.OnUpdateExistingGames(messageRequestExistingGames.
-                ////}
+                    this.OnUpdateExistingGames(messageExistingGames.GameNames);
+                }
             }
             catch (Exception e)
             {

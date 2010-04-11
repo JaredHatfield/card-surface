@@ -19,7 +19,7 @@ namespace CardUnitTests
         /// A test for BuildMessage
         /// </summary>
         [TestMethod()]
-        public void BuildMessageTest()
+        public void BuildMessageGameListTest()
         {
             MessageGameList target = new MessageGameList(); // TODO: Initialize to an appropriate value
             ReadOnlyCollection<string> action = null; // TODO: Initialize to an appropriate value
