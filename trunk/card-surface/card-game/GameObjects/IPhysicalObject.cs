@@ -6,13 +6,14 @@ namespace CardGame
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
 
     /// <summary>
     /// Interface for a physical object that is manipulated as part of the game.
     /// </summary>
-    public interface IPhysicalObject : IComparable
+    public interface IPhysicalObject : IComparable, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets a value indicating whether this <see cref="PhysicalObject"/> is moveable.

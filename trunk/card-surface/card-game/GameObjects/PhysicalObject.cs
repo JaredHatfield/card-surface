@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
 
@@ -56,6 +57,11 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Occurs when [property changed].
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Gets a value indicating whether this <see cref="PhysicalObject"/> is moveable.
         /// </summary>
         /// <value><c>true</c> if moveable; otherwise, <c>false</c>.</value>
@@ -90,6 +96,18 @@ namespace CardGame
             }
 
             throw new ArgumentException("object is not a Chip");
+        }
+
+        /// <summary>
+        /// Signals that a property of this object has changed.
+        /// </summary>
+        /// <param name="info">The property that is being affected.</param>
+        protected void NotifyPropertyChanged(string info)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }
