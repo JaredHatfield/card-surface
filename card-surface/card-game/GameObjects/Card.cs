@@ -216,8 +216,16 @@ namespace CardGame
         /// <value>The status of the card.</value>
         public CardStatus Status
         {
-            get { return this.status; }
-            set { this.status = value; }
+            get
+            {
+                return this.status;
+            }
+
+            set
+            {
+                this.status = value;
+                this.NotifyPropertyChanged("Status");
+            }
         }
 
         /// <summary>
