@@ -6,6 +6,8 @@ namespace CardGame
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
@@ -14,7 +16,7 @@ namespace CardGame
     /// A collection of IPhysicalObjects.
     /// </summary>
     [Serializable]
-    public abstract class Pile
+    public abstract class Pile : INotifyPropertyChanged
     {
         /// <summary>
         /// The collection of IPhysicalObjects.
@@ -39,7 +41,15 @@ namespace CardGame
             this.pileItems = new ObservableCollection<IPhysicalObject>();
             this.open = false;
             this.id = Guid.NewGuid();
+
+            // We want to trigger the PropertyChanged event when the underlying ObservableCollection changes.
+            this.pileItems.CollectionChanged += new NotifyCollectionChangedEventHandler(this.NotifyItemsChanged);
         }
+
+        /// <summary>
+        /// Occurs when [property changed].
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Pile"/> can have IPhysicalObjects added to it.
@@ -47,8 +57,16 @@ namespace CardGame
         /// <value><c>true</c> if open; otherwise, <c>false</c>.</value>
         public bool Open
         {
-            get { return this.open; }
-            set { this.open = value; }
+            get
+            {
+                return this.open;
+            }
+
+            set
+            {
+                this.open = value;
+                this.NotifyPropertyChanged("Open");
+            }
         }
 
         /// <summary>
@@ -96,7 +114,7 @@ namespace CardGame
         {
             get { return this.pileItems; }
         }
-        
+
         /// <summary>
         /// Adds an item to a pile.
         /// </summary>
@@ -203,6 +221,28 @@ namespace CardGame
             }
 
             throw new CardGamePhysicalObjectNotFoundException();
+        }
+
+        /// <summary>
+        /// Properties the changed event handeler.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
+        protected void NotifyItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            this.NotifyPropertyChanged("Items");
+        }
+
+        /// <summary>
+        /// Signals that a property of this object has changed.
+        /// </summary>
+        /// <param name="info">The property that is being affected.</param>
+        protected void NotifyPropertyChanged(string info)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }
