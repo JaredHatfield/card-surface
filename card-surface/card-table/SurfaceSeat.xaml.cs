@@ -7,6 +7,7 @@ namespace CardTable
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace CardTable
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
@@ -33,11 +35,21 @@ namespace CardTable
         private string seatLocation;
 
         /// <summary>
+        /// The timer that tracks how long a seat code remains valid
+        /// </summary>
+        private DispatcherTimer seatPasswordTimer;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceSeat"/> class.
         /// </summary>
         public SurfaceSeat()
         {
             InitializeComponent();
+
+            /* TODO: This should actually show the Hostname of the Server!  This text is only valid if the server and table are running on the same machine. */
+            JoinDirections.Content = "Please visit http://" + Dns.GetHostName() + " and enter\nthe following seat code to join this game.";
+
+            this.seatPasswordTimer = new DispatcherTimer(new TimeSpan(0, 1, 0), DispatcherPriority.Normal, this.PasswordExpiration, Dispatcher.CurrentDispatcher);
         }
 
         /// <summary>
@@ -63,7 +75,23 @@ namespace CardTable
 
             JoinButton.Visibility = Visibility.Hidden;
             SeatPasswordGrid.Visibility = Visibility.Visible;
+
             /* Start timer so that the seat password disappears after timeout. */
+            this.seatPasswordTimer.Start();
+        }
+
+        /// <summary>
+        /// Passwords the expiration.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void PasswordExpiration(object sender, EventArgs args)
+        {
+            /* After one minute, hide the seat password again. Assume no one decided to join. */
+            SeatPasswordGrid.Visibility = Visibility.Hidden;
+            JoinButton.Visibility = Visibility.Visible;
+
+            this.seatPasswordTimer.Stop();
         }
     }
 }

@@ -8,7 +8,8 @@
             <s:SurfaceButton Content="Join!" Width="100" Height="25" Click="SurfaceButton_Click"/>
         </Grid>
         <Grid x:Name="SeatPasswordGrid" Visibility="Hidden">
-            <Label x:Name="SeatPassword" Width="100" Height="25" HorizontalContentAlignment="Center"/>
+            <Label x:Name="JoinDirections" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Please enter this seat code to join."/>
+            <Label x:Name="SeatPassword" Margin="0,100,0,0" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Invalid"/>
         </Grid>
     </Grid>
 </s:SurfaceUserControl>
