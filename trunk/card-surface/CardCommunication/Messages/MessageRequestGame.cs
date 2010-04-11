@@ -87,7 +87,14 @@ namespace CardCommunication.Messages
         {
             bool success = true;
 
-            this.gameType = gameType;
+            if (gameType.Contains("-") && gameType.Length == Guid.Empty.ToString().Length)
+            {
+                this.gameGuid = new Guid(gameType);
+            }
+            else
+            {
+                this.gameType = gameType;
+            }
 
             success = BuildM();
 
@@ -143,7 +150,7 @@ namespace CardCommunication.Messages
             XmlElement game = this.MessageDocument.CreateElement("RequestGame");
             string name = String.Empty;
 
-            if (this.gameType != String.Empty)
+            if (this.gameType != null)
             {
                 game.SetAttribute("GameType", this.gameType);
             }

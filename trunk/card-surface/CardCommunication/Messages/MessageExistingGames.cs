@@ -134,7 +134,7 @@ namespace CardCommunication.Messages
 
                 switch (childElement.Name)
                 {
-                    case "GameList":
+                    case "ExistingGames":
                         this.ProcessGameList(childElement);
                         break;
                 }
@@ -172,7 +172,7 @@ namespace CardCommunication.Messages
 
                 switch (gameListElement.Name)
                 {
-                    case "ExistingGames":
+                    case "Game":
                         this.ProcessGame(gameListElement, ref game);
                         break;
                 }

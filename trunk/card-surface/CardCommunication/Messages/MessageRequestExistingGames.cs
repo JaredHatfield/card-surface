@@ -98,7 +98,7 @@ namespace CardCommunication.Messages
         {
             XmlElement body = MessageDocument.CreateElement("Body");
 
-            this.BuildExistingGames(ref body);
+            this.BuildGameType(ref body);
 
             message.AppendChild(body);
         }
@@ -109,15 +109,48 @@ namespace CardCommunication.Messages
         /// <param name="message">The message to be processed.</param>
         protected override void ProcessBody(XmlElement message)
         {
+            foreach (XmlNode n in message.ChildNodes)
+            {
+                XmlElement existingGamesElement = (XmlElement)n;
+                existingGamesElement.InnerXml = n.InnerXml;
+
+                switch (existingGamesElement.Name)
+                {
+                    case "GameType":
+                        this.ProcessGameType(existingGamesElement);
+                        break;
+                }
+            }
         }
 
         /// <summary>
         /// Builds the existing games.
         /// </summary>
-        /// <param name="existingGames">The existing games.</param>
-        protected void BuildExistingGames(ref XmlElement existingGames)
+        /// <param name="message">The existing games.</param>
+        protected void BuildGameType(ref XmlElement message)
         {
+            XmlElement existingGames = this.MessageDocument.CreateElement("GameType");
+
             existingGames.SetAttribute("SelectedType", this.selectedGame);
+
+            message.AppendChild(existingGames);
+        }
+
+        /// <summary>
+        /// Processes the existing games.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void ProcessGameType(XmlElement message)
+        {
+            foreach (XmlAttribute a in message.Attributes)
+            {
+                switch (a.Name)
+                {
+                    case "SelectedType":
+                        this.selectedGame = a.Value;
+                        break;
+                }
+            }
         }
     }
 }
