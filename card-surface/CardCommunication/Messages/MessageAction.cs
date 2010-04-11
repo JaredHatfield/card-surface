@@ -125,12 +125,6 @@ namespace CardCommunication.Messages
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
       
-            ////foreach (Seat s in Game.Seats)
-            ////{
-            ////    Player p = Game.GetPlayer(s.Location);
-
-            ////    foreach (p.Actions)
-
             this.BuildAction(ref body);
 
             message.AppendChild(body);

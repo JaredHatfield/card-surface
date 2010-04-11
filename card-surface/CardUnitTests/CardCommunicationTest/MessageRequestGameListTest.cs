@@ -19,7 +19,7 @@ namespace CardUnitTests
         /// A test for BuildMessage
         /// </summary>
         [TestMethod()]
-        public void BuildMessageTest()
+        public void BuildMessageRequestGamesListTest()
         {
             MessageRequestGameList target = new MessageRequestGameList(); // TODO: Initialize to an appropriate value
             bool expected = true; // TODO: Initialize to an appropriate value

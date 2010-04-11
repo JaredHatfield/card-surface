@@ -76,7 +76,50 @@ namespace CardCommunication
 
                 messageGameList.BuildMessage(this.GameController.GameTypes);
 
-                this.TransportCommunication(messageGameList.MessageDocument);
+                base.TransportCommunication(messageGameList.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error sending message", e);
+                success = false;
+                throw new MessageProcessException("Server.SendGameListMessage");
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Sends the existing games message.
+        /// </summary>
+        /// <param name="gameType">Type of the game.</param>
+        /// <returns>whether the message was sent.</returns>
+        public bool SendExistingGamesMessage(string gameType)
+        {
+            bool success = true;
+
+            try
+            {
+                MessageExistingGames messageExistingGames = new MessageExistingGames();
+                Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
+
+                foreach (Game game in this.GameController.Games)
+                {
+                    Collection<string> gameObject = new Collection<string>();
+
+                    if (game.Name == gameType)
+                    {
+                        gameObject.Add(game.Name);
+                        gameObject.Add(game.Id.ToString());
+                        gameObject.Add(game.NumberOfPlayers + "/" + game.Seats.Count);
+                        //// gameObject.Add(game.location);
+                    }
+
+                    existingGames.Add(gameObject);
+                }
+
+                messageExistingGames.BuildMessage(existingGames);
+
+                base.TransportCommunication(messageExistingGames.MessageDocument);
             }
             catch (Exception e)
             {
@@ -233,7 +276,7 @@ namespace CardCommunication
 
                     messageGameList.BuildMessage(GameController.GameTypes);
 
-                    this.TransportCommunication(messageGameList.MessageDocument);
+                    base.TransportCommunication(messageGameList.MessageDocument);
                 }
                 else if (mt == Message.MessageType.RequestGame.ToString())
                 {
@@ -313,6 +356,30 @@ namespace CardCommunication
                 }
                 else if (mt == Message.MessageType.RequestExistingGames.ToString())
                 {
+                    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+                    Collection<Collection<string>> games = new Collection<Collection<string>>();
+
+                    messageRequestExistingGames.ProcessMessage(messageDoc);
+
+                    foreach (Game game in GameController.Games)
+                    {
+                        if (game.Name == messageRequestExistingGames.SelectedGame)
+                        {
+                            Collection<string> gameObject = new Collection<string>();
+
+                            gameObject.Add(game.Name);
+                            gameObject.Add(game.Id.ToString());
+                            gameObject.Add(game.NumberOfPlayers + "/" + game.Seats.Count);
+
+                            games.Add(gameObject);
+                        }
+                    }
+
+                    MessageExistingGames messageExistingGames = new MessageExistingGames();
+
+                    messageExistingGames.BuildMessage(games);
+
+                    base.TransportCommunication(messageExistingGames.MessageDocument);
                 }
             }
             catch (Exception e)

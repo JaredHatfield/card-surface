@@ -29,6 +29,15 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Gets the selected game.
+        /// </summary>
+        /// <value>The selected game.</value>
+        public string SelectedGame
+        {
+            get { return this.selectedGame; }
+        }
+
+        /// <summary>
         /// Builds the message.
         /// </summary>
         /// <param name="selectedGame">The selected game.</param>
@@ -62,7 +71,23 @@ namespace CardCommunication.Messages
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
         public override void ProcessMessage(XmlDocument messageDoc)
-        {            
+        {
+            XmlElement message = messageDoc.DocumentElement;
+
+            foreach (XmlNode node in message.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+
+                switch (node.Name)
+                {
+                    case "Header":
+                        this.ProcessHeader(element);
+                        break;
+                    case "Body":
+                        this.ProcessBody(element);
+                        break;
+                }
+            }
         }
 
         /// <summary>

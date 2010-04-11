@@ -25,12 +25,21 @@
       </xs:element>
       <xs:element name="ExistingGames">
         <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Game">
+              <xs:complexType>
+                <xs:attribute name="type" type="xs:string"></xs:attribute>
+                <xs:attribute name="id" type="xs:string"></xs:attribute>
+                <xs:attribute name="players" type="xs:string"></xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
           <xs:attribute name="ExistingGamesList" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
       <xs:element name="FlipCard">
         <xs:complexType>
-          <xs:attribute name="CardGuid" type="xs:string"></xs:attribute>
+          <xs:attribute name="cardGuid" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
       <xs:element name="GameList">

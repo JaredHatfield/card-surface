@@ -20,14 +20,14 @@ namespace CardCommunication.Messages
     public class MessageExistingGames : Message
     {
         /// <summary>
-        /// ReadOnlyCollection of existing games that can be played.
+        /// Collection of string composites of games for use by the table.
         /// </summary>
-        private ReadOnlyCollection<string> gameNames;
+        private Collection<string> gameNames = new Collection<string>();
 
         /// <summary>
         /// Collection of existing games that can be played.
         /// </summary>
-        private Collection<string> existingGameList;
+        private Collection<Collection<string>> existingGameList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageExistingGames"/> class.
@@ -38,10 +38,19 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Gets the game names for use by the table.
+        /// </summary>
+        /// <value>The game names.</value>
+        public Collection<string> GameNames
+        {
+            get { return this.gameNames; }
+        }
+
+        /// <summary>
         /// Gets the game name list.
         /// </summary>
         /// <value>The game name list.</value>
-        public Collection<string> ExistingGameList
+        public Collection<Collection<string>> ExistingGameList
         {
             get { return this.existingGameList; }
         }
@@ -51,14 +60,14 @@ namespace CardCommunication.Messages
         /// </summary>
         /// <param name="existingGameList">The game name list.</param>
         /// <returns>whether the message was built.</returns>
-        public bool BuildMessage(ReadOnlyCollection<string> existingGameList)
+        public bool BuildMessage(Collection<Collection<string>> existingGameList)
         {
             XmlElement message = this.MessageDocument.CreateElement("Message");
             bool success = true;
 
             try
             {
-                this.gameNames = existingGameList;
+                this.existingGameList = existingGameList;
 
                 message.SetAttribute("MessageType", this.MessageTypeName);
                 this.BuildHeader(ref message);
@@ -141,12 +150,10 @@ namespace CardCommunication.Messages
             XmlElement gameList = this.MessageDocument.CreateElement("ExistingGames");
             string name = String.Empty;
 
-            foreach (string n in this.gameNames)
+            foreach (Collection<string> game in this.existingGameList)
             {
-                name = name.Insert(0, n + ".");
+                this.BuildGame(ref gameList, game);
             }
-
-            gameList.SetAttribute("ExistingGamesList", name);
 
             message.AppendChild(gameList);
         }
@@ -157,37 +164,70 @@ namespace CardCommunication.Messages
         /// <param name="gameList">The game list.</param>
         protected void ProcessGameList(XmlElement gameList)
         {
-            foreach (XmlNode node in gameList.Attributes)
+            foreach (XmlNode node in gameList.ChildNodes)
             {
-                XmlAttribute childAttribute = (XmlAttribute)node;
-                childAttribute.InnerXml = node.InnerXml;
+                string game = String.Empty;
+                XmlElement gameListElement = (XmlElement)node;
+                gameListElement.InnerXml = node.InnerXml;
 
-                switch (childAttribute.Name)
+                switch (gameListElement.Name)
                 {
-                    case "ExistingGamesList":
-                        this.ParseGameList(childAttribute.Value);
+                    case "ExistingGames":
+                        this.ProcessGame(gameListElement, ref game);
                         break;
                 }
+
+                this.gameNames.Add(game);
             }
         }
 
         /// <summary>
-        /// Parses the game list.
+        /// Builds the game.
         /// </summary>
-        /// <param name="gameList">The game list.</param>
-        protected void ParseGameList(string gameList)
+        /// <param name="message">The message.</param>
+        /// <param name="game">The game to be built.</param>
+        protected void BuildGame(ref XmlElement message, Collection<string> game)
         {
-            ////DO SOMETHING to update the game state.
-            Collection<string> gameListNames = new Collection<string>();
-            char[] splitChar = { '.' };
-            string[] name = gameList.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
+            XmlElement gameElement = this.MessageDocument.CreateElement("Game");
 
-            for (int i = 0; i < name.Length; i++)
+            gameElement.SetAttribute("type", game[0]);
+            gameElement.SetAttribute("id", game[1]);
+            gameElement.SetAttribute("players", game[2]);
+            //// gameElement.SetAttribute("location", game[3]);
+
+            message.AppendChild(gameElement);
+        }
+
+        /// <summary>
+        /// Processes the game.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="game">The game to be processed.</param>
+        protected void ProcessGame(XmlElement message,  ref string game)
+        {
+            string type = String.Empty;
+            string id = String.Empty;
+            string players = String.Empty;
+
+            foreach (XmlNode n in message.Attributes)
             {
-                gameListNames.Add(name[i]);
+                XmlAttribute a = (XmlAttribute)n;
+
+                switch (a.Name)
+                {
+                    case "type":
+                        type = a.Value;
+                        break;
+                    case "id":
+                        id = a.Value;
+                        break;
+                    case "players":
+                        players = a.Value;
+                        break;
+                }
             }
 
-            this.existingGameList = gameListNames;
+            game = type + "%" + id + "%" + players;
         }
     }
 }
