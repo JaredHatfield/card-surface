@@ -29,27 +29,5 @@ namespace CardUnitTests
             get { return this.testContextInstance; }
             set { this.testContextInstance = value; }
         }
-
-        /// <summary>
-        /// A test for PhysicalObject Constructor
-        /// </summary>
-        [TestMethod()]
-        public void PhysicalObjectConstructorTest1()
-        {
-            PhysicalObject target = new PhysicalObject();
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        /// <summary>
-        /// A test for PhysicalObject Constructor
-        /// </summary>
-        [TestMethod()]
-        public void PhysicalObjectConstructorTest()
-        {
-            bool moveable = false; // TODO: Initialize to an appropriate value
-            Guid id = new Guid(); // TODO: Initialize to an appropriate value
-            PhysicalObject target = new PhysicalObject(moveable, id);
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
     }
 }
