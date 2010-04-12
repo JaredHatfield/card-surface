@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -64,6 +64,7 @@
     <Compile Include="GameException\CardGamePileNotFoundException.cs" />
     <Compile Include="GameException\CardGamePlayerNotFoundException.cs" />
     <Compile Include="GameException\CardGameSeatNotFoundException.cs" />
+    <Compile Include="GameException\CardGameSeatNotSittableException.cs" />
     <Compile Include="GameFactory\CardFactory.cs" />
     <Compile Include="GameFactory\ChipFactory.cs" />
     <Compile Include="GameFactory\PhysicalObjectFactory.cs" />

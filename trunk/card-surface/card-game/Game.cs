@@ -138,6 +138,28 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the number of seats.
+        /// This number only includes those seats that are sittable.
+        /// </summary>
+        /// <value>The number of seats.</value>
+        public int NumberOfSeats
+        {
+            get
+            {
+                int number = 0;
+                for (int i = 0; i < this.seats.Count; i++)
+                {
+                    if (this.seats[i].Sittable)
+                    {
+                        number++;
+                    }
+                }
+
+                return number;
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating the minimum amount of money required to join a game.
         /// </summary>
         /// <value>The minimum stake for the game.</value>

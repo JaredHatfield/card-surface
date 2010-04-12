@@ -28,6 +28,11 @@ namespace CardGame
         private Player player;
 
         /// <summary>
+        /// A flag that indicates someone can sit in thie chair.
+        /// </summary>
+        private bool sittable;
+
+        /// <summary>
         /// The players location at the table.
         /// </summary>
         private SeatLocation location;
@@ -53,6 +58,7 @@ namespace CardGame
         /// <param name="location">The location of the seat.</param>
         internal Seat(SeatLocation location)
         {
+            this.sittable = true;
             this.player = null;
             this.location = location;
             this.AssignSeatPassword();
@@ -176,6 +182,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance is sittable.
+        /// </summary>
+        /// <value><c>true</c> if this instance is sittable; otherwise, <c>false</c>.</value>
+        public bool IsSittable
+        {
+            get { return this.sittable; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Seat"/> is sittable.
+        /// </summary>
+        /// <value><c>true</c> if sittable; otherwise, <c>false</c>.</value>
+        internal bool Sittable
+        {
+            get { return this.sittable; }
+            set { this.sittable = value; }
+        }
+
+        /// <summary>
         /// Gets a SeatLocation based on the string name of a SeatLocation.
         /// </summary>
         /// <param name="name">The string representation of a SeatLocation.</param>
@@ -216,27 +241,34 @@ namespace CardGame
             // 1) Make sure the seat is empty
             if (!this.IsEmpty)
             {
+                // TODO: This should throw an exception!
                 return false;
             }
 
-            // 2) Make sure the passwords match
+            // 2) Make sure this seat is sittable
+            if (!this.sittable)
+            {
+                throw new CardGameSeatNotSittableException();
+            }
+
+            // 3) Make sure the passwords match
             if (!this.password.Equals(password))
             {
                 return false;
             }
 
-            // 3) Change the password
+            // 4) Change the password
             this.AssignSeatPassword();
 
-            // 4) Assign the username to this seat
+            // 5) Assign the username to this seat
             this.username = username;
             this.NotifyPropertyChanged("Username");
 
-            // 5) Make a player and add them to the seat
+            // 6) Make a player and add them to the seat
             this.player = new Player();
             this.NotifyPropertyChanged("Player");
 
-            // 6) Indicate that everything was successful
+            // 7) Indicate that everything was successful
             return true;
         }
 
