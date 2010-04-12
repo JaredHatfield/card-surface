@@ -14,7 +14,7 @@ namespace CardGame
     /// A physical object that is manipulated as part of the game.
     /// </summary>
     [Serializable]
-    public class PhysicalObject : IPhysicalObject
+    public abstract class PhysicalObject : IPhysicalObject
     {
         /// <summary>
         /// Determines if the object can be physically moved.
