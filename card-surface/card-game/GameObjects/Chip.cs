@@ -9,6 +9,7 @@ namespace CardGame
     using System.Drawing;
     using System.Linq;
     using System.Text;
+    using CardGame.GameFactory;
 
     /// <summary>
     /// A single chip.
@@ -58,6 +59,14 @@ namespace CardGame
             : base()
         {
             // DO NOT USE THIS CONSTRUCTOR!
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the Chip class.
+        /// </summary>
+        ~Chip()
+        {
+            PhysicalObjectFactory.Instance().Destroy(this.Id);
         }
 
         /// <summary>
