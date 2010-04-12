@@ -45,7 +45,7 @@ namespace CardServer
         {
             try
             {
-                this.gameController = new GameController();
+                this.gameController = GameController.Instance();
                 this.webController = new WebController(this.gameController);
                 this.serverCommunicationController = new ServerCommunicationController(this.gameController);
                 this.accountController = AccountController.Instance;
@@ -57,16 +57,6 @@ namespace CardServer
                 /* TODO: Exit codes for end-user applications (like CardGameCommandLine, CardServer, CardTable) should be abstracted as part of the exceptions. */
                 Environment.Exit(1);
             }
-        }
-
-        /// <summary>
-        /// Gets the game controller.
-        /// </summary>
-        /// <value>The game controller.</value>
-        public GameController GameController
-        {
-            /* TODO: REMOVE this property for release! */
-            get { return this.gameController; }
         }
 
         /// <summary>

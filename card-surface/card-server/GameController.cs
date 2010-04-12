@@ -20,6 +20,11 @@ namespace CardServer
     public class GameController : IGameController
     {
         /// <summary>
+        /// The singleton instance of GameController.
+        /// </summary>
+        private static GameController instance;
+
+        /// <summary>
         /// The list of games.
         /// </summary>
         private ObservableCollection<Game> games;
@@ -35,9 +40,9 @@ namespace CardServer
         private AccountController accountController;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// Prevents a default instance of the GameController class from being created.
         /// </summary>
-        internal GameController()
+        private GameController()
         {
             // We need to set up the PhysicalObjectFactory before we can do anything
             PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
@@ -176,6 +181,20 @@ namespace CardServer
         public void Close(object sender, EventArgs args)
         {
             // TODO: Move all of the money back into the players class.
+        }
+
+        /// <summary>
+        /// Get a singleton instance of the GameController.
+        /// </summary>
+        /// <returns>An instance of the GameController.</returns>
+        internal static GameController Instance()
+        {
+            if (GameController.instance == null)
+            {
+                GameController.instance = new GameController();
+            }
+
+            return GameController.instance;
         }
     }
 }
