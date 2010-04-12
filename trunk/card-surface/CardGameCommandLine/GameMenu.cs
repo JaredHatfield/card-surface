@@ -51,7 +51,7 @@ namespace CardGameCommandLine
             Console.WriteLine("Select from available seats:");
             for (int i = 0; i < game.Seats.Count; i++)
             {
-                if (game.Seats[i].IsEmpty)
+                if (game.Seats[i].IsEmpty && game.Seats[i].IsSittable)
                 {
                     Console.WriteLine(game.Seats[i].Location);
                 }
