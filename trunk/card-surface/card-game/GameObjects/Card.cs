@@ -9,6 +9,7 @@ namespace CardGame
     using System.Drawing;
     using System.Linq;
     using System.Text;
+    using CardGame.GameFactory;
 
     /// <summary>
     /// A single playing card.
@@ -67,6 +68,14 @@ namespace CardGame
             : base()
         {
             // DO NOT USE THIS CONSTRUCTOR!
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the Card class.
+        /// </summary>
+        ~Card()
+        {
+            PhysicalObjectFactory.Instance().Destroy(this.Id);
         }
 
         /// <summary>

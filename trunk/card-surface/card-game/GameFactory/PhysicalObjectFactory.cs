@@ -177,5 +177,14 @@ namespace CardGame.GameFactory
             this.createdObjects.Add(chip.Id);
             return chip;
         }
+
+        /// <summary>
+        /// The specified object id has been destroyed so remove it from the list of objects.
+        /// </summary>
+        /// <param name="id">The id to remove.</param>
+        public void Destroy(Guid id)
+        {
+            this.createdObjects.Remove(id);
+        }
     }
 }
