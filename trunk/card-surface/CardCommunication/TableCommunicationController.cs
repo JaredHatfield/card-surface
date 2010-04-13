@@ -139,7 +139,8 @@ namespace CardCommunication
         /// Sends the request existing games.
         /// </summary>
         /// <param name="selectedGame">The selected game.</param>
-        public void SendRequestExistingGames(string selectedGame)
+        /// <returns>the collection of existing games.</returns>
+        public Collection<string> SendRequestExistingGames(string selectedGame)
         {
             MessageRequestExistingGames message = new MessageRequestExistingGames();
 
@@ -150,6 +151,8 @@ namespace CardCommunication
             while (!CommunicationCompleted)
             {
             }
+
+            return this.stringCollection;
         }
 
         /// <summary>
@@ -163,6 +166,38 @@ namespace CardCommunication
             message.BuildMessage(action);
 
             base.TransportCommunication(message.MessageDocument);
+        }
+
+        /// <summary>
+        /// Sends the move action message.
+        /// </summary>
+        /// <param name="objectGuid">The object GUID.</param>
+        /// <param name="pileGuid">The pile GUID.</param>
+        public void SendMoveActionMessage(string objectGuid, string pileGuid)
+        {
+            Collection<string> action = new Collection<string>();
+
+            action.Add(MessageAction.ActionType.Move.ToString());
+            action.Add(objectGuid);
+            action.Add(pileGuid);
+
+            this.SendActionMessage(action);
+        }
+
+        /// <summary>
+        /// Sends the custom action message.
+        /// </summary>
+        /// <param name="actionName">Name of the action.</param>
+        /// <param name="playerName">Name of the player.</param>
+        public void SendCustomActionMessage(string actionName, string playerName)
+        {
+            Collection<string> action = new Collection<string>();
+
+            action.Add(MessageAction.ActionType.Custom.ToString());
+            action.Add(actionName);
+            action.Add(playerName);
+
+            this.SendActionMessage(action);
         }
 
         /// <summary>
@@ -333,6 +368,8 @@ namespace CardCommunication
                     MessageExistingGames messageExistingGames = new MessageExistingGames();
 
                     messageExistingGames.ProcessMessage(messageDoc);
+
+                    this.stringCollection = messageExistingGames.GameNames;
 
                     this.OnUpdateExistingGames(messageExistingGames.GameNames);
                 }
