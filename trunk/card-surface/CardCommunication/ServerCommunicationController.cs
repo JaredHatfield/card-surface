@@ -105,7 +105,7 @@ namespace CardCommunication
 
                 newGame.Add("New Game");
                 newGame.Add(Guid.Empty.ToString());
-                newGame.Add("");
+                newGame.Add(String.Empty);
 
                 existingGames.Add(newGame);
 
@@ -365,6 +365,13 @@ namespace CardCommunication
                 {
                     MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
                     Collection<Collection<string>> games = new Collection<Collection<string>>();
+                    Collection<string> newGame = new Collection<string>();
+
+                    newGame.Add("New Game");
+                    newGame.Add(Guid.Empty.ToString());
+                    newGame.Add("0");
+
+                    games.Add(newGame);
 
                     messageRequestExistingGames.ProcessMessage(messageDoc);
 
