@@ -35,8 +35,6 @@ namespace CardGameCommandLine
             // Set the server up and teach it Blackjack
             this.serverController = new ServerController();
             this.gameController = GameController.Instance();
-            this.gameController.SubscribeGame(typeof(Blackjack), "Blackjack");
-            this.gameController.SubscribeGame(typeof(Freeplay), "Freeplay");
 
             // Keep prompting until the user decides to exit
             string input = string.Empty;
