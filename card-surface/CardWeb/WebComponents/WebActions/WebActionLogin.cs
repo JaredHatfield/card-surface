@@ -78,11 +78,38 @@ namespace CardWeb.WebComponents.WebActions
         {
             int numBytesSent = 0;
             string responseBuffer = String.Empty;
+            WebSession authenticatedSession;
 
+            /* Did the user enter the correct login credentials? */
             if (AccountController.Instance.Authenticate(this.username, this.password))
             {
-                WebSession authenticatedSession = new WebSession(this.username);
-                WebSessionController.Instance.Sessions.Add(authenticatedSession);
+                /* Does the user already have an active WebSession? */
+                if (WebSessionController.Instance.IsUserSessionActive(this.username))
+                {
+                    try
+                    {
+                        /* If the user already has an active sesion, try to reassign the session to this user by
+                         * reusing its SessionId. */
+                        authenticatedSession = WebSessionController.Instance.GetActiveSession(this.username);
+                    }
+                    catch (WebServerActiveSessionNotFoundException wsasnfe)
+                    {
+                        Debug.WriteLine("WebActionLogin: WebSessionController said the user had an active exception, but we couldn't find it!");
+                        Debug.WriteLine("WebActionLogin: " + wsasnfe.Message);
+                        Debug.WriteLine("WebActionLogin: Creating a new WebSession for the user to recover.");
+
+                        /* If we weren't able to retrieve this user's active session, just create a new one.
+                         * Although, this should not have happened. */
+                        authenticatedSession = new WebSession(this.username);
+                        WebSessionController.Instance.AddSession(authenticatedSession);
+                    }
+                }
+                else
+                {
+                    /* If the user doesn't have an active session, create a new session for the user. */
+                    authenticatedSession = new WebSession(this.username);
+                    WebSessionController.Instance.AddSession(authenticatedSession);
+                }
 
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                 responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;

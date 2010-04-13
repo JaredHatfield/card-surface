@@ -65,7 +65,8 @@ namespace CardWeb
             this.username = username;
             this.created = DateTime.Now;
             this.lastModified = DateTime.Now;
-            this.expires = DateTime.Now.AddMinutes(5.0);
+            this.expires = DateTime.Now.AddHours(12.0);
+            this.gameId = Guid.Empty;
         }
 
         /// <summary>
@@ -103,6 +104,28 @@ namespace CardWeb
         {
             get { return this.lastModified; }
             set { this.lastModified = value; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has expired.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance has expired; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasExpired
+        {
+            get
+            {
+                /* If the expiration time has already passed, the session has expired. */
+                if (this.expires.CompareTo(DateTime.Now) <= 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>

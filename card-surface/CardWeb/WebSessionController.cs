@@ -46,12 +46,21 @@ namespace CardWeb
         }
 
         /// <summary>
-        /// Gets the sessions.
+        /// Adds the session.
         /// </summary>
-        /// <value>The sessions.</value>
-        public List<WebSession> Sessions
+        /// <param name="newSession">The new session.</param>
+        /// <exception cref="WebServerActiveSessionAlreadyExistsException"></exception>
+        public void AddSession(WebSession newSession)
         {
-            get { return this.sessions; }
+            foreach (WebSession session in this.sessions)
+            {
+                if (session.Username.Equals(newSession.Username) && !session.HasExpired)
+                {
+                    throw new WebServerActiveSessionAlreadyExistsException(newSession);
+                }
+            }
+
+            this.sessions.Add(newSession);
         }
 
         /// <summary>
@@ -71,6 +80,68 @@ namespace CardWeb
             }
 
             throw new WebServerSessionNotFoundException(csid);
+        }
+
+        /// <summary>
+        /// Gets the active session.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>The active WebSession for the specified user.</returns>
+        /// <exception cref="WebServerActiveSessionNotFoundException"></exception>
+        public WebSession GetActiveSession(string username)
+        {
+            foreach (WebSession session in this.sessions)
+            {
+                if (session.Username.Equals(username) && !session.HasExpired)
+                {
+                    /* WebSessionController guarantees that a user only has one active session. */
+                    return session;
+                }
+            }
+
+            throw new WebServerActiveSessionNotFoundException(username);
+        }
+
+        /// <summary>
+        /// Determines whether a user still has an active session.
+        /// Cannot be used to determine whether or not the user has ever had a session.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>
+        /// <c>true</c> if the user's session is currently active; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsUserSessionActive(string username)
+        {
+            foreach (WebSession session in this.sessions)
+            {
+                if (session.Username.Equals(username) && !session.HasExpired)
+                {
+                    /* If we're looking at the right user's session and it has not expired, the session is still active. */
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the given session id is active or not.
+        /// </summary>
+        /// <param name="id">The session id.</param>
+        /// <returns>
+        /// <c>true</c> if the session matching the specified id is active; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsSessionActive(Guid id)
+        {
+            foreach (WebSession session in this.sessions)
+            {
+                if (session.SessionId == id && !session.HasExpired)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

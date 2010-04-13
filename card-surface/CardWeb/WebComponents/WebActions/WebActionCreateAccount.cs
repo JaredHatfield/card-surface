@@ -96,7 +96,7 @@ namespace CardWeb.WebComponents.WebActions
                 if (AccountController.Instance.Authenticate(this.username, this.password))
                 {
                     WebSession authenticatedSession = new WebSession(this.username);
-                    WebSessionController.Instance.Sessions.Add(authenticatedSession);
+                    WebSessionController.Instance.AddSession(authenticatedSession);
 
                     responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;

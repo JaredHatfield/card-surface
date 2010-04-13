@@ -80,11 +80,19 @@ namespace CardWeb.WebComponents.WebViews
 
             if (this.request.IsAuthenticated())
             {
-                /* If the request has not been authenticated, provide them with a list of available games. */
-                responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += this.GetContent();
+                if (WebSessionController.Instance.GetSession(this.request.GetSessionId()).IsPlayingGame)
+                {
+                    /* If the request has not been authenticated and the user has joined a game, show their hand. */
+                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Type: " + this.GetContentType() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Content-Length: " + this.GetContentLength() + WebUtilities.CarriageReturn + WebUtilities.LineFeed + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += this.GetContent();
+                }
+                else
+                {
+                    responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                }
             }
             else
             {
