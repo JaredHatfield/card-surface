@@ -13,6 +13,8 @@ namespace CardServer
     using CardGame;
     using CardGame.GameException;
     using CardGame.GameFactory;
+    using GameBlackjack;
+    using GameFreeplay;
 
     /// <summary>
     /// The controller that manages all of the game instances and the access to the game instances.
@@ -53,6 +55,10 @@ namespace CardServer
             this.games = new ObservableCollection<Game>();
             this.availableGames = new Dictionary<string, Type>();
             this.accountController = AccountController.Instance;
+
+            // Add the various game types
+            this.SubscribeGame(typeof(Blackjack), "Blackjack");
+            this.SubscribeGame(typeof(Freeplay), "Freeplay");
         }
 
         /// <summary>

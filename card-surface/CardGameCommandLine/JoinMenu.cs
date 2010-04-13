@@ -10,6 +10,8 @@ namespace CardGameCommandLine
     using System.Text;
     using CardCommunication;
     using CardServer;
+    using GameBlackjack;
+    using GameFreeplay;
 
     /// <summary>
     /// The Join Menu of the application.
@@ -74,36 +76,16 @@ namespace CardGameCommandLine
             while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
             {
                 Console.Clear();
-                Console.WriteLine("Commands: games");
+                Console.WriteLine("Commands: list");
                 Console.Write(" > ");
                 input = Console.ReadLine();
                 if (input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // We are all done.
                 }
-                else if (input.Equals("games", StringComparison.CurrentCultureIgnoreCase))
+                else if (input.Equals("list", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    // Get the list of games from the server.  Danger, danger!
-                    try
-                    {
-                        Collection<string> games = this.tableCommunicationController.SendRequestGameListMessage();
-
-                        // Print out that list that we hopefully retreived.
-                        Console.WriteLine("Games:");
-                        for (int i = 0; i < games.Count; i++)
-                        {
-                            Console.WriteLine(games[i]);
-                        }
-
-                        // TODO: We actually want to join a game now.
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Something went terribly wrong!");
-                        Console.WriteLine(e.ToString());
-                    }
-
-                    this.PrompForEnter();
+                    this.GameList();
                 }
                 else
                 {
@@ -121,6 +103,86 @@ namespace CardGameCommandLine
         /// <param name="games">The games.</param>
         private void DoNothing(Collection<string> games)
         {
+        }
+
+        /// <summary>
+        /// Print out the list of possible game types and prompt the user to join one of the games.
+        /// </summary>
+        private void GameList()
+        {
+            string selected = string.Empty;
+
+            // Get the list of games from the server.  Danger, danger!
+            try
+            {
+                Collection<string> games = this.tableCommunicationController.SendRequestGameListMessage();
+
+                // Print out that list that we hopefully retreived.
+                Console.WriteLine("Games:");
+                for (int i = 0; i < games.Count; i++)
+                {
+                    Console.WriteLine(i + ") " + games[i]);
+                }
+
+                string input = string.Empty;
+                while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Console.Write(" > ");
+                    input = Console.ReadLine();
+                    try
+                    {
+                        int selection = Int32.Parse(input);
+                        if (selection >= games.Count)
+                        {
+                            throw new ArgumentOutOfRangeException();
+                        }
+
+                        selected = games[selection];
+                        break;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Invalid selection");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went terribly wrong!");
+                Console.WriteLine(e.ToString());
+                return;
+            }
+
+            this.GameTypeMenu(selected);
+        }
+
+        /// <summary>
+        /// Get the list of active games and prompt to join one of those or add a new game and join that.
+        /// </summary>
+        /// <param name="gameName">Name of the game.</param>
+        private void GameTypeMenu(string gameName)
+        {
+            // TODO: I really wanted a synchronous call, but it doesn't exist yet! :(
+            /*
+            try
+            {
+                Collection<string> games = this.tableCommunicationController.SendRequestExistingGames(gameName);
+
+                for (int i = 0; i < games; i++)
+                {
+                    Console.WriteLine(i + ") " + games[i]);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went terribly wrong!");
+                Console.WriteLine(e.ToString());
+                return;
+            }
+             */
+
+            Console.WriteLine("The list of active games will appear here for " + gameName);
+            this.PrompForEnter();
         }
     }
 }

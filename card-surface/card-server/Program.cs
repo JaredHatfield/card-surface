@@ -8,8 +8,6 @@ namespace CardServer
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
-    using GameBlackjack;
-    using GameFreeplay;
 
     /// <summary>
     /// Main application.
@@ -25,8 +23,6 @@ namespace CardServer
             // TODO: Implement CardServer.
             ServerController serverController = new ServerController();
             GameController gameController = GameController.Instance();
-            gameController.SubscribeGame(typeof(Blackjack), "Blackjack");
-            gameController.SubscribeGame(typeof(Freeplay), "Freeplay");
             System.Diagnostics.Process.GetCurrentProcess().Exited += new EventHandler(serverController.Close);
 
             ReadOnlyCollection<string> s = gameController.GameTypes;
