@@ -156,7 +156,7 @@ namespace CardGameCommandLine
             this.GameTypeMenu(selected);
         }
 
-        /// <summary>
+        /// <summary>g
         /// Get the list of active games and prompt to join one of those or add a new game and join that.
         /// </summary>
         /// <param name="gameName">Name of the game.</param>
