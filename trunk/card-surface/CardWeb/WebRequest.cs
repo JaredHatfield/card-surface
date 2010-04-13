@@ -153,10 +153,10 @@ namespace CardWeb
         }
 
         /// <summary>
-        /// Determines whether this instance is authenticated.
+        /// Determines whether this web request matches an authenticated session.
         /// </summary>
         /// <returns>
-        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+        /// <c>true</c> if this web request matches an authenticated session; otherwise, <c>false</c>.
         /// </returns>
         public bool IsAuthenticated()
         {
@@ -164,13 +164,7 @@ namespace CardWeb
             {
                 WebCookie requestCookie = this.ExtractCookie();
 
-                foreach (WebSession session in WebSessionController.Instance.Sessions)
-                {
-                    if (session.SessionId == requestCookie.Csid)
-                    {
-                        return true;
-                    }
-                }
+                return WebSessionController.Instance.IsSessionActive(requestCookie.Csid);
             }
 
             return false;
