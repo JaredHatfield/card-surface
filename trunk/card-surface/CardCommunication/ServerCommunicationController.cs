@@ -101,6 +101,13 @@ namespace CardCommunication
             {
                 MessageExistingGames messageExistingGames = new MessageExistingGames();
                 Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
+                Collection<string> newGame = new Collection<string>();
+
+                newGame.Add("New Game");
+                newGame.Add(Guid.Empty.ToString());
+                newGame.Add("");
+
+                existingGames.Add(newGame);
 
                 foreach (Game game in this.GameController.Games)
                 {
@@ -110,7 +117,7 @@ namespace CardCommunication
                     {
                         gameObject.Add(game.Name);
                         gameObject.Add(game.Id.ToString());
-                        gameObject.Add(game.NumberOfPlayers + "/" + game.Seats.Count);
+                        gameObject.Add(game.NumberOfPlayers + "/" + game.NumberOfSeats);
                         //// gameObject.Add(game.location);
                     }
 
