@@ -128,17 +128,8 @@ namespace CardTable
         /// <param name="existingGames">The existing games.</param>
         protected void OnUpdateExistingGames(Collection<string> existingGames)
         {
-            /* This is the cryptic string format which existing game information will be received in.
-             * TODO: CardTable and whoever sends this need to agree on a format programmatically. */
-            /* TODO: We need to determine 8 from the max players option in the CardGame library! */
-            string newGame = "New Game%" + Guid.Empty + "%0/8";
-
             /* Remove the Game Type selection buttons so we can show the games we have available. */
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Games.Items.Clear));
-
-            /* Add the new game option first.  If lots of games are currently available, players shouldn't have to scroll
-             * to arrive at the default option each time. */
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), newGame);
       
             for (int i = 0; i < existingGames.Count; i++)
             {
