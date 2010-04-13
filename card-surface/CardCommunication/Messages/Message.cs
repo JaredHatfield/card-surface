@@ -195,9 +195,9 @@ namespace CardCommunication.Messages
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw new MessageTransportException("Message.ConvertToGame");
+                    throw new MessageTransportException("Message.ConvertToGame Exception." + e.InnerException);
                 }
             }
 
@@ -234,7 +234,7 @@ namespace CardCommunication.Messages
             {
                 Console.WriteLine("Error Building Message", e);
                 success = false;
-                throw new MessageTransportException("BuildM");
+                throw new MessageTransportException("BuildM Exception." + e.InnerException);
             }
 
             return success;
@@ -249,7 +249,7 @@ namespace CardCommunication.Messages
         {
             Console.WriteLine(e.Severity + ".  " + e.Message + "  " + e.Exception);
             this.validated = false;
-            throw new MessageTransportException("Message Validation Error");
+            throw new MessageTransportException("Message Validation Error" + e.Message);
         }
 
         /// <summary>

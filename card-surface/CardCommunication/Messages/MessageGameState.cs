@@ -11,6 +11,7 @@ namespace CardCommunication.Messages
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
+    using CommunicationException;
     ////using GameObject;
 
     /// <summary>
@@ -50,6 +51,7 @@ namespace CardCommunication.Messages
             {
                 Console.WriteLine("Error Building Message", e);
                 success = false;
+                throw new MessageTransportException("Error Building Game State Message" + e.InnerException);
             }
 
             return success;
@@ -535,6 +537,7 @@ namespace CardCommunication.Messages
                 {
                     Console.WriteLine("Error processing Player from XML.", e);
                     success = false;
+                    throw new MessageProcessException("Error processing Game State." + e.InnerException);
                 }
             }
 

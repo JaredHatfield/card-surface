@@ -12,6 +12,7 @@ namespace CardCommunication.Messages
     using System.Text;
     using System.Xml;
     using CardGame;
+    using CommunicationException;
     ////using GameObject;
 
     /// <summary>
@@ -77,8 +78,9 @@ namespace CardCommunication.Messages
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Building Message", e);
+                Console.WriteLine("Error Building Message", e.InnerException);
                 success = false;
+                throw new MessageTransportException("Error Building Existing Games Message." + e.InnerException);
             }
 
             return success;
