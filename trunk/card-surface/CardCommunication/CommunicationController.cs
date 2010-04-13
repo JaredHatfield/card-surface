@@ -238,7 +238,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error starting socket listener.", e);
                 success = false;
-                throw new SocketBindingException("StartListener");
+                throw new SocketBindingException("StartListener Socket Binding Exception." + e.InnerException);
             }
 
             return success;
@@ -258,9 +258,9 @@ namespace CardCommunication
 
                 return socketTransporter;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new SocketBindingException("Error binding to socket.");
+                throw new SocketBindingException("Error binding to socket." + e.InnerException);
             }
         }
 
@@ -367,7 +367,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw new MessageProcessException("Comm.ProcessCommunication");
+                throw new MessageProcessException("Comm.ProcessCommunication Exception." + e.InnerException);
             }
         }
 
@@ -410,7 +410,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine("Error Sending Communication.", e);
-                throw new MessageTransportException("Comm.TransportCommunication");
+                throw new MessageTransportException("Comm.TransportCommunication Exception." + e.InnerException);
             }
         }
 
@@ -443,9 +443,9 @@ namespace CardCommunication
                     transporter.Close();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new SocketBindingException("SuccessfulTransport");
+                throw new SocketBindingException("SuccessfulTransport Exception." + e.InnerException);
             }
         }
     }

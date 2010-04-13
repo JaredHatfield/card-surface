@@ -9,6 +9,7 @@ namespace CardCommunication.Messages
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using CommunicationException;
 
     /// <summary>
     /// A Message request for a list of existing games.
@@ -61,6 +62,7 @@ namespace CardCommunication.Messages
             {
                 Console.WriteLine("Error Building Message", e);
                 success = false;
+                throw new MessageTransportException("Error Building Request Existing Games Message." + e.InnerException);
             }
 
             return success;

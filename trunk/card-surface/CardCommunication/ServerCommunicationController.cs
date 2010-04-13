@@ -56,7 +56,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error sending message", e);
                 success = false;
-                throw new MessageProcessException("Server.SendGameStateMessage");
+                throw new MessageProcessException("Server.SendGameStateMessage Exception." + e.InnerException);
             }
 
             return success;
@@ -82,7 +82,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error sending message", e);
                 success = false;
-                throw new MessageProcessException("Server.SendGameListMessage");
+                throw new MessageProcessException("Server.SendGameListMessage Exception." + e.InnerException);
             }
 
             return success;
@@ -132,7 +132,7 @@ namespace CardCommunication
             {
                 Console.WriteLine("Error sending message", e);
                 success = false;
-                throw new MessageProcessException("Server.SendGameListMessage");
+                throw new MessageProcessException("Server.SendGameListMessage Exception." + e.InnerException);
             }
 
             return success;
@@ -179,7 +179,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine("Error Sending Communication.", e);
-                throw new MessageProcessException("Server.TransportCommunication");
+                throw new MessageProcessException("Server.TransportCommunication Exception." + e.InnerException);
             }
         }
 
@@ -230,7 +230,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine("Error Receiving Data from client", e);
-                throw new MessageProcessException("Server.ProcessCommunication");
+                throw new MessageProcessException("Server.ProcessCommunication Exception." + e.InnerException);
             }
         }
 
@@ -399,7 +399,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw new MessageProcessException("Server.ConvertXMLToMessage");
+                throw new MessageProcessException("Server.ConvertXMLToMessage Exception." + e.InnerException);
             }
         }
 

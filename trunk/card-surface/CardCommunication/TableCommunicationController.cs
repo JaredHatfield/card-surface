@@ -58,6 +58,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine("Error converting IPAddress.", e);
+                throw new CardCommunicationException("Error converting IPAddress" + e.InnerException);
             }
 
             ip = ms.ToArray();
@@ -262,9 +263,9 @@ namespace CardCommunication
                     new AsyncCallback(this.ProcessCommunicationData),
                     commObject);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new MessageProcessException("Table.ProcessCommunication.");
+                throw new MessageProcessException("Table.ProcessCommunication Exception." + e.InnerException);
             }
         }
 
@@ -339,7 +340,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw new MessageProcessException("Table.ConvertFromXMLToMessage");
+                throw new MessageProcessException("Table.ConvertFromXMLToMessage Exception." + e.InnerException);
             }
         }
     }
