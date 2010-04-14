@@ -114,7 +114,7 @@ namespace CardWeb.WebComponents.WebActions
                     if (desiredGame.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode, this.minimumStake))
                     {
                         /* The user has successfully joined the game. */
-                        WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(this.seatCode, desiredGame.Id);
+                        WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(desiredGame);
 
                         responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                         responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;

@@ -6,8 +6,10 @@ namespace CardWeb
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
+    using CardGame;
 
     /// <summary>
     /// An object that represents a CardSurface WebSession
@@ -169,22 +171,29 @@ namespace CardWeb
         /// <summary>
         /// Joins this WebSession to a game.
         /// </summary>
-        /// <param name="seatCode">The seat code.</param>
-        /// <param name="gameId">The game id.</param>
-        public void JoinGame(string seatCode, Guid gameId)
+        /// <param name="game">The game the user wants to join.</param>
+        public void JoinGame(Game game)
         {
-            this.seatCode = seatCode;
-            this.gameId = gameId;
+            this.seatCode = game.GetSeat(this.username).Password;
+            this.gameId = game.Id;
             this.isPlayingGame = true;
-        } /* JoinGame() */
+            game.PlayerLeaveGame += new Game.PlayerLeaveGameEventHandler(this.OnLeaveGame);
+        }
 
         /// <summary>
         /// Leaves the game the session is currently joined to.
         /// </summary>
-        public void LeaveGame()
+        /// <param name="sender">The sender.</param>
+        /// <param name="plgea">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
+        public void OnLeaveGame(object sender, PlayerLeaveGameEventArgs plgea)
         {
-            this.isPlayingGame = false;
-            this.gameId = Guid.Empty;
+            /* We should verify that the user who's leaving actually the game belongs to this WebSession! */
+            if (plgea.Username.Equals(this.username))
+            {
+                Debug.WriteLine("WebSession: " + plgea.Username + " decided to leave the game! :(");
+                this.isPlayingGame = false;
+                this.gameId = Guid.Empty;
+            }
         } /* LeaveGame() */
     }
 }
