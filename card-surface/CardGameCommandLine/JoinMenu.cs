@@ -9,6 +9,7 @@ namespace CardGameCommandLine
     using System.Linq;
     using System.Text;
     using CardCommunication;
+    using CardGame;
     using CardServer;
     using GameBlackjack;
     using GameFreeplay;
@@ -47,6 +48,8 @@ namespace CardGameCommandLine
                     this.tableCommunicationController = new TableCommunicationController();
                     this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
                     this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.DoNothing);
+                    this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
+
                     loop = false;
                     this.MainLoop();
                 }
@@ -102,6 +105,14 @@ namespace CardGameCommandLine
         /// </summary>
         /// <param name="games">The games.</param>
         private void DoNothing(Collection<string> games)
+        {
+        }
+
+        /// <summary>
+        /// Does the nothing.
+        /// </summary>
+        /// <param name="game">The game to do nothing with.</param>
+        private void DoNothing(Game game)
         {
         }
 
@@ -180,7 +191,7 @@ namespace CardGameCommandLine
 
                 for (int i = 0; i < games.Count; i++)
                 {
-                    Console.WriteLine(i + ") " + games[i].GameType);
+                    Console.WriteLine(i + ") " + games[i].DisplayString);
                 }
 
                 // Read input from the keyboard

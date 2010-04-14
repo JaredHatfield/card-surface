@@ -52,10 +52,10 @@ namespace CardCommunication
         {
             this.tableCommunicationController = tableCommunicationController;
             this.gameDidInitialize = false;
-            this.name = string.Empty;
+            this.name = game.GameType;
             this.minimumStake = 0;
             this.SubscribeEvents();
-            this.tableCommunicationController.SendRequestGameMessage(game.Id.ToString());
+            this.tableCommunicationController.SendRequestGameMessage(game);
             while (!this.gameDidInitialize)
             {
                 // We are not going to return from our constructor until the game updates at least once;

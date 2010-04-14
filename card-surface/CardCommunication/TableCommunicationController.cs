@@ -128,7 +128,7 @@ namespace CardCommunication
         /// <summary>
         /// Sends the request join or create a game.
         /// </summary>
-        /// <param name="gameType">Type of the game.</param>
+        /// <param name="gameType">The game to join or create.</param>
         public void SendRequestGameMessage(string gameType)
         {
             MessageRequestGame message = new MessageRequestGame();
@@ -136,6 +136,28 @@ namespace CardCommunication
             this.CommunicationCompleted = false;
 
             message.BuildMessage(gameType);
+
+            base.TransportCommunication(message.MessageDocument);
+        }
+
+        /// <summary>
+        /// Sends the request game message.
+        /// </summary>
+        /// <param name="game">The game to join or create.</param>
+        public void SendRequestGameMessage(ActiveGameStruct game)
+        {
+            MessageRequestGame message = new MessageRequestGame();
+
+            this.CommunicationCompleted = false;
+
+            if (game.Id != Guid.Empty)
+            {
+                message.BuildMessage(game.Id);
+            }
+            else
+            {
+                message.BuildMessage(game.GameType);
+            }
 
             base.TransportCommunication(message.MessageDocument);
         }

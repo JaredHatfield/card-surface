@@ -210,8 +210,9 @@ namespace CardCommunication.Messages
             XmlElement gameElement = this.MessageDocument.CreateElement("Game");
 
             gameElement.SetAttribute("type", game[0]);
-            gameElement.SetAttribute("id", game[1]);
-            gameElement.SetAttribute("players", game[2]);
+            gameElement.SetAttribute("display", game[1]);
+            gameElement.SetAttribute("id", game[2]);
+            gameElement.SetAttribute("players", game[3]);
             //// gameElement.SetAttribute("location", game[3]);
 
             message.AppendChild(gameElement);
@@ -226,6 +227,7 @@ namespace CardCommunication.Messages
         protected void ProcessGame(XmlElement message,  ref ActiveGameStruct game, ref string gameString)
         {
             string type = String.Empty;
+            string display = String.Empty;
             string id = String.Empty;
             string players = String.Empty;
 
@@ -238,6 +240,9 @@ namespace CardCommunication.Messages
                     case "type":
                         type = a.Value;
                         break;
+                    case "display":
+                        display = a.Value;
+                        break;
                     case "id":
                         id = a.Value;
                         break;
@@ -248,6 +253,7 @@ namespace CardCommunication.Messages
             }
 
             game.GameType = type;
+            game.DisplayString = display;
             game.Id = new Guid(id);
             if (players != String.Empty)
             {

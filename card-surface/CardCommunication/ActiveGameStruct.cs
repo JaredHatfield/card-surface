@@ -20,6 +20,11 @@ namespace CardCommunication
         public string GameType;
 
         /// <summary>
+        /// The string display of the Game.
+        /// </summary>
+        public string DisplayString;
+
+        /// <summary>
         /// The guid of the game.
         /// </summary>
         public Guid Id;
