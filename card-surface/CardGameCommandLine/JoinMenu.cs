@@ -162,15 +162,13 @@ namespace CardGameCommandLine
         /// <param name="gameName">Name of the game.</param>
         private void GameTypeMenu(string gameName)
         {
-            // TODO: I really wanted a synchronous call, but it doesn't exist yet! :(
-            /*
             try
             {
-                Collection<string> games = this.tableCommunicationController.SendRequestExistingGames(gameName);
+                Collection<ActiveGameStruct> games = this.tableCommunicationController.SendRequestExistingGames(gameName);
 
-                for (int i = 0; i < games; i++)
+                for (int i = 0; i < games.Count; i++)
                 {
-                    Console.WriteLine(i + ") " + games[i]);
+                    Console.WriteLine(i + ") " + games[i].GameType);
                 }
             }
             catch (Exception e)
@@ -179,9 +177,8 @@ namespace CardGameCommandLine
                 Console.WriteLine(e.ToString());
                 return;
             }
-             */
-
-            Console.WriteLine("The list of active games will appear here for " + gameName);
+            
+            Console.WriteLine("This feature is not finished yet...");
             this.PrompForEnter();
         }
     }
