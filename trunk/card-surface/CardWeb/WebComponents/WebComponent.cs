@@ -35,6 +35,11 @@ namespace CardWeb.WebComponents
         public abstract void Run();
 
         /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public abstract void Stop();
+
+        /// <summary>
         /// Determines if a WebComponent may be represented by a given prefix.
         /// </summary>
         /// <param name="prefix">The WebComponent prefix to be tested for equality.</param>

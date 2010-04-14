@@ -84,42 +84,57 @@ namespace CardWeb.WebComponents
         {
             CardWeb.WebRequest request;
 
-            while (true)
+            try
             {
-                lock (this.mailboxQueueSemaphore)
+                while (true)
                 {
-                    if (this.mailboxQueue.Count == 0)
+                    lock (this.mailboxQueueSemaphore)
                     {
-                        Monitor.Wait(this.mailboxQueueSemaphore);
+                        if (this.mailboxQueue.Count == 0)
+                        {
+                            Monitor.Wait(this.mailboxQueueSemaphore);
+                        }
+
+                        /* A request has become available. */
+                        request = this.mailboxQueue.Dequeue();
                     }
 
-                    /* A request has become available. */
-                    request = this.mailboxQueue.Dequeue();
-                }
-
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request);
-                    webViewCreateAccount.SendResponse();
-                }
-                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
-                {
-                    try
+                    if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                     {
-                        WebActionCreateAccount webActionCreateAccount = new WebActionCreateAccount(request);
-                        webActionCreateAccount.Execute();
-                    }
-                    catch (WebServerException e)
-                    {
-                        WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request, e.Message);
+                        WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request);
                         webViewCreateAccount.SendResponse();
                     }
-                }
-                else
-                {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }
-            } /* while(true) */
+                    else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
+                    {
+                        try
+                        {
+                            WebActionCreateAccount webActionCreateAccount = new WebActionCreateAccount(request);
+                            webActionCreateAccount.Execute();
+                        }
+                        catch (WebServerException e)
+                        {
+                            WebViewCreateAccount webViewCreateAccount = new WebViewCreateAccount(request, e.Message);
+                            webViewCreateAccount.SendResponse();
+                        }
+                    }
+                    else
+                    {
+                        /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
+                    }
+                } /* while(true) */
+            }
+            catch (ThreadAbortException tae)
+            {
+                Debug.WriteLine("WebComponentCreateAccount: " + tae.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
         } /* Run() */
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public override void Stop()
+        {
+            this.webComponentCreateAccountThread.Abort();
+        } 
     }
 }

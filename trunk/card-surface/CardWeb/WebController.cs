@@ -251,7 +251,10 @@ namespace CardWeb
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Close(object sender, EventArgs args)
         {
-            // TODO: Clean up the WebController in preparation for the application to close.
+            foreach (WebComponent component in this.registeredComponents)
+            {
+                component.Stop();
+            }
         }
 
         /// <summary>

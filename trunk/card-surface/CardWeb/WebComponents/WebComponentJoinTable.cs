@@ -93,43 +93,58 @@ namespace CardWeb.WebComponents
         {
             CardWeb.WebRequest request;
 
-            while (true)
+            try
             {
-                lock (this.mailboxQueueSemaphore)
+                while (true)
                 {
-                    if (this.mailboxQueue.Count == 0)
+                    lock (this.mailboxQueueSemaphore)
                     {
-                        Monitor.Wait(this.mailboxQueueSemaphore);
+                        if (this.mailboxQueue.Count == 0)
+                        {
+                            Monitor.Wait(this.mailboxQueueSemaphore);
+                        }
+
+                        /* A request has become available. */
+                        request = this.mailboxQueue.Dequeue();
                     }
 
-                    /* A request has become available. */
-                    request = this.mailboxQueue.Dequeue();
-                }
-
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController);
-                    webViewJoinTable.SendResponse();
-                }
-                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
-                {
-                    try
+                    if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                     {
-                        WebActionJoinTable webActionJoinTable = new WebActionJoinTable(request, this.gameController);
-                        webActionJoinTable.Execute();
-                    }
-                    catch (WebServerException e)
-                    {
-                        Debug.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                        WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);
+                        WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController);
                         webViewJoinTable.SendResponse();
                     }
-                }
-                else
-                {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }          
-            } /* while(true) */
+                    else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
+                    {
+                        try
+                        {
+                            WebActionJoinTable webActionJoinTable = new WebActionJoinTable(request, this.gameController);
+                            webActionJoinTable.Execute();
+                        }
+                        catch (WebServerException e)
+                        {
+                            Debug.WriteLine("WebComponentJoinTable: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                            WebViewJoinTable webViewJoinTable = new WebViewJoinTable(request, this.gameController, e.Message);
+                            webViewJoinTable.SendResponse();
+                        }
+                    }
+                    else
+                    {
+                        /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
+                    }
+                } /* while(true) */
+            }
+            catch (ThreadAbortException tae)
+            {
+                Debug.WriteLine("WebComponentJoinTable: " + tae.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
         } /* Run() */
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public override void Stop()
+        {
+            this.webComponentJoinTableThread.Abort();
+        }
     }
 }
