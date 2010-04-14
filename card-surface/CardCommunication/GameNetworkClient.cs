@@ -44,12 +44,18 @@ namespace CardCommunication
         private int minimumStake;
 
         /// <summary>
+        /// The updater that will keep this version of the game up to date.
+        /// </summary>
+        private GameUpdater gameUpdater;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameNetworkClient"/> class.
         /// </summary>
         /// <param name="tableCommunicationController">The table communication controller.</param>
         /// <param name="game">The game to join.</param>
         public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
+            this.gameUpdater = new GameUpdater(this);
             this.tableCommunicationController = tableCommunicationController;
             this.gameDidInitialize = false;
             this.name = game.GameType;
@@ -123,21 +129,8 @@ namespace CardCommunication
         /// <param name="game">The game update.</param>
         protected void UpdateGameState(Game game)
         {
-            this.AndThenAMiracleHappens(game);
-        }
-
-        /// <summary>
-        /// Ands the then a miracle happens.
-        /// </summary>
-        /// <param name="game">The game update.</param>
-        private void AndThenAMiracleHappens(Game game)
-        {
-            if (!this.gameDidInitialize)
-            {
-                this.gameDidInitialize = true;
-            }
-
-            // TODO: This is where the FUNCTION OF DOOM goes that updates the game.
+            // This will make this game look like the message that was received.
+            this.gameUpdater.Update(game);
         }
     }
 }

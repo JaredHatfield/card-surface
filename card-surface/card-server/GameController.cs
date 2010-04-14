@@ -191,17 +191,6 @@ namespace CardServer
         }
 
         /// <summary>
-        /// Players the left the game.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
-        private void PlayerLeave(object sender, PlayerLeaveGameEventArgs e)
-        {
-            GameAccount account = this.accountController.LookUpUser(e.Username);
-            account.BalanceChange(e.Money);
-        }
-
-        /// <summary>
         /// Get a singleton instance of the GameController.
         /// </summary>
         /// <returns>An instance of the GameController.</returns>
@@ -213,6 +202,17 @@ namespace CardServer
             }
 
             return GameController.instance;
+        }
+
+        /// <summary>
+        /// Players the left the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
+        private void PlayerLeave(object sender, PlayerLeaveGameEventArgs e)
+        {
+            GameAccount account = this.accountController.LookUpUser(e.Username);
+            account.BalanceChange(e.Money);
         }
     }
 }
