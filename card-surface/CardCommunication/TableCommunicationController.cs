@@ -149,6 +149,8 @@ namespace CardCommunication
         {
             MessageRequestExistingGames message = new MessageRequestExistingGames();
 
+            this.CommunicationCompleted = false;
+
             message.BuildMessage(selectedGame);
 
             base.TransportCommunication(message.MessageDocument);
