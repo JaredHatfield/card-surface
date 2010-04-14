@@ -29,6 +29,11 @@ namespace CardCommunication
         private Collection<string> stringCollection;
 
         /// <summary>
+        /// Holds the Collection of Active Games to return
+        /// </summary>
+        private Collection<ActiveGameStruct> activeGameStruct;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// When a string representation of an IPAddress is not passed, the server is defaulted to
         /// the system's IPAddress.
@@ -140,7 +145,7 @@ namespace CardCommunication
         /// </summary>
         /// <param name="selectedGame">The selected game.</param>
         /// <returns>the collection of existing games.</returns>
-        public Collection<string> SendRequestExistingGames(string selectedGame)
+        public Collection<ActiveGameStruct> SendRequestExistingGames(string selectedGame)
         {
             MessageRequestExistingGames message = new MessageRequestExistingGames();
 
@@ -152,7 +157,7 @@ namespace CardCommunication
             {
             }
 
-            return this.stringCollection;
+            return this.activeGameStruct;
         }
 
         /// <summary>
@@ -369,7 +374,7 @@ namespace CardCommunication
 
                     messageExistingGames.ProcessMessage(messageDoc);
 
-                    this.stringCollection = messageExistingGames.GameNames;
+                    this.activeGameStruct = messageExistingGames.ActiveGames;
 
                     this.OnUpdateExistingGames(messageExistingGames.GameNames);
                 }
