@@ -79,6 +79,7 @@
     <Compile Include="GameObjects\ICard.cs" />
     <Compile Include="GameObjects\IChip.cs" />
     <Compile Include="GameObjects\IPhysicalObject.cs" />
+    <Compile Include="GameUpdater.cs" />
     <Compile Include="IGameController.cs" />
     <Compile Include="GamePiles\Pile.cs" />
     <Compile Include="GameObjects\PhysicalObject.cs" />
