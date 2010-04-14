@@ -110,6 +110,8 @@ namespace CardGameCommandLine
         /// </summary>
         private void GameList()
         {
+            Console.Clear();
+            Console.WriteLine("Choose from the list of available game types.");
             string selected = string.Empty;
 
             // Get the list of games from the server.  Danger, danger!
@@ -124,6 +126,7 @@ namespace CardGameCommandLine
                     Console.WriteLine(i + ") " + games[i]);
                 }
 
+                // Read input from the keyboard
                 string input = string.Empty;
                 while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -145,6 +148,11 @@ namespace CardGameCommandLine
                         Console.WriteLine("Invalid selection");
                     }
                 }
+
+                if (input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return;
+                }
             }
             catch (Exception e)
             {
@@ -162,6 +170,10 @@ namespace CardGameCommandLine
         /// <param name="gameName">Name of the game.</param>
         private void GameTypeMenu(string gameName)
         {
+            Console.Clear();
+            Console.WriteLine("Choose from the list of agailable " + gameName + " games.");
+            ActiveGameStruct selected = new ActiveGameStruct();
+
             try
             {
                 Collection<ActiveGameStruct> games = this.tableCommunicationController.SendRequestExistingGames(gameName);
@@ -170,6 +182,34 @@ namespace CardGameCommandLine
                 {
                     Console.WriteLine(i + ") " + games[i].GameType);
                 }
+
+                // Read input from the keyboard
+                string input = string.Empty;
+                while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Console.Write(" > ");
+                    input = Console.ReadLine();
+                    try
+                    {
+                        int selection = Int32.Parse(input);
+                        if (selection >= games.Count)
+                        {
+                            throw new ArgumentOutOfRangeException();
+                        }
+
+                        selected = games[selection];
+                        break;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Invalid selection");
+                    }
+                }
+
+                if (input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return;
+                }
             }
             catch (Exception e)
             {
@@ -177,8 +217,20 @@ namespace CardGameCommandLine
                 Console.WriteLine(e.ToString());
                 return;
             }
-            
-            Console.WriteLine("This feature is not finished yet...");
+
+            // TODO: REMOVE THIS TRY STATEMENT!!!
+            // THIS REALLY, REALLY, REALLY SHOULD NOT BE HERE!
+            try
+            {
+                GameCommandLine game = new GameCommandLine(this.tableCommunicationController, selected);
+                GameMenu gameMenu = new GameMenu(game);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("We tried, we failed...");
+                Console.WriteLine(e.ToString());
+            }
+
             this.PrompForEnter();
         }
     }

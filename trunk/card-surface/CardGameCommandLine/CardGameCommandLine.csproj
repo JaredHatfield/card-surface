@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BaseMenu.cs" />
     <Compile Include="CommandLineGraphics.cs" />
+    <Compile Include="GameCommandLine.cs" />
     <Compile Include="GameMenu.cs" />
     <Compile Include="JoinMenu.cs" />
     <Compile Include="MainMenu.cs" />
