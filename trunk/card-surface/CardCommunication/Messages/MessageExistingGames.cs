@@ -21,6 +21,11 @@ namespace CardCommunication.Messages
     public class MessageExistingGames : Message
     {
         /// <summary>
+        /// Collection of Active Game Structures for use by the command line.
+        /// </summary>
+        private Collection<ActiveGameStruct> activeGames = new Collection<ActiveGameStruct>();
+
+        /// <summary>
         /// Collection of string composites of games for use by the table.
         /// </summary>
         private Collection<string> gameNames = new Collection<string>();
@@ -45,6 +50,15 @@ namespace CardCommunication.Messages
         public Collection<string> GameNames
         {
             get { return this.gameNames; }
+        }
+
+        /// <summary>
+        /// Gets the active games.
+        /// </summary>
+        /// <value>The active games.</value>
+        public Collection<ActiveGameStruct> ActiveGames
+        {
+            get { return this.activeGames; }
         }
 
         /// <summary>
@@ -168,18 +182,21 @@ namespace CardCommunication.Messages
         {
             foreach (XmlNode node in gameList.ChildNodes)
             {
-                string game = String.Empty;
+                ActiveGameStruct game = new ActiveGameStruct();
                 XmlElement gameListElement = (XmlElement)node;
+                string gameString = String.Empty;
+
                 gameListElement.InnerXml = node.InnerXml;
 
                 switch (gameListElement.Name)
                 {
                     case "Game":
-                        this.ProcessGame(gameListElement, ref game);
+                        this.ProcessGame(gameListElement, ref game, ref gameString);
                         break;
                 }
 
-                this.gameNames.Add(game);
+                this.gameNames.Add(gameString);
+                this.activeGames.Add(game);
             }
         }
 
@@ -204,8 +221,9 @@ namespace CardCommunication.Messages
         /// Processes the game.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <param name="game">The game to be processed.</param>
-        protected void ProcessGame(XmlElement message,  ref string game)
+        /// <param name="game">The game for the command line.</param>
+        /// <param name="gameString">The game string for the table.</param>
+        protected void ProcessGame(XmlElement message,  ref ActiveGameStruct game, ref string gameString)
         {
             string type = String.Empty;
             string id = String.Empty;
@@ -214,7 +232,7 @@ namespace CardCommunication.Messages
             foreach (XmlNode n in message.Attributes)
             {
                 XmlAttribute a = (XmlAttribute)n;
-
+                
                 switch (a.Name)
                 {
                     case "type":
@@ -229,7 +247,18 @@ namespace CardCommunication.Messages
                 }
             }
 
-            game = type + "%" + id + "%" + players;
+            game.GameType = type;
+            game.Id = new Guid(id);
+            if (players != String.Empty)
+            {
+                gameString = type + "%" + id + "%" + players;
+                game.Players = "(Players: " + players + ")";
+            }
+            else
+            {
+                gameString = type + "%" + id + "%";
+                game.Players = String.Empty;
+            }
         }
     }
 }

@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveGameStruct.cs" />
     <Compile Include="ClientObject.cs" />
     <Compile Include="CommunicationException\CardCommunicationException.cs" />
     <Compile Include="CommunicationException\MessageProcessException.cs" />
