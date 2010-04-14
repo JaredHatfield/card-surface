@@ -97,6 +97,26 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the total amount of money the player has on the table.
+        /// </summary>
+        /// <value>The total amount of money.</value>
+        public int Money
+        {
+            get
+            {
+                int total = 0;
+                total += this.balance;
+                total += this.bankPile.Amount;
+                for (int i = 0; i < this.playerArea.Chips.Count; i++)
+                {
+                    total += this.playerArea.Chips[i].Amount;
+                }
+
+                return total;
+            }
+        }
+
+        /// <summary>
         /// Gets the actions this player can perform.
         /// </summary>
         /// <value>The actions this player can perform.</value>

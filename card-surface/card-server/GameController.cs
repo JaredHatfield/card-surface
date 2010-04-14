@@ -157,6 +157,7 @@ namespace CardServer
             // TODO: There is the potential for lots of Exceptions to be thrown in the following code.
             Type type = this.availableGames[gameName];
             Game game = Activator.CreateInstance(type) as Game;
+            game.PlayerLeaveGame += new Game.PlayerLeaveGameEventHandler(this.PlayerLeave);
             this.games.Add(game);
             return game.Id;
         }
@@ -187,6 +188,17 @@ namespace CardServer
         public void Close(object sender, EventArgs args)
         {
             // TODO: Move all of the money back into the players class.
+        }
+
+        /// <summary>
+        /// Players the left the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
+        private void PlayerLeave(object sender, PlayerLeaveGameEventArgs e)
+        {
+            GameAccount account = this.accountController.LookUpUser(e.Username);
+            account.BalanceChange(e.Money);
         }
 
         /// <summary>

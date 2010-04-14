@@ -138,7 +138,6 @@ namespace CardCommunication
             }
 
             // TODO: This is where the FUNCTION OF DOOM goes that updates the game.
-            int i = 0;
         }
     }
 }

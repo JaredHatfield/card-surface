@@ -288,6 +288,16 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Have the player leave this seat.
+        /// </summary>
+        internal void Leave()
+        {
+            this.player = null;
+            this.username = string.Empty;
+            this.AssignSeatPassword();
+        }
+
+        /// <summary>
         /// Generates a seat password.
         /// </summary>
         /// <returns>A string for a password.</returns>
