@@ -90,29 +90,44 @@ namespace CardWeb.WebComponents
         {
             CardWeb.WebRequest request;
 
-            while (true)
+            try
             {
-                lock (this.mailboxQueueSemaphore)
+                while (true)
                 {
-                    if (this.mailboxQueue.Count == 0)
+                    lock (this.mailboxQueueSemaphore)
                     {
-                        Monitor.Wait(this.mailboxQueueSemaphore);
+                        if (this.mailboxQueue.Count == 0)
+                        {
+                            Monitor.Wait(this.mailboxQueueSemaphore);
+                        }
+
+                        /* A request has become available. */
+                        request = this.mailboxQueue.Dequeue();
                     }
 
-                    /* A request has become available. */
-                    request = this.mailboxQueue.Dequeue();
-                }
-
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewResource webViewResource = new WebViewResource(request, this.gameController);
-                    webViewResource.SendResponse();
-                }
-                else
-                {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }          
-            } /* while(true) */
+                    if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
+                    {
+                        WebViewResource webViewResource = new WebViewResource(request, this.gameController);
+                        webViewResource.SendResponse();
+                    }
+                    else
+                    {
+                        /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
+                    }
+                } /* while(true) */
+            }
+            catch (ThreadAbortException tae)
+            {
+                Debug.WriteLine("WebComponentResource: " + tae.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
         } /* Run() */
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public override void Stop()
+        {
+            this.webComponentResourceThread.Abort();
+        }
     }
 }

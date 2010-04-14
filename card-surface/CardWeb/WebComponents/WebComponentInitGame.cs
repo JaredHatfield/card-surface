@@ -92,43 +92,58 @@ namespace CardWeb.WebComponents
         {
             CardWeb.WebRequest request;
 
-            while (true)
+            try
             {
-                lock (this.mailboxQueueSemaphore)
+                while (true)
                 {
-                    if (this.mailboxQueue.Count == 0)
+                    lock (this.mailboxQueueSemaphore)
                     {
-                        Monitor.Wait(this.mailboxQueueSemaphore);
+                        if (this.mailboxQueue.Count == 0)
+                        {
+                            Monitor.Wait(this.mailboxQueueSemaphore);
+                        }
+
+                        /* A request has become available. */
+                        request = this.mailboxQueue.Dequeue();
                     }
 
-                    /* A request has become available. */
-                    request = this.mailboxQueue.Dequeue();
-                }
-
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController);
-                    webViewInitGame.SendResponse();
-                }
-                else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
-                {
-                    try
+                    if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
                     {
-                        WebActionInitGame webActionInitGame = new WebActionInitGame(request, this.gameController);
-                        webActionInitGame.Execute();
-                    }
-                    catch (WebServerException e)
-                    {
-                        Debug.WriteLine("WebComponentInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
-                        WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController, e.Message);
+                        WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController);
                         webViewInitGame.SendResponse();
                     }
-                }
-                else
-                {
-                    /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
-                }          
-            } /* while(true) */
+                    else if (request.RequestMethod.Equals(WebRequestMethods.Http.Post))
+                    {
+                        try
+                        {
+                            WebActionInitGame webActionInitGame = new WebActionInitGame(request, this.gameController);
+                            webActionInitGame.Execute();
+                        }
+                        catch (WebServerException e)
+                        {
+                            Debug.WriteLine("WebComponentInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
+                            WebViewInitGame webViewInitGame = new WebViewInitGame(request, this.gameController, e.Message);
+                            webViewInitGame.SendResponse();
+                        }
+                    }
+                    else
+                    {
+                        /* TODO: What if this is a request method that the component doesn't support?  Just discard it? */
+                    }
+                } /* while(true) */
+            }
+            catch (ThreadAbortException tae)
+            {
+                Debug.WriteLine("WebComponentInitGame: " + tae.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
         } /* Run() */
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public override void Stop()
+        {
+            this.webComponentInitGameThread.Abort();
+        }
     }
 }

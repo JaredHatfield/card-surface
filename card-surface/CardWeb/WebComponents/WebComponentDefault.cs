@@ -83,29 +83,44 @@ namespace CardWeb.WebComponents
         {
             CardWeb.WebRequest request;
 
-            while (true)
+            try
             {
-                lock (this.mailboxQueueSemaphore)
+                while (true)
                 {
-                    if (this.mailboxQueue.Count == 0)
+                    lock (this.mailboxQueueSemaphore)
                     {
-                        Monitor.Wait(this.mailboxQueueSemaphore);
+                        if (this.mailboxQueue.Count == 0)
+                        {
+                            Monitor.Wait(this.mailboxQueueSemaphore);
+                        }
+
+                        /* A request has become available. */
+                        request = this.mailboxQueue.Dequeue();
                     }
 
-                    /* A request has become available. */
-                    request = this.mailboxQueue.Dequeue();
-                }
-
-                if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
-                {
-                    WebViewDefault webViewDefault = new WebViewDefault(request);
-                    webViewDefault.SendResponse();
-                }
-                else
-                {
-                    /* TODO: What if it's not an HTTP GET request?  Return 404? */
-                }                                                               
-            } /* while(true) */
+                    if (request.RequestMethod.Equals(WebRequestMethods.Http.Get))
+                    {
+                        WebViewDefault webViewDefault = new WebViewDefault(request);
+                        webViewDefault.SendResponse();
+                    }
+                    else
+                    {
+                        /* TODO: What if it's not an HTTP GET request?  Return 404? */
+                    }
+                } /* while(true) */
+            }
+            catch (ThreadAbortException tae)
+            {
+                Debug.WriteLine("WebComponentDefault: " + tae.Message + " @ " + WebUtilities.GetCurrentLine());
+            }
         } /* Run() */
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        public override void Stop()
+        {
+            this.webComponentDefaultThread.Abort();
+        }
     }
 }
