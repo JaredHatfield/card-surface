@@ -367,13 +367,14 @@ namespace CardCommunication
                     Collection<Collection<string>> games = new Collection<Collection<string>>();
                     Collection<string> newGame = new Collection<string>();
 
+                    messageRequestExistingGames.ProcessMessage(messageDoc);
+
+                    newGame.Add(messageRequestExistingGames.SelectedGame);
                     newGame.Add("New Game");
                     newGame.Add(Guid.Empty.ToString());
                     newGame.Add("0");
 
                     games.Add(newGame);
-
-                    messageRequestExistingGames.ProcessMessage(messageDoc);
 
                     foreach (Game game in GameController.Games)
                     {
@@ -381,6 +382,7 @@ namespace CardCommunication
                         {
                             Collection<string> gameObject = new Collection<string>();
 
+                            gameObject.Add(game.Name);
                             gameObject.Add(game.Name);
                             gameObject.Add(game.Id.ToString());
                             gameObject.Add(game.NumberOfPlayers + "/" + game.Seats.Count);

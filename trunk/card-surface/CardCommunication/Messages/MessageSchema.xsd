@@ -29,6 +29,7 @@
             <xs:element name="Game">
               <xs:complexType>
                 <xs:attribute name="type" type="xs:string"></xs:attribute>
+                <xs:attribute name="display" type="xs:string"></xs:attribute>
                 <xs:attribute name="id" type="xs:string"></xs:attribute>
                 <xs:attribute name="players" type="xs:string"></xs:attribute>
               </xs:complexType>
