@@ -10,8 +10,9 @@ namespace CardCommunication
     using System.Linq;
     using System.Net;
     using System.Text;
+    using CardCommunication.CommunicationException;
     using CardGame;
-
+    
     /// <summary>
     /// An instance of a Game that connects to a server
     /// </summary>
@@ -23,20 +24,42 @@ namespace CardCommunication
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
+        /// A flag that indicates that the game has updated at least once.
+        /// </summary>
+        private bool gameDidInitialize;
+
+        /// <summary>
         /// list of all games that can be played on the server.
         /// </summary>
         private Collection<string> availiableGameList;
 
         /// <summary>
+        /// The name of the game.
+        /// </summary>
+        private string name;
+
+        /// <summary>
+        /// The minimum stake.
+        /// </summary>
+        private int minimumStake;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameNetworkClient"/> class.
         /// </summary>
-        /// <param name="server">The server to connect to.</param>
-        public GameNetworkClient(string server)
+        /// <param name="tableCommunicationController">The table communication controller.</param>
+        /// <param name="game">The game to join.</param>
+        public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
-            this.tableCommunicationController = new TableCommunicationController();
+            this.tableCommunicationController = tableCommunicationController;
+            this.gameDidInitialize = false;
+            this.name = string.Empty;
+            this.minimumStake = 0;
             this.SubscribeEvents();
-
-            // TODO: Connect to the game and do lots of awesome stuff
+            this.tableCommunicationController.SendRequestGameMessage(game.Id.ToString());
+            while (!this.gameDidInitialize)
+            {
+                // We are not going to return from our constructor until the game updates at least once;
+            }
         }
 
         /// <summary>
@@ -45,7 +68,26 @@ namespace CardCommunication
         private GameNetworkClient()
             : base()
         {
-        } 
+            throw new CardCommunicationException("GameNetworkClient can not be contructed without a TabletCommunicationController.");
+        }
+
+        /// <summary>
+        /// Gets the name of the game.
+        /// </summary>
+        /// <value>The game's name.</value>
+        public override string Name
+        {
+            get { return this.name; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating the minimum amount of money required to join a game.
+        /// </summary>
+        /// <value>The minimum stake for the game.</value>
+        public override int MinimumStake
+        {
+            get { return this.minimumStake; }
+        }
 
         /// <summary>
         /// Function where all event that Update the game are subscribed to.
@@ -72,7 +114,7 @@ namespace CardCommunication
         /// <param name="existingGames">The existing games.</param>
         protected void UpdateExistingGames(Collection<string> existingGames)
         {
-            //// Function to update list of existing games.
+            // TODO: Function to update list of existing games.
         }
 
         /// <summary>
@@ -81,7 +123,22 @@ namespace CardCommunication
         /// <param name="game">The game update.</param>
         protected void UpdateGameState(Game game)
         {
-            //// This is where the FUNCTION OF DOOM goes that updates the game.
+            this.AndThenAMiracleHappens(game);
+        }
+
+        /// <summary>
+        /// Ands the then a miracle happens.
+        /// </summary>
+        /// <param name="game">The game update.</param>
+        private void AndThenAMiracleHappens(Game game)
+        {
+            if (!this.gameDidInitialize)
+            {
+                this.gameDidInitialize = true;
+            }
+
+            // TODO: This is where the FUNCTION OF DOOM goes that updates the game.
+            int i = 0;
         }
     }
 }
