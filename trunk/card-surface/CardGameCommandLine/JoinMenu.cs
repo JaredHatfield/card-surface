@@ -46,6 +46,7 @@ namespace CardGameCommandLine
                     this.serverController = new ServerController();
                     this.tableCommunicationController = new TableCommunicationController();
                     this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
+                    this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.DoNothing);
                     this.tableCommunicationController.SendRequestGameListMessage();
                     loop = false;
                     this.MainLoop();
