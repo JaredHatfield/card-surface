@@ -134,5 +134,15 @@ namespace CardGame
 
             return chips;
         }
+
+        /// <summary>
+        /// Updates the specified pile.
+        /// This updates the Guid and open attributes.  It does not update the pile items.
+        /// </summary>
+        /// <param name="pile">The pile to reflect.</param>
+        internal override void Update(Pile pile)
+        {
+            base.Update(pile);
+        }
     }
 }

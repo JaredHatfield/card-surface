@@ -141,6 +141,52 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified playing area.
+        /// This does not update the PhysicalObjects.
+        /// </summary>
+        /// <param name="playingArea">The playing area to reflect.</param>
+        internal void Update(PlayingArea playingArea)
+        {
+            // Add all of the missing card piles
+            ObservableCollection<CardPile> cardPileMessage = playingArea.cards;
+            for (int i = 0; i < cardPileMessage.Count; i++)
+            {
+                if (!this.ContainsPile(cardPileMessage[i].Id))
+                {
+                    // The pile does not exist so add it
+                    CardPile newPile = new CardPile();
+                    newPile.Update(cardPileMessage[i]);
+                    this.cards.Add(newPile);
+                }
+                else
+                {
+                    // Update the other piles
+                    Pile oldPile = this.GetPile(cardPileMessage[i].Id);
+                    oldPile.Update(cardPileMessage[i]);
+                }
+            }
+
+            // Add all of the missing chip piles
+            ObservableCollection<ChipPile> chipPileMessage = playingArea.chips;
+            for (int i = 0; i < chipPileMessage.Count; i++)
+            {
+                if (!this.ContainsPile(chipPileMessage[i].Id))
+                {
+                    // The pile does not exist so add it
+                    ChipPile newPile = new ChipPile();
+                    newPile.Update(chipPileMessage[i]);
+                    this.chips.Add(newPile);
+                }
+                else
+                {
+                    // Update the other piles
+                    Pile oldPile = this.GetPile(chipPileMessage[i].Id);
+                    oldPile.Update(chipPileMessage[i]);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the physical object specified by a unique id.
         /// </summary>
         /// <param name="id">The unique id.</param>

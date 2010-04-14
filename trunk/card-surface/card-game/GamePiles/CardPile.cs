@@ -244,6 +244,19 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified pile.
+        /// This updates the Guid and open attributes.  It does not update the pile items.
+        /// </summary>
+        /// <param name="pile">The pile to reflect.</param>
+        internal override void Update(Pile pile)
+        {
+            base.Update(pile);
+            CardPile cardPile = pile as CardPile;
+            this.expandable = cardPile.expandable;
+            this.persistent = cardPile.persistent;
+        }
+
+        /// <summary>
         /// Empties the pile of cards into another pile of cards.
         /// </summary>
         /// <param name="destination">The destination pile of cards.</param>

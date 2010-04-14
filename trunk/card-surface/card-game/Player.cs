@@ -231,6 +231,38 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified player.
+        /// This does not update the PhysicalObjects.
+        /// </summary>
+        /// <param name="player">The player to reflect.</param>
+        internal void Update(Player player)
+        {
+            this.balance = player.balance;
+            this.hand.Update(player.hand);
+            this.playerArea.Update(player.playerArea);
+            this.bankPile.Update(player.bankPile, this);
+            this.turn = player.turn;
+
+            // Remove unnecessary actions
+            foreach (string action in this.actions)
+            {
+                if (!player.actions.Contains(action))
+                {
+                    this.actions.Remove(action);
+                }
+            }
+
+            // Add all of the missing actions
+            for (int i = 0; i < player.actions.Count; i++)
+            {
+                if (!this.actions.Contains(player.actions[i]))
+                {
+                    this.actions.Add(player.actions[i]);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the physical object by unique id.
         /// </summary>
         /// <param name="id">The unique id.</param>
