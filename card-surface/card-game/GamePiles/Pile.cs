@@ -206,6 +206,17 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified pile.
+        /// This updates the Guid and open attributes.  It does not update the pile items.
+        /// </summary>
+        /// <param name="pile">The pile to reflect.</param>
+        internal virtual void Update(Pile pile)
+        {
+            this.open = pile.open;
+            this.id = pile.id;
+        }
+
+        /// <summary>
         /// Gets the physical object specified by a unique id.
         /// </summary>
         /// <param name="physicalObjectId">The unique id.</param>

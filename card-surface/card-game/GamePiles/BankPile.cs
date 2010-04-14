@@ -90,6 +90,18 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified pile.
+        /// This updates the Guid and open attributes.  It does not update the pile items.
+        /// </summary>
+        /// <param name="bankPile">The bank pile to compare to.</param>
+        /// <param name="player">The player reference to replace.</param>
+        internal void Update(BankPile bankPile, Player player)
+        {
+            base.Update(bankPile);
+            this.player = player;
+        }
+
+        /// <summary>
         /// Refreshes the chip pile so that the pile only contains valid chips that can be removed by the player.
         /// </summary>
         internal void RefreshChipPile()

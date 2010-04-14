@@ -7,6 +7,7 @@ namespace CardCommunication
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Text;
@@ -129,8 +130,18 @@ namespace CardCommunication
         /// <param name="game">The game update.</param>
         protected void UpdateGameState(Game game)
         {
+            Debug.WriteLine("Entered UpdateGameState");
+
             // This will make this game look like the message that was received.
             this.gameUpdater.Update(game);
+            
+            // Flag the game as being updated
+            if (!this.gameDidInitialize)
+            {
+                this.gameDidInitialize = true;
+            }
+
+            Debug.WriteLine("Exited UpdateGameState");
         }
     }
 }

@@ -288,6 +288,30 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Updates the specified seat.
+        /// This does not update the PhysicalObjects.
+        /// </summary>
+        /// <param name="seat">The seat to reflect.</param>
+        internal void Update(Seat seat)
+        {
+            this.id = seat.id;
+            this.username = seat.username;
+            this.password = seat.password;
+            this.sittable = seat.sittable;
+            if (this.player == null && seat.player != null)
+            {
+                // A Player joined so lets add them
+                this.player = new Player();
+            }
+
+            // Now update the player
+            if (this.player != null)
+            {
+                this.player.Update(seat.player);
+            }
+        }
+
+        /// <summary>
         /// Have the player leave this seat.
         /// </summary>
         internal void Leave()
