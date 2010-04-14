@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardGameCommandLine", "Card
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameFreeplay", "GameFreeplay\GameFreeplay.csproj", "{A3F85FAE-CBB9-4AD9-8DA6-3A6594E1163A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Card Surface", "Card Surface\Card Surface.vdproj", "{31997680-4CDC-4B79-BFE7-8D06AFF735E7}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Card Server", "Card Server\Card Server.vdproj", "{25259E72-CFE2-4D3E-88EC-5F0DD467D997}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -73,6 +77,10 @@ Global
 		{A3F85FAE-CBB9-4AD9-8DA6-3A6594E1163A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3F85FAE-CBB9-4AD9-8DA6-3A6594E1163A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3F85FAE-CBB9-4AD9-8DA6-3A6594E1163A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31997680-4CDC-4B79-BFE7-8D06AFF735E7}.Debug|Any CPU.ActiveCfg = Debug
+		{31997680-4CDC-4B79-BFE7-8D06AFF735E7}.Release|Any CPU.ActiveCfg = Release
+		{25259E72-CFE2-4D3E-88EC-5F0DD467D997}.Debug|Any CPU.ActiveCfg = Debug
+		{25259E72-CFE2-4D3E-88EC-5F0DD467D997}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
