@@ -14,7 +14,8 @@ namespace CardGame
     /// <summary>
     /// A generic card game that is extended to implement a specific game.
     /// </summary>
-    [Serializable] public abstract class Game
+    [Serializable] 
+    public abstract class Game
     {
         /// <summary>
         /// A unique identifier for a game.
@@ -79,6 +80,18 @@ namespace CardGame
             this.seats = game.seats;
             this.actions = game.actions;
         }
+
+        /// <summary>
+        /// The delegate for an event that is triggered when a player leaves a game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public delegate void PlayerLeaveGameEventHandler(object sender, PlayerLeaveGameEventArgs e);
+
+        /// <summary>
+        /// Occurs when a player leaves the game.
+        /// </summary>
+        public event PlayerLeaveGameEventHandler PlayerLeaveGame;
 
         /// <summary>
         /// Gets the name of the game.
@@ -271,6 +284,24 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets a Seat based off of a Player's username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>The instance of the Seat.</returns>
+        public Seat GetSeat(string username)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (!this.seats[i].IsEmpty && this.seats[i].Username.Equals(username))
+                {
+                    return this.seats[i];
+                }
+            }
+
+            throw new CardGameSeatNotFoundException();
+        }
+
+        /// <summary>
         /// Determines whether the specified username is playing this game.
         /// </summary>
         /// <param name="username">The username to look up.</param>
@@ -362,6 +393,24 @@ namespace CardGame
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Have a player leave the game.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        public void Leave(string username)
+        {
+            // Calculate the players monetary worth on the table
+            Player p = this.GetPlayer(username);
+            int total = p.Money;
+
+            // Remove the reference of the player from their Seat
+            Seat s = this.GetSeat(username);
+            s.Leave();
+
+            // Trigger the event that the player left the game.
+            this.OnLeaveGame(new PlayerLeaveGameEventArgs(this.id, username, total));
         }
 
         /// <summary>
@@ -745,6 +794,15 @@ namespace CardGame
                     p.BankPile.RefreshChipPile();
                 }
             }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:LeaveGame"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
+        protected void OnLeaveGame(PlayerLeaveGameEventArgs e)
+        {
+            this.PlayerLeaveGame(this, e);
         }
 
         /// <summary>

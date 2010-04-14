@@ -116,6 +116,11 @@ namespace CardGameCommandLine
                 {
                     // Nothing to see here, move along...
                 }
+                else if (input.Equals("leave", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // The player requested to leave the game.
+                    this.game.Leave(this.username);
+                }
                 else if (input.StartsWith("move", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // The player is trying to move a piece so we need to use that subroutine
