@@ -468,27 +468,7 @@ namespace CardGame
             }
             else
             {
-                // Retreive the physical object's pile
-                Pile locatedSourcePile = this.GetPileContaining(physicalObject);
-
-                // Retreive the physical object
-                IPhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
-
-                // Retreive the pile
-                Pile locatedDestinationPile = this.GetPile(destinationPile);
-                if (!locatedDestinationPile.Open)
-                {
-                    throw new CardGameMoveToNonOpenPileException();
-                }
-                
-                // Removed the object from the source pile
-                locatedSourcePile.RemoveItem(locatedPhysicalObject);
-
-                // Add the physical object to the destination pile
-                locatedDestinationPile.AddItem(locatedPhysicalObject);
-
-                this.UpdatePlayerState();
-                return true;
+                return this.MovePhysicalObject(physicalObject, destinationPile);
             }
         }
 
@@ -537,6 +517,37 @@ namespace CardGame
             this.id = game.id;
             this.gamingArea.Update(game.gamingArea);
             this.deckPile = game.deckPile;
+        }
+
+        /// <summary>
+        /// Moves the physical object.  This method provides no checks and should be used with great care!
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>True if the move was successful.</returns>
+        internal bool MovePhysicalObject(Guid physicalObject, Guid destinationPile)
+        {
+            // Retreive the physical object's pile
+            Pile locatedSourcePile = this.GetPileContaining(physicalObject);
+
+            // Retreive the physical object
+            IPhysicalObject locatedPhysicalObject = locatedSourcePile.GetPhysicalObject(physicalObject);
+
+            // Retreive the pile
+            Pile locatedDestinationPile = this.GetPile(destinationPile);
+            if (!locatedDestinationPile.Open)
+            {
+                throw new CardGameMoveToNonOpenPileException();
+            }
+
+            // Removed the object from the source pile
+            locatedSourcePile.RemoveItem(locatedPhysicalObject);
+
+            // Add the physical object to the destination pile
+            locatedDestinationPile.AddItem(locatedPhysicalObject);
+
+            this.UpdatePlayerState();
+            return true;
         }
 
         /// <summary>
