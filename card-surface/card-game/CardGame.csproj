@@ -84,6 +84,7 @@
     <Compile Include="GamePiles\Pile.cs" />
     <Compile Include="GameObjects\PhysicalObject.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerJoinGameEventArgs.cs" />
     <Compile Include="PlayerLeaveGameEventArgs.cs" />
     <Compile Include="PlayingArea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

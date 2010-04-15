@@ -89,9 +89,21 @@ namespace CardGame
         public delegate void PlayerLeaveGameEventHandler(object sender, PlayerLeaveGameEventArgs e);
 
         /// <summary>
+        /// The delegate for an event that is triggered when a player joins a game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public delegate void PlayerJoinGameEventHandler(object sender, PlayerJoinGameEventArgs e);
+
+        /// <summary>
         /// Occurs when a player leaves the game.
         /// </summary>
         public event PlayerLeaveGameEventHandler PlayerLeaveGame;
+
+        /// <summary>
+        /// Occurs when a player joins the game.
+        /// </summary>
+        public event PlayerJoinGameEventHandler PlayerJoinGame;
 
         /// <summary>
         /// Gets the name of the game.
@@ -361,6 +373,7 @@ namespace CardGame
                 Player player = this.GetPlayer(username);
                 player.Balance += amount;
                 player.BankPile.RefreshChipPile();
+                this.OnJoinGame(new PlayerJoinGameEventArgs(this.id, username));
                 return true;
             }
             else
@@ -797,12 +810,21 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Raises the <see cref="E:LeaveGame"/> event.
+        /// Raises the <see cref="E:PlayerLeaveGame"/> event.
         /// </summary>
         /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
         protected void OnLeaveGame(PlayerLeaveGameEventArgs e)
         {
             this.PlayerLeaveGame(this, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PlayerJoinGame"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="CardGame.PlayerJoinGameEventArgs"/> instance containing the event data.</param>
+        protected void OnJoinGame(PlayerJoinGameEventArgs e)
+        {
+            this.PlayerJoinGame(this, e);
         }
 
         /// <summary>
