@@ -72,12 +72,12 @@ namespace CardGame
 
                     for (int j = 0; j < p.PlayerArea.Cards.Count; j++)
                     {
-                        this.ProcessCardPileFromMessage(p.PlayerArea.Cards[i]);
+                        this.ProcessCardPileFromMessage(p.PlayerArea.Cards[j]);
                     }
 
                     for (int j = 0; j < p.PlayerArea.Chips.Count; j++)
                     {
-                        this.ProcessChipPileFromMessage(p.PlayerArea.Chips[i]);
+                        this.ProcessChipPileFromMessage(p.PlayerArea.Chips[j]);
                     }
                 }
             }
