@@ -10,6 +10,7 @@ namespace CardServer
     using System.Text;
     using CardAccount;
     using CardCommunication;
+    using CardGame;
     using CardWeb;
     using CardWeb.WebExceptions;
 
@@ -49,6 +50,7 @@ namespace CardServer
                 this.webController = new WebController(this.gameController);
                 this.serverCommunicationController = new ServerCommunicationController(this.gameController);
                 this.accountController = AccountController.Instance;
+                this.gameController.UpdateGameState += new GameController.UpdateGameStateEventHandler(this.UpdateGameState);
             }
             catch (WebServerCouldNotLaunchException wscnle)
             {
@@ -79,6 +81,15 @@ namespace CardServer
             this.gameController.Close(this, args);
             this.webController.Close(this, args);
             this.accountController.Close(this, args);
+        }
+
+        /// <summary>
+        /// Updates the state of the game.
+        /// </summary>
+        /// <param name="game">The updated game state.</param>
+        private void UpdateGameState(Game game)
+        {
+            this.serverCommunicationController.SendGameStateMessage(game);
         }
     }
 }

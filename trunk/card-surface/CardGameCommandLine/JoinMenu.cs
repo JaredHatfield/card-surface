@@ -182,7 +182,7 @@ namespace CardGameCommandLine
         private void GameTypeMenu(string gameName)
         {
             Console.Clear();
-            Console.WriteLine("Choose from the list of agailable " + gameName + " games.");
+            Console.WriteLine("Choose from the list of available " + gameName + " games.");
             ActiveGameStruct selected = new ActiveGameStruct();
 
             try

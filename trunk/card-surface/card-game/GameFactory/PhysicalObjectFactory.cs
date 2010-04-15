@@ -13,6 +13,7 @@ namespace CardGame.GameFactory
     /// <summary>
     /// Class that is used to create PhysicalObjects.
     /// </summary>
+    [Serializable]
     public class PhysicalObjectFactory
     {
         /// <summary>
