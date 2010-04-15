@@ -14,6 +14,7 @@ namespace CardGame.GameFactory
     /// <summary>
     /// Class that is used to create new Chips.
     /// </summary>
+    [Serializable]
     public class ChipFactory
     {
         /// <summary>

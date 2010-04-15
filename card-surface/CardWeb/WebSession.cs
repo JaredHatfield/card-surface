@@ -195,5 +195,21 @@ namespace CardWeb
                 this.gameId = Guid.Empty;
             }
         } /* LeaveGame() */
+
+        /// <summary>
+        /// Called when [join game].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="pjgea">The <see cref="CardGame.PlayerJoinGameEventArgs"/> instance containing the event data.</param>
+        public void OnJoinGame(object sender, PlayerJoinGameEventArgs pjgea)
+        {
+            /* We should verify that the user who's joining actually the game belongs to this WebSession! */
+            if (pjgea.Username.Equals(this.username))
+            {
+                Debug.WriteLine("WebSession: " + pjgea.Username + " decided to join the game! :(");
+                this.isPlayingGame = true;
+                this.gameId = pjgea.GameId;
+            }
+        }
     }
 }

@@ -115,12 +115,13 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the unique id for a game.
+        /// Gets or sets the unique id for a game.
         /// </summary>
         /// <value>The unique id.</value>
         public Guid Id
         {
             get { return this.id; }
+            set { this.id = value; }
         }
 
         /// <summary>

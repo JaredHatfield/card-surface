@@ -34,6 +34,11 @@ namespace CardGame
         /// <param name="gameMessage">The game message.</param>
         public void Update(Game gameMessage)
         {
+            if (this.game.Id != gameMessage.Id)
+            {
+                this.game.Id = gameMessage.Id;
+            }
+
             // 1) Make a constructive pass on all of the seats making sure all of the objects match.
             for (int i = 0; i < this.game.Seats.Count; i++)
             {

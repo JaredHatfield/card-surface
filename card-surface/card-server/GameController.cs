@@ -62,6 +62,17 @@ namespace CardServer
         }
 
         /// <summary>
+        /// Delegate for Updating the Game State.
+        /// </summary>
+        /// <param name="game">the updated game</param>
+        public delegate void UpdateGameStateEventHandler(Game game);
+
+        /// <summary>
+        /// Occurs when [update game state].
+        /// </summary>
+        public event UpdateGameStateEventHandler UpdateGameState;
+
+        /// <summary>
         /// Gets the active game count.
         /// </summary>
         /// <value>The active game count.</value>
@@ -158,6 +169,7 @@ namespace CardServer
             Type type = this.availableGames[gameName];
             Game game = Activator.CreateInstance(type) as Game;
             game.PlayerLeaveGame += new Game.PlayerLeaveGameEventHandler(this.PlayerLeave);
+            game.PlayerJoinGame += new Game.PlayerJoinGameEventHandler(this.PlayerJoin);
             this.games.Add(game);
             return game.Id;
         }
@@ -213,6 +225,17 @@ namespace CardServer
         {
             GameAccount account = this.accountController.LookUpUser(e.Username);
             account.BalanceChange(e.Money);
+        }
+
+        /// <summary>
+        /// Players the join.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CardGame.PlayerJoinGameEventArgs"/> instance containing the event data.</param>
+        private void PlayerJoin(object sender, PlayerJoinGameEventArgs e)
+        {
+            GameAccount account = this.accountController.LookUpUser(e.Username);
+            this.UpdateGameState(this.GetGame(e.GameId));
         }
     }
 }
