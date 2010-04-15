@@ -43,6 +43,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the chips that are in the pile.
+        /// </summary>
+        /// <value>The chips in the pile.</value>
+        public ReadOnlyObservableCollection<IPhysicalObject> Chips
+        {
+            get { return new ReadOnlyObservableCollection<IPhysicalObject>(this.Items); }
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type.
         /// </summary>
         /// <param name="obj">An object to compare with this instance.</param>

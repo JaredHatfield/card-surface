@@ -10,6 +10,7 @@ namespace CardGameCommandLine
     using System.Text;
     using CardCommunication;
     using CardGame;
+    using CardGame.GameFactory;
     using CardServer;
     using GameBlackjack;
     using GameFreeplay;
@@ -44,11 +45,17 @@ namespace CardGameCommandLine
                 input = Console.ReadLine();
                 if (input.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    // Set up the server
                     this.serverController = new ServerController();
+
+                    // Start communicating with the server
                     this.tableCommunicationController = new TableCommunicationController();
                     this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
                     this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.DoNothing);
                     this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
+
+                    // We need to remove some of the checks that are present in the factory
+                    PhysicalObjectFactory.PreventDuplication = false;
 
                     loop = false;
                     this.MainLoop();
@@ -57,7 +64,13 @@ namespace CardGameCommandLine
                 {
                     try
                     {
+                        // Start communicating with the server
                         this.tableCommunicationController = new TableCommunicationController(input);
+
+                        // Set up the factory!
+                        PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
+                        PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
+                        PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
                         loop = false;
                         this.MainLoop();
                     }

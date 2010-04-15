@@ -31,6 +31,11 @@ namespace CardGame.GameFactory
         private static ChipFactory chipFactory;
 
         /// <summary>
+        /// A flag that is set to determine if duplication should be checked or not.
+        /// </summary>
+        private static bool preventDuplication = true;
+
+        /// <summary>
         /// The list of created Guids.
         /// </summary>
         private Collection<Guid> createdObjects;
@@ -53,6 +58,16 @@ namespace CardGame.GameFactory
                 // It looks like we are good to go!
                 this.createdObjects = new Collection<Guid>();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [prevent duplication].
+        /// </summary>
+        /// <value><c>true</c> if [prevent duplication]; otherwise, <c>false</c>.</value>
+        public static bool PreventDuplication
+        {
+            get { return PhysicalObjectFactory.preventDuplication; }
+            set { PhysicalObjectFactory.preventDuplication = value; }
         }
 
         /// <summary>
@@ -117,7 +132,7 @@ namespace CardGame.GameFactory
             Card.CardFace face,
             Card.CardStatus status)
         {
-            if (this.createdObjects.Contains(id))
+            if (PhysicalObjectFactory.preventDuplication && this.createdObjects.Contains(id))
             {
                 throw new CardGameDuplicatePhysicalObjectException();
             }
@@ -154,7 +169,7 @@ namespace CardGame.GameFactory
         /// <returns>An IChip with a specified Guid.</returns>
         public IChip MakeChip(Guid id, int amount)
         {
-            if (this.createdObjects.Contains(id))
+            if (PhysicalObjectFactory.preventDuplication && this.createdObjects.Contains(id))
             {
                 throw new CardGameDuplicatePhysicalObjectException();
             }
