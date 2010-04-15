@@ -239,9 +239,14 @@ namespace CardCommunication.Messages
         {
             XmlElement child = (XmlElement)message.FirstChild;
 
-            XmlElement subChild = (XmlElement)child.FirstChild;
+            this.action.Add(child.Name);
 
-            this.ProcessParamSubElements(subChild);
+            foreach (XmlNode n in child.ChildNodes)
+            {
+                XmlElement subChild = (XmlElement)n;
+
+                this.ProcessParamSubElements(subChild);
+            }
         }
 
         /// <summary>
