@@ -342,6 +342,7 @@ namespace CardCommunication
 
                         // Executes Move
                         GameController.GetGame(gameGuid).MoveAction(physicalObject, destinationPile);
+                        this.TransportCommunication(GameController.GetGame(gameGuid));
                     }
                     else if (action[0] == MessageAction.ActionType.Custom.ToString())
                     {
@@ -350,6 +351,7 @@ namespace CardCommunication
 
                         // Executes Custum Action
                         GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
+                        this.TransportCommunication(GameController.GetGame(gameGuid));
                     }
                 }
                 else if (mt == Message.MessageType.FlipCard.ToString())
