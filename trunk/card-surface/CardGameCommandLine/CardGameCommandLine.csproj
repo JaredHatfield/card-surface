@@ -53,6 +53,7 @@
     <Compile Include="CommandLineGraphics.cs" />
     <Compile Include="GameCommandLine.cs" />
     <Compile Include="GameMenu.cs" />
+    <Compile Include="GameNetworkMenu.cs" />
     <Compile Include="JoinMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />

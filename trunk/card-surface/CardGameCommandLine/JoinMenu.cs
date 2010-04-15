@@ -247,7 +247,7 @@ namespace CardGameCommandLine
             try
             {
                 GameCommandLine game = new GameCommandLine(this.tableCommunicationController, selected);
-                GameMenu gameMenu = new GameMenu(game);
+                GameMenu gameMenu = new GameNetworkMenu(game, this.tableCommunicationController);
             }
             catch (Exception e)
             {
