@@ -173,6 +173,8 @@ namespace CardCommunication
                 this.gameDidInitialize = true;
             }
 
+            Console.WriteLine("Game State updated!");
+
             Debug.WriteLine("Exited UpdateGameState");
         }
     }
