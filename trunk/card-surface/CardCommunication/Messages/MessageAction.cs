@@ -158,6 +158,17 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Processes the action.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void ProcessAction(XmlElement message)
+        {
+            XmlElement action = (XmlElement)message.FirstChild;
+
+            this.ProcessParam(action);
+        }
+        
+        /// <summary>
         /// Builds the command.
         /// </summary>
         /// <param name="message">The message.</param>
@@ -174,6 +185,39 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Processes the action.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        protected void ProcessActionParam(XmlElement action)
+        {
+            string gameGuid = String.Empty;
+            string actionType = String.Empty;
+
+            foreach (XmlAttribute a in action.Attributes)
+            {
+                if (a.Name == "Game")
+                {
+                    gameGuid = a.Value;
+                }
+            }
+
+            this.action.Add(gameGuid);
+
+            foreach (XmlNode node in action.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    XmlElement actionParam = (XmlElement)node;
+
+                    actionType = node.Name;
+                    this.ProcessParam(actionParam);
+                }
+            }       
+    
+            this.action.Add(actionType);
+       }
+
+        /// <summary>
         /// Builds the param.
         /// </summary>
         /// <param name="message">The message.</param>
@@ -188,42 +232,10 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Processes the action.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        protected void ProcessAction(XmlElement action)
-        {
-            string gameGuid = String.Empty;
-            string actionType = String.Empty;
-
-            foreach (XmlAttribute a in action.Attributes)
-            {
-                if (a.Name == "Game")
-                {
-                    gameGuid = a.Value;
-                }
-            }
-
-            this.action.Add(gameGuid);
-            this.action.Add(actionType);
-
-            foreach (XmlNode node in action.ChildNodes)
-            {
-                if (node.NodeType == XmlNodeType.Element)
-                {
-                    XmlElement actionParam = (XmlElement)node;
-
-                    actionType = node.Name;
-                    this.ProcessActionParam(actionParam);
-                }
-            }           
-       }
-
-        /// <summary>
         /// Processes the action param.
         /// </summary>
         /// <param name="action">The action parameter to be processed.</param>
-        protected void ProcessActionParam(XmlElement action)
+        protected void ProcessParam(XmlElement action)
         {
             string name = String.Empty;
 

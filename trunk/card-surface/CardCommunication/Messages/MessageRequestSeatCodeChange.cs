@@ -1,56 +1,56 @@
-﻿// <copyright file="MessageRequestCurrentGameState.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="MessageRequestSeatCodeChange.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>A message for a request for the current game state.</summary>
+// <summary>A message for a request to change a seat password.</summary>
 namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
+    ////using GameObject;
 
     /// <summary>
     /// A message for an action that was performed on the table.
     /// </summary>
-    public class MessageRequestCurrentGameState : Message
+    public class MessageRequestSeatCodeChange : Message
     {
         /// <summary>
         /// Guid of the seat to get a new password.
         /// </summary>
-        private Guid gameGuid;
+        private Guid seatGuid;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageRequestCurrentGameState"/> class.
+        /// Initializes a new instance of the <see cref="MessageRequestSeatCodeChange"/> class.
         /// </summary>
-        public MessageRequestCurrentGameState()
+        public MessageRequestSeatCodeChange()
         {
-            MessageTypeName = MessageType.RequestCurrentGameState.ToString();
+            MessageTypeName = MessageType.RequestSeatCodeChange.ToString();
         }
 
         /// <summary>
-        /// Gets the game GUID.
+        /// Gets the card GUID.
         /// </summary>
-        /// <value>The game GUID.</value>
-        public Guid GameGuid
+        /// <value>The card GUID.</value>
+        public Guid CardGuid
         {
-            get { return this.gameGuid; }
+            get { return this.seatGuid; }
         }
 
         /// <summary>
         /// Builds the message.
         /// </summary>
-        /// <param name="gameGuid">The game GUID.</param>
+        /// <param name="seatGuid">The seat GUID.</param>
         /// <returns>whether the message was built.</returns>
-        public bool BuildMessage(Guid gameGuid)
+        public bool BuildMessage(Guid seatGuid)
         {
             bool success = true;
 
-            this.gameGuid = gameGuid;
+            this.seatGuid = seatGuid;
             success = this.BuildM();
 
             return success;
@@ -88,7 +88,7 @@ namespace CardCommunication.Messages
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
 
-            this.BuildRequestCurrentGameState(ref body);
+            this.BuildRequestSeatCodeChange(ref body);
 
             message.AppendChild(body);
         }
@@ -101,38 +101,39 @@ namespace CardCommunication.Messages
         {
             XmlElement child = (XmlElement)element.FirstChild;
 
-            this.ProcessRequestCurrentGameState(child);
+            child.InnerXml = element.InnerXml;
+            this.ProcessRequestSeatCodeChange(child);
         }
 
         /// <summary>
         /// Builds the action.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected void BuildRequestCurrentGameState(ref XmlElement message)
+        protected void BuildRequestSeatCodeChange(ref XmlElement message)
         {
-            XmlElement state = this.MessageDocument.CreateElement("RequestCurrentGameState");
+            XmlElement action = this.MessageDocument.CreateElement("Seat");
 
-            state.SetAttribute("gameGuid", this.gameGuid.ToString());
+            action.SetAttribute("seatGuid", this.seatGuid.ToString());
 
-            message.AppendChild(state);
+            message.AppendChild(action);
         }
 
         /// <summary>
         /// Processes the action.
         /// </summary>
         /// <param name="action">The action.</param>
-        protected void ProcessRequestCurrentGameState(XmlElement action)
+        protected void ProcessRequestSeatCodeChange(XmlElement action)
         {
-            string gameGuid = String.Empty;
+            string seat = String.Empty;
             foreach (XmlAttribute a in action.Attributes)
             {
-                if (a.Name == "gameGuid")
+                if (a.Name == "seatGuid")
                 {
-                    gameGuid = a.Value;
+                    seat = a.Value;
                 }
             }
 
-            this.gameGuid = new Guid(gameGuid);
+            this.seatGuid = new Guid(seat);
         }
     }
 }

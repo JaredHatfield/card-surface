@@ -195,7 +195,7 @@ namespace CardCommunication
 
             message.BuildMessage(gameGuid);
 
-            this.TransportCommunication(this.GameController.GetGame(gameGuid));
+            base.TransportCommunication(message.MessageDocument);
         }
 
         /// <summary>
