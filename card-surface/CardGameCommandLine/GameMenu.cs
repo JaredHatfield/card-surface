@@ -96,6 +96,25 @@ namespace CardGameCommandLine
         }
 
         /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <value>The local game.</value>
+        protected Game Game
+        {
+            get { return this.game; }
+        }
+
+        /// <summary>
+        /// Allows the execution of custom functions.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <returns>True if the custom function executed code; otherwise false.</returns>
+        protected virtual bool CustomFunction(string input)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// The main loop of the game.
         /// </summary>
         private void GameLoop()
@@ -136,6 +155,10 @@ namespace CardGameCommandLine
                     }
 
                     this.PrompForEnter();
+                }
+                else if (this.CustomFunction(input))
+                {
+                    // We don't need to do anything here because everything was executed by the custom function.
                 }
                 else
                 {
