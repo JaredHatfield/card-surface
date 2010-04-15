@@ -248,6 +248,7 @@ namespace CardGameCommandLine
             {
                 GameCommandLine game = new GameCommandLine(this.tableCommunicationController, selected);
                 GameMenu gameMenu = new GameNetworkMenu(game, this.tableCommunicationController);
+                gameMenu.Start();
             }
             catch (Exception e)
             {
