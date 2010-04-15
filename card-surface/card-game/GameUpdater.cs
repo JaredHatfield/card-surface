@@ -41,17 +41,17 @@ namespace CardGame
         /// <param name="gameMessage">The game message.</param>
         public void Update(Game gameMessage)
         {
-            // 1) Make the game pass
+            // 1) Update the components unique to the Game (id, GamingArea, DeckId)
             this.game.Update(gameMessage);
 
-            // 2) Make a constructive pass on all of the seats making sure all of the objects match.
+            // 2) Update all of the components unique to a seat including all of the sub objects.
             for (int i = 0; i < this.game.Seats.Count; i++)
             {
                 Seat.SeatLocation loc = this.game.Seats[i].Location;
                 this.game.Seats[i].Update(gameMessage.GetSeat(loc));
             }
 
-            // 3) Add any misssing physical objects to the appropriate pile and make sure cards are in correct state
+            // 3) Add any misssing physical objects to the appropriate pile and make sure physical objects are in the correct pile
             for (int i = 0; i < gameMessage.GamingArea.Cards.Count; i++)
             {
                 this.ProcessCardPileFromMessage(gameMessage.GamingArea.Cards[i]);
@@ -82,17 +82,15 @@ namespace CardGame
                 }
             }
 
-            // TODO: 4) For each physical object, find the destination pile
-            //    If the object is in the same pile, done
-            //    If the object is in a different pile, move it
-            //    If the object is in no pile, delete it
-            //    Special: Make sure all cards match their state
+            // TODO: 4) Remove all of the physical objects that no longer exist
 
-            // TODO: 5) Remove players that are no longer playing
+            // TODO: 5) Remove all of the piles that no longer exist
 
-            // TODO: 6) Make sure the piles are in the same order
+            // TODO: 6) Remove players that are no longer playing
 
-            // TODO: 7) Make sure all of the physical objects are in the same order
+            // TODO: 7) Make sure the piles are in the same order
+
+            // TODO: 8) Make sure all of the physical objects are in the same order
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace CardGame
                     Guid currentPileId = this.game.GetPileContaining(existing.Id).Id;
                     if (!pile.Id.Equals(currentPileId))
                     {
-                        this.game.MoveAction(existing.Id, pile.Id);
+                        this.game.MovePhysicalObject(existing.Id, pile.Id);
                     }
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
@@ -156,7 +154,7 @@ namespace CardGame
                     Guid currentPileId = this.game.GetPileContaining(existing.Id).Id;
                     if (!pile.Id.Equals(currentPileId))
                     {
-                        this.game.MoveAction(existing.Id, pile.Id);
+                        this.game.MovePhysicalObject(existing.Id, pile.Id);
                     }
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
