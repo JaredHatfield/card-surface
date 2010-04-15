@@ -64,6 +64,11 @@
           <xs:attribute name="SelectedGame" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
+      <xs:element name="RequestCurrentGameState">
+        <xs:complexType>
+          <xs:attribute name="gameGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="Game" type="GameType"></xs:element>
     </xs:choice>
   </xs:complexType>

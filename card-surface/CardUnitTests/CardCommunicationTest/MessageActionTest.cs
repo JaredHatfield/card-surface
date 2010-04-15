@@ -22,13 +22,17 @@ namespace CardUnitTests
         public void BuildMessageActionTest()
         {
             MessageAction target = new MessageAction(); // TODO: Initialize to an appropriate value
-            Collection<string> action = new Collection<string>(); 
-            action.Add("Move");
-            action.Add("12345678-1234-1234-123456789012");
-            action.Add("43218765-1234-1234-123456789012"); // TODO: Initialize to an appropriate value
+            Collection<string> action1 = new Collection<string>();
+            Collection<string> action2 = new Collection<string>();
+            action1.Add("Move");
+            action1.Add("12345678-1234-1234-123456789012");
+            action1.Add("43218765-1234-1234-123456789012"); // TODO: Initialize to an appropriate value
+            action2.Add("Custom");
+            action2.Add("Hit");
+            action2.Add("Bob");
             bool expected = true; // TODO: Initialize to an appropriate value
             bool actual;
-            target.BuildMessage(action);
+            target.BuildMessage(action2);
             actual = target.Validated;
 
             Assert.AreEqual(expected, actual);

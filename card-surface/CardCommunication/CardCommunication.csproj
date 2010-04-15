@@ -71,6 +71,9 @@
     <Compile Include="Messages\MessageRequestGame.cs" />
     <Compile Include="Messages\MessageRequestExistingGames.cs" />
     <Compile Include="Messages\MessageRequestGameList.cs" />
+    <Compile Include="Messages\MessageRequestSeatCodeChange.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCommunicationController.cs" />
     <Compile Include="TableCommunicationController.cs" />

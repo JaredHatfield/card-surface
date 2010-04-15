@@ -80,6 +80,7 @@
     <Compile Include="CardCommunicationTest\MessageExistingGamesTest.cs" />
     <Compile Include="CardCommunicationTest\MessageFlipCardTest.cs" />
     <Compile Include="CardCommunicationTest\MessageRequestGameTest.cs" />
+    <Compile Include="CardCommunicationTest\MessageRequestSeatCodeChangeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardWebTests\WebActionCreateAccountTest.cs" />
     <Compile Include="CardWebTests\WebActionInitGameTest.cs" />
