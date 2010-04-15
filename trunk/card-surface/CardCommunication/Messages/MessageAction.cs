@@ -21,7 +21,7 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Action and Parameters.
         /// </summary>
-        private Collection<string> action;
+        private Collection<string> action = new Collection<string>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageAction"/> class.
@@ -232,10 +232,23 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Processes the param.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void ProcessParam(XmlElement message)
+        {
+            XmlElement child = (XmlElement)message.FirstChild;
+
+            XmlElement subChild = (XmlElement)child.FirstChild;
+
+            this.ProcessParamSubElements(subChild);
+        }
+
+        /// <summary>
         /// Processes the action param.
         /// </summary>
         /// <param name="action">The action parameter to be processed.</param>
-        protected void ProcessParam(XmlElement action)
+        protected void ProcessParamSubElements(XmlElement action)
         {
             string name = String.Empty;
 
