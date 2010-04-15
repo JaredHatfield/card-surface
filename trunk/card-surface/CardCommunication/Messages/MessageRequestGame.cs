@@ -6,12 +6,12 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
     using System.Xml.Schema;
     using CardGame;
-    ////using GameObject;
 
     /// <summary>
     /// A reflection of the current game state.

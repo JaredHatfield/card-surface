@@ -8,11 +8,12 @@ namespace CardCommunication.Messages
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using CardCommunication.CommunicationException;
     using CardGame;
-    ////using GameObject;
 
     /// <summary>
     /// A message to send the list of games.
@@ -68,8 +69,9 @@ namespace CardCommunication.Messages
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Building Message", e);
+                Debug.WriteLine("Error Building Message" + e.ToString());
                 success = false;
+                throw new MessageTransportException("MessageGameList exception.", e);
             }
 
             return success;

@@ -8,11 +8,11 @@ namespace CardCommunication.Messages
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
     using CardGame;
-    ////using GameObject;
 
     /// <summary>
     /// A message to send the list of games.

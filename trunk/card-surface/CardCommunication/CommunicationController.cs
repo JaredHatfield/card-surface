@@ -6,6 +6,7 @@ namespace CardCommunication
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -236,9 +237,9 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error starting socket listener.", e);
+                Debug.WriteLine("Error starting socket listener." + e);
                 success = false;
-                throw new SocketBindingException("StartListener Socket Binding Exception." + e.InnerException);
+                throw new SocketBindingException("StartListener Socket Binding Exception.", e);
             }
 
             return success;
@@ -260,7 +261,7 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                throw new SocketBindingException("Error binding to socket." + e.InnerException);
+                throw new SocketBindingException("Error binding to socket.", e);
             }
         }
 
@@ -366,8 +367,8 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw new MessageProcessException("Comm.ProcessCommunication Exception." + e.InnerException);
+                Debug.WriteLine(e);
+                throw new MessageProcessException("Comm.ProcessCommunication Exception.", e);
             }
         }
 
@@ -409,8 +410,8 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Sending Communication.", e);
-                throw new MessageTransportException("Comm.TransportCommunication Exception." + e.InnerException);
+                Debug.WriteLine("Error Sending Communication." + e.ToString());
+                throw new MessageTransportException("Comm.TransportCommunication Exception.", e);
             }
         }
 
@@ -445,7 +446,7 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                throw new SocketBindingException("SuccessfulTransport Exception." + e.InnerException);
+                throw new SocketBindingException("SuccessfulTransport Exception.", e);
             }
         }
     }
