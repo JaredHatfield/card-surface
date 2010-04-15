@@ -506,6 +506,11 @@ namespace CardGame
         /// <returns>True if the GameAction was successful; otherwise false.</returns>
         public bool ExecuteAction(string name, string player)
         {
+            if (!this.ActionTest(name, player))
+            {
+                return false;
+            }
+
             for (int i = 0; i < this.actions.Count; i++)
             {
                 if (this.actions[i].Name.Equals(name))
@@ -857,6 +862,18 @@ namespace CardGame
         protected virtual bool MoveTest(Guid physicalObject, Guid destinationPile)
         {
             // This method should be overridden by a specific game to validate this specific move.
+            return true;
+        }
+
+        /// <summary>
+        /// Test if an action can be performed.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <param name="player">The player's username.</param>
+        /// <returns>True if the action can be executed.</returns>
+        protected virtual bool ActionTest(string name, string player)
+        {
+            // This method should be overridden by the network client so that it can intercept the call and route it to the server.
             return true;
         }
 

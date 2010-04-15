@@ -125,6 +125,38 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Tests if a move of a IPhysicalObject to a specified Pile is valid for the specific game.
+        /// </summary>
+        /// <param name="physicalObject">The physical object.</param>
+        /// <param name="destinationPile">The destination pile.</param>
+        /// <returns>
+        /// True if the move if valid; otherwise false.
+        /// </returns>
+        protected override bool MoveTest(Guid physicalObject, Guid destinationPile)
+        {
+            // Send the request for a move to the server
+            this.tableCommunicationController.SendMoveActionMessage(physicalObject.ToString(), destinationPile.ToString());
+
+            // We always return false because we want to let the server update the game
+            return false;
+        }
+
+        /// <summary>
+        /// Test if an action can be performed.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <param name="player">The player's username.</param>
+        /// <returns>True if the action can be executed.</returns>
+        protected override bool ActionTest(string name, string player)
+        {
+            // Send the request for the action to the server
+            this.tableCommunicationController.SendCustomActionMessage(name, player);
+
+            // We always return false because we want to let the server update the game
+            return false;
+        }
+
+        /// <summary>
         /// Updates the state of the game.
         /// </summary>
         /// <param name="game">The game update.</param>
