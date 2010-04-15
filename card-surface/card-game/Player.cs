@@ -244,12 +244,18 @@ namespace CardGame
             this.turn = player.turn;
 
             // Remove unnecessary actions
+            Collection<string> removeMe = new Collection<string>();
             foreach (string action in this.actions)
             {
                 if (!player.actions.Contains(action))
                 {
-                    this.actions.Remove(action);
+                    removeMe.Add(action);
                 }
+            }
+
+            for (int i = 0; i < removeMe.Count; i++)
+            {
+                this.actions.Remove(removeMe[i]);
             }
 
             // Add all of the missing actions
