@@ -12,7 +12,6 @@ namespace CardGame.GameFactory
     /// <summary>s
     /// Class that is used to create new Cards.
     /// </summary>
-    [Serializable]
     public class CardFactory
     {
         /// <summary>

@@ -21,6 +21,7 @@ namespace CardGame
         /// <summary>
         /// The factory, used to create new chips.
         /// </summary>
+        [NonSerialized]
         private PhysicalObjectFactory factory;
 
         /// <summary>
@@ -106,6 +107,12 @@ namespace CardGame
         /// </summary>
         internal void RefreshChipPile()
         {
+            // If there is no factory, we can not refresh the Bank (this would be the case on the client)
+            if (this.factory == null)
+            {
+                return;
+            }
+
             int[] amounts = { 1, 5, 10, 25, 100 };
 
             // 1) Remove any duplicate value chips and add the money to the users account
