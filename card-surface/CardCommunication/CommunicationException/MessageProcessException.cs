@@ -15,17 +15,11 @@ namespace CardCommunication.CommunicationException
     public class MessageProcessException : CardCommunicationException
     {
         /// <summary>
-        /// The custom message.
-        /// </summary>
-        private string message;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MessageProcessException"/> class.
         /// </summary>
         public MessageProcessException()
             : base()
         {
-            this.message = string.Empty;
         }
 
         /// <summary>
@@ -33,31 +27,18 @@ namespace CardCommunication.CommunicationException
         /// </summary>
         /// <param name="message">The message.</param>
         public MessageProcessException(string message)
-            : base()
+            : base(message)
         {
-            this.message = message;
         }
 
         /// <summary>
-        /// Gets a message that describes the current exception.
+        /// Initializes a new instance of the <see cref="MessageProcessException"/> class.
         /// </summary>
-        /// <value></value>
-        /// <returns>
-        /// The error message that explains the reason for the exception, or an empty string("").
-        /// </returns>
-        public override string Message
+        /// <param name="message">The message.</param>
+        /// <param name="innerException">The inner exception.</param>
+        internal MessageProcessException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            get
-            {
-                if (this.message == string.Empty)
-                {
-                    return "MessageProcess exception thrown";
-                }
-                else
-                {
-                    return "MessageProcess exception thrown: " + this.message;
-                }
-            }
         }
     }
 }

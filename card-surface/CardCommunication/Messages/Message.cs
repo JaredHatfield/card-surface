@@ -6,6 +6,7 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -160,61 +161,6 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Converts to game.
-        /// </summary>
-        /// <param name="message">The message to be converted to a game.</param>
-        /// <returns>the game formed from the message.</returns>
-        public Game ConvertToGame(XmlDocument message)
-        {
-            XmlTextReader tx = new XmlTextReader(this.messageDoc.InnerText);
-
-            while (tx.Read())
-            {
-                XmlNodeList nodeList = null;
-                XmlNode node = null;
-
-                //// Look at the first element of Body to find the type of Message
-                nodeList = this.messageDoc.GetElementsByTagName("Body");
-
-                node = nodeList.Item(0);
-                XmlElement element = this.messageDoc.CreateElement(node.Name);
-                element.InnerXml = node.InnerXml;
-
-                try
-                {
-                    bool found = false;
-
-                    foreach (XmlNode n in element.ChildNodes)
-                    {
-                        //// Don't seek if type has already been found.
-                        if (n.NodeType == XmlNodeType.Element && !found)
-                        {
-                            switch (n.Name)
-                            {
-                                case "Action":
-                                    found = true;
-                                    MessageAction messageAction = new MessageAction();
-                                    ////this.gameObject = messageAction.ProcessMessage(message);
-                                    break;
-                                case "GameState":
-                                    found = true;
-                                    MessageGameState messageGameState = new MessageGameState();
-                                    ////this.gameObject = messageGameState.ProcessMessage(message);
-                                    break;
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new MessageTransportException("Message.ConvertToGame Exception." + e.InnerException);
-                }
-            }
-
-            return this.game;
-        }
-
-        /// <summary>
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
@@ -242,9 +188,9 @@ namespace CardCommunication.Messages
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Building Message", e);
+                Debug.WriteLine("Error Building Message" + e.ToString());
                 success = false;
-                throw new MessageTransportException("BuildM Exception." + e.InnerException);
+                throw new MessageTransportException("BuildM Exception.", e);
             }
 
             return success;
@@ -257,9 +203,9 @@ namespace CardCommunication.Messages
         /// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
         protected void Error(object sender, ValidationEventArgs e)
         {
-            Console.WriteLine(e.Severity + ".  " + e.Message + "  " + e.Exception);
+            Debug.WriteLine(e.Severity + ".  " + e.Message + "  " + e.Exception);
             this.validated = false;
-            throw new MessageTransportException("Message Validation Error" + e.Message);
+            throw new MessageTransportException("Message Validation Error:" + e.ToString());
         }
 
         /// <summary>
@@ -294,16 +240,5 @@ namespace CardCommunication.Messages
         /// </summary>
         /// <param name="element">The element to be processed.</param>
         protected abstract void ProcessBody(XmlElement element);
-        
-        /////// <summary>
-        /////// Validates the schema.
-        /////// </summary>
-        /////// <param name="sender">The sender.</param>
-        /////// <param name="e">The <see cref="System.Xml.Schema.ValidationEventArgs"/> instance containing the event data.</param>
-        ////private void ValidateSchema(object sender, ValidationEventArgs e)
-        ////{
-        ////    Console.WriteLine("Schema Validation.", e);
-        ////    ////this.schemaValidated = false;
-        ////}
     }
 }

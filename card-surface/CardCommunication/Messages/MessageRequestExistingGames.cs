@@ -6,6 +6,7 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
@@ -60,9 +61,9 @@ namespace CardCommunication.Messages
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Building Message", e);
+                Debug.WriteLine("Error Building Message" + e.ToString());
                 success = false;
-                throw new MessageTransportException("Error Building Request Existing Games Message." + e.InnerException);
+                throw new MessageTransportException("Error Building Request Existing Games Message.", e);
             }
 
             return success;

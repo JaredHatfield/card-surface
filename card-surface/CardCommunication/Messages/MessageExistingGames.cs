@@ -8,12 +8,12 @@ namespace CardCommunication.Messages
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Xml;
     using CardGame;
     using CommunicationException;
-    ////using GameObject;
 
     /// <summary>
     /// A message to send the list of existing/active games.
@@ -92,9 +92,9 @@ namespace CardCommunication.Messages
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error Building Message", e.InnerException);
+                Debug.WriteLine("Error Building Message: " + e.InnerException);
                 success = false;
-                throw new MessageTransportException("Error Building Existing Games Message." + e.InnerException);
+                throw new MessageTransportException("Error Building Existing Games Message.", e);
             }
 
             return success;
