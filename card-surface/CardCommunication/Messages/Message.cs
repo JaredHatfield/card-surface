@@ -95,6 +95,11 @@ namespace CardCommunication.Messages
             GameList,
 
             /// <summary>
+            /// The Request Current Game State Message.
+            /// </summary>
+            RequestCurrentGameState,
+
+            /// <summary>
             /// The Request Existing Games Message.
             /// </summary>
             RequestExistingGames,
@@ -108,7 +113,12 @@ namespace CardCommunication.Messages
             /// <summary>
             /// The Request Game List Message.
             /// </summary>
-            RequestGameList
+            RequestGameList,
+
+            /// <summary>
+            /// The Request Seat Password Change Message.
+            /// </summary>
+            RequestSeatCodeChange
         }
 
         /// <summary>

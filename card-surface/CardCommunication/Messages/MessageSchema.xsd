@@ -68,12 +68,11 @@
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="ActionType">
-    <xs:sequence>
+    <xs:sequence maxOccurs="unbounded">
       <xs:element name="Param" type="ParamType"></xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ParamType">
-    <xs:attribute name="name" type="xs:string"></xs:attribute>
     <xs:attribute name="value" type="xs:string"></xs:attribute>
   </xs:complexType>
   <xs:complexType name="CardCollectionType">

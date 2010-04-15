@@ -166,7 +166,7 @@ namespace CardCommunication.Messages
         {
             XmlElement command = this.MessageDocument.CreateElement(this.action[0]);
 
-            for (int i = 0; i < this.action.Count / 2; i++)
+            for (int i = 1; i < this.action.Count; i++)
             {
                 this.BuildParam(ref command, i);
             }
@@ -183,9 +183,7 @@ namespace CardCommunication.Messages
         {
             XmlElement param = this.MessageDocument.CreateElement("Param");
 
-            //// param.SetAttribute("Name", action[2 * counter + 1]);
-
-            param.SetAttribute("Value", this.action[counter + 1]);
+            param.SetAttribute("value", this.action[counter]);
 
             message.AppendChild(param);
         }
