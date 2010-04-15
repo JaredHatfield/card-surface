@@ -13,6 +13,7 @@ namespace CardGameCommandLine
     using CardCommunication.Messages;
     using CardGame;
     using CardGame.GameException;
+    using CardGame.GameFactory;
     using CardServer;
     using GameBlackjack;
 

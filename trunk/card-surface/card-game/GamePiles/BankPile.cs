@@ -52,15 +52,6 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets the chips.
-        /// </summary>
-        /// <value>The chips.</value>
-        public ReadOnlyObservableCollection<IPhysicalObject> Chips
-        {
-            get { return new ReadOnlyObservableCollection<IPhysicalObject>(this.Items); }
-        }
-
-        /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>

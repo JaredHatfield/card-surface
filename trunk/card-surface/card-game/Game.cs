@@ -115,13 +115,12 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Gets or sets the unique id for a game.
+        /// Gets the unique id for a game.
         /// </summary>
         /// <value>The unique id.</value>
         public Guid Id
         {
             get { return this.id; }
-            set { this.id = value; }
         }
 
         /// <summary>
@@ -522,6 +521,17 @@ namespace CardGame
             }
 
             throw new CardGameActionNotFoundException();
+        }
+
+        /// <summary>
+        /// Updates the specified game.
+        /// </summary>
+        /// <param name="game">The game to reflect.</param>
+        internal void Update(Game game)
+        {
+            this.id = game.id;
+            this.gamingArea.Update(game.gamingArea);
+            this.deckPile = game.deckPile;
         }
 
         /// <summary>
