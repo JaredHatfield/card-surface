@@ -66,7 +66,7 @@ namespace CardGame
             {
                 if (!this.game.Seats[i].IsEmpty)
                 {
-                    Player p = this.game.Seats[i].Player;
+                    Player p = gameMessage.Seats[i].Player;
                     this.ProcessCardPileFromMessage(p.Hand);
                     this.ProcessChipPileFromMessage(p.BankPile);
 
