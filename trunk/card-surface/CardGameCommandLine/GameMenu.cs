@@ -45,15 +45,31 @@ namespace CardGameCommandLine
         public GameMenu(Game game)
         {
             this.game = game;
+        }
+
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <value>The local game.</value>
+        protected Game Game
+        {
+            get { return this.game; }
+        }
+
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
+        internal void Start()
+        {
             Console.Clear();
 
             // First we let the player choose an empty Seat
             Console.WriteLine("Select from available seats:");
-            for (int i = 0; i < game.Seats.Count; i++)
+            for (int i = 0; i < this.game.Seats.Count; i++)
             {
-                if (game.Seats[i].IsEmpty && game.Seats[i].IsSittable)
+                if (this.game.Seats[i].IsEmpty && this.game.Seats[i].IsSittable)
                 {
-                    Console.WriteLine(game.Seats[i].Location);
+                    Console.WriteLine(this.game.Seats[i].Location);
                 }
             }
 
@@ -65,7 +81,7 @@ namespace CardGameCommandLine
                 {
                     Console.Write(" >");
                     location = Seat.ParseSeatLocation(Console.ReadLine());
-                    seat = game.GetSeat(location);
+                    seat = this.game.GetSeat(location);
                     if (!seat.IsEmpty)
                     {
                         seat = null;
@@ -93,15 +109,6 @@ namespace CardGameCommandLine
             this.username = seat.Username;
             this.player = seat.Player;
             this.GameLoop();
-        }
-
-        /// <summary>
-        /// Gets the game.
-        /// </summary>
-        /// <value>The local game.</value>
-        protected Game Game
-        {
-            get { return this.game; }
         }
 
         /// <summary>

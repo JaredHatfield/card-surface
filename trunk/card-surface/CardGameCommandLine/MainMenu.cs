@@ -90,6 +90,7 @@ namespace CardGameCommandLine
                 {
                     selection--;
                     GameMenu gameMenu = new GameMenu(this.gameController.Games[selection]);
+                    gameMenu.Start();
                     return;
                 }
                 else
