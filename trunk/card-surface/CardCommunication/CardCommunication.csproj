@@ -68,6 +68,7 @@
     <Compile Include="Messages\MessageFlipCard.cs" />
     <Compile Include="Messages\MessageGameList.cs" />
     <Compile Include="Messages\MessageGameState.cs" />
+    <Compile Include="Messages\MessageRequestCurrentGameState.cs" />
     <Compile Include="Messages\MessageRequestGame.cs" />
     <Compile Include="Messages\MessageRequestExistingGames.cs" />
     <Compile Include="Messages\MessageRequestGameList.cs" />

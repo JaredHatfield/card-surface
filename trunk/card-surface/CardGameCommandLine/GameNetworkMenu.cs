@@ -43,7 +43,8 @@ namespace CardGameCommandLine
         {
             if (input.Equals("refresh", StringComparison.CurrentCultureIgnoreCase))
             {
-                // TODO: This is where we need to call the tableCommunicationController to refresh the game state!
+                this.tableCommunicationController.SendRequestCurrentGameState(this.Game.Id);
+
                 // Don't forget to wrap this in a try catch block
                 throw new NotImplementedException("The TabletCommunicationController should be called to update the game state");
                 

@@ -185,6 +185,19 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Sends the state of the request current game.
+        /// </summary>
+        /// <param name="gameGuid">The game GUID.</param>
+        public void SendRequestCurrentGameState(Guid gameGuid)
+        {
+            MessageRequestCurrentGameState message = new MessageRequestCurrentGameState();
+
+            message.BuildMessage(gameGuid);
+
+            this.TransportCommunication(this.GameController.GetGame(gameGuid));
+        }
+
+        /// <summary>
         /// Sends the action message.
         /// </summary>
         /// <param name="action">The action.</param>

@@ -397,6 +397,14 @@ namespace CardCommunication
 
                     base.TransportCommunication(messageExistingGames.MessageDocument);
                 }
+                else if (mt == Message.MessageType.RequestCurrentGameState.ToString())
+                {
+                    MessageRequestCurrentGameState mrcgs = new MessageRequestCurrentGameState();
+
+                    mrcgs.ProcessMessage(messageDoc);
+
+                    this.TransportCommunication(this.GameController.GetGame(mrcgs.GameGuid));
+                }
             }
             catch (Exception e)
             {
