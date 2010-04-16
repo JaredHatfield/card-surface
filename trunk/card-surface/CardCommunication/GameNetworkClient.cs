@@ -11,6 +11,7 @@ namespace CardCommunication
     using System.Linq;
     using System.Net;
     using System.Text;
+    using System.Threading;
     using CardCommunication.CommunicationException;
     using CardGame;
     
@@ -50,6 +51,11 @@ namespace CardCommunication
         private GameUpdater gameUpdater;
 
         /// <summary>
+        /// A semaphore to try to fix the first load problem.
+        /// </summary>
+        private object firstLoadSemaphore;
+
+        /// <summary>
         /// A semaphore that allows only one thread to update the game at a time.
         /// </summary>
         private object updateSemaphore;
@@ -61,6 +67,7 @@ namespace CardCommunication
         /// <param name="game">The game to join.</param>
         public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
+            this.firstLoadSemaphore = new object();
             this.updateSemaphore = new object();
             this.gameUpdater = new GameUpdater(this);
             this.tableCommunicationController = tableCommunicationController;
@@ -69,9 +76,18 @@ namespace CardCommunication
             this.minimumStake = 0;
             this.SubscribeEvents();
             this.tableCommunicationController.SendRequestGameMessage(game);
-            while (!this.gameDidInitialize)
+
+            // Wait until the first game has loaded
+            bool loop = true;
+            while (loop)
             {
-                // We are not going to return from our constructor until the game updates at least once;
+                Monitor.Enter(this.firstLoadSemaphore);
+                if (this.gameDidInitialize)
+                {
+                    loop = false;
+                }
+
+                Monitor.Exit(this.firstLoadSemaphore);
             }
         }
 
@@ -178,7 +194,9 @@ namespace CardCommunication
                 // Flag the game as being updated
                 if (!this.gameDidInitialize)
                 {
+                    Monitor.Enter(this.firstLoadSemaphore);
                     this.gameDidInitialize = true;
+                    Monitor.Exit(this.firstLoadSemaphore);
                 }
 
                 Console.WriteLine("Game State updated!");
