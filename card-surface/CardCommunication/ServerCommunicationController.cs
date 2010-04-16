@@ -202,6 +202,8 @@ namespace CardCommunication
         {
             try
             {
+                Monitor.Enter(this.ProcessCommSephamore);
+
                 Socket socketWorker = (Socket)asyncResult.AsyncState;
                 Socket socketProcessor = socketWorker.EndAccept(asyncResult);
                 bool found = false;
