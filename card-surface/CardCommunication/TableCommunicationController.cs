@@ -407,6 +407,8 @@ namespace CardCommunication
                 commObject.Data = data;
                 commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
+                Monitor.Enter(this.ProcessCommSephamore);
+
                 socketProcessor.BeginReceive(
                     commObject.Buffer,
                     0,
