@@ -35,6 +35,11 @@ namespace CardCommunication
         private Collection<ActiveGameStruct> activeGameStruct;
 
         /// <summary>
+        /// Holds the game update.
+        /// </summary>
+        private Game gameMessage;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// When a string representation of an IPAddress is not passed, the server is defaulted to
         /// the system's IPAddress.
@@ -152,29 +157,6 @@ namespace CardCommunication
             {
                 Debug.WriteLine("Error Requesting seat code change. " + e.ToString());
                 throw new MessageTransportException("Error Requesting seat code change. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the request join or create a game.
-        /// </summary>
-        /// <param name="gameType">The game to join or create.</param>
-        public void SendRequestGameMessage(string gameType)
-        {
-            try
-            {
-                MessageRequestGame message = new MessageRequestGame();
-
-                this.CommunicationCompleted = false;
-
-                message.BuildMessage(gameType);
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting to join Game. " + e.ToString());
-                throw new MessageTransportException("Error Requesting to join Game. ", e);
             }
         }
 
@@ -346,6 +328,33 @@ namespace CardCommunication
             {
                 Debug.WriteLine("Error sending flip card message. " + e.ToString());
                 throw new MessageTransportException("Error sending flip card message. ", e);
+            }
+        }
+
+        /// <summary>
+        /// Sends the request join or create a game.
+        /// </summary>
+        /// <param name="gameType">The game to join or create.</param>
+        internal void SendRequestGameMessage(string gameType)
+        {
+            try
+            {
+                MessageRequestGame message = new MessageRequestGame();
+
+                this.CommunicationCompleted = false;
+
+                message.BuildMessage(gameType);
+
+                base.TransportCommunication(message.MessageDocument);
+
+                while (!this.CommunicationCompleted)
+                {
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting to join Game. " + e.ToString());
+                throw new MessageTransportException("Error Requesting to join Game. ", e);
             }
         }
 
