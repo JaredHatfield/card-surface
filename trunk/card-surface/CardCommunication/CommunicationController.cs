@@ -15,6 +15,7 @@ namespace CardCommunication
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Runtime.Serialization.Formatters.Soap;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Serialization;
     using CardGame;
@@ -74,11 +75,17 @@ namespace CardCommunication
         private byte[] gameHeader = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
 
         /// <summary>
+        /// The process communication semaphore.
+        /// </summary>
+        private object processCommSephamore;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationController"/> class.
         /// </summary>
         internal CommunicationController()
         {
             this.InitializeCommunicationController();
+            this.processCommSephamore = new object();
         }
 
         /// <summary>
@@ -167,6 +174,15 @@ namespace CardCommunication
         protected byte[] GameHeader
         {
             get { return this.gameHeader; }
+        }
+
+        /// <summary>
+        /// Gets the process comm sephamore.
+        /// </summary>
+        /// <value>The process comm sephamore.</value>
+        protected object ProcessCommSephamore
+        {
+            get { return this.processCommSephamore; }
         }
 
         /// <summary>
@@ -366,8 +382,8 @@ namespace CardCommunication
                             try
                             {
                                 BinaryFormatter bf = new BinaryFormatter();
-                                ////bf.Binder = new AllowAllVersionsDeserializationBinder();
-
+                                ////bf.Binder = new AllowAllVersionsDeserializationBinder()
+                                
                                 game = (Game)bf.Deserialize(ms);
                             }
                             catch (Exception e)
@@ -387,6 +403,7 @@ namespace CardCommunication
                             this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
                         }
 
+                        Monitor.Exit(this.processCommSephamore);
                         this.SetCommunicationCompleted();
                     }
                 }
@@ -394,6 +411,7 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Debug.WriteLine(e);
+                throw new CardCommunicationException("Error.", e);
             }
         }
 

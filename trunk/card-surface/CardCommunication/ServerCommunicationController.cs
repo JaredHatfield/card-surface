@@ -15,6 +15,7 @@ namespace CardCommunication
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using CardGame;
     using CommunicationException;
@@ -228,6 +229,8 @@ namespace CardCommunication
                 commObject.WorkSocket = socketProcessor;
                 commObject.Data = data;
                 commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
+
+                Monitor.Enter(this.ProcessCommSephamore);
 
                 socketProcessor.BeginReceive(
                     commObject.Buffer,
