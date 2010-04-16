@@ -311,6 +311,7 @@ namespace CardCommunication
                 Socket socketWorker = commObject.WorkSocket;
                 int read = socketWorker.EndReceive(asyncResult);
 
+                Debug.WriteLine("Size of packet: " + read.ToString());
                 if (read > 0)
                 {
                     MemoryStream ms = new MemoryStream();
@@ -448,6 +449,8 @@ namespace CardCommunication
 
                 Socket transporter = this.StartTransporter();
                 transporter.Poll(10, SelectMode.SelectWrite);
+
+                Debug.WriteLine(this.GetType().ToString());
 
                 transporter.Send(data, 0, data.Length, SocketFlags.None);
                 this.SuccessfulTransport(transporter);
