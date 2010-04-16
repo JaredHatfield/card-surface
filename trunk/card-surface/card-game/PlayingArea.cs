@@ -187,6 +187,57 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Cleanups the piles that are no longer necessary.
+        /// </summary>
+        /// <param name="playingArea">The playing area to reflect.</param>
+        internal void CleanupPiles(PlayingArea playingArea)
+        {
+            // The list of card piles to delete
+            Collection<Guid> deleteCard = new Collection<Guid>();
+
+            // Go through all of the piles that exist
+            for (int i = 0; i < this.cards.Count; i++)
+            {
+                try
+                {
+                    playingArea.GetPile(this.cards[i].Id);
+                }
+                catch (CardGamePileNotFoundException)
+                {
+                    deleteCard.Add(this.cards[i].Id);
+                }
+            }
+
+            // Now delete those piles
+            for (int i = 0; i < deleteCard.Count; i++)
+            {
+                this.cards.Remove(this.GetPile(deleteCard[i]) as CardPile);
+            }
+
+            // The list of chip piles to delete
+            Collection<Guid> deleteChip = new Collection<Guid>();
+
+            // Go through all of the piles that exist
+            for (int i = 0; i < this.chips.Count; i++)
+            {
+                try
+                {
+                    playingArea.GetPile(this.chips[i].Id);
+                }
+                catch (CardGamePileNotFoundException)
+                {
+                    deleteCard.Add(this.chips[i].Id);
+                }
+            }
+
+            // Now delete those piles
+            for (int i = 0; i < deleteChip.Count; i++)
+            {
+                this.chips.Remove(this.GetPile(deleteChip[i]) as ChipPile);
+            }
+        }
+
+        /// <summary>
         /// Gets the physical object specified by a unique id.
         /// </summary>
         /// <param name="id">The unique id.</param>

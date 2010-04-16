@@ -5,7 +5,7 @@
 namespace CardGame
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
@@ -83,10 +83,55 @@ namespace CardGame
             }
 
             // TODO: 4) Remove all of the physical objects that no longer exist
+            for (int i = 0; i < this.game.GamingArea.Cards.Count; i++)
+            {
+                this.PurgeCardPileContents(this.game.GamingArea.Cards[i], gameMessage);
+            }
+
+            for (int i = 0; i < this.game.GamingArea.Chips.Count; i++)
+            {
+                this.PurgeChipPileContents(this.game.GamingArea.Chips[i], gameMessage);
+            }
+
+            for (int i = 0; i < this.game.Seats.Count; i++)
+            {
+                if (!this.game.Seats[i].IsEmpty)
+                {
+                    Player p = this.game.Seats[i].Player;
+                    this.PurgeCardPileContents(p.Hand, gameMessage);
+                    this.PurgeChipPileContents(p.BankPile, gameMessage);
+
+                    for (int j = 0; j < p.PlayerArea.Cards.Count; j++)
+                    {
+                        this.PurgeCardPileContents(p.PlayerArea.Cards[j], gameMessage);
+                    }
+
+                    for (int j = 0; j < p.PlayerArea.Chips.Count; j++)
+                    {
+                        this.PurgeChipPileContents(p.PlayerArea.Chips[j], gameMessage);
+                    }
+                }
+            }
 
             // TODO: 5) Remove all of the piles that no longer exist
+            this.game.GamingArea.CleanupPiles(gameMessage.GamingArea);
+
+            for (int i = 0; i < this.game.Seats.Count; i++)
+            {
+                if (!this.game.Seats[i].IsEmpty)
+                {
+                    this.game.Seats[i].Player.PlayerArea.CleanupPiles(gameMessage.Seats[i].Player.PlayerArea);
+                }
+            }
 
             // TODO: 6) Remove players that are no longer playing
+            for (int i = 0; i < this.game.Seats.Count; i++)
+            {
+                if (this.game.Seats[i].Player != null && gameMessage.Seats[i].Player == null)
+                {
+                    this.game.Seats[i].PlayerLeft();
+                }
+            }
 
             // TODO: 7) Make sure the piles are in the same order
 
@@ -170,6 +215,62 @@ namespace CardGame
                     // 3) Add the new card to that pile
                     destination.AddItem(newChip);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Purges the pile contents that no longer belong.
+        /// </summary>
+        /// <param name="pile">The pile to clean.</param>
+        /// <param name="gameMessage">The game message.</param>
+        private void PurgeCardPileContents(CardPile pile, Game gameMessage)
+        {
+            Collection<Guid> deleteMe = new Collection<Guid>();
+            for (int i = 0; i < pile.Cards.Count; i++)
+            {
+                IPhysicalObject physicalObject = pile.Cards[i];
+                try
+                {
+                    gameMessage.GetPhysicalObject(physicalObject.Id);
+                }
+                catch (CardGamePhysicalObjectNotFoundException)
+                {
+                    deleteMe.Add(physicalObject.Id);
+                }
+            }
+
+            // Now delete all of those objects
+            for (int i = 0; i < deleteMe.Count; i++)
+            {
+                pile.RemoveItem(deleteMe[i]);
+            }
+        }
+
+        /// <summary>
+        /// Purges the chip pile contents that no longer belong.
+        /// </summary>
+        /// <param name="pile">The pile to clean.</param>
+        /// <param name="gameMessage">The game message.</param>
+        private void PurgeChipPileContents(ChipPile pile, Game gameMessage)
+        {
+            Collection<Guid> deleteMe = new Collection<Guid>();
+            for (int i = 0; i < pile.Chips.Count; i++)
+            {
+                IPhysicalObject physicalObject = pile.Chips[i];
+                try
+                {
+                    gameMessage.GetPhysicalObject(physicalObject.Id);
+                }
+                catch (CardGamePhysicalObjectNotFoundException)
+                {
+                    deleteMe.Add(physicalObject.Id);
+                }
+            }
+
+            // Now delete all of those objects
+            for (int i = 0; i < deleteMe.Count; i++)
+            {
+                pile.RemoveItem(deleteMe[i]);
             }
         }
     }
