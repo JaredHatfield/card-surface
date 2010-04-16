@@ -70,6 +70,9 @@ namespace GameBlackjack
             destinationDeck.Open = true;
             CardPile sourceDeck = Deck.StandardDeck();
             this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
+
+            // Subscribe the player left game event.
+            this.PlayerLeaveGame += new PlayerLeaveGameEventHandler(this.PlayerLeftBlackjackGame);
         }
 
         /// <summary>
@@ -312,6 +315,30 @@ namespace GameBlackjack
             this.AddChipPileToUser(username);
             player.PlayerArea.Chips[0].Open = true;
             player.PlayerArea.Chips[1].Open = true;
+        }
+
+        /// <summary>
+        /// Players the left the blackjack game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
+        private void PlayerLeftBlackjackGame(object sender, PlayerLeaveGameEventArgs e)
+        {
+            CardPile deck = this.GetPile(this.DeckPile) as CardPile;
+
+            // We need to return all of the players cards in their hand and in their piles to the deck
+            Player p = this.GetPlayer(e.Username);
+            this.EmptySpecifiedCardPileTo(p.Hand, deck);
+            for (int i = 0; i < p.PlayerArea.Cards.Count; i++)
+            {
+                this.EmptySpecifiedCardPileTo(p.PlayerArea.Cards[i], deck);
+            }
+
+            // We need to update the players status so they are no longer playing the game
+            PlayerState playerState = this.GetPlayerState(p);
+            playerState.Leave();
+
+            // TODO: We need to make sure that it is still a player's turn or if no players remain that the game is reset
         }
     }
 }
