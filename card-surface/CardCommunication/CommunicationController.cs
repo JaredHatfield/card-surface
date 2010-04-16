@@ -405,7 +405,6 @@ namespace CardCommunication
                             this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
                         }
 
-                        Monitor.Exit(this.processCommSephamore);
                         this.SetCommunicationCompleted();
                     }
                 }
@@ -443,17 +442,20 @@ namespace CardCommunication
         {            
             try
             {
-                MemoryStream ms = new MemoryStream();
-                message.Save(ms);
-                byte[] data = ms.ToArray();
+                lock (this.processCommSephamore)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    message.Save(ms);
+                    byte[] data = ms.ToArray();
 
-                Socket transporter = this.StartTransporter();
-                transporter.Poll(10, SelectMode.SelectWrite);
+                    Socket transporter = this.StartTransporter();
+                    transporter.Poll(10, SelectMode.SelectWrite);
 
-                Debug.WriteLine(this.GetType().ToString());
+                    Debug.WriteLine(this.GetType().ToString());
 
-                transporter.Send(data, 0, data.Length, SocketFlags.None);
-                this.SuccessfulTransport(transporter);
+                    transporter.Send(data, 0, data.Length, SocketFlags.None);
+                    this.SuccessfulTransport(transporter);
+                }
             }
             catch (Exception e)
             {

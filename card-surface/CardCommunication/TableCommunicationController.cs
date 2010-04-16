@@ -399,8 +399,6 @@ namespace CardCommunication
         {
             try
             {
-                Monitor.Enter(this.ProcessCommSephamore);
-
                 Socket socketProcessor = this.SocketListener.EndAccept(asyncResult);
                 CommunicationObject commObject = new CommunicationObject();
                 byte[] data = { };
