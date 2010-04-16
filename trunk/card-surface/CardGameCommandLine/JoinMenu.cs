@@ -36,7 +36,9 @@ namespace CardGameCommandLine
         public JoinMenu()
         {
             Console.WriteLine("Where would you like to connect to?");
-            Console.WriteLine("Enter 'auto' to have a server created for you or enter the IP address of the server to connect to it.");
+            Console.WriteLine("Enter 'auto' to have a server created for you or");
+            Console.WriteLine("Enter 'local' to connect to a server running on the same host or");
+            Console.WriteLine("Enter the IP address of the server you want to connect to.");
             bool loop = true;
             string input = string.Empty;
             while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase) && loop)
@@ -57,6 +59,21 @@ namespace CardGameCommandLine
                     // We need to remove some of the checks that are present in the factory
                     PhysicalObjectFactory.PreventDuplication = false;
 
+                    loop = false;
+                    this.MainLoop();
+                }
+                else if (input.Equals("local", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // Start communicating with the server
+                    this.tableCommunicationController = new TableCommunicationController();
+                    this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
+                    this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.DoNothing);
+                    this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
+
+                    // Set up the factory!
+                    PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
+                    PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
+                    PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
                     loop = false;
                     this.MainLoop();
                 }

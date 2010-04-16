@@ -24,7 +24,9 @@ namespace CardServer
             ServerController serverController = new ServerController();
             GameController gameController = GameController.Instance();
             System.Diagnostics.Process.GetCurrentProcess().Exited += new EventHandler(serverController.Close);
-
+            Console.WriteLine();
+            Console.WriteLine("Server IP: " + serverController.ServerCommunicationController.IP);
+            Console.WriteLine();
             ReadOnlyCollection<string> s = gameController.GameTypes;
             Console.WriteLine("Available Game Types on this Server:");
             for (int i = 0; i < s.Count; i++)
