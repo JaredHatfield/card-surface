@@ -84,8 +84,8 @@ namespace CardCommunication
         /// </summary>
         internal CommunicationController()
         {
-            this.InitializeCommunicationController();
             this.processCommSephamore = new object();
+            this.InitializeCommunicationController();
         }
 
         /// <summary>
@@ -94,6 +94,7 @@ namespace CardCommunication
         /// <param name="gameController">The game controller.</param>
         internal CommunicationController(IGameController gameController)
         {
+            this.processCommSephamore = new object();
             this.gameController = gameController;
             this.InitializeCommunicationController();
         }
