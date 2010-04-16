@@ -35,11 +35,6 @@ namespace CardCommunication
         private Collection<ActiveGameStruct> activeGameStruct;
 
         /// <summary>
-        /// Holds the game update.
-        /// </summary>
-        private Game gameMessage;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// When a string representation of an IPAddress is not passed, the server is defaulted to
         /// the system's IPAddress.
@@ -157,36 +152,6 @@ namespace CardCommunication
             {
                 Debug.WriteLine("Error Requesting seat code change. " + e.ToString());
                 throw new MessageTransportException("Error Requesting seat code change. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the request game message.
-        /// </summary>
-        /// <param name="game">The game to join or create.</param>
-        public void SendRequestGameMessage(ActiveGameStruct game)
-        {
-            try
-            {
-                MessageRequestGame message = new MessageRequestGame();
-
-                this.CommunicationCompleted = false;
-
-                if (game.Id != Guid.Empty)
-                {
-                    message.BuildMessage(game.Id);
-                }
-                else
-                {
-                    message.BuildMessage(game.GameType);
-                }
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting game list. " + e.ToString());
-                throw new MessageTransportException("Error Requesting game list. ", e);
             }
         }
 
@@ -332,10 +297,10 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Sends the request join or create a game.
+        /// Sends the request game message.
         /// </summary>
-        /// <param name="gameType">The game to join or create.</param>
-        internal void SendRequestGameMessage(string gameType)
+        /// <param name="game">The game to join or create.</param>
+        internal void SendRequestGameMessage(ActiveGameStruct game)
         {
             try
             {
@@ -343,7 +308,14 @@ namespace CardCommunication
 
                 this.CommunicationCompleted = false;
 
-                message.BuildMessage(gameType);
+                if (game.Id != Guid.Empty)
+                {
+                    message.BuildMessage(game.Id);
+                }
+                else
+                {
+                    message.BuildMessage(game.GameType);
+                }
 
                 base.TransportCommunication(message.MessageDocument);
 
@@ -353,8 +325,8 @@ namespace CardCommunication
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Error Requesting to join Game. " + e.ToString());
-                throw new MessageTransportException("Error Requesting to join Game. ", e);
+                Debug.WriteLine("Error Requesting game list. " + e.ToString());
+                throw new MessageTransportException("Error Requesting game list. ", e);
             }
         }
 
