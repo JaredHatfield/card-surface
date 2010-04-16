@@ -50,12 +50,18 @@ namespace CardCommunication
         private GameUpdater gameUpdater;
 
         /// <summary>
+        /// A semaphore that allows only one thread to update the game at a time.
+        /// </summary>
+        private object updateSemaphore;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameNetworkClient"/> class.
         /// </summary>
         /// <param name="tableCommunicationController">The table communication controller.</param>
         /// <param name="game">The game to join.</param>
         public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
+            this.updateSemaphore = new object();
             this.gameUpdater = new GameUpdater(this);
             this.tableCommunicationController = tableCommunicationController;
             this.gameDidInitialize = false;
@@ -162,20 +168,23 @@ namespace CardCommunication
         /// <param name="game">The game update.</param>
         protected void UpdateGameState(Game game)
         {
-            Debug.WriteLine("Entered UpdateGameState");
-
-            // This will make this game look like the message that was received.
-            this.gameUpdater.Update(game);
-            
-            // Flag the game as being updated
-            if (!this.gameDidInitialize)
+            lock (this.updateSemaphore)
             {
-                this.gameDidInitialize = true;
+                Debug.WriteLine("Entered UpdateGameState");
+
+                // This will make this game look like the message that was received.
+                this.gameUpdater.Update(game);
+
+                // Flag the game as being updated
+                if (!this.gameDidInitialize)
+                {
+                    this.gameDidInitialize = true;
+                }
+
+                Console.WriteLine("Game State updated!");
+
+                Debug.WriteLine("Exited UpdateGameState");
             }
-
-            Console.WriteLine("Game State updated!");
-
-            Debug.WriteLine("Exited UpdateGameState");
         }
     }
 }
