@@ -66,6 +66,9 @@ namespace CardGameCommandLine
                     {
                         // Start communicating with the server
                         this.tableCommunicationController = new TableCommunicationController(input);
+                        this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.DoNothing);
+                        this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.DoNothing);
+                        this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
 
                         // Set up the factory!
                         PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());

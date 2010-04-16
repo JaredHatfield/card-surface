@@ -414,7 +414,10 @@ namespace CardCommunication
 
                     this.activeGameStruct = messageExistingGames.ActiveGames;
 
-                    this.OnUpdateExistingGames(messageExistingGames.GameNames);
+                    if (this.OnUpdateExistingGames != null)
+                    {
+                        this.OnUpdateExistingGames(messageExistingGames.GameNames);
+                    }
                 }
             }
             catch (Exception e)
