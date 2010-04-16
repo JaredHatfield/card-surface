@@ -26,11 +26,6 @@ namespace CardCommunication
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
-        /// A flag that indicates that the game has updated at least once.
-        /// </summary>
-        private bool gameDidInitialize;
-
-        /// <summary>
         /// list of all games that can be played on the server.
         /// </summary>
         private Collection<string> availiableGameList;
@@ -51,11 +46,6 @@ namespace CardCommunication
         private GameUpdater gameUpdater;
 
         /// <summary>
-        /// A semaphore to try to fix the first load problem.
-        /// </summary>
-        private object firstLoadSemaphore;
-
-        /// <summary>
         /// A semaphore that allows only one thread to update the game at a time.
         /// </summary>
         private object updateSemaphore;
@@ -67,28 +57,13 @@ namespace CardCommunication
         /// <param name="game">The game to join.</param>
         public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
-            this.firstLoadSemaphore = new object();
             this.updateSemaphore = new object();
             this.gameUpdater = new GameUpdater(this);
             this.tableCommunicationController = tableCommunicationController;
-            this.gameDidInitialize = false;
             this.name = game.GameType;
             this.minimumStake = 0;
             this.SubscribeEvents();
             this.tableCommunicationController.SendRequestGameMessage(game);
-
-            // Wait until the first game has loaded
-            bool loop = true;
-            while (loop)
-            {
-                Monitor.Enter(this.firstLoadSemaphore);
-                if (this.gameDidInitialize)
-                {
-                    loop = false;
-                }
-
-                Monitor.Exit(this.firstLoadSemaphore);
-            }
         }
 
         /// <summary>
@@ -190,14 +165,6 @@ namespace CardCommunication
 
                 // This will make this game look like the message that was received.
                 this.gameUpdater.Update(game);
-
-                // Flag the game as being updated
-                if (!this.gameDidInitialize)
-                {
-                    Monitor.Enter(this.firstLoadSemaphore);
-                    this.gameDidInitialize = true;
-                    Monitor.Exit(this.firstLoadSemaphore);
-                }
 
                 Console.WriteLine("Game State updated!");
 
