@@ -183,6 +183,9 @@ namespace CardCommunication
 
                         Socket transporter = this.StartTransporter();
                         transporter.Poll(10, SelectMode.SelectWrite);
+
+                        Debug.WriteLine("Server");
+
                         transporter.Send(data, 0, data.Length, SocketFlags.None);
                         this.SuccessfulTransport(transporter);
                     }
@@ -321,6 +324,11 @@ namespace CardCommunication
                                 co.Game = newGame;
                                 found = true;
                             }
+                        }
+
+                        if (this.SocketListener.Connected)
+                        {
+                            this.SocketListener.Disconnect(true);
                         }
 
                         this.TransportCommunication(GameController.GetGame(newGame));
