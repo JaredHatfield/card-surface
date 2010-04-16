@@ -418,12 +418,12 @@ namespace CardGame
             Player p = this.GetPlayer(username);
             int total = p.Money;
 
+            // Trigger the event that the player left the game.
+            this.OnLeaveGame(new PlayerLeaveGameEventArgs(this.id, username, total));
+
             // Remove the reference of the player from their Seat
             Seat s = this.GetSeat(username);
             s.Leave();
-
-            // Trigger the event that the player left the game.
-            this.OnLeaveGame(new PlayerLeaveGameEventArgs(this.id, username, total));
         }
 
         /// <summary>

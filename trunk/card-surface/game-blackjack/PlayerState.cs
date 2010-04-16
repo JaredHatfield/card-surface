@@ -197,7 +197,6 @@ namespace GameBlackjack
         /// </summary>
         internal void Reset()
         {
-            this.TestInactive();
             this.dealt = false;
             this.split = false;
             this.handOneStand = false;
