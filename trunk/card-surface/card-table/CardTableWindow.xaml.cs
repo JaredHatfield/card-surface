@@ -19,6 +19,8 @@ namespace CardTable
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using CardCommunication;
+    using CardGame;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
@@ -29,11 +31,20 @@ namespace CardTable
     public partial class CardTableWindow : SurfaceWindow
     {
         /// <summary>
+        /// The local game that is being played.
+        /// </summary>
+        private GameSurface game;
+
+        /// <summary>
         /// Initializes a new instance of the CardTableWindow class.
         /// </summary>
-        public CardTableWindow()
+        /// <param name="game">The game that we are playing.</param>
+        public CardTableWindow(GameSurface game)
         {
             InitializeComponent();
+
+            // Set up the game!
+            this.game = game;
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();

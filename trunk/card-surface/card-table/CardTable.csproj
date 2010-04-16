@@ -83,7 +83,7 @@
     <Compile Include="GameSelection.xaml.cs">
       <DependentUpon>GameSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameTableInstance.cs" />
+    <Compile Include="GameSurface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -117,6 +117,7 @@
     <Compile Include="SurfaceSeat.xaml.cs">
       <DependentUpon>SurfaceSeat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TableManager.cs" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

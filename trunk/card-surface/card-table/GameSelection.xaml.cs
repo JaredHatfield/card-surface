@@ -43,14 +43,9 @@ namespace CardTable
         private string gameTypeSelection;
 
         /// <summary>
-        /// The latest game object to be updated.  Should only be accessed when in control of gameReceivedSemaphore!
+        /// The TableManager!
         /// </summary>
-        private Game gameToUpdate;
-
-        /// <summary>
-        /// The TableCommunicationController for this GameTableInstance
-        /// </summary>
-        private TableCommunicationController tcc;
+        private TableManager tableManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSelection"/> class.
@@ -61,18 +56,26 @@ namespace CardTable
 
             this.gameReceivedSemaphore = new object();
             this.gameTypeSelection = String.Empty;
-            this.gameToUpdate = null;
-            this.tcc = GameTableInstance.Instance.CommunicationController;
 
-            this.tcc.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
-            this.tcc.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.OnUpdateGameState);
-            this.tcc.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.OnUpdateExistingGames);
+            // TODO: We actually want to connect to the server!
+            this.tableManager = TableManager.Initialize(string.Empty);
 
-            this.tcc.SendRequestGameListMessage();
+            this.tableManager.TableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
+            
+            // Should we change this back to something?
+            this.tableManager.TableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
+            this.tableManager.TableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.OnUpdateExistingGames);
+            this.tableManager.TableCommunicationController.SendRequestGameListMessage();
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
         }
+
+        /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for single string argument methods returning void
+        /// </summary>
+        /// <param name="param">The single string parameter</param>
+        private delegate void ActiveGameStructDelegate(ActiveGameStruct param);
 
         /// <summary>
         /// Generic delegate utilized by Dispatcher invocations for single string argument methods returning void
@@ -99,41 +102,18 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Called when [update game state].
-        /// Responsible for updating the game state.
-        /// </summary>
-        /// <param name="game">The game update.</param>
-        protected void OnUpdateGameState(Game game)
-        {
-            /* When GameSelection.xaml receives this event, it means a new Game has been created.
-             * We need to send it to GameTableInstance to create the new CardTableWindow. */
-            lock (this.gameReceivedSemaphore)
-            {
-                /* The user has selected a game.  Reset the gameTypeSelection "menu" tracker. */
-                this.gameTypeSelection = String.Empty;
-                /* Install the game state for this GameTableInstance. */
-                this.gameToUpdate = game;
-                /* Release the GameSelection window from its responsibility of processing GameState updates. 
-                 * GameTableInstance is now in charge. */
-                this.tcc.OnUpdateGameState -= this.OnUpdateGameState;
-                /* Notify the window UI that we've attached a new game for play. */
-                Monitor.Pulse(this.gameReceivedSemaphore);
-                /* GameSelection's responsibilitiy is done. The game has been installed! */
-            }            
-        }
-
-        /// <summary>
         /// Called when [update existing games].
         /// </summary>
         /// <param name="existingGames">The existing games.</param>
-        protected void OnUpdateExistingGames(Collection<string> existingGames)
+        protected void OnUpdateExistingGames(Collection<ActiveGameStruct> existingGames)
         {
-            /* Remove the Game Type selection buttons so we can show the games we have available. */
+            // Remove the Game Type selection buttons so we can show the games we have available.
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Games.Items.Clear));
       
+            // Invoke the dispatcher to add all of the buttons to the game.
             for (int i = 0; i < existingGames.Count; i++)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(this.AddExistingGameOption), existingGames.ElementAt(i));
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ActiveGameStructDelegate(this.AddExistingGameOption), existingGames.ElementAt(i));
             }
         }
 
@@ -147,6 +127,14 @@ namespace CardTable
 
             // Remove handlers for Application activation events
             this.RemoveActivationHandlers();
+        }
+
+        /// <summary>
+        /// Does nothing.
+        /// </summary>
+        /// <param name="game">The game that is played.</param>
+        private void DoNothing(Game game)
+        {
         }
 
         /// <summary>
@@ -168,16 +156,11 @@ namespace CardTable
         /// Adds the existing game option.
         /// </summary>
         /// <param name="gameName">String composite of the game.</param>
-        private void AddExistingGameOption(string gameName)
+        private void AddExistingGameOption(ActiveGameStruct gameName)
         {
-            //// Logic for this function
-            char[] splitter = { '%' };
-            string[] game = gameName.Split(splitter);
-            Debug.WriteLine("GameSelection.xaml.cs: Adding new " + game[0] + " Game Option to the GameSelection SurfaceWindow.");
             SurfaceButton sb = new SurfaceButton();
-            sb.Content = game[0] + " (Players: " + game[2] + ")";
-            sb.Tag = this.gameTypeSelection;
-            sb.Uid = game[1];
+            sb.Content = gameName.Players;
+            sb.Tag = gameName;
             /* The Surface, Surface Emulator, or Touch Screen may require additional event handlers to perform the needed action. */
             sb.Click += new RoutedEventHandler(this.ActiveGameClick);
             this.Games.Items.Add(sb);
@@ -192,7 +175,7 @@ namespace CardTable
         {
             this.gameTypeSelection = ((SurfaceButton)sender).Content.ToString();
             Debug.WriteLine("GameSelection.xaml.cs: Requesting existing " + this.gameTypeSelection + " games... (Click Event)");
-            this.tcc.SendRequestExistingGames(this.gameTypeSelection);
+            this.tableManager.TableCommunicationController.SendRequestExistingGames(this.gameTypeSelection);
         }
 
         /// <summary>
@@ -204,34 +187,25 @@ namespace CardTable
         {
             SurfaceButton clickedButton = (SurfaceButton)sender;
 
+            /*
             if ((new Guid(clickedButton.Uid)).Equals(Guid.Empty))
             {
                 Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + this.gameTypeSelection + " game... (Click Event)");
-                this.tcc.SendRequestGameMessage(this.gameTypeSelection);
+                this.tableManager.TableCommunicationController.SendRequestGameMessage(this.gameTypeSelection);
             }
             else
             {
                 Debug.WriteLine("GameSelection.xaml.cs: Joining an existing " + this.gameTypeSelection + " game... (Click Event)");
-                this.tcc.SendRequestGameMessage(clickedButton.Uid);
+                this.tableManager.TableCommunicationController.SendRequestGameMessage(clickedButton.Uid);
             }
+             */
             
             lock (this.gameReceivedSemaphore)
             {
-                while (GameTableInstance.Instance.CurrentGame == null)
-                {
-                    Debug.WriteLine("GameSelection.xaml.cs: Waiting for GameState response...");
-                    Monitor.Wait(this.gameReceivedSemaphore);
-                    if (this.gameToUpdate != null)
-                    {
-                        Debug.WriteLine("GameSelection.xaml.cs: New Game Received!");
-                        GameTableInstance.Instance.CreateNewGame(this.gameToUpdate);
-                        GameTableInstance.Instance.GameWindow.Show();
-                    }
-                    else
-                    {
-                        Debug.WriteLine("GameSelection.xaml.cs: Uh oh!  This is definitely not good...  Someone tricked us into thinking we received a new game state.");
-                    }
-                }
+                SurfaceButton button = sender as SurfaceButton;
+                ActiveGameStruct selection = (ActiveGameStruct)button.Tag;
+                CardTableWindow ctw = new CardTableWindow(new GameSurface(this.tableManager.TableCommunicationController, selection));
+                ctw.Show();
             }
 
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));            
