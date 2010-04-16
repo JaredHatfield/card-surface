@@ -157,37 +157,40 @@ namespace CardCommunication
         {
             try
             {
-                MemoryStream gameStream = new MemoryStream();
-                BinaryFormatter bf = new BinaryFormatter();
-                Game gameNetworkClient = new GameMessage(game);
-                byte[] data;
+                lock (this.ProcessCommSephamore)
+                {
+                    MemoryStream gameStream = new MemoryStream();
+                    BinaryFormatter bf = new BinaryFormatter();
+                    Game gameNetworkClient = new GameMessage(game);
+                    byte[] data;
 
-                try
-                {
-                    gameStream.Write(GameHeader, 0, GameHeader.Length);
-                    bf.Serialize(gameStream, gameNetworkClient);
-                    data = gameStream.ToArray();
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Error serializing game. " + e.ToString());
-                    throw new MessageTransportException("Error serializing game. ", e);
-                }
-
-                /* Send Game State to every table that are playing this game. */
-                foreach (ClientObject co in this.clientList)
-                {
-                    if (co.Game == game.Id)
+                    try
                     {
-                        RemoteEndPoint = new IPEndPoint(co.ClientIPAddress, ClientListenerPortNumber);
+                        gameStream.Write(GameHeader, 0, GameHeader.Length);
+                        bf.Serialize(gameStream, gameNetworkClient);
+                        data = gameStream.ToArray();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error serializing game. " + e.ToString());
+                        throw new MessageTransportException("Error serializing game. ", e);
+                    }
 
-                        Socket transporter = this.StartTransporter();
-                        transporter.Poll(10, SelectMode.SelectWrite);
+                    /* Send Game State to every table that are playing this game. */
+                    foreach (ClientObject co in this.clientList)
+                    {
+                        if (co.Game == game.Id)
+                        {
+                            RemoteEndPoint = new IPEndPoint(co.ClientIPAddress, ClientListenerPortNumber);
 
-                        Debug.WriteLine("Server");
+                            Socket transporter = this.StartTransporter();
+                            transporter.Poll(10, SelectMode.SelectWrite);
 
-                        transporter.Send(data, 0, data.Length, SocketFlags.None);
-                        this.SuccessfulTransport(transporter);
+                            Debug.WriteLine("Server");
+
+                            transporter.Send(data, 0, data.Length, SocketFlags.None);
+                            this.SuccessfulTransport(transporter);
+                        }
                     }
                 }
             }
@@ -206,8 +209,6 @@ namespace CardCommunication
         {
             try
             {
-                Monitor.Enter(this.ProcessCommSephamore);
-
                 Socket socketWorker = (Socket)asyncResult.AsyncState;
                 Socket socketProcessor = socketWorker.EndAccept(asyncResult);
                 bool found = false;
@@ -235,8 +236,6 @@ namespace CardCommunication
                 commObject.WorkSocket = socketProcessor;
                 commObject.Data = data;
                 commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
-
-                Monitor.Enter(this.ProcessCommSephamore);
 
                 socketProcessor.BeginReceive(
                     commObject.Buffer,
