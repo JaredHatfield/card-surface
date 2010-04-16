@@ -312,6 +312,14 @@ namespace CardGame
         }
 
         /// <summary>
+        /// The player has left the game so we remove any reference to them.
+        /// </summary>
+        internal void PlayerLeft()
+        {
+            this.player = null;
+        }
+
+        /// <summary>
         /// Have the player leave this seat.
         /// </summary>
         internal void Leave()
