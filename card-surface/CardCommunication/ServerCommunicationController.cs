@@ -18,6 +18,7 @@ namespace CardCommunication
     using System.Threading;
     using System.Xml;
     using CardGame;
+    using CardGame.GameException;
     using CommunicationException;
     using GameObject;
     using Messages;
@@ -377,10 +378,20 @@ namespace CardCommunication
                         {
                             GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
                         }
+                        catch (CardGameActionNotFoundException e)
+                        {
+                            Debug.WriteLine("The action the user requested could not be found: " + e.ToString());
+                        }
+                        catch (CardGameActionAccessDeniedException e)
+                        {
+                            Debug.WriteLine("The the user was not allowed to use the requested exception: " + e.ToString());
+                        }
                         catch (Exception e)
                         {
-                            Debug.WriteLine(e);
-                            throw new MessageProcessException("Error executing custom action.", e);
+                            Debug.WriteLine("We tried to execute an action... " + e.ToString());
+
+                            // Something else very bad happened so we are going to throw another exception.
+                            throw new MessageProcessException("Something else went wrong with the game.", e);
                         }
 
                         this.TransportCommunication(GameController.GetGame(gameGuid));
