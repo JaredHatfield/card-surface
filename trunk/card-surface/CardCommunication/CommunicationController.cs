@@ -104,6 +104,15 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Gets the IP.
+        /// </summary>
+        /// <value>The local IP address.</value>
+        public string IP
+        {
+            get { return this.baseIPAddress.ToString(); }
+        }
+
+        /// <summary>
         /// Gets the socket listener.
         /// </summary>
         /// <value>The socket listener.</value>
@@ -180,28 +189,36 @@ namespace CardCommunication
         /// </summary>
         protected void InitializeCommunicationController()
         {
-            IPHostEntry hostIP = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress hostAddress = null;
-            SocketAddress hostSocketAddress = new SocketAddress(AddressFamily.InterNetwork);
-            bool found = false;
-
-            //// Get the ip address for internetwork transportation
-            for (int i = 0; i < hostIP.AddressList.Length && !found; ++i)
+            try
             {
-                if (hostIP.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                IPHostEntry hostIP = Dns.GetHostEntry(Dns.GetHostName());
+                IPAddress hostAddress = null;
+                SocketAddress hostSocketAddress = new SocketAddress(AddressFamily.InterNetwork);
+                bool found = false;
+
+                //// Get the ip address for internetwork transportation
+                for (int i = 0; i < hostIP.AddressList.Length && !found; ++i)
                 {
-                    hostAddress = hostIP.AddressList[i];
-                    found = true;
+                    if (hostIP.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        hostAddress = hostIP.AddressList[i];
+                        found = true;
+                    }
+                }
+
+                this.baseIPAddress = hostAddress;
+                this.InitializeIPAddressPorts();
+
+                if (this.socketListener == null)
+                {
+                    this.StartListener();
                 }
             }
-
-            this.baseIPAddress = hostAddress;
-            this.InitializeIPAddressPorts();
-
-            if (this.socketListener == null)
+            catch (Exception e)
             {
-                this.StartListener();
-            }
+                Debug.WriteLine("Error initializing communication controller. " + e.ToString());
+                throw new MessageTransportException("Error initializing communication controller. ", e);
+            }          
         }
 
         /// <summary>
@@ -345,10 +362,19 @@ namespace CardCommunication
 
                         if (commObject.GameState)
                         {
-                            BinaryFormatter bf = new BinaryFormatter();
-                            ////bf.Binder = new AllowAllVersionsDeserializationBinder();
+                            Game game;
+                            try
+                            {
+                                BinaryFormatter bf = new BinaryFormatter();
+                                ////bf.Binder = new AllowAllVersionsDeserializationBinder();
 
-                            Game game = (Game)bf.Deserialize(ms);
+                                game = (Game)bf.Deserialize(ms);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine("Error deserializing game. " + e.ToString());
+                                throw new MessageTransportException("Error deserializing game. ", e);
+                            }
 
                             this.UpdateGameState(game);
                         }
@@ -368,7 +394,6 @@ namespace CardCommunication
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw new MessageProcessException("Comm.ProcessCommunication Exception.", e);
             }
         }
 
@@ -396,12 +421,12 @@ namespace CardCommunication
         /// <param name="message">The message document to be transported.</param>
         protected void TransportCommunication(XmlDocument message)
         {            
-            MemoryStream ms = new MemoryStream();
-            message.Save(ms);
-            byte[] data = ms.ToArray();
-
             try
             {
+                MemoryStream ms = new MemoryStream();
+                message.Save(ms);
+                byte[] data = ms.ToArray();
+
                 Socket transporter = this.StartTransporter();
                 transporter.Poll(10, SelectMode.SelectWrite);
 
@@ -437,9 +462,6 @@ namespace CardCommunication
             {
                 if (transporter != null)
                 {
-                    ////LingerOption lo = new LingerOption(false, 0);
-
-                    ////transporter.LingerState = lo;
                     transporter.Shutdown(SocketShutdown.Both);
                     transporter.Close();
                 }

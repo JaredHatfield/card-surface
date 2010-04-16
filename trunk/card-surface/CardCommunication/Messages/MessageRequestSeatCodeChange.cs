@@ -15,7 +15,7 @@ namespace CardCommunication.Messages
     ////using GameObject;
 
     /// <summary>
-    /// A message for an action that was performed on the table.
+    /// A message for a request to change a seat password.
     /// </summary>
     public class MessageRequestSeatCodeChange : Message
     {

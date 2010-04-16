@@ -10,7 +10,7 @@
     </xs:complexType>
   </xs:element>
   <xs:complexType name ="HeaderType">
-    <xs:attribute name ="TimeStamp" type="xs:string" use="required"/>
+    <xs:attribute name ="TimeStamp" type="xs:string" use="required"></xs:attribute>
   </xs:complexType>
   <xs:complexType name ="BodyType">
     <xs:choice>
@@ -67,6 +67,11 @@
       <xs:element name="RequestCurrentGameState">
         <xs:complexType>
           <xs:attribute name="gameGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestSeatCodeChange">
+        <xs:complexType>
+          <xs:attribute name="seatGuid" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
       <xs:element name="Game" type="GameType"></xs:element>
