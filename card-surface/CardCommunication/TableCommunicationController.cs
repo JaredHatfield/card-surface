@@ -82,7 +82,7 @@ namespace CardCommunication
         /// Delegate for Updating the list of existing games.
         /// </summary>
         /// <param name="existingGames">The list of existing games.</param>
-        public delegate void UpdateExistingGamesHandler(Collection<string> existingGames);
+        public delegate void UpdateExistingGamesHandler(Collection<ActiveGameStruct> existingGames);
 
         /// <summary>
         /// Delegate for updating the game state.
@@ -280,7 +280,7 @@ namespace CardCommunication
             {
                 /* The existingGames object must be casted as a collection because the method signature
                  * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateExistingGames((Collection<string>)existingGames);
+                this.OnUpdateExistingGames((Collection<ActiveGameStruct>)existingGames);
             }
         }
 
@@ -411,12 +411,12 @@ namespace CardCommunication
                     MessageExistingGames messageExistingGames = new MessageExistingGames();
 
                     messageExistingGames.ProcessMessage(messageDoc);
-
+                    
                     this.activeGameStruct = messageExistingGames.ActiveGames;
 
                     if (this.OnUpdateExistingGames != null)
                     {
-                        this.OnUpdateExistingGames(messageExistingGames.GameNames);
+                        this.OnUpdateExistingGames(messageExistingGames.ActiveGames);
                     }
                 }
             }

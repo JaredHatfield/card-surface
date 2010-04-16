@@ -127,6 +127,14 @@ namespace CardGameCommandLine
         /// <summary>
         /// Does the nothing.
         /// </summary>
+        /// <param name="games">The games.</param>
+        private void DoNothing(Collection<ActiveGameStruct> games)
+        {
+        }
+
+        /// <summary>
+        /// Does the nothing.
+        /// </summary>
         /// <param name="game">The game to do nothing with.</param>
         private void DoNothing(Game game)
         {

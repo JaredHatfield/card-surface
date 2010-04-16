@@ -69,9 +69,11 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void SurfaceButton_Click(object sender, RoutedEventArgs e)
         {
+            /* We need to restore this binding!
             Binding seatBinding = new Binding("Password");
             seatBinding.Source = GameTableInstance.Instance.CurrentGame.GetSeat(CardGame.Seat.ParseSeatLocation(this.seatLocation));
             SeatPassword.SetBinding(Label.ContentProperty, seatBinding);
+             */
 
             JoinButton.Visibility = Visibility.Hidden;
             SeatPasswordGrid.Visibility = Visibility.Visible;

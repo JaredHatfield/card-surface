@@ -119,7 +119,7 @@ namespace CardCommunication
         /// Updates the existing games.
         /// </summary>
         /// <param name="existingGames">The existing games.</param>
-        protected void UpdateExistingGames(Collection<string> existingGames)
+        protected void UpdateExistingGames(Collection<ActiveGameStruct> existingGames)
         {
             // TODO: Function to update list of existing games.
         }
