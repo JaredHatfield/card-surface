@@ -158,11 +158,20 @@ namespace CardCommunication
                 MemoryStream gameStream = new MemoryStream();
                 BinaryFormatter bf = new BinaryFormatter();
                 Game gameNetworkClient = new GameMessage(game);
+                byte[] data;
 
-                gameStream.Write(GameHeader, 0, GameHeader.Length);
-                bf.Serialize(gameStream, gameNetworkClient);
-                byte[] data = gameStream.ToArray();
-           
+                try
+                {
+                    gameStream.Write(GameHeader, 0, GameHeader.Length);
+                    bf.Serialize(gameStream, gameNetworkClient);
+                    data = gameStream.ToArray();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error serializing game. " + e.ToString());
+                    throw new MessageTransportException("Error serializing game. ", e);
+                }
+
                 /* Send Game State to every table that are playing this game. */
                 foreach (ClientObject co in this.clientList)
                 {
@@ -341,7 +350,16 @@ namespace CardCommunication
                         Guid destinationPile = new Guid(action[2]);
 
                         // Executes Move
-                        GameController.GetGame(gameGuid).MoveAction(physicalObject, destinationPile);
+                        try
+                        {
+                            GameController.GetGame(gameGuid).MoveAction(physicalObject, destinationPile);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e);
+                            throw new MessageProcessException("Error executing move action.", e);
+                        }
+
                         this.TransportCommunication(GameController.GetGame(gameGuid));
                     }
                     else if (action[0] == MessageAction.ActionType.Custom.ToString())
@@ -350,7 +368,16 @@ namespace CardCommunication
                         string playerName = action[2];
 
                         // Executes Custum Action
-                        GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
+                        try
+                        {
+                            GameController.GetGame(gameGuid).ExecuteAction(actionName, playerName);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e);
+                            throw new MessageProcessException("Error executing custom action.", e);
+                        }
+
                         this.TransportCommunication(GameController.GetGame(gameGuid));
                     }
                 }
@@ -407,6 +434,16 @@ namespace CardCommunication
                     mrcgs.ProcessMessage(messageDoc);
 
                     this.TransportCommunication(this.GameController.GetGame(mrcgs.GameGuid));
+                }
+                else if (mt == Message.MessageType.RequestSeatCodeChange.ToString())
+                {
+                    MessageRequestSeatCodeChange mrscc = new MessageRequestSeatCodeChange();
+
+                    mrscc.ProcessMessage(messageDoc);
+
+                    //// TODO: Code to update the seat code.
+
+                    this.TransportCommunication(this.GameController.GetGame(gameGuid));
                 }
             }
             catch (Exception e)

@@ -111,19 +111,48 @@ namespace CardCommunication
         /// <returns>the gameList</returns>
         public Collection<string> SendRequestGameListMessage()
         {
-            MessageRequestGameList message = new MessageRequestGameList();
-
-            this.CommunicationCompleted = false;
-
-            message.BuildMessage();
-
-            base.TransportCommunication(message.MessageDocument);
-
-            while (!CommunicationCompleted)
+            try
             {
-            }
+                MessageRequestGameList message = new MessageRequestGameList();
 
-            return this.stringCollection;
+                this.CommunicationCompleted = false;
+
+                message.BuildMessage();
+
+                base.TransportCommunication(message.MessageDocument);
+
+                while (!CommunicationCompleted)
+                {
+                }
+
+                return this.stringCollection;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting game list. " + e.ToString());
+                throw new MessageTransportException("Error Requesting game list. ", e);
+            }
+        }
+
+        /// <summary>
+        /// Sends the request seat code change message.
+        /// </summary>
+        /// <param name="seatGuid">The seat GUID.</param>
+        public void SendRequestSeatCodeChange(Guid seatGuid)
+        {
+            try
+            {
+                MessageRequestSeatCodeChange message = new MessageRequestSeatCodeChange();
+
+                message.BuildMessage(seatGuid);
+
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting seat code change. " + e.ToString());
+                throw new MessageTransportException("Error Requesting seat code change. ", e);
+            }
         }
 
         /// <summary>
@@ -132,13 +161,21 @@ namespace CardCommunication
         /// <param name="gameType">The game to join or create.</param>
         public void SendRequestGameMessage(string gameType)
         {
-            MessageRequestGame message = new MessageRequestGame();
+            try
+            {
+                MessageRequestGame message = new MessageRequestGame();
 
-            this.CommunicationCompleted = false;
+                this.CommunicationCompleted = false;
 
-            message.BuildMessage(gameType);
+                message.BuildMessage(gameType);
 
-            base.TransportCommunication(message.MessageDocument);
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting to join Game. " + e.ToString());
+                throw new MessageTransportException("Error Requesting to join Game. ", e);
+            }
         }
 
         /// <summary>
@@ -147,20 +184,28 @@ namespace CardCommunication
         /// <param name="game">The game to join or create.</param>
         public void SendRequestGameMessage(ActiveGameStruct game)
         {
-            MessageRequestGame message = new MessageRequestGame();
-
-            this.CommunicationCompleted = false;
-
-            if (game.Id != Guid.Empty)
+            try
             {
-                message.BuildMessage(game.Id);
-            }
-            else
-            {
-                message.BuildMessage(game.GameType);
-            }
+                MessageRequestGame message = new MessageRequestGame();
 
-            base.TransportCommunication(message.MessageDocument);
+                this.CommunicationCompleted = false;
+
+                if (game.Id != Guid.Empty)
+                {
+                    message.BuildMessage(game.Id);
+                }
+                else
+                {
+                    message.BuildMessage(game.GameType);
+                }
+
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting game list. " + e.ToString());
+                throw new MessageTransportException("Error Requesting game list. ", e);
+            }
         }
 
         /// <summary>
@@ -170,19 +215,27 @@ namespace CardCommunication
         /// <returns>the collection of existing games.</returns>
         public Collection<ActiveGameStruct> SendRequestExistingGames(string selectedGame)
         {
-            MessageRequestExistingGames message = new MessageRequestExistingGames();
-
-            this.CommunicationCompleted = false;
-
-            message.BuildMessage(selectedGame);
-
-            base.TransportCommunication(message.MessageDocument);
-
-            while (!CommunicationCompleted)
+            try
             {
-            }
+                MessageRequestExistingGames message = new MessageRequestExistingGames();
 
-            return this.activeGameStruct;
+                this.CommunicationCompleted = false;
+
+                message.BuildMessage(selectedGame);
+
+                base.TransportCommunication(message.MessageDocument);
+
+                while (!CommunicationCompleted)
+                {
+                }
+
+                return this.activeGameStruct;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting list of active games. " + e.ToString());
+                throw new MessageTransportException("Error Requesting list of active games. ", e);
+            }
         }
 
         /// <summary>
@@ -191,11 +244,19 @@ namespace CardCommunication
         /// <param name="gameGuid">The game GUID.</param>
         public void SendRequestCurrentGameState(Guid gameGuid)
         {
-            MessageRequestCurrentGameState message = new MessageRequestCurrentGameState();
+            try
+            {
+                MessageRequestCurrentGameState message = new MessageRequestCurrentGameState();
 
-            message.BuildMessage(gameGuid);
+                message.BuildMessage(gameGuid);
 
-            base.TransportCommunication(message.MessageDocument);
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error Requesting current game state. " + e.ToString());
+                throw new MessageTransportException("Error Requesting current game state. ", e);
+            }
         }
 
         /// <summary>
@@ -204,11 +265,19 @@ namespace CardCommunication
         /// <param name="action">The action.</param>
         public void SendActionMessage(Collection<string> action)
         {
-            MessageAction message = new MessageAction();
+            try
+            {
+                MessageAction message = new MessageAction();
 
-            message.BuildMessage(action);
+                message.BuildMessage(action);
 
-            base.TransportCommunication(message.MessageDocument);
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error sending action message. " + e.ToString());
+                throw new MessageTransportException("Error sending action message. ", e);
+            }
         }
 
         /// <summary>
@@ -218,13 +287,21 @@ namespace CardCommunication
         /// <param name="pileGuid">The pile GUID.</param>
         public void SendMoveActionMessage(string objectGuid, string pileGuid)
         {
-            Collection<string> action = new Collection<string>();
+            try
+            {
+                Collection<string> action = new Collection<string>();
 
-            action.Add(MessageAction.ActionType.Move.ToString());
-            action.Add(objectGuid);
-            action.Add(pileGuid);
+                action.Add(MessageAction.ActionType.Move.ToString());
+                action.Add(objectGuid);
+                action.Add(pileGuid);
 
-            this.SendActionMessage(action);
+                this.SendActionMessage(action);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error sending move action message. " + e.ToString());
+                throw new MessageTransportException("Error sending move action message. ", e);
+            }
         }
 
         /// <summary>
@@ -234,13 +311,21 @@ namespace CardCommunication
         /// <param name="playerName">Name of the player.</param>
         public void SendCustomActionMessage(string actionName, string playerName)
         {
-            Collection<string> action = new Collection<string>();
+            try
+            {
+                Collection<string> action = new Collection<string>();
 
-            action.Add(MessageAction.ActionType.Custom.ToString());
-            action.Add(actionName);
-            action.Add(playerName);
+                action.Add(MessageAction.ActionType.Custom.ToString());
+                action.Add(actionName);
+                action.Add(playerName);
 
-            this.SendActionMessage(action);
+                this.SendActionMessage(action);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error sending custom action message. " + e.ToString());
+                throw new MessageTransportException("Error sending custom action message. ", e);
+            }
         }
 
         /// <summary>
@@ -249,11 +334,19 @@ namespace CardCommunication
         /// <param name="cardGuid">The card GUID.</param>
         public void SendFlipCardMessage(Guid cardGuid)
         {
-            MessageFlipCard message = new MessageFlipCard();
+            try
+            {
+                MessageFlipCard message = new MessageFlipCard();
 
-            message.BuildMessage(cardGuid);
+                message.BuildMessage(cardGuid);
 
-            base.TransportCommunication(message.MessageDocument);
+                base.TransportCommunication(message.MessageDocument);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error sending flip card message. " + e.ToString());
+                throw new MessageTransportException("Error sending flip card message. ", e);
+            }
         }
 
         /// <summary>
