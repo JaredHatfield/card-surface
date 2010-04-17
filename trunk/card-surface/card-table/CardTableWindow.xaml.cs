@@ -49,11 +49,13 @@ namespace CardTable
             // Bind all of the seat passwords!
             this.PlayerEast.BindSeat(game.GetSeat(Seat.SeatLocation.East));
             this.PlayerNorth.BindSeat(game.GetSeat(Seat.SeatLocation.North));
-            this.PlayerNorthEast.BindSeat(game.GetSeat(Seat.SeatLocation.NorthEast));
-            this.PlayerNorthWest.BindSeat(game.GetSeat(Seat.SeatLocation.NorthWest));
+
+            // this.PlayerNorthEast.BindSeat(game.GetSeat(Seat.SeatLocation.NorthEast));
+            // this.PlayerNorthWest.BindSeat(game.GetSeat(Seat.SeatLocation.NorthWest));
             this.PlayerSouth.BindSeat(game.GetSeat(Seat.SeatLocation.South));
-            this.PlayerSouthEast.BindSeat(game.GetSeat(Seat.SeatLocation.SouthEast));
-            this.PlayerSouthWest.BindSeat(game.GetSeat(Seat.SeatLocation.SouthWest));
+
+            // this.PlayerSouthEast.BindSeat(game.GetSeat(Seat.SeatLocation.SouthEast));
+            // this.PlayerSouthWest.BindSeat(game.GetSeat(Seat.SeatLocation.SouthWest));
             this.PlayerWest.BindSeat(game.GetSeat(Seat.SeatLocation.West));
 
             // Add handlers for Application activation events
