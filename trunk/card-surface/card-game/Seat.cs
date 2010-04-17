@@ -13,7 +13,7 @@ namespace CardGame
 
     /// <summary>
     /// A seat at the game.
-    /// </summary>
+    /// </summary>`
     [Serializable]
     public class Seat : INotifyPropertyChanged
     {
@@ -65,6 +65,30 @@ namespace CardGame
             this.username = null;
             this.id = Guid.NewGuid();
         }
+
+        /// <summary>
+        /// The delegate for an event that is triggered when a player leaves a game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public delegate void PlayerLeaveSeatEventHandler(object sender, EventArgs e);
+
+        /// <summary>
+        /// The delegate for an event that is triggered when a player joins a game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public delegate void PlayerJoinSeatEventHandler(object sender, EventArgs e);
+
+        /// <summary>
+        /// Occurs when a player leaves the game.
+        /// </summary>
+        public event PlayerLeaveSeatEventHandler PlayerLeaveGame;
+
+        /// <summary>
+        /// Occurs when a player joins the game.
+        /// </summary>
+        public event PlayerJoinSeatEventHandler PlayerJoinGame;
 
         /// <summary>
         /// Occurs when [property changed].
@@ -267,6 +291,7 @@ namespace CardGame
             // 6) Make a player and add them to the seat
             this.player = new Player();
             this.NotifyPropertyChanged("Player");
+            this.OnJoinGame();
 
             // 7) Indicate that everything was successful
             return true;
@@ -302,6 +327,7 @@ namespace CardGame
             {
                 // A Player joined so lets add them
                 this.player = new Player();
+                this.OnJoinGame();
             }
 
             // Now update the player
@@ -317,6 +343,7 @@ namespace CardGame
         internal void PlayerLeft()
         {
             this.player = null;
+            this.OnLeaveGame();
         }
 
         /// <summary>
@@ -327,6 +354,29 @@ namespace CardGame
             this.player = null;
             this.username = string.Empty;
             this.AssignSeatPassword();
+            this.OnLeaveGame();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PlayerLeaveGame"/> event.
+        /// </summary>
+        protected void OnLeaveGame()
+        {
+            if (this.PlayerLeaveGame != null)
+            {
+                this.PlayerLeaveGame(this, null);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PlayerJoinGame"/> event.
+        /// </summary>
+        protected void OnJoinGame()
+        {
+            if (this.PlayerJoinGame != null)
+            {
+                this.PlayerJoinGame(this, null);
+            }
         }
 
         /// <summary>
