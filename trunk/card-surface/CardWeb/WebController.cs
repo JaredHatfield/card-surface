@@ -90,6 +90,7 @@ namespace CardWeb
             this.RegisterWebComponent(new WebComponentHand(gameController));
             this.RegisterWebComponent(new WebComponentResource(gameController));
             this.RegisterWebComponent(new WebComponentInitGame(gameController));
+            this.RegisterWebComponent(new WebComponentLeaveGame(gameController));
 
             try
             {

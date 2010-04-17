@@ -361,7 +361,7 @@ namespace CardWeb
             /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
             Debug.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
 
-            if (this.requestMethod == WebRequestMethods.Http.Post)
+            if (this.requestMethod == WebRequestMethods.Http.Post && content.Length != 0)
             {
                 this.ParseUrlParameters(content);
             }
