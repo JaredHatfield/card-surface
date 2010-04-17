@@ -82,7 +82,7 @@ namespace CardGame
                 }
             }
 
-            // TODO: 4) Remove all of the physical objects that no longer exist
+            // 4) Remove all of the physical objects that no longer exist
             for (int i = 0; i < this.game.GamingArea.Cards.Count; i++)
             {
                 this.PurgeCardPileContents(this.game.GamingArea.Cards[i], gameMessage);
@@ -113,7 +113,7 @@ namespace CardGame
                 }
             }
 
-            // TODO: 5) Remove all of the piles that no longer exist
+            // 5) Remove all of the piles that no longer exist
             this.game.GamingArea.CleanupPiles(gameMessage.GamingArea);
 
             for (int i = 0; i < this.game.Seats.Count; i++)
@@ -124,7 +124,7 @@ namespace CardGame
                 }
             }
 
-            // TODO: 6) Remove players that are no longer playing
+            // 6) Remove players that are no longer playing
             for (int i = 0; i < this.game.Seats.Count; i++)
             {
                 if (this.game.Seats[i].Player != null && gameMessage.Seats[i].Player == null)
@@ -134,8 +134,10 @@ namespace CardGame
             }
 
             // TODO: 7) Make sure the piles are in the same order
+            // NOTE: For blackjack, this is not a high priority feature, but for other card games this is very important.
 
             // TODO: 8) Make sure all of the physical objects are in the same order
+            // NOTE: For blackjack, this is not a high priority feature, but for other card games this is very important.
         }
 
         /// <summary>
@@ -149,7 +151,7 @@ namespace CardGame
                 ICard card = pile.Cards[i] as ICard;
                 try
                 {
-                    // Attempt to locate the card
+                    // Attempt to locate the card (this will throw the CardGamePhysicalObjectNotFoundException if it doesn't exist)
                     ICard existing = this.game.GetPhysicalObject(card.Id) as ICard;
 
                     // Make sure the card's state matches
@@ -192,7 +194,7 @@ namespace CardGame
                 IChip chip = pile.Chips[i] as IChip;
                 try
                 {
-                    // Attempt to locate the card
+                    // Attempt to locate the card (this will throw the CardGamePhysicalObjectNotFoundException if it doesn't exist)
                     IChip existing = this.game.GetPhysicalObject(chip.Id) as IChip;
 
                     // Now move it to the correct pile!
@@ -231,10 +233,12 @@ namespace CardGame
                 IPhysicalObject physicalObject = pile.Cards[i];
                 try
                 {
+                    // Attempt to locate the pile, this will throw a CardGamePhysicalObjectNotFoundException
                     gameMessage.GetPhysicalObject(physicalObject.Id);
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
                 {
+                    // Remove the pile because we know it no longer exists.
                     deleteMe.Add(physicalObject.Id);
                 }
             }
@@ -242,6 +246,7 @@ namespace CardGame
             // Now delete all of those objects
             for (int i = 0; i < deleteMe.Count; i++)
             {
+                // We do this in a saparate loop because it is hard to modify the collection you are looping through
                 pile.RemoveItem(deleteMe[i]);
             }
         }
@@ -259,10 +264,12 @@ namespace CardGame
                 IPhysicalObject physicalObject = pile.Chips[i];
                 try
                 {
+                    // Attempt to locate the pile, this will throw a CardGamePhysicalObjectNotFoundException
                     gameMessage.GetPhysicalObject(physicalObject.Id);
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
                 {
+                    // Remove the pile because we know it no longer exists.
                     deleteMe.Add(physicalObject.Id);
                 }
             }
@@ -270,6 +277,7 @@ namespace CardGame
             // Now delete all of those objects
             for (int i = 0; i < deleteMe.Count; i++)
             {
+                // We do this in a saparate loop because it is hard to modify the collection you are looping through
                 pile.RemoveItem(deleteMe[i]);
             }
         }
