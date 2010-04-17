@@ -299,6 +299,75 @@ namespace CardCommunication
             }
         }
 
+        protected void ProcessComm(byte[] data, Socket processingSocket)
+        {
+            IPEndPoint ip = (IPEndPoint)processingSocket.RemoteEndPoint;
+
+            byte[] header = new byte[this.GameHeader.Length];
+            byte[] buffer = new byte[this.GameHeader.Length];
+            bool same = true;
+
+            Array.Copy(this.GameHeader, header, this.GameHeader.Length);
+            Array.Copy(data, 0, buffer, 0, this.GameHeader.Length);
+
+
+            for (int i = 0; i < header.Length && same; i++)
+            {
+                if (header[i] != buffer[i])
+                {
+                    same = false;
+                }
+            }
+
+            MemoryStream ms = new MemoryStream(data);
+
+            if (same)
+            {
+                byte[] temp = new byte[data.Length];
+                byte[] newMS = new byte[temp.Length - this.GameHeader.Length];
+
+                //// Needs to check if first bytes are equal to the header and remove
+                temp = data;
+
+                for (int i = 0; i < newMS.Length; i++)
+                {
+                    newMS[i] = temp[i + 15];
+                }
+
+                MemoryStream memoryStream = new MemoryStream(newMS);
+                Game game;
+
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    ////bf.Binder = new AllowAllVersionsDeserializationBinder()
+
+                    game = (Game)bf.Deserialize(memoryStream);
+
+                    this.UpdateGameState(game);
+                }
+                catch (SerializationException e)
+                {
+                    Debug.WriteLine("Error deserializing game. " + e.ToString());
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error deserializing game. " + e.ToString());
+                    throw new MessageTransportException("Error deserializing game. ", e);
+                }
+            }
+            else
+            {
+                XmlDocument messageDoc = new XmlDocument();
+
+                messageDoc.Load(ms);
+
+                this.ConvertFromXMLToMessage(messageDoc, ip.Address);
+            }
+
+            this.SetCommunicationCompleted();
+        }
+
         /// <summary>
         /// Processes the communication data.
         /// </summary>
@@ -311,7 +380,8 @@ namespace CardCommunication
                 Socket socketWorker = commObject.WorkSocket;
                 int read = socketWorker.EndReceive(asyncResult);
 
-                Debug.WriteLine("Size of packet: " + read.ToString());
+                IPEndPoint ip = (IPEndPoint)socketWorker.RemoteEndPoint;
+                Debug.WriteLine("Size of packet: " + read.ToString() + " Thread: " + Thread.CurrentThread.ToString() + " Sending Port: " + ip.Port);
                 if (read > 0)
                 {
                     MemoryStream ms = new MemoryStream();
@@ -385,16 +455,20 @@ namespace CardCommunication
                             {
                                 BinaryFormatter bf = new BinaryFormatter();
                                 ////bf.Binder = new AllowAllVersionsDeserializationBinder()
-                                
+
                                 game = (Game)bf.Deserialize(ms);
+
+                                this.UpdateGameState(game);
+                            }
+                            catch (SerializationException e)
+                            {
+                                Debug.WriteLine("Error deserializing game. " + e.ToString());
                             }
                             catch (Exception e)
                             {
                                 Debug.WriteLine("Error deserializing game. " + e.ToString());
                                 throw new MessageTransportException("Error deserializing game. ", e);
                             }
-
-                            this.UpdateGameState(game);
                         }
                         else
                         {

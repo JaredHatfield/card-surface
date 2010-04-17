@@ -230,20 +230,42 @@ namespace CardCommunication
                     this.clientList.Add(co);
                 }
 
-                CommunicationObject commObject = new CommunicationObject();
-                byte[] data = { };
+                //CommunicationObject commObject = new CommunicationObject();
                 
-                commObject.WorkSocket = socketProcessor;
-                commObject.Data = data;
-                commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
+                byte[] data = { };
+                byte[] buffer = new byte[1024];
+                int size = 0;
+                
+                ////commObject.WorkSocket = socketProcessor;
+                ////commObject.Data = data;
+                ////commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
-                socketProcessor.BeginReceive(
-                    commObject.Buffer,
-                    0,
-                    CommunicationObject.BufferSize,
-                    SocketFlags.None,
-                    new AsyncCallback(this.ProcessCommunicationData),
-                    commObject);
+                NetworkStream ns = new NetworkStream(socketProcessor, true);
+                MemoryStream ms = new MemoryStream();
+
+                do
+                {
+                    size = ns.Read(buffer, 0, buffer.Length);
+                    ms.Write(buffer, 0, size);
+                }
+                while (ns.DataAvailable);
+
+                data = ms.ToArray();
+
+                //while (socketProcessor.Available != 0)
+                //{
+                //    size = socketProcessor.Receive(data);
+                //}
+                
+                ProcessComm(data, socketProcessor);
+
+                ////socketProcessor.BeginReceive(
+                ////    commObject.Buffer,
+                ////    0,
+                ////    CommunicationObject.BufferSize,
+                ////    SocketFlags.None,
+                ////    new AsyncCallback(this.ProcessCommunicationData),
+                ////    commObject);
             }
             catch (Exception e)
             {
