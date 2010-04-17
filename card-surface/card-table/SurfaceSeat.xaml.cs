@@ -102,6 +102,12 @@ namespace CardTable
         private void PlayerJoined(object sender, EventArgs e)
         {
             Debug.WriteLine("Table: The player joined the game!");
+
+            // TODO: This needs to be dispatched because it crashes the game. :(
+            SurfacePlayerArea spa = new SurfacePlayerArea();
+            spa.VerticalAlignment = VerticalAlignment.Bottom;
+            spa.HorizontalAlignment = HorizontalAlignment.Center;
+            this.MainGrid.Children.Add(spa);
         }
 
         /// <summary>
