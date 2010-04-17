@@ -12,6 +12,9 @@ namespace CardCommunication
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Runtime.Serialization.Formatters.Soap;
     using System.Text;
     using System.Threading;
     using System.Xml;
@@ -399,21 +402,39 @@ namespace CardCommunication
         {
             try
             {
-                Socket socketProcessor = this.SocketListener.EndAccept(asyncResult);
-                CommunicationObject commObject = new CommunicationObject();
-                byte[] data = { };
+                Socket tempSocket = (Socket)asyncResult.AsyncState;
+                Socket socketProcessor = tempSocket.EndAccept(asyncResult);
+                //CommunicationObject commObject = new CommunicationObject();
+                IPEndPoint ip = (IPEndPoint)socketProcessor.RemoteEndPoint;
+                
+                //commObject.WorkSocket = socketProcessor;
+                //commObject.Data = data;
+                //commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
-                commObject.WorkSocket = socketProcessor;
-                commObject.Data = data;
-                commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
-                              
-                socketProcessor.BeginReceive(
-                    commObject.Buffer,
-                    0,
-                    CommunicationObject.BufferSize,
-                    SocketFlags.None,
-                    new AsyncCallback(this.ProcessCommunicationData),
-                    commObject);
+                NetworkStream ns = new NetworkStream(socketProcessor, true);
+                MemoryStream ms = new MemoryStream();
+                byte[] data = { };
+                byte[] buffer = new byte[1024];
+                int size = 0;
+
+                do
+                {
+                    size = ns.Read(buffer, 0, buffer.Length);
+                    ms.Write(buffer, 0, size);
+                }
+                while (ns.DataAvailable);
+
+                data = ms.ToArray();
+
+                ProcessComm(data, socketProcessor);
+
+                //socketProcessor.BeginReceive(
+                //    commObject.Buffer,
+                //    0,
+                //    CommunicationObject.BufferSize,
+                //    SocketFlags.None,
+                //    new AsyncCallback(this.ProcessCommunicationData),
+                //    commObject);
             }
             catch (Exception e)
             {
