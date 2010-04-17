@@ -136,7 +136,9 @@ namespace CardWeb.WebComponents.WebViews
             }
 
             content += "<br/><br/>\n";
-            content += "Leave Game<br/>\n";
+            content += "<form name=\"leaveGameForm\" method=\"post\" action=\"/leavegame\">\n";
+            content += "<input type=\"submit\" value=\"Leave Game\"/>\n";
+            content += "</form>\n";
             content += "<a href=\"http://" + this.request.RequestHost + "\">Home</a>\n";
             content += "</body>\n";
             content += "</html>\n";
