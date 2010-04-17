@@ -331,7 +331,7 @@ namespace CardGame
             }
 
             // Now update the player
-            if (this.player != null)
+            if (this.player != null && seat.player != null)
             {
                 this.player.Update(seat.player);
             }

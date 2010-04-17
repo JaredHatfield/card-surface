@@ -64,7 +64,7 @@ namespace CardGame
 
             for (int i = 0; i < this.game.Seats.Count; i++)
             {
-                if (!this.game.Seats[i].IsEmpty)
+                if (!this.game.Seats[i].IsEmpty && !gameMessage.Seats[i].IsEmpty)
                 {
                     Player p = gameMessage.Seats[i].Player;
                     this.ProcessCardPileFromMessage(p.Hand);
@@ -118,7 +118,7 @@ namespace CardGame
 
             for (int i = 0; i < this.game.Seats.Count; i++)
             {
-                if (!this.game.Seats[i].IsEmpty)
+                if (!this.game.Seats[i].IsEmpty && !gameMessage.Seats[i].IsEmpty)
                 {
                     this.game.Seats[i].Player.PlayerArea.CleanupPiles(gameMessage.Seats[i].Player.PlayerArea);
                 }
