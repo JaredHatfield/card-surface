@@ -117,7 +117,7 @@ namespace CardWeb.WebComponents.WebViews
             {
                 /* If the user has already logged in, forward the user to the default view. */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
@@ -162,7 +162,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Login\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";
-            content += "<a href=\"http://" + Dns.GetHostName() + "/createaccount\">Create Account</a>\n";
+            content += "<a href=\"http://" + this.request.RequestHost + "/createaccount\">Create Account</a>\n";
             content += "</body>\n";
             content += "</html>";
 

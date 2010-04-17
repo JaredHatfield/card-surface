@@ -165,7 +165,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Create Account\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";
-            content += "<a href=\"http://" + Dns.GetHostName() + "\">Home</a>\n";
+            content += "<a href=\"http://" + this.request.RequestHost + "\">Home</a>\n";
             content += "</body>\n";
             content += "</html>";
 

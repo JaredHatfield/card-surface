@@ -117,7 +117,7 @@ namespace CardWeb.WebComponents.WebActions
                         WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(desiredGame);
 
                         responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                        responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     }
                     else
                     {
@@ -133,7 +133,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 /* TODO: Is this condition necessary?  Can someone send a POST request without being authenticated? */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
