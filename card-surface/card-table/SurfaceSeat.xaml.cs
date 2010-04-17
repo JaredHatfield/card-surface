@@ -6,6 +6,7 @@ namespace CardTable
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Text;
@@ -20,6 +21,7 @@ namespace CardTable
     using System.Windows.Navigation;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using CardGame;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
@@ -38,6 +40,11 @@ namespace CardTable
         /// The timer that tracks how long a seat code remains valid
         /// </summary>
         private DispatcherTimer seatPasswordTimer;
+
+        /// <summary>
+        /// The seat that this location represents;
+        /// </summary>
+        private Seat seat;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceSeat"/> class.
@@ -60,6 +67,51 @@ namespace CardTable
         {
             get { return this.seatLocation; }
             set { this.seatLocation = value; }
+        }
+
+        /// <summary>
+        /// Binds a Seat to this SurfaceSeat.
+        /// </summary>
+        /// <param name="seat">The seat to bind.</param>
+        internal void BindSeat(Seat seat)
+        {
+            if (this.seat == null)
+            {
+                this.seat = seat;
+
+                // Data bind the password
+                Binding seatBinding = new Binding("Password");
+                seatBinding.Source = seat;
+                this.SeatPassword.SetBinding(Label.ContentProperty, seatBinding);
+
+                // Set up the join and leave events
+                seat.PlayerJoinGame += new Seat.PlayerJoinSeatEventHandler(this.PlayerJoined);
+                seat.PlayerLeaveGame += new Seat.PlayerLeaveSeatEventHandler(this.PlayerLeft);
+            }
+            else
+            {
+                throw new Exception("Seat already was set.");
+            }
+        }
+
+        /// <summary>
+        /// Executed when a player joins the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void PlayerJoined(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Table: The player joined the game!");
+        }
+
+        /// <summary>
+        /// Executed when a player leaves the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void PlayerLeft(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Table: The player left the game!");
         }
 
         /// <summary>
