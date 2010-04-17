@@ -247,6 +247,7 @@ namespace CardCommunication
                 {
                     size = ns.Read(buffer, 0, buffer.Length);
                     ms.Write(buffer, 0, size);
+                    Debug.WriteLine("Size of segement: " + size + "Remote: " + address + "Port: " + remoteEP.Port);
                 }
                 while (ns.DataAvailable);
 
