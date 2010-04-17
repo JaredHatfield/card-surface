@@ -81,7 +81,7 @@ namespace CardWeb.WebComponents.WebViews
             {
                 /* If the request has not been authenticated, send the user to a login page. */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
@@ -116,14 +116,14 @@ namespace CardWeb.WebComponents.WebViews
 
                 if (WebSessionController.Instance.GetSession(this.request.GetSessionId()).IsPlayingGame)
                 {
-                    content += "<a href=\"http://" + Dns.GetHostName() + "/Hand/\">View Game</a><br/>\n";
+                    content += "<a href=\"http://" + this.request.RequestHost + "/Hand/\">View Game</a><br/>\n";
                 }
                 else
                 {
-                    content += "<a href=\"http://" + Dns.GetHostName() + "/JoinTable/\">Join Table</a><br/>\n";
+                    content += "<a href=\"http://" + this.request.RequestHost + "/JoinTable/\">Join Table</a><br/>\n";
                 }
 
-                content += "<a href=\"http://" + Dns.GetHostName() + "/ManageAccount/\">Manage Account</a><br/>\n";
+                content += "<a href=\"http://" + this.request.RequestHost + "/ManageAccount/\">Manage Account</a><br/>\n";
                 content += "Logout</a><br/>";
             }
             catch (SocketException se)

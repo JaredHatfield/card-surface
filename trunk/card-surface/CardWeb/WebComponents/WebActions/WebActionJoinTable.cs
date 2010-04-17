@@ -83,7 +83,7 @@ namespace CardWeb.WebComponents.WebActions
                     if (gameContainingSeat.MinimumStake > 0)
                     {
                         responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/initgame?" + WebViewInitGame.FormFieldNameGameId + "=" + gameContainingSeat.Id + "&" + WebViewJoinTable.FormFieldNameSeatCode + "=" + this.seatCode + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                        responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/initgame?" + WebViewInitGame.FormFieldNameGameId + "=" + gameContainingSeat.Id + "&" + WebViewJoinTable.FormFieldNameSeatCode + "=" + this.seatCode + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     }
                     else
                     {
@@ -94,7 +94,7 @@ namespace CardWeb.WebComponents.WebActions
                             WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(gameContainingSeat);
 
                             responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                            responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                            responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                         }
                         else
                         {
@@ -111,7 +111,7 @@ namespace CardWeb.WebComponents.WebActions
             {
                 /* TODO: Is this condition necessary?  Can someone send a POST request without being authenticated? */
                 responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/login" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
             }
 
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);

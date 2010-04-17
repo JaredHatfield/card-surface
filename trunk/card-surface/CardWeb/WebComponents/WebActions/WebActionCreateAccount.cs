@@ -99,7 +99,7 @@ namespace CardWeb.WebComponents.WebActions
                     WebSessionController.Instance.AddSession(authenticatedSession);
 
                     responseBuffer = this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                    responseBuffer += "Refresh: 0; url=http://" + Dns.GetHostName() + "/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                    responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
                     responseBuffer += "Set-Cookie: " + WebCookie.CsidIdentifier + "=" + authenticatedSession.SessionId + "; expires=" + authenticatedSession.Expires + "; httponly" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
 
                     byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);

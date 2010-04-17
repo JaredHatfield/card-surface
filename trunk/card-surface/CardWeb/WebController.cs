@@ -44,14 +44,29 @@ namespace CardWeb
         private Thread webServerThread;
 
         /// <summary>
+        /// Thread responsible for handling and responding to new HTTP requests on the loopback interface.
+        /// </summary>
+        private Thread webServerLoopbackThread;
+
+        /// <summary>
         /// TcpListener responsible for listening for requests on a specified port.
         /// </summary>
         private TcpListener webListener;
 
         /// <summary>
+        /// TcpListener responsible for listening for requests on the loopback address.
+        /// </summary>
+        private TcpListener loopbackListener;
+
+        /// <summary>
         /// IPAddress representing the server's local address.
         /// </summary>
         private IPAddress localaddr;
+
+        /// <summary>
+        /// IPAddress representing the server's loopback address.
+        /// </summary>
+        private IPAddress loopbackaddr;
 
         /// <summary>
         /// List of WebComponents.WebViews registered with this WebController.
@@ -98,11 +113,16 @@ namespace CardWeb
                 this.localaddr = new IPAddress(new byte[] { 127, 0, 0, 1 });
             }
 
+            this.loopbackaddr = new IPAddress(new byte[] { 127, 0, 0, 1 });
+
             try
             {
                 /* Setup the TCP Listener on port 80 to listen for standard HTTP traffic. */
                 this.webListener = new TcpListener(this.localaddr, TcpLocalPort);
                 this.webListener.Start();
+
+                this.loopbackListener = new TcpListener(this.loopbackaddr, TcpLocalPort);
+                this.loopbackListener.Start();
                 Debug.WriteLine("WebController: Port listener started for web controller (" + this.localaddr.ToString() + ").");
             }
             catch (ArgumentNullException ane)
@@ -124,19 +144,25 @@ namespace CardWeb
             }
             
             /* Initiate the web server thread to handle new requests. */
-            this.webServerThread = new Thread(new ThreadStart(this.Run));
+            this.webServerThread = new Thread(this.Run);
             this.webServerThread.Name = "WebServerThread";
-            this.webServerThread.Start();
+            this.webServerThread.Start(this.webListener);
+
+            this.webServerLoopbackThread = new Thread(this.Run);
+            this.webServerLoopbackThread.Name = "WebServerLoopbackThread";
+            this.webServerLoopbackThread.Start(this.loopbackListener);
         } /* WebController(IGameController gameController) */
 
         /// <summary>
         /// Runs this instance.
         /// </summary>
-        public void Run()
+        /// <param name="tcpListener">The TCP listener.</param>
+        public void Run(object tcpListener)
         {
             Socket serverSocket;
             byte[] bytesReceived = new byte[SocketMaxRecvDataBytes];
             int numBytesReceived = 0;
+            TcpListener incomingRequests = (TcpListener)tcpListener;
 
             WebRequest request;
             WebComponent requestedComponent;
@@ -148,7 +174,7 @@ namespace CardWeb
                     numBytesReceived = 0;
                     bytesReceived = new byte[SocketMaxRecvDataBytes];
 
-                    serverSocket = this.webListener.AcceptSocket();
+                    serverSocket = incomingRequests.AcceptSocket();
 
                     Debug.WriteLine("---------------------------------------------------------------------");
                     Debug.WriteLine("WebController: Received new connection request from " + serverSocket.RemoteEndPoint + ".");

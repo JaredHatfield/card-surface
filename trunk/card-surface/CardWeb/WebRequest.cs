@@ -64,6 +64,11 @@ namespace CardWeb
         private string requestContent;
 
         /// <summary>
+        /// The host address that initiated the request
+        /// </summary>
+        private string requestHost;
+
+        /// <summary>
         /// Dictionary that contains key\value pairs for HTTP GET and POST request data.
         /// </summary>
         private Dictionary<string, string> urlParameters;
@@ -85,6 +90,7 @@ namespace CardWeb
             this.requestVersion = this.GetHttpRequestVersion(this.request);
             this.requestResource = this.GetHttpRequestResource(this.request);
             this.requestContent = this.GetHttpRequestContent(this.request);
+            this.requestHost = this.GetHttpRequestHost();
         } /* WebRequest() */
 
         /// <summary>
@@ -132,6 +138,15 @@ namespace CardWeb
         public string RequestVersion
         {
             get { return this.requestVersion; }
+        }
+
+        /// <summary>
+        /// Gets the request host.
+        /// </summary>
+        /// <value>The request host.</value>
+        public string RequestHost
+        {
+            get { return this.requestHost; }
         }
 
         /// <summary>
@@ -513,5 +528,57 @@ namespace CardWeb
                 this.urlParameters.Add(tokens[i], tokens[i + 1]);
             }
         } /* ParseUrlParameters() */
+
+        /// <summary>
+        /// Gets the HTTP request host.
+        /// </summary>
+        /// <returns>A string containing the name of the host machine that sent this request</returns>
+        private string GetHttpRequestHost()
+        {
+            string hostHeader = "Host:";
+            string hostLine = String.Empty;
+
+            /* TODO: Add security checks.  Is the "Host:" line properly formatted?  Does it appear before the content? */
+            bool patternFound = false;
+            byte[] pattern = Encoding.ASCII.GetBytes(hostHeader);
+
+            for (int i = 0; i < this.request.Length - pattern.Length; i++)
+            {
+                if (this.request[i] == pattern[0])
+                {
+                    /* Assume the pattern has been found. */
+                    patternFound = true;
+                    for (int j = 0; j < pattern.Length; j++)
+                    {
+                        if (this.request[i + j] != pattern[j])
+                        {
+                            /* If there's not a match, we didn't really find it. */
+                            patternFound = false;
+                            break;
+                        }
+                    }
+
+                    if (patternFound)
+                    {
+                        /* If we really did find the pattern, we can stop searching. */
+                        int hostLinePosition = Encoding.ASCII.GetString(this.request).IndexOf(hostHeader) + hostHeader.Length;
+                        int hostEndOfLinePosition = Encoding.ASCII.GetString(this.request).IndexOf(new string(new char[] { WebUtilities.CarriageReturn, WebUtilities.LineFeed }), hostLinePosition);
+
+                        for (int j = hostLinePosition; j < hostEndOfLinePosition; j++)
+                        {
+                            if ((char)this.request[j] != WebUtilities.CarriageReturn && (char)this.request[j] != WebUtilities.LineFeed)
+                            {
+                                hostLine += (char)this.request[j];
+                            }
+                        }
+
+                        Debug.WriteLine("WebRequest: Determined host (" + hostLine.Trim() + ")");
+                        return hostLine.Trim();
+                    }
+                }
+            }
+
+            throw new WebServerException("Request host not found!");
+        } /* ContainsCookie() */
     }
 }
