@@ -404,12 +404,13 @@ namespace CardCommunication
             {
                 Socket tempSocket = (Socket)asyncResult.AsyncState;
                 Socket socketProcessor = tempSocket.EndAccept(asyncResult);
-                //CommunicationObject commObject = new CommunicationObject();
+
+                //// CommunicationObject commObject = new CommunicationObject();
                 IPEndPoint ip = (IPEndPoint)socketProcessor.RemoteEndPoint;
                 
-                //commObject.WorkSocket = socketProcessor;
-                //commObject.Data = data;
-                //commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
+                ////commObject.WorkSocket = socketProcessor;
+                ////commObject.Data = data;
+                ////commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
 
                 NetworkStream ns = new NetworkStream(socketProcessor, true);
                 MemoryStream ms = new MemoryStream();
@@ -428,13 +429,13 @@ namespace CardCommunication
 
                 ProcessComm(data, socketProcessor);
 
-                //socketProcessor.BeginReceive(
-                //    commObject.Buffer,
-                //    0,
-                //    CommunicationObject.BufferSize,
-                //    SocketFlags.None,
-                //    new AsyncCallback(this.ProcessCommunicationData),
-                //    commObject);
+                ////socketProcessor.BeginReceive(
+                ////    commObject.Buffer,
+                ////    0,
+                ////    CommunicationObject.BufferSize,
+                ////    SocketFlags.None,
+                ////    new AsyncCallback(this.ProcessCommunicationData),
+                ////    commObject);
             }
             catch (Exception e)
             {

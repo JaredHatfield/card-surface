@@ -230,7 +230,7 @@ namespace CardCommunication
                     this.clientList.Add(co);
                 }
 
-                //CommunicationObject commObject = new CommunicationObject();
+                ////CommunicationObject commObject = new CommunicationObject();
                 
                 byte[] data = { };
                 byte[] buffer = new byte[1024];
@@ -252,10 +252,10 @@ namespace CardCommunication
 
                 data = ms.ToArray();
 
-                //while (socketProcessor.Available != 0)
-                //{
-                //    size = socketProcessor.Receive(data);
-                //}
+                ////while (socketProcessor.Available != 0)
+                ////{
+                ////    size = socketProcessor.Receive(data);
+                ////}
                 
                 ProcessComm(data, socketProcessor);
 

@@ -299,6 +299,11 @@ namespace CardCommunication
             }
         }
 
+        /// <summary>
+        /// Processes the comm.
+        /// </summary>
+        /// <param name="data">The data to be processed.</param>
+        /// <param name="processingSocket">The processing socket.</param>
         protected void ProcessComm(byte[] data, Socket processingSocket)
         {
             IPEndPoint ip = (IPEndPoint)processingSocket.RemoteEndPoint;
@@ -309,7 +314,6 @@ namespace CardCommunication
 
             Array.Copy(this.GameHeader, header, this.GameHeader.Length);
             Array.Copy(data, 0, buffer, 0, this.GameHeader.Length);
-
 
             for (int i = 0; i < header.Length && same; i++)
             {
