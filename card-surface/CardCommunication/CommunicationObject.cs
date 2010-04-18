@@ -35,7 +35,7 @@ namespace CardCommunication
         /// <summary>
         /// socket that is receiving communication.
         /// </summary>
-        private Socket workSocket = null;
+        private TcpListener tcpListener = null;
 
         /// <summary>
         /// the buffer.
@@ -78,13 +78,13 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets or sets the work socket.
+        /// Gets or sets the TcpListener.
         /// </summary>
-        /// <value>The work socket.</value>
-        public Socket WorkSocket
+        /// <value>The TcpListener.</value>
+        public TcpListener TcpListener
         {
-            get { return this.workSocket; }
-            set { this.workSocket = value; }
+            get { return this.tcpListener; }
+            set { this.tcpListener = value; }
         }
 
         /// <summary>

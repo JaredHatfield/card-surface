@@ -54,15 +54,11 @@ namespace CardCommunication
         public TableCommunicationController(string ipaddress)
         {
             MemoryStream ms = new MemoryStream();
-            char[] splitChar = { '.' };
-            string[] iparray = ipaddress.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
-            byte[] ip = { };
+            IPAddress serverIPAddress;
+
             try
             {
-                foreach (string s in iparray)
-                {
-                    ms.WriteByte(Byte.Parse(s));
-                }
+                serverIPAddress = IPAddress.Parse(ipaddress);
             }
             catch (Exception e)
             {
@@ -70,8 +66,6 @@ namespace CardCommunication
                 throw new CardCommunicationException("Error converting IPAddress", e);
             }
 
-            ip = ms.ToArray();
-            IPAddress serverIPAddress = new IPAddress(ip);
             RemoteEndPoint = new IPEndPoint(serverIPAddress, ServerListenerPortNumber);
         }
 
@@ -391,56 +385,15 @@ namespace CardCommunication
         protected override void TransportCommunication(Game game)
         {
             //// There is no reason this function should be implemented.
-            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Processes the client communication.
+        /// Processes the remote client info.
         /// </summary>
-        /// <param name="asyncResult">The async result.</param>
-        protected override void ProcessCommunication(IAsyncResult asyncResult)
+        /// <param name="remoteSocket">The remote socket.</param>
+        protected override void ProcessRemoteClientInfo(Socket remoteSocket)
         {
-            try
-            {
-                Socket tempSocket = (Socket)asyncResult.AsyncState;
-                Socket socketProcessor = tempSocket.EndAccept(asyncResult);
-
-                //// CommunicationObject commObject = new CommunicationObject();
-                IPEndPoint ip = (IPEndPoint)socketProcessor.RemoteEndPoint;
-                
-                ////commObject.WorkSocket = socketProcessor;
-                ////commObject.Data = data;
-                ////commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
-
-                NetworkStream ns = new NetworkStream(socketProcessor, true);
-                MemoryStream ms = new MemoryStream();
-                byte[] data = { };
-                byte[] buffer = new byte[1024];
-                int size = 0;
-
-                do
-                {
-                    size = ns.Read(buffer, 0, buffer.Length);
-                    ms.Write(buffer, 0, size);
-                }
-                while (ns.DataAvailable);
-
-                data = ms.ToArray();
-
-                ProcessComm(data, socketProcessor);
-
-                ////socketProcessor.BeginReceive(
-                ////    commObject.Buffer,
-                ////    0,
-                ////    CommunicationObject.BufferSize,
-                ////    SocketFlags.None,
-                ////    new AsyncCallback(this.ProcessCommunicationData),
-                ////    commObject);
-            }
-            catch (Exception e)
-            {
-                throw new MessageProcessException("Table.ProcessCommunication Exception.", e);
-            }
+            // Should not be implemented.
         }
 
         /// <summary>
@@ -449,7 +402,6 @@ namespace CardCommunication
         protected override void SetCommunicationCompleted()
         {
             CommunicationCompleted = true;
-            this.SocketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.SocketListener);
         }
 
         /// <summary>
