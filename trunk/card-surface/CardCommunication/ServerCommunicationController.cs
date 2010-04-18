@@ -159,10 +159,10 @@ namespace CardCommunication
                     Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
                     Collection<string> newGame = new Collection<string>();
 
+                    newGame.Add(messageRequestExistingGames.SelectedGame);
                     newGame.Add("New Game");
                     newGame.Add(Guid.Empty.ToString());
                     newGame.Add(String.Empty);
-                    newGame.Add(string.Empty);
 
                     existingGames.Add(newGame);
                     
