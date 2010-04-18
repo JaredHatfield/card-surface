@@ -40,11 +40,6 @@ namespace CardCommunication
         protected const int ClientListenerPortNumber = 30567;
 
         /// <summary>
-        /// The listening socket.
-        /// </summary>
-        private Socket socketListener = null;
-
-        /// <summary>
         /// The IP Address of the system.
         /// </summary>
         private IPAddress baseIPAddress;
@@ -70,14 +65,14 @@ namespace CardCommunication
         private bool communicationCompleted = true;
 
         /// <summary>
-        /// The header to the serialized game object.
-        /// </summary>
-        private byte[] gameHeader = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
-
-        /// <summary>
         /// The process communication semaphore.
         /// </summary>
         private object processCommSephamore;
+
+        /// <summary>
+        /// The thread that handles incoming communications.
+        /// </summary>
+        private Thread processingThread;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationController"/> class.
@@ -121,15 +116,6 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets the socket listener.
-        /// </summary>
-        /// <value>The socket listener.</value>
-        protected Socket SocketListener
-        {
-            get { return this.socketListener; }
-        }
-
-        /// <summary>
         /// Gets the game controller.
         /// </summary>
         /// <value>The game controller.</value>
@@ -169,15 +155,6 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets the game header.
-        /// </summary>
-        /// <value>The game header.</value>
-        protected byte[] GameHeader
-        {
-            get { return this.gameHeader; }
-        }
-
-        /// <summary>
         /// Gets the process comm sephamore.
         /// </summary>
         /// <value>The process comm sephamore.</value>
@@ -193,7 +170,7 @@ namespace CardCommunication
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Close(object sender, EventArgs args)
         {
-            /* TODO: This should close the listener! */
+            this.processingThread.Abort();
         }
 
         /// <summary>
@@ -222,14 +199,12 @@ namespace CardCommunication
                         found = true;
                     }
                 }
-
+                
                 this.baseIPAddress = hostAddress;
                 this.InitializeIPAddressPorts();
 
-                if (this.socketListener == null)
-                {
-                    this.StartListener();
-                }
+                // Initialize thread that listens to listener port.
+                this.StartListener();
             }
             catch (Exception e)
             {
@@ -237,18 +212,6 @@ namespace CardCommunication
                 throw new MessageTransportException("Error initializing communication controller. ", e);
             }          
         }
-
-        /// <summary>
-        /// Updates the state of the game.
-        /// </summary>
-        /// <param name="game">The updated game state.</param>
-        protected abstract void UpdateGameState(Game game);
-
-        /// <summary>
-        /// Processes the client communication.
-        /// </summary>
-        /// <param name="asyncResult">The async result.</param>
-        protected abstract void ProcessCommunication(IAsyncResult asyncResult);
 
         /// <summary>
         /// Starts the listener socket.
@@ -260,14 +223,14 @@ namespace CardCommunication
 
             try
             {
-                if (this.socketListener == null)
-                {
-                    this.socketListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    this.socketListener.Bind(this.hostReceiveEndPoint);
-                    this.socketListener.Listen(10);
-                }
+                TcpListener tcpListener = new TcpListener(this.hostReceiveEndPoint);
+                tcpListener.ExclusiveAddressUse = true;
+                tcpListener.Start(10);
 
-                this.socketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.socketListener);
+                this.processingThread = new Thread(this.ProcessComm);
+                this.processingThread = new Thread(this.ProcessComm);
+                this.processingThread.Name = "TcpListener";
+                this.processingThread.Start(tcpListener);
             }
             catch (Exception e)
             {
@@ -280,217 +243,161 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Starts the transporter socket.
+        /// Updates the state of the game.
         /// </summary>
-        /// <returns>A new Socket</returns>
-        protected Socket StartTransporter()
-        {
-            try
-            {
-                Socket socketTransporter = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socketTransporter.Connect(this.RemoteEndPoint);
-                socketTransporter.NoDelay = true;
+        /// <param name="game">The updated game state.</param>
+        protected abstract void UpdateGameState(Game game);
 
-                return socketTransporter;
-            }
-            catch (Exception e)
+        /// <summary>
+        /// Processes the communication.
+        /// </summary>
+        /// <param name="listener">The listener.</param>
+        protected void ProcessComm(object listener)
+        {
+            TcpListener tcpListener = (TcpListener)listener;
+            int counter = 0;
+
+            while (true)
             {
-                throw new SocketBindingException("Error binding to socket.", e);
+                if (tcpListener.Pending())
+                {
+                    Socket socketListener;
+                    IPEndPoint ip;
+                    MemoryStream ms = new MemoryStream();
+                    byte[] buffer = new byte[2048];
+
+                    int size = 0;
+
+                    counter++;
+
+                    Debug.WriteLine("Attempting to connect thread #" + counter + ". " + this.ToString());
+                    socketListener = tcpListener.AcceptSocket();
+                    Debug.WriteLine("Thread #" + counter + " connected" + ". " + this.ToString());
+
+                    this.ProcessRemoteClientInfo(socketListener);
+
+                    ip = (IPEndPoint)socketListener.RemoteEndPoint;
+
+                    if (socketListener.Connected)
+                    {
+                        do
+                        {
+                            Debug.WriteLine("Receiving On Thread #" + counter + ". " + this.ToString());
+                            size = socketListener.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+
+                            if (size > 0)
+                            {
+                                Debug.WriteLine("Packet size: " + size);
+                                ms.Write(buffer, 0, size);
+                            }
+                        }
+                        while (socketListener.Available != 0);
+                        Debug.WriteLine("Finished Receiving On Thread #" + counter + ". " + this.ToString());
+
+                        CommunicationObject co = new CommunicationObject();
+                        co.TcpListener = tcpListener;
+                        co.Data = ms.ToArray();
+                        co.RemoteIPAddress = ip.Address;
+                        co.Buffer = new byte[] { (byte)counter }; 
+
+                        Thread responder = new Thread(this.ProcessCommData);
+                        responder.Name = "Thread Responder";
+                        responder.Start(co);
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Processes the comm.
+        /// Processes the remote client info.
         /// </summary>
-        /// <param name="data">The data to be processed.</param>
-        /// <param name="processingSocket">The processing socket.</param>
-        protected void ProcessComm(byte[] data, Socket processingSocket)
+        /// <param name="remoteSocket">The remote socket.</param>
+        protected abstract void ProcessRemoteClientInfo(Socket remoteSocket);
+
+        /// <summary>
+        /// Processes the comm data.
+        /// </summary>
+        /// <param name="communicationObject">The communication object.</param>
+        protected void ProcessCommData(object communicationObject)
         {
-            IPEndPoint ip = (IPEndPoint)processingSocket.RemoteEndPoint;
-
-            byte[] header = new byte[this.GameHeader.Length];
-            byte[] buffer = new byte[this.GameHeader.Length];
-            bool same = true;
-
-            Array.Copy(this.GameHeader, header, this.GameHeader.Length);
-            Array.Copy(data, 0, buffer, 0, this.GameHeader.Length);
-
-            for (int i = 0; i < header.Length && same; i++)
+            try
             {
-                if (header[i] != buffer[i])
-                {
-                    same = false;
-                }
-            }
-
-            MemoryStream ms = new MemoryStream(data);
-
-            if (same)
-            {
-                byte[] temp = new byte[data.Length];
-                byte[] newMS = new byte[temp.Length - this.GameHeader.Length];
-
-                //// Needs to check if first bytes are equal to the header and remove
-                temp = data;
-
-                for (int i = 0; i < newMS.Length; i++)
-                {
-                    newMS[i] = temp[i + 15];
-                }
-
-                MemoryStream memoryStream = new MemoryStream(newMS);
-                Game game;
+                CommunicationObject co = (CommunicationObject)communicationObject;
+                MemoryStream ms = new MemoryStream(co.Data);
+                int counter = (int)co.Buffer[0];
 
                 try
                 {
                     BinaryFormatter bf = new BinaryFormatter();
-                    ////bf.Binder = new AllowAllVersionsDeserializationBinder()
 
-                    game = (Game)bf.Deserialize(memoryStream);
+                    Game game;
+
+                    try
+                    {
+                        Debug.WriteLine("Attempting to convert to game on Thread #" + counter + ". " + this.ToString());
+                        game = (Game)bf.Deserialize(ms);
+                    }
+                    catch (SerializationException e)
+                    {
+                        Debug.WriteLine("Error deserializing game. ");
+                        throw new MessageDeserializationException("Error deserializing the game. " + e.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error. " + e.ToString());
+                        throw new CardCommunicationException("Error. " + e.ToString());
+                    }
+
+                    Debug.WriteLine("Success converting to game on Thread #" + counter + ". " + this.ToString());
 
                     this.UpdateGameState(game);
                 }
-                catch (SerializationException e)
-                {
-                    Debug.WriteLine("Error deserializing game. " + e.ToString());
+                catch (MessageDeserializationException)
+                { 
+                    // This exception is expected.
+                    Debug.WriteLine("Attempting to convert to message on Thread #" + counter + ". " + this.ToString());
+
+                    XmlDocument messageDoc = new XmlDocument();
+
+                    ms.Position = 0;
+                    messageDoc.Load(ms);
+
+                    this.ConvertFromXMLToMessage(messageDoc, co.RemoteIPAddress);
+                    Debug.WriteLine("Success converting to message on Thread #" + counter + ". " + this.ToString());
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("Error deserializing game. " + e.ToString());
-                    throw new MessageTransportException("Error deserializing game. ", e);
+                    Debug.WriteLine("Fatal Error processing data. " + e.ToString());
+                    throw new MessageTransportException("Fatal Error processing data. ", e);
                 }
             }
-            else
+            catch (Exception e)
             {
-                XmlDocument messageDoc = new XmlDocument();
-
-                messageDoc.Load(ms);
-
-                this.ConvertFromXMLToMessage(messageDoc, ip.Address);
+                Debug.WriteLine("Error processing and responding to request." + e.ToString());
+                throw new CardCommunicationException("Error processing and responding to request." + e.ToString());
             }
 
             this.SetCommunicationCompleted();
         }
 
         /// <summary>
-        /// Processes the communication data.
+        /// Starts the transporter.
         /// </summary>
-        /// <param name="asyncResult">The async result.</param>
-        protected void ProcessCommunicationData(IAsyncResult asyncResult)
+        /// <returns>The socket that is connected.</returns>
+        protected Socket StartTransporter()
         {
             try
-            {
-                CommunicationObject commObject = (CommunicationObject)asyncResult.AsyncState;
-                Socket socketWorker = commObject.WorkSocket;
-                int read = socketWorker.EndReceive(asyncResult);
+            {            
+                TcpClient tcpClient = new TcpClient();
 
-                IPEndPoint ip = (IPEndPoint)socketWorker.RemoteEndPoint;
-                Debug.WriteLine("Size of packet: " + read.ToString() + " Thread: " + Thread.CurrentThread.ToString() + " Sending Port: " + ip.Port);
-                if (read > 0)
-                {
-                    MemoryStream ms = new MemoryStream();
-                    //// Appends Buffer to Data in commObject.
-                    ms.Write(commObject.Data, 0, commObject.Data.Length);
-                    ms.Write(commObject.Buffer, 0, commObject.Buffer.Length);
+                tcpClient.Connect(this.remoteEndPoint);
 
-                    if (commObject.FirstKB)
-                    {
-                        byte[] header = new byte[this.gameHeader.Length];
-                        byte[] buffer = new byte[this.gameHeader.Length];
-
-                        Array.Copy(this.gameHeader, header, this.gameHeader.Length);
-                        Array.Copy(commObject.Buffer, 0, buffer, 0, this.gameHeader.Length);
-
-                        bool same = true;
-
-                        for (int i = 0; i < header.Length && same; i++)
-                        {
-                            if (header[i] != buffer[i])
-                            {
-                                same = false;
-                            }
-                        }
-
-                        if (same)
-                        {
-                            byte[] temp = new byte[ms.ToArray().Length];
-                            byte[] newMS = new byte[temp.Length - this.gameHeader.Length];
-                            
-                            //// Needs to check if first bytes are equal to the header and remove
-                            temp = ms.ToArray();
-
-                            for (int i = 0; i < newMS.Length; i++)
-                            {
-                                newMS[i] = temp[i + 15];
-                            }
-
-                            ms = new MemoryStream();
-
-                            ms.Write(newMS, 0, newMS.Length);
-
-                            commObject.GameState = true;
-                        }
-
-                        commObject.FirstKB = false;
-                    }
-
-                    commObject.Data = ms.ToArray();
-
-                    socketWorker.BeginReceive(
-                        commObject.Buffer,
-                        0,
-                        CommunicationObject.BufferSize,
-                        0,
-                        new AsyncCallback(this.ProcessCommunicationData),
-                        commObject);
-                }
-                else
-                {
-                    if (commObject.Data.Length > 1)
-                    {
-                        byte[] message = commObject.Data;
-
-                        MemoryStream ms = new MemoryStream(message);
-
-                        if (commObject.GameState)
-                        {
-                            Game game;
-                            try
-                            {
-                                BinaryFormatter bf = new BinaryFormatter();
-                                ////bf.Binder = new AllowAllVersionsDeserializationBinder()
-
-                                game = (Game)bf.Deserialize(ms);
-
-                                this.UpdateGameState(game);
-                            }
-                            catch (SerializationException e)
-                            {
-                                Debug.WriteLine("Error deserializing game. " + e.ToString());
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine("Error deserializing game. " + e.ToString());
-                                throw new MessageTransportException("Error deserializing game. ", e);
-                            }
-                        }
-                        else
-                        {
-                            XmlDocument messageDoc = new XmlDocument();
-
-                            messageDoc.Load(ms);
-
-                            this.ConvertFromXMLToMessage(messageDoc, commObject.RemoteIPAddress);
-                        }
-
-                        this.SetCommunicationCompleted();
-                    }
-                }
+                return tcpClient.Client;
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
-                throw new CardCommunicationException("Error.", e);
+                Debug.WriteLine("Error starting transporter. " + e.ToString());
+                throw new SocketBindingException("Error starting transporter. " + e.ToString());
             }
         }
 
@@ -549,9 +456,7 @@ namespace CardCommunication
         /// <returns>The IPAddress.</returns>
         protected IPAddress GetIPAddress(IPEndPoint ep)
         {
-            IPAddress ip = ep.Address;
-
-            return ip;
+            return ep.Address;
         }
 
         /// <summary>

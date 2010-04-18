@@ -157,6 +157,8 @@ namespace CardCommunication
         {
             try
             {
+                // This should really be done for each client instead of all clients
+                // so that it prevents sending multiple messages to the same client.
                 lock (this.ProcessCommSephamore)
                 {
                     MemoryStream gameStream = new MemoryStream();
@@ -166,7 +168,6 @@ namespace CardCommunication
 
                     try
                     {
-                        gameStream.Write(GameHeader, 0, GameHeader.Length);
                         bf.Serialize(gameStream, gameNetworkClient);
                         data = gameStream.ToArray();
                     }
@@ -202,18 +203,16 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Processes the client communication.
+        /// Processes the remote client info.
         /// </summary>
-        /// <param name="asyncResult">The async result.</param>
-        protected override void ProcessCommunication(IAsyncResult asyncResult)
+        /// <param name="remoteSocket">The remote socket.</param>
+        protected override void ProcessRemoteClientInfo(Socket remoteSocket)
         {
             try
             {
-                Socket socketWorker = (Socket)asyncResult.AsyncState;
-                Socket socketProcessor = socketWorker.EndAccept(asyncResult);
-                bool found = false;
-                IPEndPoint remoteEP = (IPEndPoint)socketProcessor.RemoteEndPoint;
+                IPEndPoint remoteEP = (IPEndPoint)remoteSocket.RemoteEndPoint;
                 IPAddress address = remoteEP.Address;
+                bool found = false;
 
                 foreach (ClientObject co in this.clientList)
                 {
@@ -229,59 +228,20 @@ namespace CardCommunication
 
                     this.clientList.Add(co);
                 }
-
-                ////CommunicationObject commObject = new CommunicationObject();
-                
-                byte[] data = { };
-                byte[] buffer = new byte[1024];
-                int size = 0;
-                
-                ////commObject.WorkSocket = socketProcessor;
-                ////commObject.Data = data;
-                ////commObject.RemoteIPAddress = GetIPAddress((IPEndPoint)socketProcessor.RemoteEndPoint);
-
-                NetworkStream ns = new NetworkStream(socketProcessor, true);
-                MemoryStream ms = new MemoryStream();
-
-                do
-                {
-                    size = ns.Read(buffer, 0, buffer.Length);
-                    ms.Write(buffer, 0, size);
-                    Debug.WriteLine("Size of segement: " + size + "Remote: " + address + "Port: " + remoteEP.Port);
-                }
-                while (ns.DataAvailable);
-
-                data = ms.ToArray();
-
-                ////while (socketProcessor.Available != 0)
-                ////{
-                ////    size = socketProcessor.Receive(data);
-                ////}
-                
-                ProcessComm(data, socketProcessor);
-
-                ////socketProcessor.BeginReceive(
-                ////    commObject.Buffer,
-                ////    0,
-                ////    CommunicationObject.BufferSize,
-                ////    SocketFlags.None,
-                ////    new AsyncCallback(this.ProcessCommunicationData),
-                ////    commObject);
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Error Receiving Data from client" + e.ToString());
-                throw new MessageProcessException("Server.ProcessCommunication Exception.", e);
+                Debug.WriteLine("Error processing remote socket information. " + e.ToString());
+                throw new MessageProcessException("Error processing remote socket information. " + e.ToString());
             }
         }
-
+        
         /// <summary>
         /// Sets the communication completed.
         /// </summary>
         protected override void SetCommunicationCompleted()
         {
             CommunicationCompleted = true;
-            this.SocketListener.BeginAccept(new AsyncCallback(this.ProcessCommunication), this.SocketListener);
         }
 
         /// <summary>
@@ -291,7 +251,6 @@ namespace CardCommunication
         protected override void UpdateGameState(Game game)
         {
             // Should not be implemented because code will never run.
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -346,11 +305,6 @@ namespace CardCommunication
                                 co.Game = newGame;
                                 found = true;
                             }
-                        }
-
-                        if (this.SocketListener.Connected)
-                        {
-                            this.SocketListener.Disconnect(true);
                         }
 
                         this.TransportCommunication(GameController.GetGame(newGame));
@@ -435,7 +389,10 @@ namespace CardCommunication
 
                     Guid cardGuid = messageFlipCard.CardGuid;
 
+                    // Hopefully this triggers a game update.
                     GameController.GetGame(gameGuid).FlipCard(cardGuid);
+
+                    this.TransportCommunication(GameController.GetGame(gameGuid));
                 }
                 else if (mt == Message.MessageType.RequestExistingGames.ToString())
                 {
