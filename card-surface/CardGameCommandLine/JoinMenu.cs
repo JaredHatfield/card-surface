@@ -210,6 +210,7 @@ namespace CardGameCommandLine
             {
                 Console.WriteLine("Something went terribly wrong!");
                 Console.WriteLine(e.ToString());
+                Console.ReadLine();
                 return;
             }
 
@@ -267,6 +268,7 @@ namespace CardGameCommandLine
             {
                 Console.WriteLine("Something went terribly wrong!");
                 Console.WriteLine(e.ToString());
+                Console.ReadLine();
                 return;
             }
 
