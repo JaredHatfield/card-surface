@@ -20,6 +20,7 @@ namespace CardCommunication
     using System.Xml;
     using CardGame;
     using CommunicationException;
+    using GameObject;
     using Messages;
 
     /// <summary>
@@ -28,45 +29,47 @@ namespace CardCommunication
     public class TableCommunicationController : CommunicationController
     {
         /// <summary>
-        /// Holds the type Collection of strings to return
+        /// The stream that reads data from the server.
         /// </summary>
-        private Collection<string> stringCollection;
+        private StreamReader clientStreamReader;
 
         /// <summary>
-        /// Holds the Collection of Active Games to return
+        /// The stream that writes data to the server.
         /// </summary>
-        private Collection<ActiveGameStruct> activeGameStruct;
+        private StreamWriter clientStreamWriter;
+
+        /// <summary>
+        /// The tcp client that is connected to the server.
+        /// </summary>
+        private TcpClient tcpClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
-        /// When a string representation of an IPAddress is not passed, the server is defaulted to
-        /// the system's IPAddress.
         /// </summary>
         public TableCommunicationController()
             : base()
         {
+            this.tcpClient = new TcpClient("localhost", CommunicationController.ServerListenerPortNumber);
+            Console.WriteLine("Connected is to Server");
+            NetworkStream clientSockStream = this.tcpClient.GetStream();
+            this.clientStreamReader = new StreamReader(clientSockStream);
+            this.clientStreamWriter = new StreamWriter(clientSockStream);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// </summary>
-        /// <param name="ipaddress">The ip address of the server.</param>
-        public TableCommunicationController(string ipaddress)
+        /// <param name="address">The ip address.</param>
+        public TableCommunicationController(string address)
+            : base()
         {
-            MemoryStream ms = new MemoryStream();
-            IPAddress serverIPAddress;
-
-            try
-            {
-                serverIPAddress = IPAddress.Parse(ipaddress);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error converting IPAddress." + e.ToString());
-                throw new CardCommunicationException("Error converting IPAddress", e);
-            }
-
-            RemoteEndPoint = new IPEndPoint(serverIPAddress, ServerListenerPortNumber);
+            IPAddress ip = IPAddress.Parse(address);
+            this.tcpClient = new TcpClient(new IPEndPoint(ip, CommunicationController.ServerListenerPortNumber));
+            
+            Debug.WriteLine("Client is Connected is to the Server");
+            NetworkStream clientSockStream = this.tcpClient.GetStream();
+            this.clientStreamReader = new StreamReader(clientSockStream);
+            this.clientStreamWriter = new StreamWriter(clientSockStream);
         }
 
         /// <summary>
@@ -103,52 +106,81 @@ namespace CardCommunication
         public event UpdateGameStateHandler OnUpdateGameState;
 
         /// <summary>
+        /// Sends the request game message.
+        /// </summary>
+        /// <param name="game">The game to join.</param>
+        /// <returns>The new game state.</returns>
+        public GameMessage SendRequestGameMessage(ActiveGameStruct game)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sends the move action message.
+        /// </summary>
+        /// <param name="guidObject">The object's Guid.</param>
+        /// <param name="pile">The destination pile's Guid.</param>
+        /// <returns>The new game state.</returns>
+        public GameMessage SendMoveActionMessage(string guidObject, string pile)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sends the custom action message.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="player">The player.</param>
+        /// <returns>The new game state.</returns>
+        public GameMessage SendCustomActionMessage(string action, string player)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        public override void Close(object sender, EventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Sends the request game list message.
         /// </summary>
         /// <returns>the gameList</returns>
         public Collection<string> SendRequestGameListMessage()
         {
-            try
+            // TODO: We should really put a lock around this
+
+            // Send the message to the server
+            MessageRequestGameList message = new MessageRequestGameList();
+            message.BuildMessage();
+
+            this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+            this.clientStreamWriter.Flush();
+
+            // Get the response from the server
+            string response = this.clientStreamReader.ReadLine();
+            byte[] responseData = Encoding.ASCII.GetBytes(response);
+            MemoryStream ms = new MemoryStream(responseData);
+            XmlDocument messageDoc = new XmlDocument();
+            messageDoc.Load(ms);
+
+            XmlElement messageResponse = messageDoc.DocumentElement;
+            string mt = messageResponse.Attributes[0].Value;
+
+            if (mt == Message.MessageType.GameList.ToString())
             {
-                MessageRequestGameList message = new MessageRequestGameList();
-
-                this.CommunicationCompleted = false;
-
-                message.BuildMessage();
-
-                base.TransportCommunication(message.MessageDocument);
-
-                while (!CommunicationCompleted)
-                {
-                }
-
-                return this.stringCollection;
+                MessageGameList messageGameList = new MessageGameList();
+                messageGameList.ProcessMessage(messageDoc);
+                return messageGameList.GameNameList;
             }
-            catch (Exception e)
+            else
             {
-                Debug.WriteLine("Error Requesting game list. " + e.ToString());
-                throw new MessageTransportException("Error Requesting game list. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the request seat code change message.
-        /// </summary>
-        /// <param name="seatGuid">The seat GUID.</param>
-        public void SendRequestSeatCodeChange(Guid seatGuid)
-        {
-            try
-            {
-                MessageRequestSeatCodeChange message = new MessageRequestSeatCodeChange();
-
-                message.BuildMessage(seatGuid);
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting seat code change. " + e.ToString());
-                throw new MessageTransportException("Error Requesting seat code change. ", e);
+                throw new Exception("Wrong!");
             }
         }
 
@@ -159,27 +191,7 @@ namespace CardCommunication
         /// <returns>the collection of existing games.</returns>
         public Collection<ActiveGameStruct> SendRequestExistingGames(string selectedGame)
         {
-            try
-            {
-                MessageRequestExistingGames message = new MessageRequestExistingGames();
-
-                this.CommunicationCompleted = false;
-
-                message.BuildMessage(selectedGame);
-
-                base.TransportCommunication(message.MessageDocument);
-
-                while (!CommunicationCompleted)
-                {
-                }
-
-                return this.activeGameStruct;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting list of active games. " + e.ToString());
-                throw new MessageTransportException("Error Requesting list of active games. ", e);
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -188,291 +200,6 @@ namespace CardCommunication
         /// <param name="gameGuid">The game GUID.</param>
         public void SendRequestCurrentGameState(Guid gameGuid)
         {
-            try
-            {
-                MessageRequestCurrentGameState message = new MessageRequestCurrentGameState();
-
-                message.BuildMessage(gameGuid);
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting current game state. " + e.ToString());
-                throw new MessageTransportException("Error Requesting current game state. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the action message.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        public void SendActionMessage(Collection<string> action)
-        {
-            try
-            {
-                MessageAction message = new MessageAction();
-
-                message.BuildMessage(action);
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error sending action message. " + e.ToString());
-                throw new MessageTransportException("Error sending action message. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the move action message.
-        /// </summary>
-        /// <param name="objectGuid">The object GUID.</param>
-        /// <param name="pileGuid">The pile GUID.</param>
-        public void SendMoveActionMessage(string objectGuid, string pileGuid)
-        {
-            try
-            {
-                Collection<string> action = new Collection<string>();
-
-                action.Add(MessageAction.ActionType.Move.ToString());
-                action.Add(objectGuid);
-                action.Add(pileGuid);
-
-                this.SendActionMessage(action);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error sending move action message. " + e.ToString());
-                throw new MessageTransportException("Error sending move action message. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the custom action message.
-        /// </summary>
-        /// <param name="actionName">Name of the action.</param>
-        /// <param name="playerName">Name of the player.</param>
-        public void SendCustomActionMessage(string actionName, string playerName)
-        {
-            try
-            {
-                Collection<string> action = new Collection<string>();
-
-                action.Add(MessageAction.ActionType.Custom.ToString());
-                action.Add(actionName);
-                action.Add(playerName);
-
-                this.SendActionMessage(action);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error sending custom action message. " + e.ToString());
-                throw new MessageTransportException("Error sending custom action message. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the flip card message.
-        /// </summary>
-        /// <param name="cardGuid">The card GUID.</param>
-        public void SendFlipCardMessage(Guid cardGuid)
-        {
-            try
-            {
-                MessageFlipCard message = new MessageFlipCard();
-
-                message.BuildMessage(cardGuid);
-
-                base.TransportCommunication(message.MessageDocument);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error sending flip card message. " + e.ToString());
-                throw new MessageTransportException("Error sending flip card message. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Sends the request game message.
-        /// </summary>
-        /// <param name="game">The game to join or create.</param>
-        internal void SendRequestGameMessage(ActiveGameStruct game)
-        {
-            try
-            {
-                MessageRequestGame message = new MessageRequestGame();
-
-                this.CommunicationCompleted = false;
-
-                if (game.Id != Guid.Empty)
-                {
-                    message.BuildMessage(game.Id);
-                }
-                else
-                {
-                    message.BuildMessage(game.GameType);
-                }
-
-                base.TransportCommunication(message.MessageDocument);
-
-                while (!this.CommunicationCompleted)
-                {
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error Requesting game list. " + e.ToString());
-                throw new MessageTransportException("Error Requesting game list. ", e);
-            }
-        }
-
-        /// <summary>
-        /// Called when game list is updated.
-        /// </summary>
-        /// <param name="gameList">The game list.</param>
-        protected void OnUpdatedGameList(object gameList)
-        {
-            if (this.OnUpdateGameList != null)
-            {
-                /* The gameList object must be casted as a collection because the method signature
-                 * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateGameList((Collection<string>) gameList);
-            }
-        }
-
-        /// <summary>
-        /// Called when [updated existing games].
-        /// </summary>
-        /// <param name="existingGames">The existing games.</param>
-        protected void OnUpdatedExistingGames(object existingGames)
-        {
-            if (this.OnUpdateExistingGames != null)
-            {
-                /* The existingGames object must be casted as a collection because the method signature
-                 * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateExistingGames((Collection<ActiveGameStruct>)existingGames);
-            }
-        }
-
-        /// <summary>
-        /// Called when game state is updated.
-        /// </summary>
-        /// <param name="game">The game update.</param>
-        protected void OnUpdatedGameState(object game)
-        {
-            if (this.OnUpdateGameState != null)
-            {
-                /* The game object must be casted as a collection because the method signature
-                 * requires an object parameter to function as a ParameterizedThreadStart. */
-                this.OnUpdateGameState((Game)game);
-            }
-        }
-
-        /// <summary>
-        /// Initializes the IP address ports.
-        /// </summary>
-        protected override void InitializeIPAddressPorts()
-        {
-            HostReceiveEndPoint = new IPEndPoint(BaseIPAddress, ClientListenerPortNumber);
-            RemoteEndPoint = new IPEndPoint(BaseIPAddress, ServerListenerPortNumber);
-        }
-
-        /// <summary>
-        /// Transports the communication.
-        /// </summary>
-        /// <param name="game">The game to be sent.</param>
-        protected override void TransportCommunication(Game game)
-        {
-            //// There is no reason this function should be implemented.
-        }
-
-        /// <summary>
-        /// Processes the remote client info.
-        /// </summary>
-        /// <param name="remoteSocket">The remote socket.</param>
-        protected override void ProcessRemoteClientInfo(Socket remoteSocket)
-        {
-            // Should not be implemented.
-        }
-
-        /// <summary>
-        /// Sets the communication completed.
-        /// </summary>
-        protected override void SetCommunicationCompleted()
-        {
-            CommunicationCompleted = true;
-        }
-
-        /// <summary>
-        /// Updates the state of the game.
-        /// </summary>
-        /// <param name="game">The game update.</param>
-        protected override void UpdateGameState(Game game)
-        {
-            /* Because OnUpdatedGameList() triggers an event in the table components,
-             * we need to call this from an STA thread to enable UI updates. */
-            Thread onUpdateGameListThread = new Thread(new ParameterizedThreadStart(this.OnUpdatedGameState));
-            onUpdateGameListThread.Name = "UpdateGameStateThread";
-            onUpdateGameListThread.SetApartmentState(ApartmentState.STA);
-            onUpdateGameListThread.Start(game);
-            onUpdateGameListThread.Join();      // Wait for this event call to finish        
-        }
-
-        /// <summary>
-        /// Converts from XML to message.
-        /// </summary>
-        /// <param name="messageDoc">The message document.</param>
-        /// <param name="remoteIPAddress">The remote IP address.</param>
-        protected override void ConvertFromXMLToMessage(XmlDocument messageDoc, IPAddress remoteIPAddress)
-        {
-            try
-            {
-                XmlElement message = messageDoc.DocumentElement;
-                XmlAttribute messageType;
-                ////IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIPAddress, ClientListenerPortNumber);
-                string mt;
-
-                ////this.RemoteEndPoint = remoteIPEndPoint;
-                messageType = message.Attributes[0];
-
-                mt = messageType.Value;
-
-                if (mt == Message.MessageType.GameList.ToString())
-                {
-                    MessageGameList messageGameList = new MessageGameList();
-
-                    messageGameList.ProcessMessage(messageDoc);
-
-                    this.stringCollection = messageGameList.GameNameList;
-
-                    /* Because OnUpdatedGameList() triggers an event in the table components,
-                     * we need to call this from an STA thread to enable UI updates. */
-                    Thread onUpdateGameListThread = new Thread(new ParameterizedThreadStart(this.OnUpdatedGameList));
-                    onUpdateGameListThread.Name = "UpdateGameListThread";
-                    onUpdateGameListThread.SetApartmentState(ApartmentState.STA);
-                    onUpdateGameListThread.Start(this.stringCollection);
-                    onUpdateGameListThread.Join();      // Wait for this event call to finish
-                }
-                else if (mt == Message.MessageType.ExistingGames.ToString())
-                {
-                    MessageExistingGames messageExistingGames = new MessageExistingGames();
-
-                    messageExistingGames.ProcessMessage(messageDoc);
-                    
-                    this.activeGameStruct = messageExistingGames.ActiveGames;
-
-                    if (this.OnUpdateExistingGames != null)
-                    {
-                        this.OnUpdateExistingGames(messageExistingGames.ActiveGames);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw new MessageProcessException("Table.ConvertFromXMLToMessage Exception.", e);
-            }
         }
     }
 }
