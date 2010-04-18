@@ -52,6 +52,15 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        internal int Id
+        {
+            get { return this.id; }
+        }
+
+        /// <summary>
         /// Gets the next message.
         /// This function will not return until the client sends some data!
         /// </summary>
