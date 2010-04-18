@@ -193,7 +193,39 @@ namespace CardCommunication
         /// <returns>the collection of existing games.</returns>
         public Collection<ActiveGameStruct> SendRequestExistingGames(string selectedGame)
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("Client: Start of SendRequestExistingGames");
+
+            // TODO: We should really put a lock around this
+
+            // Send the message to the server
+            MessageRequestExistingGames message = new MessageRequestExistingGames();
+            message.BuildMessage(selectedGame);
+            this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+            this.clientStreamWriter.Flush();
+            Debug.WriteLine("Client: SendRequestExistingGames Message Sent waiting for response");
+
+            // Get the response from the server
+            string response = this.clientStreamReader.ReadLine();
+            Debug.WriteLine("Client: SendRequestExistingGames response received");
+            byte[] responseData = Encoding.ASCII.GetBytes(response);
+            MemoryStream ms = new MemoryStream(responseData);
+            XmlDocument messageDoc = new XmlDocument();
+            messageDoc.Load(ms);
+
+            XmlElement messageResponse = messageDoc.DocumentElement;
+            string mt = messageResponse.Attributes[0].Value;
+
+            if (mt == Message.MessageType.ExistingGames.ToString())
+            {
+                MessageExistingGames messageExistingGames = new MessageExistingGames();
+                messageExistingGames.ProcessMessage(messageDoc);
+                Debug.WriteLine("Client: End of SendRequestExistingGames");
+                return messageExistingGames.ActiveGames;
+            }
+            else
+            {
+                throw new Exception("Wrong response from server!");
+            }
         }
 
         /// <summary>
