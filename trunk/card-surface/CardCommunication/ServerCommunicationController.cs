@@ -129,7 +129,9 @@ namespace CardCommunication
             // TODO: this is where all of the magic happens.
             while (true)
             {
+                Debug.WriteLine("Server: Client " + cc.Id + " is waiting for a message");
                 string input = cc.GetNextMessage();
+                Debug.WriteLine("Server: Client " + cc.Id + " has a message to process");
                 byte[] byteArray = Encoding.ASCII.GetBytes(input);
                 MemoryStream ms = new MemoryStream(byteArray);
                 XmlDocument messageDoc = new XmlDocument();
@@ -140,10 +142,12 @@ namespace CardCommunication
 
                 if (mt == Message.MessageType.RequestGameList.ToString())
                 {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
                     MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
                     messageRequestGameList.ProcessMessage(messageDoc);
                     MessageGameList messageGameList = new MessageGameList();
                     messageGameList.BuildMessage(this.gameController.GameTypes);
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of games");
                     cc.SendMessage(messageGameList.MessageDocument.InnerXml);
                 }
             }

@@ -50,7 +50,7 @@ namespace CardCommunication
             : base()
         {
             this.tcpClient = new TcpClient("localhost", CommunicationController.ServerListenerPortNumber);
-            Console.WriteLine("Connected is to Server");
+            Debug.WriteLine("Client: connected to the server.");
             NetworkStream clientSockStream = this.tcpClient.GetStream();
             this.clientStreamReader = new StreamReader(clientSockStream);
             this.clientStreamWriter = new StreamWriter(clientSockStream);
@@ -63,10 +63,8 @@ namespace CardCommunication
         public TableCommunicationController(string address)
             : base()
         {
-            IPAddress ip = IPAddress.Parse(address);
-            this.tcpClient = new TcpClient(new IPEndPoint(ip, CommunicationController.ServerListenerPortNumber));
-            
-            Debug.WriteLine("Client is Connected is to the Server");
+            this.tcpClient = new TcpClient(address, CommunicationController.ServerListenerPortNumber);
+            Debug.WriteLine("Client: connected to the server.");
             NetworkStream clientSockStream = this.tcpClient.GetStream();
             this.clientStreamReader = new StreamReader(clientSockStream);
             this.clientStreamWriter = new StreamWriter(clientSockStream);
@@ -153,17 +151,20 @@ namespace CardCommunication
         /// <returns>the gameList</returns>
         public Collection<string> SendRequestGameListMessage()
         {
+            Debug.WriteLine("Client: Start of SendRequestGameListMessage");
+
             // TODO: We should really put a lock around this
 
             // Send the message to the server
             MessageRequestGameList message = new MessageRequestGameList();
             message.BuildMessage();
-
             this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
             this.clientStreamWriter.Flush();
+            Debug.WriteLine("Client: SendRequestGameListMessage Message Sent waiting for response");
 
             // Get the response from the server
             string response = this.clientStreamReader.ReadLine();
+            Debug.WriteLine("Client: SendRequestGameListMessage response received");
             byte[] responseData = Encoding.ASCII.GetBytes(response);
             MemoryStream ms = new MemoryStream(responseData);
             XmlDocument messageDoc = new XmlDocument();
@@ -176,11 +177,12 @@ namespace CardCommunication
             {
                 MessageGameList messageGameList = new MessageGameList();
                 messageGameList.ProcessMessage(messageDoc);
+                Debug.WriteLine("Client: End of SendRequestGameListMessage");
                 return messageGameList.GameNameList;
             }
             else
             {
-                throw new Exception("Wrong!");
+                throw new Exception("Wrong response from server!");
             }
         }
 
