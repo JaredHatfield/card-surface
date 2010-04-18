@@ -147,8 +147,44 @@ namespace CardCommunication
                     messageRequestGameList.ProcessMessage(messageDoc);
                     MessageGameList messageGameList = new MessageGameList();
                     messageGameList.BuildMessage(this.gameController.GameTypes);
-                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of games");
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of game types");
                     cc.SendMessage(messageGameList.MessageDocument.InnerXml);
+                }
+                else if (mt == Message.MessageType.RequestExistingGames.ToString())
+                {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a ExistingGames");
+                    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+                    messageRequestExistingGames.ProcessMessage(messageDoc);
+                    MessageExistingGames messageExistingGames = new MessageExistingGames();
+                    Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
+                    Collection<string> newGame = new Collection<string>();
+
+                    newGame.Add("New Game");
+                    newGame.Add(Guid.Empty.ToString());
+                    newGame.Add(String.Empty);
+                    newGame.Add(string.Empty);
+
+                    existingGames.Add(newGame);
+                    
+                    foreach (Game game in this.gameController.Games)
+                    {
+                        Collection<string> gameObject = new Collection<string>();
+
+                        if (game.Name == messageRequestExistingGames.SelectedGame)
+                        {
+                            gameObject.Add(game.Name);
+                            gameObject.Add(game.Id.ToString());
+                            gameObject.Add(game.NumberOfPlayers + "/" + game.NumberOfSeats);
+                            //// gameObject.Add(game.location);
+                        }
+
+                        existingGames.Add(gameObject);
+                    }
+
+                    messageExistingGames.BuildMessage(existingGames);
+                    
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of exiting games");
+                    cc.SendMessage(messageExistingGames.MessageDocument.InnerXml);
                 }
             }
         }

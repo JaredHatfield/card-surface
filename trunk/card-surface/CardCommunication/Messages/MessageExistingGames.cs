@@ -213,7 +213,6 @@ namespace CardCommunication.Messages
             gameElement.SetAttribute("display", game[1]);
             gameElement.SetAttribute("id", game[2]);
             gameElement.SetAttribute("players", game[3]);
-            //// gameElement.SetAttribute("location", game[3]);
 
             message.AppendChild(gameElement);
         }
