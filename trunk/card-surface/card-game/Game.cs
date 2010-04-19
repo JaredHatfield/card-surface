@@ -96,6 +96,11 @@ namespace CardGame
         public delegate void PlayerJoinGameEventHandler(object sender, PlayerJoinGameEventArgs e);
 
         /// <summary>
+        /// The delegate for an event that is triggered when the game state is updated.
+        /// </summary>
+        public delegate void GameStateUpdatedHandler();
+
+        /// <summary>
         /// Occurs when a player leaves the game.
         /// </summary>
         public event PlayerLeaveGameEventHandler PlayerLeaveGame;
@@ -104,6 +109,11 @@ namespace CardGame
         /// Occurs when a player joins the game.
         /// </summary>
         public event PlayerJoinGameEventHandler PlayerJoinGame;
+
+        /// <summary>
+        /// Occurs when the game state is updated.
+        /// </summary>
+        public event GameStateUpdatedHandler GameStateUpdated;
 
         /// <summary>
         /// Gets the name of the game.
@@ -842,7 +852,15 @@ namespace CardGame
         /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
         protected void OnLeaveGame(PlayerLeaveGameEventArgs e)
         {
-            this.PlayerLeaveGame(this, e);
+            if (this.PlayerLeaveGame != null)
+            {
+                this.PlayerLeaveGame(this, e);
+            }
+
+            if (this.GameStateUpdated != null)
+            {
+                this.GameStateUpdated();
+            }
         }
 
         /// <summary>
@@ -851,7 +869,15 @@ namespace CardGame
         /// <param name="e">The <see cref="CardGame.PlayerJoinGameEventArgs"/> instance containing the event data.</param>
         protected void OnJoinGame(PlayerJoinGameEventArgs e)
         {
-            this.PlayerJoinGame(this, e);
+            if (this.PlayerJoinGame != null)
+            {
+                this.PlayerJoinGame(this, e);
+            }
+
+            if (this.GameStateUpdated != null)
+            {
+                this.GameStateUpdated();
+            }
         }
 
         /// <summary>

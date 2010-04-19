@@ -85,16 +85,6 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Sends the game state message.
-        /// </summary>
-        /// <param name="game">The game to send.</param>
-        /// <returns>True if the message was sent; otherwise false</returns>
-        public bool SendGameStateMessage(Game game)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// This is the infinite loop that listens for new clients that connect to the server.
         /// When a new client connects it gets its own thread.
         /// </summary>
@@ -152,6 +142,7 @@ namespace CardCommunication
                 }
                 else if (mt == Message.MessageType.RequestGame.ToString())
                 {
+                    // This actually indicates that the table joined the game!
                     Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
                     MessageRequestGame messageRequestGame = new MessageRequestGame();
                     messageRequestGame.ProcessMessage(messageDoc);
@@ -161,7 +152,7 @@ namespace CardCommunication
                         string gameType = messageRequestGame.GameType;
 
                         Guid newGame = this.gameController.CreateGame(gameType);
-                        cc.GameGuid = newGame;
+                        cc.JoinGame(this.gameController.GetGame(newGame));
 
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
@@ -171,7 +162,7 @@ namespace CardCommunication
                     else
                     {
                         Guid selectedGameGuid = messageRequestGame.GameGuid;
-                        cc.GameGuid = selectedGameGuid;
+                        cc.JoinGame(this.gameController.GetGame(selectedGameGuid));
 
                         //// TODO: need some way to notify other tables with the same game.
 

@@ -63,7 +63,8 @@ namespace CardCommunication
             this.name = game.GameType;
             this.minimumStake = 0;
             this.SubscribeEvents();
-            this.tableCommunicationController.SendRequestGameMessage(game);
+            Game gameMessage = this.tableCommunicationController.SendRequestGameMessage(game);
+            this.UpdateGameState(gameMessage);
         }
 
         /// <summary>
@@ -132,7 +133,10 @@ namespace CardCommunication
         protected override bool MoveTest(Guid physicalObject, Guid destinationPile)
         {
             // Send the request for a move to the server
-            this.tableCommunicationController.SendMoveActionMessage(physicalObject.ToString(), destinationPile.ToString());
+            Game game = this.tableCommunicationController.SendMoveActionMessage(physicalObject.ToString(), destinationPile.ToString());
+
+            // Update the game state
+            this.UpdateGameState(game);
 
             // We always return false because we want to let the server update the game
             return false;
@@ -147,7 +151,10 @@ namespace CardCommunication
         protected override bool ActionTest(string name, string player)
         {
             // Send the request for the action to the server
-            this.tableCommunicationController.SendCustomActionMessage(name, player);
+            Game game = this.tableCommunicationController.SendCustomActionMessage(name, player);
+
+            // Update the game state
+            this.UpdateGameState(game);
 
             // We always return false because we want to let the server update the game
             return false;
