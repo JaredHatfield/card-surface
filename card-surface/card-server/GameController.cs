@@ -234,7 +234,6 @@ namespace CardServer
         /// <param name="e">The <see cref="CardGame.PlayerJoinGameEventArgs"/> instance containing the event data.</param>
         private void PlayerJoin(object sender, PlayerJoinGameEventArgs e)
         {
-            this.UpdateGameState(this.GetGame(e.GameId));
         }
     }
 }

@@ -11,7 +11,10 @@ namespace CardCommunication
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
+    using CardCommunication.GameObject;
+    using CardGame;
     
     /// <summary>
     /// The representation of a connected client.
@@ -32,6 +35,11 @@ namespace CardCommunication
         /// The guid of the game associated with the client.
         /// </summary>
         private Guid gameGuid;
+
+        /// <summary>
+        /// The instance of the game that this table has joined;
+        /// </summary>
+        private Game game;
 
         /// <summary>
         /// The stream of data that is read from the server.
@@ -66,13 +74,12 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Gets or sets the game GUID.
+        /// Gets the game's Guid.
         /// </summary>
-        /// <value>The game GUID.</value>
+        /// <value>The game's Guid.</value>
         internal Guid GameGuid
         {
             get { return this.gameGuid; }
-            set { this.gameGuid = value; }
         }
 
         /// <summary>
@@ -93,6 +100,31 @@ namespace CardCommunication
         internal void SendMessage(string message)
         {
             this.serverStreamWriter.WriteLine(message);
+            this.serverStreamWriter.Flush();
+        }
+
+        /// <summary>
+        /// Joins the game.
+        /// </summary>
+        /// <param name="game">The game to join.</param>
+        internal void JoinGame(Game game)
+        {
+            this.game = game;
+            this.gameGuid = game.Id;
+            this.game.GameStateUpdated += new Game.GameStateUpdatedHandler(this.GameStateDidUpdate);
+        }
+
+        /// <summary>
+        /// The game state updated and we should push a new game to the server.
+        /// </summary>
+        private void GameStateDidUpdate()
+        {
+            Debug.WriteLine("Server: Client " + this.id + " pushing updated game state.");
+            MemoryStream gameStream = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            Game gameObject = new GameMessage(this.game);
+            bf.Serialize(gameStream, gameObject);
+            this.serverStreamWriter.WriteLine("PUSH" + Convert.ToBase64String(gameStream.ToArray()));
             this.serverStreamWriter.Flush();
         }
     }

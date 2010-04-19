@@ -65,12 +65,6 @@ namespace CardCommunication
         private string receivedMessage;
 
         /// <summary>
-        /// The received game state that was sent from the server.
-        /// Access to this attributes requires the use of the messageSemaphore.
-        /// </summary>
-        private string receivedGame;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
         /// </summary>
         public TableCommunicationController()
@@ -91,7 +85,6 @@ namespace CardCommunication
             // Set up the compoents that will be used by the thread
             this.messageSemaphore = new object();
             this.receivedMessage = string.Empty;
-            this.receivedGame = string.Empty;
         }
 
         /// <summary>
@@ -116,7 +109,6 @@ namespace CardCommunication
             // Set up the compoents that will be used by the thread
             this.messageSemaphore = new object();
             this.receivedMessage = string.Empty;
-            this.receivedGame = string.Empty;
         }
 
         /// <summary>
@@ -170,14 +162,13 @@ namespace CardCommunication
             while (true)
             {
                 string received = this.clientStreamReader.ReadLine();
-                int length = HeaderMessage.Length;
 
+                // Determine what to do with the data received
                 if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
                 {
-                    received = received.Substring(length, received.Length - length);
-
-                    // We should read the header GAME, PUSH, or MESS
-                    // For now we assume it is a MESS
+                    // It was an XML message
+                    Debug.WriteLine("Client received an XML message");
+                    received = received.Substring(HeaderMessage.Length, received.Length - HeaderMessage.Length);
                     lock (this.messageSemaphore)
                     {
                         this.receivedMessage = received;
@@ -185,10 +176,35 @@ namespace CardCommunication
                 }
                 else if (received.StartsWith(HeaderPush))
                 {
-                    // TODO: Process asynchronous game state message
-                }
+                    // It was an unexpected message
+                    Debug.WriteLine("Client received an unexpected game state");
+                    received = received.Substring(HeaderPush.Length, received.Length - HeaderPush.Length);
+                    if (this.OnUpdateGameState != null)
+                    {
+                        GameMessage gameMessage = null;
+                        try
+                        {
+                            BinaryFormatter bf = new BinaryFormatter();
+                            MemoryStream memstream = new MemoryStream(Convert.FromBase64String(received));
+                            gameMessage = (GameMessage)bf.Deserialize(memstream);
+                        }
+                        catch (SerializationException e)
+                        {
+                            Debug.WriteLine("Error deserializing game" + e.ToString());
+                            throw new MessageDeserializationException("Error deserializing game", e);
+                        }
 
-                Debug.WriteLine("Message ignored: " + received);
+                        // Now that we have the game, we can update it!
+                        if (gameMessage != null)
+                        {
+                            this.OnUpdateGameState(gameMessage);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("Message ignored: " + received);
+                }
             }
         }
 
@@ -361,22 +377,6 @@ namespace CardCommunication
 
             return gameObject;
         }
-        
-        /// <summary>
-        /// TODO: This Does something.
-        /// </summary>
-        public void DoSomething()
-        {
-            // Get the response from the server
-            string response = this.clientStreamReader.ReadLine();
-            Debug.WriteLine("Client: SendRequestGameMessage response received");
-
-            // TODO: Convert the game here!
-            // DO THIS, IT IS VERY IMPORTANT!!!
-            // USE THE GetMessageGameSynchronously FUNCTION
-            Debug.WriteLine("Client: End of SendRequestGameMessage");
-            throw new NotImplementedException();        
-        }
 
         /// <summary>
         /// Sends the move action message.
@@ -508,37 +508,6 @@ namespace CardCommunication
             }
 
             return gameObject;
-        }
-
-        /// <summary>
-        /// Gets the game message synchronously.
-        /// This function waits for the listenerThread to receive the response from the server.
-        /// </summary>
-        /// <returns>The game message from the server.</returns>
-        private string GetMessageGameSynchronously()
-        {
-            // Lets set things up
-            string response = string.Empty;
-            bool wait = true;
-
-            // We wait until we get the response from the server
-            while (wait)
-            {
-                // Since multiple threads have access to the buffers use protection
-                lock (this.messageSemaphore)
-                {
-                    // Check to see if we have a response
-                    if (!this.receivedGame.Equals(string.Empty))
-                    {
-                        response = this.receivedGame;
-                        this.receivedGame = string.Empty;
-                        wait = false;
-                    }
-                }
-            }
-
-            // Provide the response
-            return response;
         }
 
         /// <summary>
