@@ -35,6 +35,21 @@ namespace CardCommunication
         protected const int ServerListenerPortNumber = 30565;
 
         /// <summary>
+        /// Header for the Game state message.
+        /// </summary>
+        protected const string HeaderGame = "GAME";
+
+        /// <summary>
+        /// Message header.
+        /// </summary>
+        protected const string HeaderMessage = "HEAD";
+
+        /// <summary>
+        /// Header for an asynchronous game stare message.
+        /// </summary>
+        protected const string HeaderPush = "PUSH";
+
+        /// <summary>
         /// Closes this instance.
         /// </summary>
         /// <param name="sender">The sender.</param>

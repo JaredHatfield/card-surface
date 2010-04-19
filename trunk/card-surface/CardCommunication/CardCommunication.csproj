@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -69,6 +69,7 @@
     <Compile Include="Messages\MessageExistingGames.cs" />
     <Compile Include="Messages\MessageFlipCard.cs" />
     <Compile Include="Messages\MessageGameList.cs" />
+    <Compile Include="Messages\MessageGameState.cs" />
     <Compile Include="Messages\MessageRequestCurrentGameState.cs" />
     <Compile Include="Messages\MessageRequestGame.cs" />
     <Compile Include="Messages\MessageRequestExistingGames.cs" />

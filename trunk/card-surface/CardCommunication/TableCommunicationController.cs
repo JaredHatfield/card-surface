@@ -139,13 +139,11 @@ namespace CardCommunication
 
         /// <summary>
         /// Event occurs when game list is updated.
-        /// TODO: REMOVE THIS?
         /// </summary>
         public event UpdateGameListHandler OnUpdateGameList;
 
         /// <summary>
         /// Event occurs when existing games is updated.
-        /// TODO: REMOVE THIS?
         /// </summary>
         public event UpdateExistingGamesHandler OnUpdateExistingGames;
 
@@ -172,15 +170,25 @@ namespace CardCommunication
             while (true)
             {
                 string received = this.clientStreamReader.ReadLine();
-                
-                // TODO: We should read the message header here and respond accordingly.
+                int length = HeaderMessage.Length;
 
-                // We should read the header GAME, PUSH, or MESS
-                // For now we assume it is a MESS
-                lock (this.messageSemaphore)
+                if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
                 {
-                    this.receivedMessage = received;
+                    received = received.Substring(length, received.Length - length);
+
+                    // We should read the header GAME, PUSH, or MESS
+                    // For now we assume it is a MESS
+                    lock (this.messageSemaphore)
+                    {
+                        this.receivedMessage = received;
+                    }
                 }
+                else if (received.StartsWith(HeaderPush))
+                {
+                    // TODO: Process asynchronous game state message
+                }
+
+                Debug.WriteLine("Message ignored: " + received);
             }
         }
 
@@ -291,6 +299,8 @@ namespace CardCommunication
         /// <returns>The new game state.</returns>
         public GameMessage SendRequestGameMessage(ActiveGameStruct game)
         {
+            GameMessage gameObject;
+
             lock (this.functionCallSemaphore)
             {
                 Debug.WriteLine("Client: Start of SendRequestGameMessage");
@@ -308,16 +318,64 @@ namespace CardCommunication
                     message.BuildMessage(game.GameType);
                 }
 
-                // Get the response from the server
-                string response = this.clientStreamReader.ReadLine();
-                Debug.WriteLine("Client: SendRequestGameMessage response received");
+                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                this.clientStreamWriter.Flush();
+                Debug.WriteLine("Client: SendRequestGame Message Sent waiting for response");
 
-                // TODO: Convert the game here!
-                // DO THIS, IT IS VERY IMPORTANT!!!
-                // USE THE GetMessageGameSynchronously FUNCTION
-                Debug.WriteLine("Client: End of SendRequestGameMessage");
-                throw new NotImplementedException();
+                // Get the response from the server
+                string response = this.GetMessageSynchronously();
+                Debug.WriteLine("Client: SendRequestGame response received");
+                byte[] responseData = Encoding.ASCII.GetBytes(response);
+                MemoryStream ms = new MemoryStream(responseData);
+                XmlDocument messageDoc = new XmlDocument();
+                messageDoc.Load(ms);
+
+                XmlElement messageResponse = messageDoc.DocumentElement;
+                string mt = messageResponse.Attributes[0].Value;
+
+                if (mt == Message.MessageType.GameState.ToString())
+                {
+                    MessageGameState messageGameState = new MessageGameState();
+                    messageGameState.ProcessMessage(messageDoc);
+                    Debug.WriteLine("Client: End of SendRequestGame Message");
+
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        gameObject = (GameMessage)bf.Deserialize(memstream);
+                    }
+                    catch (SerializationException e)
+                    {
+                        Debug.WriteLine("Error deserializing game" + e.ToString());
+                        throw new MessageDeserializationException("Error deserializing game", e);
+                    }
+
+                    //// TODO: Update the game; however that is done.
+                }
+                else
+                {
+                    throw new MessageProcessException("Wrong response from server!");
+                }
             }
+
+            return gameObject;
+        }
+        
+        /// <summary>
+        /// TODO: This Does something.
+        /// </summary>
+        public void DoSomething()
+        {
+            // Get the response from the server
+            string response = this.clientStreamReader.ReadLine();
+            Debug.WriteLine("Client: SendRequestGameMessage response received");
+
+            // TODO: Convert the game here!
+            // DO THIS, IT IS VERY IMPORTANT!!!
+            // USE THE GetMessageGameSynchronously FUNCTION
+            Debug.WriteLine("Client: End of SendRequestGameMessage");
+            throw new NotImplementedException();        
         }
 
         /// <summary>
@@ -328,12 +386,62 @@ namespace CardCommunication
         /// <returns>The new game state.</returns>
         public GameMessage SendMoveActionMessage(string guidObject, string pile)
         {
+            GameMessage gameObject;
             lock (this.functionCallSemaphore)
             {
-                // TODO: Add the move action, it should return a new game state.
-                // USE THE GetMessageGameSynchronously FUNCTION
-                throw new NotImplementedException();
+                Debug.WriteLine("Client: Start of SendMoveActionMessage");
+
+                // Send the message to the server
+                MessageAction message = new MessageAction();
+                Collection<string> action = new Collection<string>();
+                action.Add("Move");
+                action.Add(guidObject);
+                action.Add(pile);
+
+                message.BuildMessage(action);
+                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                this.clientStreamWriter.Flush();
+                Debug.WriteLine("Client: SendMoveActionMessage Message Sent waiting for response");
+
+                // Get the response from the server
+                string response = this.GetMessageSynchronously();
+
+                Debug.WriteLine("Client: SendMoveActionMessage response received");
+                byte[] responseData = Encoding.ASCII.GetBytes(response);
+                MemoryStream ms = new MemoryStream(responseData);
+                XmlDocument messageDoc = new XmlDocument();
+                messageDoc.Load(ms);
+
+                XmlElement messageResponse = messageDoc.DocumentElement;
+                string mt = messageResponse.Attributes[0].Value;
+
+                if (mt == Message.MessageType.GameState.ToString())
+                {
+                    MessageGameState messageGameState = new MessageGameState();
+                    messageGameState.ProcessMessage(messageDoc);
+                    Debug.WriteLine("Client: End of SendMoveActionMessage");
+
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        gameObject = (GameMessage)bf.Deserialize(memstream);
+                    }
+                    catch (SerializationException e)
+                    {
+                        Debug.WriteLine("Error deserializing game" + e.ToString());
+                        throw new MessageDeserializationException("Error deserializing game", e);
+                    }
+
+                    //// TODO: Update the game; however that is done.
+                }
+                else
+                {
+                    throw new MessageProcessException("Wrong response from server!");
+                }
             }
+
+            return gameObject;
         }
 
         /// <summary>
@@ -344,12 +452,62 @@ namespace CardCommunication
         /// <returns>The new game state.</returns>
         public GameMessage SendCustomActionMessage(string action, string player)
         {
+            GameMessage gameObject;
             lock (this.functionCallSemaphore)
             {
-                // TODO: Add the custom action, it should return a new game state.
-                // USE THE GetMessageGameSynchronously FUNCTION
-                throw new NotImplementedException();
+                Debug.WriteLine("Client: Start of SendCustomActionMessage");
+
+                // Send the message to the server
+                MessageAction message = new MessageAction();
+                Collection<string> actions = new Collection<string>();
+                actions.Add("Custom");
+                actions.Add(action);
+                actions.Add(player);
+
+                message.BuildMessage(actions);
+                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                this.clientStreamWriter.Flush();
+                Debug.WriteLine("Client: SendCustomActionMessage Message Sent waiting for response");
+
+                // Get the response from the server
+                string response = this.GetMessageSynchronously();
+
+                Debug.WriteLine("Client: SendMoveCustomMessage response received");
+                byte[] responseData = Encoding.ASCII.GetBytes(response);
+                MemoryStream ms = new MemoryStream(responseData);
+                XmlDocument messageDoc = new XmlDocument();
+                messageDoc.Load(ms);
+
+                XmlElement messageResponse = messageDoc.DocumentElement;
+                string mt = messageResponse.Attributes[0].Value;
+
+                if (mt == Message.MessageType.GameState.ToString())
+                {
+                    MessageGameState messageGameState = new MessageGameState();
+                    messageGameState.ProcessMessage(messageDoc);
+                    Debug.WriteLine("Client: End of SendCustomActionMessage");
+
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        gameObject = (GameMessage)bf.Deserialize(memstream);
+                    }
+                    catch (SerializationException e)
+                    {
+                        Debug.WriteLine("Error deserializing game" + e.ToString());
+                        throw new MessageDeserializationException("Error deserializing game", e);
+                    }
+
+                    //// TODO: Update the game; however that is done.
+                }
+                else
+                {
+                    throw new MessageProcessException("Wrong response from server!");
+                }
             }
+
+            return gameObject;
         }
 
         /// <summary>
