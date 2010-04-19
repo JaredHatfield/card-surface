@@ -74,7 +74,11 @@
           <xs:attribute name="seatGuid" type="xs:string"></xs:attribute>
         </xs:complexType>
       </xs:element>
-      <xs:element name="Game" type="GameType"></xs:element>
+      <xs:element name="GameState">
+        <xs:complexType>
+          <xs:attribute name="gameObject" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="ActionType">

@@ -96,6 +96,11 @@ namespace CardCommunication.Messages
             GameList,
 
             /// <summary>
+            /// The Game State Message.
+            /// </summary>
+            GameState,
+
+            /// <summary>
             /// The Request Current Game State Message.
             /// </summary>
             RequestCurrentGameState,

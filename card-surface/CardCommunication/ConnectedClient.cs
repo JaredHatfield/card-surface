@@ -29,6 +29,11 @@ namespace CardCommunication
         private int id;
 
         /// <summary>
+        /// The guid of the game associated with the client.
+        /// </summary>
+        private Guid gameGuid;
+
+        /// <summary>
         /// The stream of data that is read from the server.
         /// </summary>
         private StreamReader serverStreamReader;
@@ -58,6 +63,16 @@ namespace CardCommunication
         internal int Id
         {
             get { return this.id; }
+        }
+
+        /// <summary>
+        /// Gets or sets the game GUID.
+        /// </summary>
+        /// <value>The game GUID.</value>
+        internal Guid GameGuid
+        {
+            get { return this.gameGuid; }
+            set { this.gameGuid = value; }
         }
 
         /// <summary>
