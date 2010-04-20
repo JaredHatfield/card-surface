@@ -242,6 +242,7 @@ namespace CardWeb
         /// Parses the content.
         /// </summary>
         /// <param name="additionalContent">Additional content for this WebRequest.</param>
+        /// <param name="bytesOfContent">Content of the bytes of.</param>
         public void AddContent(byte[] additionalContent, int bytesOfContent)
         {
             this.requestContent += Encoding.ASCII.GetString(additionalContent).Substring(0, bytesOfContent);
@@ -405,8 +406,9 @@ namespace CardWeb
         /// <summary>
         /// Gets the length of the HTTP request content.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
+        /// <returns>
+        /// The number of bytes specified in the Content-Length property of the request.
+        /// </returns>
         private int GetHttpRequestContentLength()
         {
             bool patternFound = false;
@@ -438,6 +440,7 @@ namespace CardWeb
                             contentLength += (char)this.request[i + j];
                             j++;
                         }
+
                         break;
                     }
                 }
@@ -459,7 +462,6 @@ namespace CardWeb
                 Debug.WriteLine("WebRequest: Request expectedly contains no content. (" + e.Message + ")");
                 return 0;
             }
-
         } /* GetHttpRequestContentLength() */
 
         /// <summary>
