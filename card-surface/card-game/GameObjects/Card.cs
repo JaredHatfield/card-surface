@@ -39,7 +39,7 @@ namespace CardGame
         /// <param name="suit">The card's suit.</param>
         /// <param name="face">The card's face.</param>
         /// <param name="status">The card's status.</param>
-        internal Card(Guid id, CardSuit suit, CardFace face, CardStatus status)
+        protected internal Card(Guid id, CardSuit suit, CardFace face, CardStatus status)
             : base(id)
         {
             this.suit = suit;
@@ -53,7 +53,7 @@ namespace CardGame
         /// <param name="suit">The card's suit.</param>
         /// <param name="face">The card's face.</param>
         /// <param name="status">The card's status.</param>
-        internal Card(CardSuit suit, CardFace face, CardStatus status)
+        protected internal Card(CardSuit suit, CardFace face, CardStatus status)
             : base()
         {
             this.suit = suit;
