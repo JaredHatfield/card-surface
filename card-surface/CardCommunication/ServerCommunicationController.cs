@@ -44,14 +44,31 @@ namespace CardCommunication
         private Collection<Thread> connectedClients;
 
         /// <summary>
+        /// The server's IP address.
+        /// </summary>
+        private string ip;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ServerCommunicationController"/> class.
         /// </summary>
         /// <param name="gameController">The game controller.</param>
         public ServerCommunicationController(IGameController gameController)
             : base()
         {
+            // Set some things up
             this.gameController = gameController;
             this.connectedClients = new Collection<Thread>();
+
+            // Get the server's ip address and save it
+            this.ip = string.Empty;
+            IPAddress[] address = Dns.GetHostAddresses(Dns.GetHostName());
+            for (int i = 0; i < address.Length; i++)
+            {
+                if (address[i].AddressFamily == AddressFamily.InterNetwork)
+                {
+                    this.ip += address[i] + " ";
+                }
+            }
 
             // Set up the server
             TcpListener tcpServerListener = new TcpListener(IPAddress.Any, CommunicationController.ServerListenerPortNumber);
@@ -70,7 +87,7 @@ namespace CardCommunication
         /// <value>The IP address.</value>
         public string IP
         {
-            get { return "This should return the IP address."; }
+            get { return this.ip; }
         }
 
         /// <summary>
