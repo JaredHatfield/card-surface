@@ -64,6 +64,11 @@ namespace CardWeb
         private string requestContent;
 
         /// <summary>
+        /// Content length expected in a POST HTTP request
+        /// </summary>
+        private int requestContentLength;
+
+        /// <summary>
         /// The host address that initiated the request
         /// </summary>
         private string requestHost;
@@ -89,6 +94,7 @@ namespace CardWeb
             this.requestMethod = this.GetHttpRequestMethod(this.request);
             this.requestVersion = this.GetHttpRequestVersion(this.request);
             this.requestResource = this.GetHttpRequestResource(this.request);
+            this.requestContentLength = this.GetHttpRequestContentLength();
             this.requestContent = this.GetHttpRequestContent(this.request);
             this.requestHost = this.GetHttpRequestHost();
         } /* WebRequest() */
@@ -168,6 +174,15 @@ namespace CardWeb
         }
 
         /// <summary>
+        /// Gets the length of the request content.
+        /// </summary>
+        /// <value>The length of the request content.</value>
+        public int RequestContentLength
+        {
+            get { return this.requestContentLength; }
+        }
+
+        /// <summary>
         /// Determines whether this web request matches an authenticated session.
         /// </summary>
         /// <returns>
@@ -222,6 +237,23 @@ namespace CardWeb
                 throw new WebServerUrlParameterNotFoundException(key);
             }
         } /* GetUrlParameter() */
+
+        /// <summary>
+        /// Parses the content.
+        /// </summary>
+        /// <param name="additionalContent">Additional content for this WebRequest.</param>
+        public void AddContent(byte[] additionalContent, int bytesOfContent)
+        {
+            this.requestContent += Encoding.ASCII.GetString(additionalContent).Substring(0, bytesOfContent);
+        } /* AddContent() */
+
+        /// <summary>
+        /// Parses the content.
+        /// </summary>
+        public void ParseContent()
+        {
+            this.ParseUrlParameters(this.requestContent);
+        } /* ParseContent() */
 
         /// <summary>
         /// Determines whether this instance contains a cookie.
@@ -357,11 +389,12 @@ namespace CardWeb
                 }
             }
 
-            /* TODO: Verify that all the bytes specified in the Content-Length property have actually been captured from the port! */
-            /* TODO: How should this request be handled if it is a partial request?  Check that all content bytes received before processing? */
             Debug.WriteLine("GetHttpRequestContent@WebController: Copied " + bytesCopied + " bytes from the HTTP request content.");
 
-            if (this.requestMethod == WebRequestMethods.Http.Post && content.Length != 0)
+            /* Before we can process the POST content, we have to verify there is content and that we have received all the content
+             * that this request expects to be complete.  If we haven't receive all the content yet, WebController is responsible
+             * for appending it to this request using the public facing methods. */
+            if (this.requestMethod == WebRequestMethods.Http.Post && content.Length != 0 && content.Length == this.requestContentLength)
             {
                 this.ParseUrlParameters(content);
             }
@@ -374,10 +407,59 @@ namespace CardWeb
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>The number of bytes specified in the Content-Length property of the request.</returns>
-        private int GetHttpRequestContentLength(byte[] request)
+        private int GetHttpRequestContentLength()
         {
-            /* TODO: Implement GetHttpRequestContentLength? */
-            throw new NotImplementedException();
+            bool patternFound = false;
+            byte[] pattern = Encoding.ASCII.GetBytes("Content-Length:");
+            string contentLength = string.Empty;
+
+            for (int i = 0; i < this.request.Length - pattern.Length; i++)
+            {
+                if (this.request[i] == pattern[0])
+                {
+                    /* Assume the pattern has been found. */
+                    patternFound = true;
+                    for (int j = 0; j < pattern.Length; j++)
+                    {
+                        if (this.request[i + j] != pattern[j])
+                        {
+                            /* If there's not a match, we didn't really find it. */
+                            patternFound = false;
+                            break;
+                        }
+                    }
+
+                    if (patternFound)
+                    {
+                        /* If we really did find the pattern, we can stop searching and calculate the Content-Length. */
+                        int j = pattern.Length;
+                        while (this.request[i + j] != (byte)'\n')
+                        {
+                            contentLength += (char)this.request[i + j];
+                            j++;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            contentLength = contentLength.Trim();
+
+            try
+            {
+                return int.Parse(contentLength);
+            }
+            catch (FormatException fe)
+            {
+                Debug.WriteLine("WebRequest: Request expectedly contains no content. (" + fe.Message + ")");
+                return 0;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("WebRequest: Request expectedly contains no content. (" + e.Message + ")");
+                return 0;
+            }
+
         } /* GetHttpRequestContentLength() */
 
         /// <summary>
@@ -520,7 +602,7 @@ namespace CardWeb
         /// <param name="parameters">The parameters.</param>
         private void ParseUrlParameters(string parameters)
         {
-            /* TODO: What if a parameter is entered twice?  How should that be handled? */
+            /* TODO: What if a parameter is entered twice?  How should that be handled? Verify that this method only acts on the data once. */
             string[] tokens = parameters.Split(new char[] { '&', '=' });
 
             for (int i = 0; i < tokens.Length; i += 2)

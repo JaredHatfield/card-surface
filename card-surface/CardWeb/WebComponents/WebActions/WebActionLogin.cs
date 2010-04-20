@@ -58,7 +58,9 @@ namespace CardWeb.WebComponents.WebActions
             }
             else
             {
+                /* Don't allow the user to hang. */
                 Debug.WriteLine("WebActionLogin: WebActionLogin did not receive any POST content @ " + WebUtilities.GetCurrentLine());
+                throw new WebServerException("Login attempt failed.");
             }
         } /* WebActionLogin() */
 
