@@ -32,11 +32,6 @@ namespace CardTable
     public partial class GameSelection : SurfaceWindow
     {
         /// <summary>
-        /// Semaphore for waiting and notifying this window that a Game object has been received via communication
-        /// </summary>
-        private object gameReceivedSemaphore;
-
-        /// <summary>
         /// String holding the temporary value for the selected Game type.  Used to determine the submenu New Game selection type.
         /// This property should NOT be relied upon after a game has been selected.
         /// </summary>
@@ -54,25 +49,20 @@ namespace CardTable
         {
             InitializeComponent();
 
-            this.gameReceivedSemaphore = new object();
             this.gameTypeSelection = String.Empty;
 
             // TODO: We actually want to connect to the server!
-            this.tableManager = TableManager.Initialize(string.Empty);
+            this.tableManager = TableManager.Initialize();
 
-            this.tableManager.TableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.OnUpdateGameList);
-            
-            // Should we change this back to something?
-            this.tableManager.TableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
-            this.tableManager.TableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.OnUpdateExistingGames);
-            this.tableManager.TableCommunicationController.SendRequestGameListMessage();
+            Collection<string> gameList = this.tableManager.TableCommunicationController.SendRequestGameListMessage();
+            this.UpdateGameList(gameList);
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
         }
 
         /// <summary>
-        /// Generic delegate utilized by Dispatcher invocations for single string argument methods returning void
+        /// Delegate utilized by Dispatcher invocations to list active games
         /// </summary>
         /// <param name="param">The single string parameter</param>
         private delegate void ActiveGameStructDelegate(ActiveGameStruct param);
@@ -93,7 +83,7 @@ namespace CardTable
         /// Responsible for invoking the dispatcher for creating new SurfaceButtons on the window.
         /// </summary>
         /// <param name="gameList">The game list.</param>
-        protected void OnUpdateGameList(Collection<string> gameList)
+        protected void UpdateGameList(Collection<string> gameList)
         {
             for (int i = 0; i < gameList.Count; i++)
             {
@@ -105,7 +95,7 @@ namespace CardTable
         /// Called when [update existing games].
         /// </summary>
         /// <param name="existingGames">The existing games.</param>
-        protected void OnUpdateExistingGames(Collection<ActiveGameStruct> existingGames)
+        protected void UpdateExistingGames(Collection<ActiveGameStruct> existingGames)
         {
             // Remove the Game Type selection buttons so we can show the games we have available.
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Games.Items.Clear));
@@ -130,14 +120,6 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Does nothing.
-        /// </summary>
-        /// <param name="game">The game that is played.</param>
-        private void DoNothing(Game game)
-        {
-        }
-
-        /// <summary>
         /// Adds the new game option.  
         /// This method should only be called via Dispatcher invocation.
         /// </summary>
@@ -159,7 +141,8 @@ namespace CardTable
         private void AddExistingGameOption(ActiveGameStruct gameName)
         {
             SurfaceButton sb = new SurfaceButton();
-            sb.Content = gameName.Players;
+            sb.Content = gameName.DisplayString + gameName.Players;
+            sb.Uid = gameName.Id.ToString();
             sb.Tag = gameName;
             /* The Surface, Surface Emulator, or Touch Screen may require additional event handlers to perform the needed action. */
             sb.Click += new RoutedEventHandler(this.ActiveGameClick);
@@ -175,7 +158,9 @@ namespace CardTable
         {
             this.gameTypeSelection = ((SurfaceButton)sender).Content.ToString();
             Debug.WriteLine("GameSelection.xaml.cs: Requesting existing " + this.gameTypeSelection + " games... (Click Event)");
-            this.tableManager.TableCommunicationController.SendRequestExistingGames(this.gameTypeSelection);
+
+            Collection<ActiveGameStruct> existingGames = this.tableManager.TableCommunicationController.SendRequestExistingGames(this.gameTypeSelection);
+            this.UpdateExistingGames(existingGames);
         }
 
         /// <summary>
@@ -187,28 +172,19 @@ namespace CardTable
         {
             SurfaceButton clickedButton = (SurfaceButton)sender;
 
-            /*
             if ((new Guid(clickedButton.Uid)).Equals(Guid.Empty))
             {
                 Debug.WriteLine("GameSelection.xaml.cs: Creating a new " + this.gameTypeSelection + " game... (Click Event)");
-                this.tableManager.TableCommunicationController.SendRequestGameMessage(this.gameTypeSelection);
             }
             else
             {
                 Debug.WriteLine("GameSelection.xaml.cs: Joining an existing " + this.gameTypeSelection + " game... (Click Event)");
-                this.tableManager.TableCommunicationController.SendRequestGameMessage(clickedButton.Uid);
-            }
-             */
-            
-            lock (this.gameReceivedSemaphore)
-            {
-                SurfaceButton button = sender as SurfaceButton;
-                ActiveGameStruct selection = (ActiveGameStruct)button.Tag;
-                CardTableWindow ctw = new CardTableWindow(new GameSurface(this.tableManager.TableCommunicationController, selection));
-                ctw.Show();
             }
 
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));            
+            this.tableManager.CreateGame(new GameSurface(this.tableManager.TableCommunicationController, (ActiveGameStruct)clickedButton.Tag));
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.tableManager.CurrentGameWindow.Show));
         }
 
         /// <summary>

@@ -27,24 +27,53 @@ namespace CardTable
         private TableCommunicationController tableCommunicationController;
 
         /// <summary>
+        /// The current game being played on this table.
+        /// </summary>
+        private GameSurface currentGame;
+
+        /// <summary>
+        /// The CardTableWindow where the currentGame for this table is being played
+        /// </summary>
+        private CardTableWindow currentGameWindow;
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="TableManager"/> class from being created.
+        /// </summary>
+        private TableManager()
+        {
+            this.tableCommunicationController = new TableCommunicationController();
+            this.InitializeFactories();
+            this.currentGame = null;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TableManager"/> class.
         /// </summary>
         /// <param name="ip">The ip address to connect to.</param>
         private TableManager(string ip)
         {
-            if (ip.Equals(string.Empty))
-            {
-                this.tableCommunicationController = new TableCommunicationController();
-            }
-            else
-            {
-                this.tableCommunicationController = new TableCommunicationController(ip);
-            }
+            /* TODO: We should verify that the IP address passed to this constructor is valid! */
+            this.tableCommunicationController = new TableCommunicationController(ip);
+            this.InitializeFactories();
+            this.currentGame = null;
+        }
 
-            // TODO: We need to create new chip and card factories that make surface elements!!!
-            PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
-            PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
-            PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
+        /// <summary>
+        /// Gets the game surface.
+        /// </summary>
+        /// <value>The game surface.</value>
+        public GameSurface CurrentGame
+        {
+            get { return this.currentGame; }
+        }
+
+        /// <summary>
+        /// Gets the current game window.
+        /// </summary>
+        /// <value>The current game window.</value>
+        public CardTableWindow CurrentGameWindow
+        {
+            get { return this.currentGameWindow; }
         }
 
         /// <summary>
@@ -54,6 +83,48 @@ namespace CardTable
         internal TableCommunicationController TableCommunicationController
         {
             get { return this.tableCommunicationController; }
+        }
+
+        /// <summary>
+        /// Creates the game.
+        /// </summary>
+        /// <param name="game">The new game.</param>
+        public void CreateGame(GameSurface game)
+        {
+            if (this.currentGame != null)
+            {
+                this.currentGame = game;
+                this.currentGameWindow = new CardTableWindow(this.currentGame);
+            }
+        }
+
+        /// <summary>
+        /// Instances this instance.
+        /// </summary>
+        /// <returns>The instance of TableManager.</returns>
+        internal static TableManager Instance()
+        {
+            if (TableManager.instance == null)
+            {
+                throw new Exception("TableManager not Initialized!");
+            }
+
+            return TableManager.instance;
+        }
+
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <returns>The instance of TableManager.</returns>
+        internal static TableManager Initialize()
+        {
+            if (TableManager.instance == null)
+            {
+                TableManager.instance = new TableManager();
+                return TableManager.instance;
+            }
+
+            throw new Exception("TableManager: TableManager already Initialized!");
         }
 
         /// <summary>
@@ -69,21 +140,18 @@ namespace CardTable
                 return TableManager.instance;
             }
 
-            throw new Exception("TableManager already Initialized!");
+            throw new Exception("TableManager: TableManager already Initialized!");
         }
 
         /// <summary>
-        /// Instances this instance.
+        /// Initializes the object factories for this table.
         /// </summary>
-        /// <returns>The instance of TableManager.</returns>
-        internal static TableManager Instance()
+        private void InitializeFactories()
         {
-            if (TableManager.instance == null)
-            {
-                throw new Exception("TableManager not Initialize!");
-            }
-
-            return TableManager.instance;
+            // TODO: We need to create new chip and card factories that make surface elements!!!
+            PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
+            PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
+            PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
         }
     }
 }
