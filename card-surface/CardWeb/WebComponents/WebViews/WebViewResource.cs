@@ -121,9 +121,12 @@ namespace CardWeb.WebComponents.WebViews
 
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-            Debug.WriteLine("---------------------------------------------------------------------");
-            Debug.WriteLine("WebViewResource: Sending HTTP response. (" + numBytesSent + " bytes)");
-            Debug.WriteLine(responseBuffer);
+            if (EnableViewDebugData)
+            {
+                Debug.WriteLine("---------------------------------------------------------------------");
+                Debug.WriteLine("WebViewResource: Sending HTTP response. (" + numBytesSent + " bytes)");
+                Debug.WriteLine(responseBuffer);
+            }
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();  
