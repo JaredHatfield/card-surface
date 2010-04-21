@@ -81,6 +81,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionWindow.xaml.cs">
+      <DependentUpon>ConnectionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameFactory\SurfaceCardFactory.cs" />
     <Compile Include="GameFactory\SurfaceChipFactory.cs" />
     <Compile Include="GameObjects\SurfaceCard.cs" />
@@ -144,6 +147,7 @@
     <Resource Include="Resources\CardBack.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\ConnectionWindowBackground.jpg" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -159,6 +163,10 @@
     <Page Include="CardTableWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GameSelection.xaml">
       <SubType>Designer</SubType>

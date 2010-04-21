@@ -38,6 +38,11 @@ namespace CardTable
         private CardTableWindow currentGameWindow;
 
         /// <summary>
+        /// The window responsible for allowing the user to select a game
+        /// </summary>
+        private GameSelection gameSelectionWindow;
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="TableManager"/> class from being created.
         /// </summary>
         private TableManager()
@@ -45,6 +50,8 @@ namespace CardTable
             this.tableCommunicationController = new TableCommunicationController();
             this.InitializeFactories();
             this.currentGame = null;
+
+            this.gameSelectionWindow = new GameSelection();
         }
 
         /// <summary>
@@ -57,6 +64,9 @@ namespace CardTable
             this.tableCommunicationController = new TableCommunicationController(ip);
             this.InitializeFactories();
             this.currentGame = null;
+
+            this.gameSelectionWindow = new GameSelection();
+            this.gameSelectionWindow.Show();
         }
 
         /// <summary>
@@ -75,6 +85,15 @@ namespace CardTable
         public CardTableWindow CurrentGameWindow
         {
             get { return this.currentGameWindow; }
+        }
+
+        /// <summary>
+        /// Gets the game selection window.
+        /// </summary>
+        /// <value>The game selection window.</value>
+        public GameSelection GameSelectionWindow
+        {
+            get { return this.gameSelectionWindow; }
         }
 
         /// <summary>
