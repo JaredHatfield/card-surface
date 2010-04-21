@@ -129,7 +129,7 @@ namespace CardTable
             SurfacePlayerArea spa = new SurfacePlayerArea(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)));
             spa.VerticalAlignment = VerticalAlignment.Bottom;
             spa.HorizontalAlignment = HorizontalAlignment.Center;
-            spa.BindBank();
+            spa.BindPiles();
             this.MainGrid.Children.Add(spa);
         }
 
