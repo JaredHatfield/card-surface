@@ -33,10 +33,10 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
-        /// Gets the card GUID.
+        /// Gets the seat GUID.
         /// </summary>
-        /// <value>The card GUID.</value>
-        public Guid CardGuid
+        /// <value>The seat GUID.</value>
+        public Guid SeatGuid
         {
             get { return this.seatGuid; }
         }

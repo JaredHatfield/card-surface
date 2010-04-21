@@ -313,6 +313,14 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Regenerates the seat code.
+        /// </summary>
+        internal void RegenerateSeatCode()
+        {
+            this.password = GeneratePassword();
+        }
+
+        /// <summary>
         /// Updates the specified seat.
         /// This does not update the PhysicalObjects.
         /// </summary>

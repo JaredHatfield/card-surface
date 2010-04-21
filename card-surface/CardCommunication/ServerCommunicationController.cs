@@ -326,8 +326,14 @@ namespace CardCommunication
                         Debug.WriteLine("Server: Client " + cc.Id + " has a RequestSeatCodeChange");
                         MessageRequestSeatCodeChange mrscc = new MessageRequestSeatCodeChange();
                         mrscc.ProcessMessage(messageDoc);
-                        
-                        //// TODO: Code to update the seat code.
+
+                        bool success = this.gameController.GetGame(cc.GameGuid).RegenerateSeatCode(mrscc.SeatGuid);
+
+                        if (!success)
+                        {
+                            Debug.WriteLine("SeatCode failed to change.");
+                        }
+
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
 
                         // This needs to send the game
