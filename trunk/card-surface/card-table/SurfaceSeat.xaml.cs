@@ -60,6 +60,11 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for methods containing no arugments and returning void
+        /// </summary>
+        private delegate void NoArgDelegate();
+
+        /// <summary>
         /// Gets or sets the seat location.
         /// </summary>
         /// <value>The seat location.</value>
@@ -103,7 +108,14 @@ namespace CardTable
         {
             Debug.WriteLine("Table: The player joined the game!");
 
-            // TODO: This needs to be dispatched because it crashes the game. :(
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.ProcessPlayerJoined));
+        }
+
+        /// <summary>
+        /// Processes the player joined.
+        /// </summary>
+        private void ProcessPlayerJoined()
+        {
             SurfacePlayerArea spa = new SurfacePlayerArea();
             spa.VerticalAlignment = VerticalAlignment.Bottom;
             spa.HorizontalAlignment = HorizontalAlignment.Center;
@@ -118,6 +130,15 @@ namespace CardTable
         private void PlayerLeft(object sender, EventArgs e)
         {
             Debug.WriteLine("Table: The player left the game!");
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.ProcessPlayerLeft));
+        }
+
+        /// <summary>
+        /// Processes the player left.
+        /// </summary>
+        private void ProcessPlayerLeft()
+        {
+            // TODO: Remove the player from the seat!
         }
 
         /// <summary>
@@ -127,12 +148,6 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void SurfaceButton_Click(object sender, RoutedEventArgs e)
         {
-            /* We need to restore this binding!
-            Binding seatBinding = new Binding("Password");
-            seatBinding.Source = GameTableInstance.Instance.CurrentGame.GetSeat(CardGame.Seat.ParseSeatLocation(this.seatLocation));
-            SeatPassword.SetBinding(Label.ContentProperty, seatBinding);
-             */
-
             JoinButton.Visibility = Visibility.Hidden;
             SeatPasswordGrid.Visibility = Visibility.Visible;
 
