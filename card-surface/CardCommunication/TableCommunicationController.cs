@@ -79,6 +79,7 @@ namespace CardCommunication
 
             // Set up the thread that listens to the server
             this.listenerThread = new Thread(this.ListenToServer);
+            this.listenerThread.SetApartmentState(ApartmentState.STA);
             this.listenerThread.Name = "Client Listener";
             this.listenerThread.Start();
 
@@ -103,6 +104,7 @@ namespace CardCommunication
 
             // Set up the thread that listens to the server
             this.listenerThread = new Thread(this.ListenToServer);
+            this.listenerThread.SetApartmentState(ApartmentState.STA);
             this.listenerThread.Name = "Client Listener";
             this.listenerThread.Start();
 

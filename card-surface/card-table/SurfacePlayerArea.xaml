@@ -8,7 +8,7 @@
             <!-- A template describing the view of each piece of library data -->
             <DataTemplate x:Key="LibraryItemTemplate">
                 <Viewbox Stretch="Uniform">
-                    <Image Source="{Binding}" />
+                    <Image Source="{Binding Path=ObjectImageSource}" />
                 </Viewbox>
             </DataTemplate>
             <!-- Styles to define the templates for Stack and Bar item containers -->
