@@ -4,6 +4,7 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     Title="CardTable" Height="700" Width="1000"
     Icon="Resources/CardTableIcon.ico"
+    WindowStartupLocation="CenterScreen"
     >
   <s:SurfaceWindow.Resources>
     <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/GameSelectionBackground.jpg"/>
