@@ -139,7 +139,19 @@ namespace CardCommunication
         {
             while (true)
             {
-                string received = this.clientStreamReader.ReadLine();
+                string received;
+
+                try
+                {
+                    received = this.clientStreamReader.ReadLine();
+                }
+                catch (IOException e)
+                {
+                    Debug.WriteLine("Server Closed. Close the thread." + e.ToString());
+                    
+                    // TODO: shutdown the client or reset to oringinal state.
+                    break;
+                }
 
                 // Determine what to do with the data received
                 if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))

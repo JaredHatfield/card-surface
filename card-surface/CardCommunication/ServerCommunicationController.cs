@@ -133,220 +133,212 @@ namespace CardCommunication
         {
             ConnectedClient cc = connectedClient as ConnectedClient;
             
-            try
+            // TODO: this is where all of the magic happens.
+            while (true)
             {
-                // TODO: this is where all of the magic happens.
-                while (true)
+                string input = String.Empty;
+                Debug.WriteLine("Server: Client " + cc.Id + " is waiting for a message");
+
+                try
                 {
-                    string input = String.Empty;
-                    Debug.WriteLine("Server: Client " + cc.Id + " is waiting for a message");
+                    input = cc.GetNextMessage();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Communication Link Disconnected. Close the thread." + e.ToString());
 
-                    try
+                    // TODO: properly shutdown the game if no other clients are connected.
+                    break;
+                }
+
+                Debug.WriteLine("Server: Client " + cc.Id + " has a message to process");
+                byte[] byteArray = Encoding.ASCII.GetBytes(input);
+                MemoryStream ms = new MemoryStream(byteArray);
+                XmlDocument messageDoc = new XmlDocument();
+                messageDoc.Load(ms);
+
+                XmlElement message = messageDoc.DocumentElement;
+                string mt = message.Attributes[0].Value;
+
+                if (mt == Message.MessageType.RequestGameList.ToString())
+                {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
+                    MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
+                    messageRequestGameList.ProcessMessage(messageDoc);
+                    MessageGameList messageGameList = new MessageGameList();
+                    messageGameList.BuildMessage(this.gameController.GameTypes);
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of game types");
+                    cc.SendMessage(HeaderMessage + messageGameList.MessageDocument.InnerXml);
+                }
+                else if (mt == Message.MessageType.RequestGame.ToString())
+                {
+                    // This actually indicates that the table joined the game!
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
+                    MessageRequestGame messageRequestGame = new MessageRequestGame();
+                    messageRequestGame.ProcessMessage(messageDoc);
+
+                    if (messageRequestGame.GameType != null)
                     {
-                        input = cc.GetNextMessage();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("Communication Link Disconnected." + e.ToString());
-                        throw new CardCommunicationException("Communication Link Disconnected.", e.InnerException);
-                    }
+                        string gameType = messageRequestGame.GameType;
 
-                    Debug.WriteLine("Server: Client " + cc.Id + " has a message to process");
-                    byte[] byteArray = Encoding.ASCII.GetBytes(input);
-                    MemoryStream ms = new MemoryStream(byteArray);
-                    XmlDocument messageDoc = new XmlDocument();
-                    messageDoc.Load(ms);
+                        Guid newGame = this.gameController.CreateGame(gameType);
+                        cc.JoinGame(this.gameController.GetGame(newGame));
 
-                    XmlElement message = messageDoc.DocumentElement;
-                    string mt = message.Attributes[0].Value;
-
-                    if (mt == Message.MessageType.RequestGameList.ToString())
-                    {
-                        Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
-                        MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
-                        messageRequestGameList.ProcessMessage(messageDoc);
-                        MessageGameList messageGameList = new MessageGameList();
-                        messageGameList.BuildMessage(this.gameController.GameTypes);
-                        Debug.WriteLine("Server: Client " + cc.Id + " returned the list of game types");
-                        cc.SendMessage(HeaderMessage + messageGameList.MessageDocument.InnerXml);
-                    }
-                    else if (mt == Message.MessageType.RequestGame.ToString())
-                    {
-                        // This actually indicates that the table joined the game!
-                        Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
-                        MessageRequestGame messageRequestGame = new MessageRequestGame();
-                        messageRequestGame.ProcessMessage(messageDoc);
-
-                        if (messageRequestGame.GameType != null)
-                        {
-                            string gameType = messageRequestGame.GameType;
-
-                            Guid newGame = this.gameController.CreateGame(gameType);
-                            cc.JoinGame(this.gameController.GetGame(newGame));
-
-                            Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
-
-                            // This needs to send the game
-                            cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
-                        }
-                        else
-                        {
-                            Guid selectedGameGuid = messageRequestGame.GameGuid;
-                            cc.JoinGame(this.gameController.GetGame(selectedGameGuid));
-
-                            //// TODO: need some way to notify other tables with the same game.
-
-                            Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
-
-                            // This needs to send the game
-                            cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
-                        }
-                    }
-                    else if (mt == Message.MessageType.Action.ToString())
-                    {
-                        Collection<string> action;
-                        MessageAction messageAction = new MessageAction();
-
-                        messageAction.ProcessMessage(messageDoc);
-                        action = messageAction.Action;
-
-                        if (action[0] == MessageAction.ActionType.Move.ToString())
-                        {
-                            Guid physicalObject = new Guid(action[1]);
-                            Guid destinationPile = new Guid(action[2]);
-
-                            // Executes Move
-                            try
-                            {
-                                this.gameController.GetGame(cc.GameGuid).MoveAction(physicalObject, destinationPile);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine(e);
-                                throw new MessageProcessException("Error executing move action.", e);
-                            }
-
-                            // This needs to send the game
-                            cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
-                        }
-                        else if (action[0] == MessageAction.ActionType.Custom.ToString())
-                        {
-                            string actionName = action[1];
-                            string playerName = action[2];
-
-                            // Executes Custum Action
-                            try
-                            {
-                                this.gameController.GetGame(cc.GameGuid).ExecuteAction(actionName, playerName);
-                            }
-                            catch (CardGameActionNotFoundException e)
-                            {
-                                Debug.WriteLine("The action the user requested could not be found: " + e.ToString());
-                            }
-                            catch (CardGameActionAccessDeniedException e)
-                            {
-                                Debug.WriteLine("The the user was not allowed to use the requested exception: " + e.ToString());
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine("We tried to execute an action... " + e.ToString());
-
-                                // Something else very bad happened so we are going to throw another exception.
-                                throw new MessageProcessException("Something else went wrong with the game.", e);
-                            }
-                            
-                            // This needs to send the game
-                            cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
-                        }
-                    }
-                    else if (mt == Message.MessageType.FlipCard.ToString())
-                    {
-                        MessageFlipCard messageFlipCard = new MessageFlipCard();
-
-                        messageFlipCard.ProcessMessage(messageDoc);
-
-                        Guid cardGuid = messageFlipCard.CardGuid;
-
-                        this.gameController.GetGame(cc.GameGuid).FlipCard(cardGuid);
-                                           
-                        // This needs to send the game
-                        cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
-                    }
-                    else if (mt == Message.MessageType.RequestExistingGames.ToString())
-                    {
-                        Debug.WriteLine("Server: Client " + cc.Id + " has a ExistingGames");
-                        MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
-                        messageRequestExistingGames.ProcessMessage(messageDoc);
-                        MessageExistingGames messageExistingGames = new MessageExistingGames();
-                        Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
-                        Collection<string> newGame = new Collection<string>();
-
-                        newGame.Add(messageRequestExistingGames.SelectedGame);
-                        newGame.Add("New Game");
-                        newGame.Add(Guid.Empty.ToString());
-                        newGame.Add(String.Empty);
-
-                        existingGames.Add(newGame);
-                        
-                        foreach (Game game in this.gameController.Games)
-                        {
-                            Collection<string> gameObject = new Collection<string>();
-
-                            if (game.Name == messageRequestExistingGames.SelectedGame)
-                            {
-                                // Element 1 - Type, 2 - Display, 3 - ID, 4 - #Players
-                                gameObject.Add(game.Name);
-                                gameObject.Add(game.Name);
-                                gameObject.Add(game.Id.ToString());
-                                gameObject.Add(game.NumberOfPlayers + "/" + game.NumberOfSeats);
-                                //// gameObject.Add(game.location);
-                            }
-
-                            existingGames.Add(gameObject);
-                        }
-
-                        messageExistingGames.BuildMessage(existingGames);
-                        
-                        Debug.WriteLine("Server: Client " + cc.Id + " returned the list of exiting games");
-                        cc.SendMessage(HeaderMessage + messageExistingGames.MessageDocument.InnerXml);
-                    }                
-                    else if (mt == Message.MessageType.RequestCurrentGameState.ToString())
-                    {
-                        Debug.WriteLine("Server: Client " + cc.Id + " has a RequestCurrentGameState");
-                        MessageRequestCurrentGameState messageRequestCurrentGameState = new MessageRequestCurrentGameState();
-                        messageRequestCurrentGameState.ProcessMessage(messageDoc);
-
-                        Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
+                        Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
                         // This needs to send the game
                         cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
                     }
-                    else if (mt == Message.MessageType.RequestSeatCodeChange.ToString())
+                    else
                     {
-                        Debug.WriteLine("Server: Client " + cc.Id + " has a RequestSeatCodeChange");
-                        MessageRequestSeatCodeChange mrscc = new MessageRequestSeatCodeChange();
-                        mrscc.ProcessMessage(messageDoc);
+                        Guid selectedGameGuid = messageRequestGame.GameGuid;
+                        cc.JoinGame(this.gameController.GetGame(selectedGameGuid));
 
-                        bool success = this.gameController.GetGame(cc.GameGuid).RegenerateSeatCode(mrscc.SeatGuid);
+                        //// TODO: need some way to notify other tables with the same game.
 
-                        if (!success)
-                        {
-                            Debug.WriteLine("SeatCode failed to change.");
-                        }
-
-                        Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
+                        Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
                         // This needs to send the game
                         cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error." + e.ToString());
-                
-                // TODO: Determine what should happen here on communication severance with server.
-                // Ignore it and allow the thread to close.
+                else if (mt == Message.MessageType.Action.ToString())
+                {
+                    Collection<string> action;
+                    MessageAction messageAction = new MessageAction();
+
+                    messageAction.ProcessMessage(messageDoc);
+                    action = messageAction.Action;
+
+                    if (action[0] == MessageAction.ActionType.Move.ToString())
+                    {
+                        Guid physicalObject = new Guid(action[1]);
+                        Guid destinationPile = new Guid(action[2]);
+
+                        // Executes Move
+                        try
+                        {
+                            this.gameController.GetGame(cc.GameGuid).MoveAction(physicalObject, destinationPile);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e);
+                            throw new MessageProcessException("Error executing move action.", e);
+                        }
+
+                        // This needs to send the game
+                        cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+                    }
+                    else if (action[0] == MessageAction.ActionType.Custom.ToString())
+                    {
+                        string actionName = action[1];
+                        string playerName = action[2];
+
+                        // Executes Custum Action
+                        try
+                        {
+                            this.gameController.GetGame(cc.GameGuid).ExecuteAction(actionName, playerName);
+                        }
+                        catch (CardGameActionNotFoundException e)
+                        {
+                            Debug.WriteLine("The action the user requested could not be found: " + e.ToString());
+                        }
+                        catch (CardGameActionAccessDeniedException e)
+                        {
+                            Debug.WriteLine("The the user was not allowed to use the requested exception: " + e.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine("We tried to execute an action... " + e.ToString());
+
+                            // Something else very bad happened so we are going to throw another exception.
+                            throw new MessageProcessException("Something else went wrong with the game.", e);
+                        }
+                        
+                        // This needs to send the game
+                        cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+                    }
+                }
+                else if (mt == Message.MessageType.FlipCard.ToString())
+                {
+                    MessageFlipCard messageFlipCard = new MessageFlipCard();
+
+                    messageFlipCard.ProcessMessage(messageDoc);
+
+                    Guid cardGuid = messageFlipCard.CardGuid;
+
+                    this.gameController.GetGame(cc.GameGuid).FlipCard(cardGuid);
+                                       
+                    // This needs to send the game
+                    cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+                }
+                else if (mt == Message.MessageType.RequestExistingGames.ToString())
+                {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a ExistingGames");
+                    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+                    messageRequestExistingGames.ProcessMessage(messageDoc);
+                    MessageExistingGames messageExistingGames = new MessageExistingGames();
+                    Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
+                    Collection<string> newGame = new Collection<string>();
+
+                    newGame.Add(messageRequestExistingGames.SelectedGame);
+                    newGame.Add("New Game");
+                    newGame.Add(Guid.Empty.ToString());
+                    newGame.Add(String.Empty);
+
+                    existingGames.Add(newGame);
+                    
+                    foreach (Game game in this.gameController.Games)
+                    {
+                        Collection<string> gameObject = new Collection<string>();
+
+                        if (game.Name == messageRequestExistingGames.SelectedGame)
+                        {
+                            // Element 1 - Type, 2 - Display, 3 - ID, 4 - #Players
+                            gameObject.Add(game.Name);
+                            gameObject.Add(game.Name);
+                            gameObject.Add(game.Id.ToString());
+                            gameObject.Add(game.NumberOfPlayers + "/" + game.NumberOfSeats);
+                            //// gameObject.Add(game.location);
+                        }
+
+                        existingGames.Add(gameObject);
+                    }
+
+                    messageExistingGames.BuildMessage(existingGames);
+                    
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the list of exiting games");
+                    cc.SendMessage(HeaderMessage + messageExistingGames.MessageDocument.InnerXml);
+                }                
+                else if (mt == Message.MessageType.RequestCurrentGameState.ToString())
+                {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestCurrentGameState");
+                    MessageRequestCurrentGameState messageRequestCurrentGameState = new MessageRequestCurrentGameState();
+                    messageRequestCurrentGameState.ProcessMessage(messageDoc);
+
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
+
+                    // This needs to send the game
+                    cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+                }
+                else if (mt == Message.MessageType.RequestSeatCodeChange.ToString())
+                {
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestSeatCodeChange");
+                    MessageRequestSeatCodeChange mrscc = new MessageRequestSeatCodeChange();
+                    mrscc.ProcessMessage(messageDoc);
+
+                    bool success = this.gameController.GetGame(cc.GameGuid).RegenerateSeatCode(mrscc.SeatGuid);
+
+                    if (!success)
+                    {
+                        Debug.WriteLine("SeatCode failed to change.");
+                    }
+
+                    Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
+
+                    // This needs to send the game
+                    cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+                }
             }
         }
 
