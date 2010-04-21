@@ -90,7 +90,7 @@ namespace CardAccount
         {
             bool success = true;
 
-            if (username.Length < 4 || password.Length < 4)
+            if (username.Length >= 4 || password.Length >= 4)
             {
                 GameAccount.Encrypt(ref password);
 
