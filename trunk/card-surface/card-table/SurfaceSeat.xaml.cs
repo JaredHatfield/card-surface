@@ -116,6 +116,16 @@ namespace CardTable
         /// </summary>
         private void ProcessPlayerJoined()
         {
+            if (this.seatPasswordTimer.IsEnabled)
+            {
+                this.seatPasswordTimer.Stop();
+                this.SeatPasswordGrid.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.JoinButton.Visibility = Visibility.Hidden;
+            }
+
             SurfacePlayerArea spa = new SurfacePlayerArea();
             spa.VerticalAlignment = VerticalAlignment.Bottom;
             spa.HorizontalAlignment = HorizontalAlignment.Center;
