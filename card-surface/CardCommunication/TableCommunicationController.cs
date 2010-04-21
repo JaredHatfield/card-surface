@@ -137,63 +137,52 @@ namespace CardCommunication
         /// </summary>
         public void ListenToServer()
         {
-            try
+            while (true)
             {
-                while (true)
+                string received = this.clientStreamReader.ReadLine();
+
+                // Determine what to do with the data received
+                if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
                 {
-                    string received = this.clientStreamReader.ReadLine();
-
-                    // Determine what to do with the data received
-                    if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
+                    // It was an XML message
+                    Debug.WriteLine("Client received an XML message");
+                    received = received.Substring(HeaderMessage.Length, received.Length - HeaderMessage.Length);
+                    lock (this.messageSemaphore)
                     {
-                        // It was an XML message
-                        Debug.WriteLine("Client received an XML message");
-                        received = received.Substring(HeaderMessage.Length, received.Length - HeaderMessage.Length);
-                        lock (this.messageSemaphore)
-                        {
-                            this.receivedMessage = received;
-                        }
-                    }
-                    else if (received.StartsWith(HeaderPush))
-                    {
-                        // It was an unexpected message
-                        Debug.WriteLine("Client received an unexpected game state");
-                        received = received.Substring(HeaderPush.Length, received.Length - HeaderPush.Length);
-                        if (this.OnUpdateGameState != null)
-                        {
-                            GameMessage gameMessage = null;
-                            try
-                            {
-                                BinaryFormatter bf = new BinaryFormatter();
-                                MemoryStream memstream = new MemoryStream(Convert.FromBase64String(received));
-                                gameMessage = (GameMessage)bf.Deserialize(memstream);
-                            }
-                            catch (SerializationException e)
-                            {
-                                Debug.WriteLine("Error deserializing game" + e.ToString());
-                                throw new MessageDeserializationException("Error deserializing game", e);
-                            }
-
-                            // Now that we have the game, we can update it!
-                            if (gameMessage != null)
-                            {
-                                this.OnUpdateGameState(gameMessage);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Message ignored: " + received);
+                        this.receivedMessage = received;
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error occured." + e.ToString());
+                else if (received.StartsWith(HeaderPush))
+                {
+                    // It was an unexpected message
+                    Debug.WriteLine("Client received an unexpected game state");
+                    received = received.Substring(HeaderPush.Length, received.Length - HeaderPush.Length);
+                    if (this.OnUpdateGameState != null)
+                    {
+                        GameMessage gameMessage = null;
+                        try
+                        {
+                            BinaryFormatter bf = new BinaryFormatter();
+                            MemoryStream memstream = new MemoryStream(Convert.FromBase64String(received));
+                            gameMessage = (GameMessage)bf.Deserialize(memstream);
+                        }
+                        catch (SerializationException e)
+                        {
+                            Debug.WriteLine("Error deserializing game" + e.ToString());
+                            throw new MessageDeserializationException("Error deserializing game", e);
+                        }
 
-                // TODO: Determine what to do when the connection with the server is forcably closed.
-                // Close the table.
-                this.Close(this, null);
+                        // Now that we have the game, we can update it!
+                        if (gameMessage != null)
+                        {
+                            this.OnUpdateGameState(gameMessage);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("Message ignored: " + received);
+                }
             }
         }
 
