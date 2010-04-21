@@ -1,8 +1,0 @@
-﻿<s:SurfaceUserControl x:Class="CardTable.SurfaceCard"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="http://schemas.microsoft.com/surface/2008">
-    <Grid>
-        <Image Source="Resources/CardTest.bmp"></Image>
-    </Grid>
-</s:SurfaceUserControl>
