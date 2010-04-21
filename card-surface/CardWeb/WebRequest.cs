@@ -91,11 +91,11 @@ namespace CardWeb
             this.socket = connection;
 
             /* Retrieve requestMethod before any other properties. */
-            this.requestMethod = this.GetHttpRequestMethod(this.request);
-            this.requestVersion = this.GetHttpRequestVersion(this.request);
-            this.requestResource = this.GetHttpRequestResource(this.request);
+            this.requestMethod = this.GetHttpRequestMethod();
+            this.requestVersion = this.GetHttpRequestVersion();
+            this.requestResource = this.GetHttpRequestResource();
             this.requestContentLength = this.GetHttpRequestContentLength();
-            this.requestContent = this.GetHttpRequestContent(this.request);
+            this.requestContent = this.GetHttpRequestContent();
             this.requestHost = this.GetHttpRequestHost();
         } /* WebRequest() */
 
@@ -343,9 +343,10 @@ namespace CardWeb
         /// <summary>
         /// Gets the content of the HTTP request.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A byte array containing the request contents.</returns>
-        private string GetHttpRequestContent(byte[] request)
+        /// <returns>
+        /// A byte array containing the request contents.
+        /// </returns>
+        private string GetHttpRequestContent()
         {
             int position = 0;
             int bytesCopied = 0;
@@ -353,15 +354,15 @@ namespace CardWeb
             byte[] pattern = { (byte)WebUtilities.CarriageReturn, (byte)WebUtilities.LineFeed, (byte)WebUtilities.CarriageReturn, (byte)WebUtilities.LineFeed };
             string content = String.Empty;
 
-            for (int i = 0; i < request.Length - pattern.Length; i++)
+            for (int i = 0; i < this.request.Length - pattern.Length; i++)
             {
-                if (request[i] == pattern[0])
+                if (this.request[i] == pattern[0])
                 {
                     /* Assume the pattern has been found. */
                     patternFound = true;
                     for (int j = 0; j < pattern.Length; j++)
                     {
-                        if (request[i + j] != pattern[j])
+                        if (this.request[i + j] != pattern[j])
                         {
                             /* If there's not a match, we didn't really find it. */
                             patternFound = false;
@@ -380,12 +381,12 @@ namespace CardWeb
             }
 
             /* Copy the content portion of the HTTP request to position. */
-            for (int i = position; i < request.Length; i++)
+            for (int i = position; i < this.request.Length; i++)
             {
                 /* Skip null characters. */
-                if (request[i] != 0x0)
+                if (this.request[i] != 0x0)
                 {
-                    content += (char)request[i];
+                    content += (char)this.request[i];
                     bytesCopied++;
                 }
             }
@@ -467,22 +468,23 @@ namespace CardWeb
         /// <summary>
         /// Gets the HTTP request method.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the HTTP Request Method</returns>
-        private string GetHttpRequestMethod(byte[] request)
+        /// <returns>
+        /// A string representation of the HTTP Request Method
+        /// </returns>
+        private string GetHttpRequestMethod()
         {
             byte requestLineTerminator = 0x0;
             string firstLineOfRequest = String.Empty;
 
-            for (int i = 0; i < request.Length; i++)
+            for (int i = 0; i < this.request.Length; i++)
             {
-                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                if (this.request[i] != WebUtilities.CarriageReturn && this.request[i] != WebUtilities.LineFeed)
                 {
-                    firstLineOfRequest += (char)request[i];
+                    firstLineOfRequest += (char)this.request[i];
                 }
                 else
                 {
-                    requestLineTerminator |= request[i];
+                    requestLineTerminator |= this.request[i];
                 }
 
                 if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
@@ -512,22 +514,23 @@ namespace CardWeb
         /// <summary>
         /// Gets the HTTP request resource.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the requested HTTP Resource.</returns>
-        private string GetHttpRequestResource(byte[] request)
+        /// <returns>
+        /// A string representation of the requested HTTP Resource.
+        /// </returns>
+        private string GetHttpRequestResource()
         {
             byte requestLineTerminator = 0x0;
             string firstLineOfRequest = String.Empty;
 
-            for (int i = 0; i < request.Length; i++)
+            for (int i = 0; i < this.request.Length; i++)
             {
-                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                if (this.request[i] != WebUtilities.CarriageReturn && this.request[i] != WebUtilities.LineFeed)
                 {
-                    firstLineOfRequest += (char)request[i];
+                    firstLineOfRequest += (char)this.request[i];
                 }
                 else
                 {
-                    requestLineTerminator |= request[i];
+                    requestLineTerminator |= this.request[i];
                 }
 
                 if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
@@ -567,22 +570,23 @@ namespace CardWeb
         /// <summary>
         /// Gets the HTTP request version.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>A string representation of the HTTP request version.</returns>
-        private string GetHttpRequestVersion(byte[] request)
+        /// <returns>
+        /// A string representation of the HTTP request version.
+        /// </returns>
+        private string GetHttpRequestVersion()
         {
             byte requestLineTerminator = 0x0;
             string firstLineOfRequest = String.Empty;
 
-            for (int i = 0; i < request.Length; i++)
+            for (int i = 0; i < this.request.Length; i++)
             {
-                if (request[i] != WebUtilities.CarriageReturn && request[i] != WebUtilities.LineFeed)
+                if (this.request[i] != WebUtilities.CarriageReturn && this.request[i] != WebUtilities.LineFeed)
                 {
-                    firstLineOfRequest += (char)request[i];
+                    firstLineOfRequest += (char)this.request[i];
                 }
                 else
                 {
-                    requestLineTerminator |= request[i];
+                    requestLineTerminator |= this.request[i];
                 }
 
                 if (requestLineTerminator == (WebUtilities.CarriageReturn | WebUtilities.LineFeed))
