@@ -20,9 +20,9 @@ namespace CardTable.GameObjects
     internal class SurfaceChip : Chip
     {
         /// <summary>
-        /// The object image.
+        /// The object image source.
         /// </summary>
-        private Image objectImage;
+        private string objectImageSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceChip"/> class.
@@ -33,8 +33,7 @@ namespace CardTable.GameObjects
         protected internal SurfaceChip(Guid id, int amount, Color chipColor)
             : base(id, amount, chipColor)
         {
-            // TODO: This should load the image
-            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/chipGreen.png");
+            this.objectImageSource = this.FindChipImageSource(chipColor);
         }
 
         /// <summary>
@@ -45,20 +44,50 @@ namespace CardTable.GameObjects
         protected internal SurfaceChip(int amount, Color chipColor)
             : base(amount, chipColor)
         {
-            // TODO: This should load the image
-            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/chipGreen.png");
+            this.objectImageSource = this.FindChipImageSource(chipColor);
         }
 
         /// <summary>
-        /// Gets the object image.
+        /// Gets the object image source.
         /// </summary>
-        /// <value>The object image.</value>
-        internal Image ObjectImage
+        /// <value>The object image source.</value>
+        public string ObjectImageSource
         {
             get
             {
-                return this.objectImage;
+                return this.objectImageSource;
             }
+        }
+
+        /// <summary>
+        /// Finds the chip image source.
+        /// </summary>
+        /// <param name="color">The color of the chip.</param>
+        /// <returns>The path to this image resource as a string</returns>
+        private string FindChipImageSource(Color color)
+        {
+            if (color == Color.Blue)
+            {
+                return "Resources/chipBlue.png";
+            }
+            else if (color == Color.Red)
+            {
+                return "Resources/chipRed.png";
+            }
+            else if (color == Color.White)
+            {
+                return "Resources/chipWhite.png";
+            }
+            else if (color == Color.Green)
+            {
+                return "Resources/chipGreen.png";
+            }
+            else if (color == Color.Black)
+            {
+                return "Resources/chipBlack.png";
+            }
+
+            throw new Exception("Chip Type not found!");
         }
     }
 }
