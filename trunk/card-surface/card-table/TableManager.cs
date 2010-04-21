@@ -91,7 +91,7 @@ namespace CardTable
         /// <param name="game">The new game.</param>
         public void CreateGame(GameSurface game)
         {
-            if (this.currentGame != null)
+            if (this.currentGame == null)
             {
                 this.currentGame = game;
                 this.currentGameWindow = new CardTableWindow(this.currentGame);
