@@ -83,7 +83,7 @@ namespace CardTable
             if (this.seat == null)
             {
                 this.seat = seat;
-
+                
                 // Data bind the password
                 Binding seatBinding = new Binding("Password");
                 seatBinding.Source = seat;
@@ -126,9 +126,10 @@ namespace CardTable
                 this.JoinButton.Visibility = Visibility.Hidden;
             }
 
-            SurfacePlayerArea spa = new SurfacePlayerArea();
+            SurfacePlayerArea spa = new SurfacePlayerArea(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)));
             spa.VerticalAlignment = VerticalAlignment.Bottom;
             spa.HorizontalAlignment = HorizontalAlignment.Center;
+            spa.BindBank();
             this.MainGrid.Children.Add(spa);
         }
 
