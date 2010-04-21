@@ -10,6 +10,7 @@ namespace CardTable
     using System.Text;
     using CardCommunication;
     using CardGame.GameFactory;
+    using CardTable.GameFactory;
 
     /// <summary>
     /// The Singleton TableManager.
@@ -149,8 +150,8 @@ namespace CardTable
         private void InitializeFactories()
         {
             // TODO: We need to create new chip and card factories that make surface elements!!!
-            PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
-            PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
+            PhysicalObjectFactory.SubscribeCardFactory(SurfaceCardFactory.Instance());
+            PhysicalObjectFactory.SubscribeChipFactory(SurfaceChipFactory.Instance());
             PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
         }
     }

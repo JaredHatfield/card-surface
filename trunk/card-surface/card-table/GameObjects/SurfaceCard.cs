@@ -7,6 +7,7 @@ namespace CardTable.GameObjects
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
     using CardGame;
@@ -20,6 +21,11 @@ namespace CardTable.GameObjects
     internal class SurfaceCard : Card
     {
         /// <summary>
+        /// The object image.
+        /// </summary>
+        private Image objectImage;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceCard"/> class.
         /// </summary>
         /// <param name="id">The card's id.</param>
@@ -29,6 +35,8 @@ namespace CardTable.GameObjects
         internal SurfaceCard(Guid id, CardSuit suit, CardFace face, CardStatus status)
             : base(id, suit, face, status)
         {
+            // TODO: This should load the image
+            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/CardBack.png");
         }
 
         /// <summary>
@@ -40,6 +48,20 @@ namespace CardTable.GameObjects
         internal SurfaceCard(CardSuit suit, CardFace face, CardStatus status)
             : base(suit, face, status)
         {
+            // TODO: This should load the image
+            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/CardBack.png");
+        }
+
+        /// <summary>
+        /// Gets the object image.
+        /// </summary>
+        /// <value>The object image.</value>
+        internal Image ObjectImage
+        {
+            get
+            {
+                return this.objectImage;
+            }
         }
     }
 }

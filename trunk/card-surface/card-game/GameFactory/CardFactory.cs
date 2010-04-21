@@ -20,9 +20,9 @@ namespace CardGame.GameFactory
         private static CardFactory instance;
 
         /// <summary>
-        /// Prevents a default instance of the CardFactory class from being created.
+        /// Initializes a new instance of the <see cref="CardFactory"/> class.
         /// </summary>
-        private CardFactory()
+        protected CardFactory()
         {
             // TODO: Implement Me!
         }

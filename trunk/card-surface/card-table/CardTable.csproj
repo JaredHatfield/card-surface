@@ -113,9 +113,6 @@
     <Compile Include="CardTableWindow.xaml.cs">
       <DependentUpon>CardTableWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SurfaceCard.xaml.cs">
-      <DependentUpon>SurfaceCard.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SurfacePlayerArea.xaml.cs">
       <DependentUpon>SurfacePlayerArea.xaml</DependentUpon>
     </Compile>
@@ -129,11 +126,24 @@
     <Resource Include="Resources\GameSelectionBackground.jpg" />
     <Resource Include="Resources\CardSurfaceLogo.png" />
     <Resource Include="Resources\CardTableIcon.ico" />
-    <Resource Include="Resources\chipBlack.png" />
-    <Resource Include="Resources\chipBlue.png" />
-    <Resource Include="Resources\chipGreen.png" />
-    <Resource Include="Resources\chipRed.png" />
-    <Resource Include="Resources\chipWhite.png" />
+    <Resource Include="Resources\chipBlack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipGreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipRed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipWhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\CardBack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -151,10 +161,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GameSelection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SurfaceCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

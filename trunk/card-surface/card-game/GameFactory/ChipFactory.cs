@@ -22,9 +22,9 @@ namespace CardGame.GameFactory
         private static ChipFactory instance;
 
         /// <summary>
-        /// Prevents a default instance of the ChipFactory class from being created.
+        /// Initializes a new instance of the <see cref="ChipFactory"/> class.
         /// </summary>
-        private ChipFactory()
+        protected ChipFactory()
         {
             // TODO: Implement Me!
         }
