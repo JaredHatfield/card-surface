@@ -341,8 +341,66 @@ namespace CardCommunication
                         Debug.WriteLine("Error deserializing game" + e.ToString());
                         throw new MessageDeserializationException("Error deserializing game", e);
                     }
+                }
+                else
+                {
+                    throw new MessageProcessException("Wrong response from server!");
+                }
+            }
 
-                    //// TODO: Update the game; however that is done.
+            return gameObject;
+        }
+
+        /// <summary>
+        /// Sends the request seat code change message.
+        /// </summary>
+        /// <param name="seatGuid">The seat GUID.</param>
+        /// <returns>The new game state.</returns>
+        public GameMessage SendRequestSeatCodeChangeMessage(Guid seatGuid)
+        {
+            GameMessage gameObject;
+
+            lock (this.functionCallSemaphore)
+            {
+                Debug.WriteLine("Client: Start of SendRequestSeatCodeChangeMessage");
+
+                // Send the message to the server
+                MessageRequestSeatCodeChange message = new MessageRequestSeatCodeChange();
+
+                message.BuildMessage(seatGuid);
+
+                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                this.clientStreamWriter.Flush();
+                Debug.WriteLine("Client: SendRequestSeatCodeChange Message Sent waiting for response");
+
+                // Get the response from the server
+                string response = this.GetMessageSynchronously();
+                Debug.WriteLine("Client: SendRequestSeatCodeChange response received");
+                byte[] responseData = Encoding.ASCII.GetBytes(response);
+                MemoryStream ms = new MemoryStream(responseData);
+                XmlDocument messageDoc = new XmlDocument();
+                messageDoc.Load(ms);
+
+                XmlElement messageResponse = messageDoc.DocumentElement;
+                string mt = messageResponse.Attributes[0].Value;
+
+                if (mt == Message.MessageType.GameState.ToString())
+                {
+                    MessageGameState messageGameState = new MessageGameState();
+                    messageGameState.ProcessMessage(messageDoc);
+                    Debug.WriteLine("Client: End of SendRequestSeatCodeChange Message");
+
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        gameObject = (GameMessage)bf.Deserialize(memstream);
+                    }
+                    catch (SerializationException e)
+                    {
+                        Debug.WriteLine("Error deserializing game" + e.ToString());
+                        throw new MessageDeserializationException("Error deserializing game", e);
+                    }
                 }
                 else
                 {
