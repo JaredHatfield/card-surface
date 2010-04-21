@@ -41,25 +41,7 @@ namespace CardGameCommandLine
         /// </returns>
         protected override bool CustomFunction(string input)
         {
-            if (input.Equals("refresh", StringComparison.CurrentCultureIgnoreCase))
-            {
-                try
-                {
-                    this.tableCommunicationController.SendRequestCurrentGameState(this.Game.Id);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("The communication library had some problem refreshing the game...");
-                    Console.WriteLine(e.ToString());
-                    this.PrompForEnter();
-                }
-
-                return true;
-            }
-            else
-            {
-                return base.CustomFunction(input);
-            }
+            return base.CustomFunction(input);
         }
     }
 }

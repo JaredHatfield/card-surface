@@ -112,32 +112,10 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Delegate for Updating the list of availiable games.
-        /// </summary>
-        /// <param name="gameList">The game list.</param>
-        public delegate void UpdateGameListHandler(Collection<string> gameList);
-
-        /// <summary>
-        /// Delegate for Updating the list of existing games.
-        /// </summary>
-        /// <param name="existingGames">The list of existing games.</param>
-        public delegate void UpdateExistingGamesHandler(Collection<ActiveGameStruct> existingGames);
-
-        /// <summary>
         /// Delegate for updating the game state.
         /// </summary>
         /// <param name="game">The game update.</param>
         public delegate void UpdateGameStateHandler(Game game);
-
-        /// <summary>
-        /// Event occurs when game list is updated.
-        /// </summary>
-        public event UpdateGameListHandler OnUpdateGameList;
-
-        /// <summary>
-        /// Event occurs when existing games is updated.
-        /// </summary>
-        public event UpdateExistingGamesHandler OnUpdateExistingGames;
 
         /// <summary>
         /// Event occurs when Game State is updated.
@@ -159,52 +137,63 @@ namespace CardCommunication
         /// </summary>
         public void ListenToServer()
         {
-            while (true)
+            try
             {
-                string received = this.clientStreamReader.ReadLine();
-
-                // Determine what to do with the data received
-                if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
+                while (true)
                 {
-                    // It was an XML message
-                    Debug.WriteLine("Client received an XML message");
-                    received = received.Substring(HeaderMessage.Length, received.Length - HeaderMessage.Length);
-                    lock (this.messageSemaphore)
-                    {
-                        this.receivedMessage = received;
-                    }
-                }
-                else if (received.StartsWith(HeaderPush))
-                {
-                    // It was an unexpected message
-                    Debug.WriteLine("Client received an unexpected game state");
-                    received = received.Substring(HeaderPush.Length, received.Length - HeaderPush.Length);
-                    if (this.OnUpdateGameState != null)
-                    {
-                        GameMessage gameMessage = null;
-                        try
-                        {
-                            BinaryFormatter bf = new BinaryFormatter();
-                            MemoryStream memstream = new MemoryStream(Convert.FromBase64String(received));
-                            gameMessage = (GameMessage)bf.Deserialize(memstream);
-                        }
-                        catch (SerializationException e)
-                        {
-                            Debug.WriteLine("Error deserializing game" + e.ToString());
-                            throw new MessageDeserializationException("Error deserializing game", e);
-                        }
+                    string received = this.clientStreamReader.ReadLine();
 
-                        // Now that we have the game, we can update it!
-                        if (gameMessage != null)
+                    // Determine what to do with the data received
+                    if (received.StartsWith(HeaderMessage) || received.StartsWith(HeaderGame))
+                    {
+                        // It was an XML message
+                        Debug.WriteLine("Client received an XML message");
+                        received = received.Substring(HeaderMessage.Length, received.Length - HeaderMessage.Length);
+                        lock (this.messageSemaphore)
                         {
-                            this.OnUpdateGameState(gameMessage);
+                            this.receivedMessage = received;
                         }
                     }
+                    else if (received.StartsWith(HeaderPush))
+                    {
+                        // It was an unexpected message
+                        Debug.WriteLine("Client received an unexpected game state");
+                        received = received.Substring(HeaderPush.Length, received.Length - HeaderPush.Length);
+                        if (this.OnUpdateGameState != null)
+                        {
+                            GameMessage gameMessage = null;
+                            try
+                            {
+                                BinaryFormatter bf = new BinaryFormatter();
+                                MemoryStream memstream = new MemoryStream(Convert.FromBase64String(received));
+                                gameMessage = (GameMessage)bf.Deserialize(memstream);
+                            }
+                            catch (SerializationException e)
+                            {
+                                Debug.WriteLine("Error deserializing game" + e.ToString());
+                                throw new MessageDeserializationException("Error deserializing game", e);
+                            }
+
+                            // Now that we have the game, we can update it!
+                            if (gameMessage != null)
+                            {
+                                this.OnUpdateGameState(gameMessage);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Message ignored: " + received);
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine("Message ignored: " + received);
-                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error occured." + e.ToString());
+
+                // TODO: Determine what to do when the connection with the server is forcably closed.
+                // Close the table.
+                this.Close(this, null);
             }
         }
 
@@ -291,20 +280,6 @@ namespace CardCommunication
                 {
                     throw new Exception("Wrong response from server!");
                 }
-            }
-        }
-
-        /// <summary>
-        /// Sends the state of the request current game.
-        /// This is used to "refresh" the game state and should be removed.
-        /// </summary>
-        /// <param name="gameGuid">The game GUID.</param>
-        public void SendRequestCurrentGameState(Guid gameGuid)
-        {
-            lock (this.functionCallSemaphore)
-            {
-                // TODO: REMOVE THIS FUNCTION?
-                throw new NotImplementedException();
             }
         }
 

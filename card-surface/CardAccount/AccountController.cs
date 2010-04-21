@@ -90,32 +90,35 @@ namespace CardAccount
         {
             bool success = true;
 
-            GameAccount.Encrypt(ref password);
-
-            foreach (GameAccount acnt in this.users)
+            if (username.Length < 4 || password.Length < 4)
             {
-                if (acnt.Username == username)
+                GameAccount.Encrypt(ref password);
+
+                foreach (GameAccount acnt in this.users)
                 {
-                    success = false;
+                    if (acnt.Username == username)
+                    {
+                        success = false;
+                    }
+                }
+
+                if (success)
+                {
+                    try
+                    {
+                        GameAccount account = new GameAccount(username, password);
+
+                        this.users.Add(account);
+
+                        success = this.CreateFlatFile(this.file);
+                    }
+                    catch (Exception)
+                    {
+                        throw new CardAccountCreationException();
+                    }
                 }
             }
-
-            if (success)
-            {
-                try
-                {
-                    GameAccount account = new GameAccount(username, password);
-
-                    this.users.Add(account);
-
-                    success = this.CreateFlatFile(this.file);
-                }
-                catch (Exception)
-                {
-                    throw new CardAccountCreationException();
-                }
-            }
-
+            
             return success;
         }
 
