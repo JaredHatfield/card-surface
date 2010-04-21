@@ -16,6 +16,11 @@ namespace CardWeb.WebComponents.WebViews
     public abstract class WebView
     {
         /// <summary>
+        /// Enables the WebView to output debug data
+        /// </summary>
+        private bool enableViewDebugData = false;
+
+        /// <summary>
         /// Index position for the name of a token name in HTTP POST data
         /// </summary>
         public const int PostRequestTokenNameIndex = 0;
@@ -24,6 +29,17 @@ namespace CardWeb.WebComponents.WebViews
         /// Index position for the name of a token value in HTTP POST data
         /// </summary>
         public const int PostRequestTokenValueIndex = 1;
+
+        /// <summary>
+        /// Gets a value indicating whether [enable view debug data].
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [enable view debug data]; otherwise, <c>false</c>.
+        /// </value>
+        protected bool EnableViewDebugData
+        {
+            get { return this.enableViewDebugData; }
+        }
 
         /// <summary>
         /// Gets the header.

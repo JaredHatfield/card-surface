@@ -114,9 +114,12 @@ namespace CardWeb.WebComponents.WebViews
             byte[] responseBufferBytes = Encoding.ASCII.GetBytes(responseBuffer);
             numBytesSent = this.request.Connection.Send(responseBufferBytes, responseBufferBytes.Length, SocketFlags.None);
 
-            Debug.WriteLine("---------------------------------------------------------------------");
-            Debug.WriteLine("WebViewCreateAccount: Sending HTTP response (" + numBytesSent + " bytes).");
-            Debug.WriteLine(responseBuffer);
+            if (EnableViewDebugData)
+            {
+                Debug.WriteLine("---------------------------------------------------------------------");
+                Debug.WriteLine("WebViewCreateAccount: Sending HTTP response (" + numBytesSent + " bytes).");
+                Debug.WriteLine(responseBuffer);
+            }
 
             this.request.Connection.Shutdown(SocketShutdown.Both);
             this.request.Connection.Close();
