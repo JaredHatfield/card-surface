@@ -59,13 +59,19 @@ namespace CardTable
         private delegate void NoArgDelegate();
 
         /// <summary>
-        /// Binds the bank.
+        /// Binds the piles.
         /// </summary>
-        internal void BindBank()
+        internal void BindPiles()
         {
+            // Bind the bank pile
             Binding bankBinding = new Binding("Chips");
             bankBinding.Source = this.player.BankPile;
             this.bank.SetBinding(LibraryBar.ItemsSourceProperty, bankBinding);
+
+            // Bind the hand
+            Binding handBinding = new Binding("Cards");
+            handBinding.Source = this.player.Hand;
+            this.hand.SetBinding(LibraryBar.ItemsSourceProperty, handBinding);
         }
 
         /// <summary>

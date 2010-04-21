@@ -21,6 +21,11 @@ namespace CardTable.GameObjects
     internal class SurfaceCard : Card
     {
         /// <summary>
+        /// The object image source.
+        /// </summary>
+        private string objectImageSource;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceCard"/> class.
         /// </summary>
         /// <param name="id">The card's id.</param>
@@ -30,8 +35,7 @@ namespace CardTable.GameObjects
         internal SurfaceCard(Guid id, CardSuit suit, CardFace face, CardStatus status)
             : base(id, suit, face, status)
         {
-            // TODO: This should load the image
-            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/CardBack.png");
+            this.objectImageSource = this.FindCardImageSource();
         }
 
         /// <summary>
@@ -43,8 +47,28 @@ namespace CardTable.GameObjects
         internal SurfaceCard(CardSuit suit, CardFace face, CardStatus status)
             : base(suit, face, status)
         {
-            // TODO: This should load the image
-            // this.objectImage = Image.FromFile("pack://application:,,,/Resources/CardBack.png");
+            this.objectImageSource = this.FindCardImageSource();
+        }
+
+        /// <summary>
+        /// Gets the object image source.
+        /// </summary>
+        /// <value>The object image source.</value>
+        public string ObjectImageSource
+        {
+            get
+            {
+                return this.objectImageSource;
+            }
+        }
+
+        /// <summary>
+        /// Finds the card image source.
+        /// </summary>
+        /// <returns>The path to this image resource as a string</returns>
+        private string FindCardImageSource()
+        {
+            return "Resources/CardBack.png";
         }
     }
 }
