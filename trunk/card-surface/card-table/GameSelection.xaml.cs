@@ -38,11 +38,6 @@ namespace CardTable
         private string gameTypeSelection;
 
         /// <summary>
-        /// The TableManager!
-        /// </summary>
-        private TableManager tableManager;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameSelection"/> class.
         /// </summary>
         public GameSelection()
@@ -50,12 +45,7 @@ namespace CardTable
             InitializeComponent();
 
             this.gameTypeSelection = String.Empty;
-
-            // TODO: We actually want to connect to the server!
-            this.tableManager = TableManager.Initialize();
-
-            Collection<string> gameList = this.tableManager.TableCommunicationController.SendRequestGameListMessage();
-            this.UpdateGameList(gameList);
+            this.Loaded += new RoutedEventHandler(this.GameSelection_Loaded);
 
             // Add handlers for Application activation events
             this.AddActivationHandlers();
@@ -77,7 +67,7 @@ namespace CardTable
         /// Generic delegate utilized by Dispatcher invocations for methods containing no arugments and returning void
         /// </summary>
         private delegate void NoArgDelegate();
-
+        
         /// <summary>
         /// Called when [update game list].
         /// Responsible for invoking the dispatcher for creating new SurfaceButtons on the window.
@@ -120,6 +110,17 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Handles the Loaded event of the GameSelection control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void GameSelection_Loaded(object sender, RoutedEventArgs e)
+        {
+            Collection<string> gameList = TableManager.Instance().TableCommunicationController.SendRequestGameListMessage();
+            this.UpdateGameList(gameList);
+        }
+
+        /// <summary>
         /// Adds the new game option.  
         /// This method should only be called via Dispatcher invocation.
         /// </summary>
@@ -159,7 +160,7 @@ namespace CardTable
             this.gameTypeSelection = ((SurfaceButton)sender).Content.ToString();
             Debug.WriteLine("GameSelection.xaml.cs: Requesting existing " + this.gameTypeSelection + " games... (Click Event)");
 
-            Collection<ActiveGameStruct> existingGames = this.tableManager.TableCommunicationController.SendRequestExistingGames(this.gameTypeSelection);
+            Collection<ActiveGameStruct> existingGames = TableManager.Instance().TableCommunicationController.SendRequestExistingGames(this.gameTypeSelection);
             this.UpdateExistingGames(existingGames);
         }
 
@@ -181,10 +182,10 @@ namespace CardTable
                 Debug.WriteLine("GameSelection.xaml.cs: Joining an existing " + this.gameTypeSelection + " game... (Click Event)");
             }
 
-            this.tableManager.CreateGame(new GameSurface(this.tableManager.TableCommunicationController, (ActiveGameStruct)clickedButton.Tag));
+            TableManager.Instance().CreateGame(new GameSurface(TableManager.Instance().TableCommunicationController, (ActiveGameStruct)clickedButton.Tag));
 
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.tableManager.CurrentGameWindow.Show));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(TableManager.Instance().CurrentGameWindow.Show));
         }
 
         /// <summary>
