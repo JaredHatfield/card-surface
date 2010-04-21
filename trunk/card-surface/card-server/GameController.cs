@@ -62,17 +62,6 @@ namespace CardServer
         }
 
         /// <summary>
-        /// Delegate for Updating the Game State.
-        /// </summary>
-        /// <param name="game">the updated game</param>
-        public delegate void UpdateGameStateEventHandler(Game game);
-
-        /// <summary>
-        /// Occurs when [update game state].
-        /// </summary>
-        public event UpdateGameStateEventHandler UpdateGameState;
-
-        /// <summary>
         /// Gets the active game count.
         /// </summary>
         /// <value>The active game count.</value>

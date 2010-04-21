@@ -99,9 +99,7 @@ namespace CardCommunication
         /// </summary>
         protected void SubscribeEvents()
         {
-            this.tableCommunicationController.OnUpdateGameList += new TableCommunicationController.UpdateGameListHandler(this.UpdateGameList);
             this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.UpdateGameState);
-            this.tableCommunicationController.OnUpdateExistingGames += new TableCommunicationController.UpdateExistingGamesHandler(this.UpdateExistingGames);
         }
 
         /// <summary>
