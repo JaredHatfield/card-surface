@@ -470,6 +470,25 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Regenerates the seat code.
+        /// </summary>
+        /// <param name="seatGuid">The seat GUID.</param>
+        /// <returns>whether the seat code was changed.</returns>
+        public bool RegenerateSeatCode(Guid seatGuid)
+        {
+            for (int i = 0; i < this.seats.Count; i++)
+            {
+                if (this.seats[i].Id == seatGuid)
+                {
+                    this.GetSeat(seatGuid).RegenerateSeatCode();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Move the specified IPhysicalObject into the specified Pile.
         /// This method takes the Guid of the PhysicalObject to move and the Guid of the pile to move it to.
         /// If the move was successful, this function returns true.
