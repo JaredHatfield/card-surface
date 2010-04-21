@@ -157,7 +157,7 @@ namespace CardServer
             // TODO: There is the potential for lots of Exceptions to be thrown in the following code.
             Type type = this.availableGames[gameName];
             Game game = Activator.CreateInstance(type) as Game;
-            game.PlayerLeaveGame += new Game.PlayerLeaveGameEventHandler(this.PlayerLeave);
+            game.PlayerWillLeaveGame += new Game.PlayerWillLeaveGameEventHandler(this.PlayerLeave);
             game.PlayerJoinGame += new Game.PlayerJoinGameEventHandler(this.PlayerJoin);
             this.games.Add(game);
             return game.Id;

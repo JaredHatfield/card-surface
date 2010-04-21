@@ -72,7 +72,7 @@ namespace GameBlackjack
             this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
 
             // Subscribe the player left game event.
-            this.PlayerLeaveGame += new PlayerLeaveGameEventHandler(this.PlayerLeftBlackjackGame);
+            this.PlayerWillLeaveGame += new PlayerWillLeaveGameEventHandler(this.PlayerLeftBlackjackGame);
         }
 
         /// <summary>

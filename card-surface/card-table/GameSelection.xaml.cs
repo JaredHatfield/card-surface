@@ -227,7 +227,6 @@ namespace CardTable
         private void OnApplicationPreviewed(object sender, EventArgs e)
         {
             // TODO: Disable audio here if it is enabled
-
             // TODO: optionally enable animations here
         }
 

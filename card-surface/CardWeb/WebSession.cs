@@ -177,7 +177,7 @@ namespace CardWeb
             this.seatCode = game.GetSeat(this.username).Password;
             this.gameId = game.Id;
             this.isPlayingGame = true;
-            game.PlayerLeaveGame += new Game.PlayerLeaveGameEventHandler(this.OnLeaveGame);
+            game.PlayerWillLeaveGame += new Game.PlayerWillLeaveGameEventHandler(this.OnLeaveGame);
         }
 
         /// <summary>

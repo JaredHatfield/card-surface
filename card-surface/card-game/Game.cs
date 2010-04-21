@@ -86,7 +86,14 @@ namespace CardGame
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        public delegate void PlayerLeaveGameEventHandler(object sender, PlayerLeaveGameEventArgs e);
+        public delegate void PlayerWillLeaveGameEventHandler(object sender, PlayerLeaveGameEventArgs e);
+
+        /// <summary>
+        /// The delegate for an event that is triggered when a player has left a game
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="location">The location that was vacated.</param>
+        public delegate void PlayerDidLeaveGameEventHandler(object sender, Seat.SeatLocation location);
 
         /// <summary>
         /// The delegate for an event that is triggered when a player joins a game.
@@ -103,7 +110,12 @@ namespace CardGame
         /// <summary>
         /// Occurs when a player leaves the game.
         /// </summary>
-        public event PlayerLeaveGameEventHandler PlayerLeaveGame;
+        public event PlayerWillLeaveGameEventHandler PlayerWillLeaveGame;
+
+        /// <summary>
+        /// Occurs when [player did leave game].
+        /// </summary>
+        public event PlayerDidLeaveGameEventHandler PlayerDidLeaveGame;
 
         /// <summary>
         /// Occurs when a player joins the game.
@@ -428,12 +440,15 @@ namespace CardGame
             Player p = this.GetPlayer(username);
             int total = p.Money;
 
-            // Trigger the event that the player left the game.
-            this.OnLeaveGame(new PlayerLeaveGameEventArgs(this.id, username, total));
+            // Trigger the event that the player will leave the game.
+            this.OnWillLeaveGame(new PlayerLeaveGameEventArgs(this.id, username, total));
 
             // Remove the reference of the player from their Seat
             Seat s = this.GetSeat(username);
             s.Leave();
+
+            // Trigger the event that the player did leave the game.
+            this.OnDidLeaveGame(s.Location);
         }
 
         /// <summary>
@@ -847,14 +862,26 @@ namespace CardGame
         }
 
         /// <summary>
-        /// Raises the <see cref="E:PlayerLeaveGame"/> event.
+        /// Raises the event that indicates a player is leaving the game.
         /// </summary>
         /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>
-        protected void OnLeaveGame(PlayerLeaveGameEventArgs e)
+        protected void OnWillLeaveGame(PlayerLeaveGameEventArgs e)
         {
-            if (this.PlayerLeaveGame != null)
+            if (this.PlayerWillLeaveGame != null)
             {
-                this.PlayerLeaveGame(this, e);
+                this.PlayerWillLeaveGame(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Raises the event that indicates a player left the game.
+        /// </summary>
+        /// <param name="location">The location that the player left.</param>
+        protected void OnDidLeaveGame(Seat.SeatLocation location)
+        {
+            if (this.PlayerDidLeaveGame != null)
+            {
+                this.PlayerDidLeaveGame(this, location);
             }
 
             if (this.GameStateUpdated != null)
