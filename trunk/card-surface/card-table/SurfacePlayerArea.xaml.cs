@@ -63,7 +63,6 @@ namespace CardTable
         /// </summary>
         internal void BindBank()
         {
-            int i = 0;
             Binding bankBinding = new Binding("Chips");
             bankBinding.Source = this.player.BankPile;
             this.bank.SetBinding(LibraryBar.ItemsSourceProperty, bankBinding);
