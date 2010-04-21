@@ -17,6 +17,8 @@ namespace CardTable
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
+    using CardGame;
     using Microsoft.Surface;
     using Microsoft.Surface.Presentation;
     using Microsoft.Surface.Presentation.Controls;
@@ -27,11 +29,19 @@ namespace CardTable
     public partial class SurfacePlayerArea : SurfaceUserControl
     {
         /// <summary>
+        /// The Player that this SurfacePlayerArea represents
+        /// </summary>
+        private Player player;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfacePlayerArea"/> class.
         /// </summary>
-        public SurfacePlayerArea()
+        /// <param name="player">The player.</param>
+        public SurfacePlayerArea(Player player)
         {
             InitializeComponent();
+
+            this.player = player;
 
             // We want to always assume objects are being moved
             // This insures that when we move out of a LibraryBar we do not get an inactive object left behind
@@ -41,6 +51,21 @@ namespace CardTable
             SurfaceDragDrop.AddPreviewDropHandler(this.chip1, this.OnPreviewDrop);
             SurfaceDragDrop.AddPreviewDropHandler(this.card0, this.OnPreviewDrop);
             SurfaceDragDrop.AddPreviewDropHandler(this.card1, this.OnPreviewDrop);
+        }
+
+        /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for methods containing no arugments and returning void
+        /// </summary>
+        private delegate void NoArgDelegate();
+
+        /// <summary>
+        /// Binds the bank.
+        /// </summary>
+        internal void BindBank()
+        {
+            Binding bankBinding = new Binding("Chips");
+            bankBinding.Source = this.player.BankPile;
+            this.bank.SetBinding(LibraryBar.ItemsSourceProperty, bankBinding);
         }
 
         /// <summary>

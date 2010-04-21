@@ -12,6 +12,7 @@ namespace CardCommunication
     using System.Net;
     using System.Text;
     using System.Threading;
+    using System.Windows.Threading;
     using CardCommunication.CommunicationException;
     using CardGame;
     
