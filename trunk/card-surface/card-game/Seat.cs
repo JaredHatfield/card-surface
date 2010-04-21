@@ -335,7 +335,6 @@ namespace CardGame
             {
                 // A Player joined so lets add them
                 this.player = new Player();
-                this.OnJoinGame();
             }
 
             // Now update the player
@@ -343,6 +342,15 @@ namespace CardGame
             {
                 this.player.Update(seat.player);
             }
+        }
+
+        /// <summary>
+        /// Players the already joined.
+        /// This is called from GameUpdater to raise all the appropriate event.
+        /// </summary>
+        internal void PlayerAlreadyJoined()
+        {
+            this.OnJoinGame();
         }
 
         /// <summary>

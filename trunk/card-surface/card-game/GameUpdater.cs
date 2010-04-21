@@ -45,6 +45,12 @@ namespace CardGame
             this.game.Update(gameMessage);
 
             // 2) Update all of the components unique to a seat including all of the sub objects.
+            bool[] playerStatus = new bool[this.game.Seats.Count];
+            for (int i = 0; i < this.game.Seats.Count; i++)
+            {
+                playerStatus[i] = this.game.Seats[i].IsEmpty;
+            }
+
             for (int i = 0; i < this.game.Seats.Count; i++)
             {
                 Seat.SeatLocation loc = this.game.Seats[i].Location;
@@ -133,10 +139,19 @@ namespace CardGame
                 }
             }
 
-            // TODO: 7) Make sure the piles are in the same order
+            // 7) Notify the game of all of the players that have joined
+            for (int i = 0; i < this.game.Seats.Count; i++)
+            {
+                if (playerStatus[i] && !this.game.Seats[i].IsEmpty)
+                {
+                    this.game.Seats[i].PlayerAlreadyJoined();
+                }
+            }
+
+            // TODO: 8) Make sure the piles are in the same order
             // NOTE: For blackjack, this is not a high priority feature, but for other card games this is very important.
 
-            // TODO: 8) Make sure all of the physical objects are in the same order
+            // TODO: 9) Make sure all of the physical objects are in the same order
             // NOTE: For blackjack, this is not a high priority feature, but for other card games this is very important.
         }
 
