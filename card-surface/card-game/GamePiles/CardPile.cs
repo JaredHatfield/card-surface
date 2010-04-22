@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
@@ -78,6 +79,15 @@ namespace CardGame
         public ReadOnlyObservableCollection<IPhysicalObject> Cards
         {
             get { return new ReadOnlyObservableCollection<IPhysicalObject>(this.Items); }
+        }
+
+        /// <summary>
+        /// Gets the bindable cards.
+        /// </summary>
+        /// <value>The bindable cards.</value>
+        public ObservableCollection<IPhysicalObject> BindableCards
+        {
+            get { return this.Items; }
         }
 
         /// <summary>

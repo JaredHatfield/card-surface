@@ -44,12 +44,30 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the bindable chips.
+        /// </summary>
+        /// <value>The bindable chips.</value>
+        public ObservableCollection<ChipPile> BindableChips
+        {
+            get { return this.chips; }
+        }
+
+        /// <summary>
         /// Gets the cards.
         /// </summary>
         /// <value>The cards.</value>
         public ReadOnlyObservableCollection<CardPile> Cards
         {
             get { return new ReadOnlyObservableCollection<CardPile>(this.cards); }
+        }
+
+        /// <summary>
+        /// Gets the bindable cards.
+        /// </summary>
+        /// <value>The bindable cards.</value>
+        public ObservableCollection<CardPile> BindableCards
+        {
+            get { return this.cards; }
         }
 
         /// <summary>
