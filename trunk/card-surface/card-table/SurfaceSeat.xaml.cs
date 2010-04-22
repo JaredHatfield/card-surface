@@ -92,6 +92,12 @@ namespace CardTable
                 // Set up the join and leave events
                 seat.PlayerJoinGame += new Seat.PlayerJoinSeatEventHandler(this.PlayerJoined);
                 seat.PlayerLeaveGame += new Seat.PlayerLeaveSeatEventHandler(this.PlayerLeft);
+
+                // Add the player if they are already in the seat
+                if (!this.seat.IsEmpty)
+                {
+                    this.ProcessPlayerJoined();
+                }
             }
             else
             {
@@ -119,12 +125,10 @@ namespace CardTable
             if (this.seatPasswordTimer.IsEnabled)
             {
                 this.seatPasswordTimer.Stop();
-                this.SeatPasswordGrid.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                this.JoinButton.Visibility = Visibility.Hidden;
-            }
+            } 
+
+            this.JoinButton.Visibility = Visibility.Hidden;
+            this.SeatPasswordGrid.Visibility = Visibility.Hidden;
 
             SurfacePlayer spa = new SurfacePlayer(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)));
             spa.VerticalAlignment = VerticalAlignment.Bottom;
