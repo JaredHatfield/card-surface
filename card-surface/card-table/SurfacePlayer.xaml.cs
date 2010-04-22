@@ -35,6 +35,11 @@ namespace CardTable
         private Player player;
 
         /// <summary>
+        /// The SurfacePlaying area that is contained within the player.
+        /// </summary>
+        private SurfacePlayingArea surfacePlayingArea;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfacePlayer"/> class.
         /// </summary>
         /// <param name="player">The player.</param>
@@ -44,6 +49,12 @@ namespace CardTable
 
             this.player = player;
 
+            SurfacePlayingArea spa = new SurfacePlayingArea(player.PlayerArea);
+            spa.HorizontalAlignment = HorizontalAlignment.Center;
+            spa.VerticalAlignment = VerticalAlignment.Top;
+            this.PlayerGrid.Children.Add(spa);
+            this.surfacePlayingArea = spa;
+
             /* TODO: Implement dynamic pile bindings. */
             /*this.surfacePlayingArea = new SurfacePlayingArea(this.player.PlayerArea);
             this.PlayerGrid.Children.Add(this.surfacePlayingArea);*/
@@ -52,10 +63,6 @@ namespace CardTable
             // This insures that when we move out of a LibraryBar we do not get an inactive object left behind
             SurfaceDragDrop.AddPreviewDropHandler(this.bank, this.OnPreviewDrop);
             SurfaceDragDrop.AddPreviewDropHandler(this.hand, this.OnPreviewDrop);
-            SurfaceDragDrop.AddPreviewDropHandler(this.chip0, this.OnPreviewDrop);
-            SurfaceDragDrop.AddPreviewDropHandler(this.chip1, this.OnPreviewDrop);
-            SurfaceDragDrop.AddPreviewDropHandler(this.card0, this.OnPreviewDrop);
-            SurfaceDragDrop.AddPreviewDropHandler(this.card1, this.OnPreviewDrop);
         }
 
         /// <summary>
@@ -69,6 +76,7 @@ namespace CardTable
         internal void BindPiles()
         {
             TableManager.Instance().CurrentGame.GameStateDidFinishUpdate += new CardCommunication.GameNetworkClient.GameStateDidFinishUpdateDelegate(this.UpdatePlayerPiles);
+            TableManager.Instance().CurrentGame.GameStateDidFinishUpdate += new CardCommunication.GameNetworkClient.GameStateDidFinishUpdateDelegate(this.surfacePlayingArea.UpdatePlayingAreaPiles);
             this.UpdatePlayerPiles();
         }
 
@@ -89,54 +97,59 @@ namespace CardTable
             {
                 // Update the players piles
                 BankPile currentBank = this.player.BankPile;
-                this.bank.Items.Clear();
+
+                // Add all of the missing objects
                 for (int i = 0; i < currentBank.Chips.Count; i++)
                 {
                     SurfaceChip surfaceChip = currentBank.Chips[i] as SurfaceChip;
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(currentBank.Chips[i].Id, surfaceChip.ObjectImageSource);
-                    this.bank.Items.Add(spo);
+                    if (!this.bank.Items.Contains(surfaceChip))
+                    {
+                        this.bank.Items.Add(surfaceChip);
+                    }
+                }
+
+                // Remove all of the unnecessary objects
+                Collection<SurfaceChip> chipsToRemove = new Collection<SurfaceChip>();
+                for (int i = 0; i < this.bank.Items.Count; i++)
+                {
+                    SurfaceChip surfaceChip = this.bank.Items[i] as SurfaceChip;
+                    if (!currentBank.Chips.Contains(surfaceChip))
+                    {
+                        chipsToRemove.Add(surfaceChip);
+                    }
+                }
+
+                for (int i = 0; i < chipsToRemove.Count; i++)
+                {
+                    this.bank.Items.Remove(chipsToRemove[i]);
                 }
 
                 CardPile currentHand = this.player.Hand;
-                this.hand.Items.Clear();
+
+                // Add all of the missing objects
                 for (int i = 0; i < currentHand.Cards.Count; i++)
                 {
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(currentHand.Cards[i].Id, "Resources/CardBack.png");
-                    this.hand.Items.Add(spo);
+                    SurfaceCard surfaceCard = currentHand.Cards[i] as SurfaceCard;
+                    if (!this.hand.Items.Contains(surfaceCard))
+                    {
+                        this.hand.Items.Add(surfaceCard);
+                    }
                 }
 
-                CardPile currentCard0 = this.player.PlayerArea.Cards[0];
-                this.card0.Items.Clear();
-                for (int i = 0; i < currentCard0.Cards.Count; i++)
+                // Remove all of the unnecessary objects
+                Collection<SurfaceCard> cardsToRemove = new Collection<SurfaceCard>();
+                for (int i = 0; i < this.hand.Items.Count; i++)
                 {
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(currentCard0.Cards[i].Id, "Resources/CardBack.png");
-                    this.card0.Items.Add(spo);
+                    SurfaceCard surfaceCard = this.hand.Items[i] as SurfaceCard;
+                    if (!currentHand.Cards.Contains(surfaceCard))
+                    {
+                        cardsToRemove.Add(surfaceCard);
+                    }
                 }
 
-                CardPile currentCard1 = this.player.PlayerArea.Cards[1];
-                this.card1.Items.Clear();
-                for (int i = 0; i < currentCard1.Cards.Count; i++)
+                for (int i = 0; i < cardsToRemove.Count; i++)
                 {
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(currentCard1.Cards[i].Id, "Resources/CardBack.png");
-                    this.card1.Items.Add(spo);
-                }
-
-                ChipPile currentChip0 = this.player.PlayerArea.Chips[0];
-                this.chip0.Items.Clear();
-                for (int i = 0; i < currentChip0.Chips.Count; i++)
-                {
-                    SurfaceChip surfaceChip = currentChip0.Chips[i] as SurfaceChip;
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(surfaceChip.Id, surfaceChip.ObjectImageSource);
-                    this.chip0.Items.Add(spo);
-                }
-
-                ChipPile currentChip1 = this.player.PlayerArea.Chips[1];
-                this.chip1.Items.Clear();
-                for (int i = 0; i < currentChip1.Chips.Count; i++)
-                {
-                    SurfaceChip surfaceChip = currentChip1.Chips[i] as SurfaceChip;
-                    SurfacePhysicalObject spo = new SurfacePhysicalObject(surfaceChip.Id, surfaceChip.ObjectImageSource);
-                    this.chip0.Items.Add(spo);
+                    this.hand.Items.Remove(cardsToRemove[i]);
                 }
             }
         }
