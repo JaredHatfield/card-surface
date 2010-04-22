@@ -183,9 +183,8 @@ namespace CardTable
             }
 
             TableManager.Instance().CreateGame(new GameSurface(TableManager.Instance().TableCommunicationController, (ActiveGameStruct)clickedButton.Tag));
-
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(TableManager.Instance().CurrentGameWindow.Show));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.Hide));
         }
 
         /// <summary>
