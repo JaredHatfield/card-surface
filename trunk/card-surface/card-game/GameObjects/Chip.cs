@@ -143,10 +143,7 @@ namespace CardGame
             }
             else
             {
-                // TODO: This is just a hack to get the GUI working...
-                return false;
-
-                // throw new InvalidCastException("The 'obj' argument is not a Chip object.");
+                throw new InvalidCastException("The 'obj' argument is not a Chip object.");
             }
         }
 

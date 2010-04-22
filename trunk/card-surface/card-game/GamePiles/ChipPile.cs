@@ -52,6 +52,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the bindable chips.
+        /// </summary>
+        /// <value>The bindable chips.</value>
+        public ObservableCollection<IPhysicalObject> BindableChips
+        {
+            get { return this.Items; }
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type.
         /// </summary>
         /// <param name="obj">An object to compare with this instance.</param>

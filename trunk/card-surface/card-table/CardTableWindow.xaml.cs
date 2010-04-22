@@ -36,6 +36,11 @@ namespace CardTable
         private GameSurface game;
 
         /// <summary>
+        /// The SurfacePlayingArea that represents the Game's GamingArea
+        /// </summary>
+        private SurfacePlayingArea surfaceGamingArea;
+
+        /// <summary>
         /// Initializes a new instance of the CardTableWindow class.
         /// </summary>
         /// <param name="game">The game that we are playing.</param>
@@ -45,6 +50,9 @@ namespace CardTable
             
             // Set up the game!
             this.game = game;
+
+            this.surfaceGamingArea = new SurfacePlayingArea(this.game.GamingArea);
+            this.GameGrid.Children.Add(this.surfaceGamingArea);
 
             // Bind all of the seat passwords!
             this.PlayerEast.BindSeat(game.GetSeat(Seat.SeatLocation.East));

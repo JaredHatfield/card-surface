@@ -34,6 +34,11 @@ namespace CardTable
         private Player player;
 
         /// <summary>
+        /// The SurfacePlayingArea owned by the Player
+        /// </summary>
+        ////private SurfacePlayingArea surfacePlayingArea;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfacePlayer"/> class.
         /// </summary>
         /// <param name="player">The player.</param>
@@ -42,6 +47,10 @@ namespace CardTable
             InitializeComponent();
 
             this.player = player;
+
+            /* TODO: Implement dynamic pile bindings. */
+            /*this.surfacePlayingArea = new SurfacePlayingArea(this.player.PlayerArea);
+            this.PlayerGrid.Children.Add(this.surfacePlayingArea);*/
 
             // We want to always assume objects are being moved
             // This insures that when we move out of a LibraryBar we do not get an inactive object left behind
@@ -69,14 +78,14 @@ namespace CardTable
             this.bank.SetBinding(LibraryBar.ItemsSourceProperty, bankBinding);
 
             // Bind the hand
-            Binding handBinding = new Binding("Cards");
+            Binding handBinding = new Binding("BindableCards");
             handBinding.Source = this.player.Hand;
             this.hand.SetBinding(LibraryBar.ItemsSourceProperty, handBinding);
         }
 
         /// <summary>
         /// Called when PreviewDropHandler is called.
-        /// This method forces every drop to be a move.  This specifically prevents a LibraryBar for leaving behind inactive objects.
+        /// This method forces every drop to be a move.  This specifically prevents a LibraryBar from leaving behind inactive objects.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="Microsoft.Surface.Presentation.SurfaceDragDropEventArgs"/> instance containing the event data.</param>

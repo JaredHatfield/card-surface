@@ -2,8 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008" 
-    xmlns:local="clr-namespace:CardTable" Height="233" Width="333">
-    <Grid>
+    xmlns:local="clr-namespace:CardTable" Height="268" Width="333">
+    <Grid x:Name="PlayerGrid">
         <Grid.Resources>
             <!-- A template describing the view of each piece of library data -->
             <DataTemplate x:Key="LibraryItemTemplate">
