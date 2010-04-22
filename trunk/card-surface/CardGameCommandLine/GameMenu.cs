@@ -172,8 +172,14 @@ namespace CardGameCommandLine
                     // We assume the player is trying to execute an action
                     try
                     {
-                        this.game.ExecuteAction(input, this.username);
-                        Console.WriteLine("The action was executed successfully!");
+                        if (this.game.ExecuteAction(input, this.username))
+                        {
+                            Console.WriteLine("The action was executed successfully!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The action was not found.");
+                        }
                     }
                     catch (CardGameActionNotFoundException)
                     {

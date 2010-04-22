@@ -149,6 +149,13 @@ namespace CardCommunication
         /// <returns>True if the action can be executed.</returns>
         protected override bool ActionTest(string name, string player)
         {
+            // Lets do a test to see if the action is valid
+            Player p = this.GetPlayer(player);
+            if (!p.Actions.Contains(name))
+            {
+                return false;
+            }
+
             // Send the request for the action to the server
             Game game = this.tableCommunicationController.SendCustomActionMessage(name, player);
 
@@ -156,7 +163,7 @@ namespace CardCommunication
             this.UpdateGameState(game);
 
             // We always return false because we want to let the server update the game
-            return false;
+            return true;
         }
 
         /// <summary>
