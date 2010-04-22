@@ -110,8 +110,8 @@ namespace CardTable
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void LocalConnection_Click(object sender, RoutedEventArgs e)
         {
-            TableManager.Initialize();
-            TableManager.Instance().GameSelectionWindow.Show();
+            TableManager tm = TableManager.Initialize();
+            tm.GameSelectionWindow.Show();
             this.Hide();
         }
 
@@ -123,9 +123,8 @@ namespace CardTable
         private void RemoteConnection_Click(object sender, RoutedEventArgs e)
         {
             /* TODO: Verify that the IP Address is valid. */
-            TableManager.Initialize(ServerAddress.Text);
-
-            TableManager.Instance().GameSelectionWindow.Show();
+            TableManager tm = TableManager.Initialize(ServerAddress.Text);
+            tm.GameSelectionWindow.Show();
             this.Hide();
         }
     }

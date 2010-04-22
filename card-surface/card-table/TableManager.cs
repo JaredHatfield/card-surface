@@ -66,7 +66,6 @@ namespace CardTable
             this.currentGame = null;
 
             this.gameSelectionWindow = new GameSelection();
-            this.gameSelectionWindow.Show();
         }
 
         /// <summary>
