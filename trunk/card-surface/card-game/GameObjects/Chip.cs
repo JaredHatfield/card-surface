@@ -143,7 +143,7 @@ namespace CardGame
             }
             else
             {
-                throw new InvalidCastException("The 'obj' argument is not a Chip object.");
+                return false;
             }
         }
 
