@@ -111,21 +111,36 @@ namespace CardCommunication
         {
             this.game = game;
             this.gameGuid = game.Id;
-            this.game.GameStateUpdated += new Game.GameStateUpdatedHandler(this.GameStateDidUpdate);
+            this.game.GameStateUpdated += new Game.GameStateUpdatedHandler(this.GameStateDidUpdateFromGame);
         }
 
         /// <summary>
         /// The game state updated and we should push a new game to the server.
         /// </summary>
-        private void GameStateDidUpdate()
+        /// <param name="gameId">The game id that has been updated.</param>
+        internal void GameStateDidUpdate(Guid gameId)
         {
-            Debug.WriteLine("Server: Client " + this.id + " pushing updated game state.");
-            MemoryStream gameStream = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            Game gameObject = new GameMessage(this.game);
-            bf.Serialize(gameStream, gameObject);
-            this.serverStreamWriter.WriteLine("PUSH" + Convert.ToBase64String(gameStream.ToArray()));
-            this.serverStreamWriter.Flush();
+            if (this.gameGuid.Equals(gameId))
+            {
+                Debug.WriteLine("Server: Client " + this.id + " pushing updated game state.");
+                MemoryStream gameStream = new MemoryStream();
+                BinaryFormatter bf = new BinaryFormatter();
+                Game gameObject = new GameMessage(this.game);
+                bf.Serialize(gameStream, gameObject);
+                this.serverStreamWriter.WriteLine("PUSH" + Convert.ToBase64String(gameStream.ToArray()));
+                this.serverStreamWriter.Flush();
+            }
+            else
+            {
+            }
+        }
+
+        /// <summary>
+        /// Games the state did update from game.
+        /// </summary>
+        private void GameStateDidUpdateFromGame()
+        {
+            this.GameStateDidUpdate(this.gameGuid);
         }
     }
 }

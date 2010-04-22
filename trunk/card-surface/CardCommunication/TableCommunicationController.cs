@@ -145,7 +145,9 @@ namespace CardCommunication
 
                 try
                 {
+                    Debug.WriteLine("Client: waiting for message from server");
                     received = this.clientStreamReader.ReadLine();
+                    Debug.WriteLine("Client: received a message from the server, processing...");
                 }
                 catch (IOException e)
                 {
@@ -189,6 +191,7 @@ namespace CardCommunication
                         // Now that we have the game, we can update it!
                         if (gameMessage != null)
                         {
+                            Debug.WriteLine("Client: About to process a pushed game update.");
                             this.OnUpdateGameState(gameMessage);
                         }
                     }
