@@ -338,11 +338,13 @@ namespace GameBlackjack
             PlayerState playerState = this.GetPlayerState(p);
             playerState.Leave();
 
-            // TODO: We need to make sure that it is still a player's turn or if no players remain that the game is reset
-            ////if (this.NumberOfPlayers == 0)
-            ////{
-            ////    Shutdown the game
-            ////}
+            if (this.NumberOfPlayers == 0)
+            {
+                while (this.gameState.Current != GameState.State.NotInGame)
+                {
+                    this.gameState.Advance();
+                }
+            }
         }
     }
 }
