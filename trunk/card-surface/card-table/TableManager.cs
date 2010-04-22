@@ -7,6 +7,7 @@ namespace CardTable
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Text;
     using CardCommunication;
     using CardGame.GameFactory;
@@ -21,6 +22,11 @@ namespace CardTable
         /// The Singleton instance of TableManager.
         /// </summary>
         private static TableManager instance;
+
+        /// <summary>
+        /// The IP address of the server that this table is connected to
+        /// </summary>
+        private string serverIpAddress;
 
         /// <summary>
         /// The TableCommunicationController.
@@ -50,6 +56,7 @@ namespace CardTable
             this.tableCommunicationController = new TableCommunicationController();
             this.InitializeFactories();
             this.currentGame = null;
+            this.serverIpAddress = Dns.GetHostName();
 
             this.gameSelectionWindow = new GameSelection();
         }
@@ -64,7 +71,7 @@ namespace CardTable
             this.tableCommunicationController = new TableCommunicationController(ip);
             this.InitializeFactories();
             this.currentGame = null;
-
+            this.serverIpAddress = ip;
             this.gameSelectionWindow = new GameSelection();
         }
 
@@ -93,6 +100,15 @@ namespace CardTable
         public GameSelection GameSelectionWindow
         {
             get { return this.gameSelectionWindow; }
+        }
+
+        /// <summary>
+        /// Gets the server address.
+        /// </summary>
+        /// <value>The server address.</value>
+        public string ServerAddress
+        {
+            get { return this.serverIpAddress; }
         }
 
         /// <summary>
