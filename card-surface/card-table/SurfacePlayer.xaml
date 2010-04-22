@@ -33,7 +33,7 @@
         <s:LibraryStack Name="chip1" Height="80" Width="80" Margin="50,36,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"  />
         <s:LibraryStack Name="card0" Width="80" Margin="0,122,50,66" HorizontalAlignment="Right" />
         <s:LibraryStack Name="card1" Width="80" Margin="50,119,0,69" HorizontalAlignment="Left" />
-        <s:LibraryBar Name="hand" Height="52" Width="130" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <s:LibraryBar Name="bank" Height="52" Width="130" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <s:LibraryBar Name="hand" Height="52" Width="130" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Rows="1"/>
+        <s:LibraryBar Name="bank" Height="52" Width="130" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Rows="1"/>
     </Grid>
 </s:SurfaceUserControl>
