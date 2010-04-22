@@ -350,6 +350,8 @@ namespace CardCommunication
                     cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
                 }
             }
+
+            this.GameStateNeedsPushed -= cc.GameStateDidUpdate;
         }
 
         /// <summary>
