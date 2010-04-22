@@ -15,6 +15,9 @@
                 <Setter Property="ItemContainerStyle" Value="{StaticResource StackItemContainerStyle}"/>
             </Style>
         </Grid.Resources>
-            
+        <StackPanel Orientation="Vertical">
+            <StackPanel Name="ChipPilesStack" Orientation="Horizontal"></StackPanel>
+            <StackPanel Name="CardPilesStack" Orientation="Horizontal"></StackPanel>
+        </StackPanel>
     </Grid>
 </s:SurfaceUserControl>

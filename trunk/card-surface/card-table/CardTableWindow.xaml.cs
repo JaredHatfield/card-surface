@@ -52,6 +52,8 @@ namespace CardTable
             this.game = game;
 
             this.surfaceGamingArea = new SurfacePlayingArea(this.game.GamingArea);
+            this.surfaceGamingArea.HorizontalAlignment = HorizontalAlignment.Center;
+            this.surfaceGamingArea.VerticalAlignment = VerticalAlignment.Center;
             this.GameGrid.Children.Add(this.surfaceGamingArea);
 
             // Bind all of the seat passwords!
