@@ -165,8 +165,8 @@ namespace CardTable
         private LibraryStack NewLibraryStack()
         {
             LibraryStack libraryStack = new LibraryStack();
-            libraryStack.Width = 80;
-            libraryStack.Height = 80;
+            libraryStack.Width = 70;
+            libraryStack.Height = 70;
             SurfaceDragDrop.AddPreviewDropHandler(libraryStack, this.OnPreviewDrop);
             return libraryStack;
         }
