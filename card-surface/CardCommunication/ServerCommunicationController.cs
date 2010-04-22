@@ -82,6 +82,17 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Delegate for a method used to push game states to the client.
+        /// </summary>
+        /// <param name="game">The game that needs to be pushed.</param>
+        internal delegate void GameStateNeedsPushedEventHandler(Guid game);
+
+        /// <summary>
+        /// Occurs when [game state needs pushed].
+        /// </summary>
+        internal event GameStateNeedsPushedEventHandler GameStateNeedsPushed;
+
+        /// <summary>
         /// Gets the IP address.
         /// </summary>
         /// <value>The IP address.</value>
@@ -132,7 +143,8 @@ namespace CardCommunication
         private void ClientProcessor(object connectedClient)
         {
             ConnectedClient cc = connectedClient as ConnectedClient;
-            
+            this.GameStateNeedsPushed += new GameStateNeedsPushedEventHandler(cc.GameStateDidUpdate);
+
             // TODO: this is where all of the magic happens.
             while (true)
             {
@@ -180,10 +192,8 @@ namespace CardCommunication
                     if (messageRequestGame.GameType != null)
                     {
                         string gameType = messageRequestGame.GameType;
-
                         Guid newGame = this.gameController.CreateGame(gameType);
                         cc.JoinGame(this.gameController.GetGame(newGame));
-
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
                         // This needs to send the game
@@ -193,9 +203,6 @@ namespace CardCommunication
                     {
                         Guid selectedGameGuid = messageRequestGame.GameGuid;
                         cc.JoinGame(this.gameController.GetGame(selectedGameGuid));
-
-                        //// TODO: need some way to notify other tables with the same game.
-
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
                         // This needs to send the game
@@ -228,6 +235,9 @@ namespace CardCommunication
 
                         // This needs to send the game
                         cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+
+                        // Push the updates to all of the games
+                        this.GameStateNeedsPushed(cc.GameGuid);
                     }
                     else if (action[0] == MessageAction.ActionType.Custom.ToString())
                     {
@@ -257,16 +267,16 @@ namespace CardCommunication
                         
                         // This needs to send the game
                         cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
+
+                        // Push the updates to all of the games
+                        this.GameStateNeedsPushed(cc.GameGuid);
                     }
                 }
                 else if (mt == Message.MessageType.FlipCard.ToString())
                 {
                     MessageFlipCard messageFlipCard = new MessageFlipCard();
-
                     messageFlipCard.ProcessMessage(messageDoc);
-
                     Guid cardGuid = messageFlipCard.CardGuid;
-
                     this.gameController.GetGame(cc.GameGuid).FlipCard(cardGuid);
                                        
                     // This needs to send the game

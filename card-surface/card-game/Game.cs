@@ -779,7 +779,7 @@ namespace CardGame
                 for (int i = 0; i < this.Seats.Count; i++)
                 {
                     Seat s = this.Seats[i];
-                    if (!s.IsEmpty && s.Player.GetPhysicalObject(physicalObjectId) != null)
+                    if (!s.IsEmpty && (s.Player.ContainsCard(physicalObjectId) || s.Player.ContainsChip(physicalObjectId)))
                     {
                         return this.Seats[i].Player.GetPileContaining(physicalObjectId);
                     }
