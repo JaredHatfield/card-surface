@@ -58,7 +58,14 @@ namespace CardTable.GameObjects
         {
             get
             {
-                return this.objectImageSource;
+                if (this.Status.Equals(Card.CardStatus.FaceUp))
+                {
+                    return this.objectImageSource;
+                }
+                else
+                {
+                    return "Resources/CardBack.png";
+                }
             }
         }
 
@@ -68,6 +75,138 @@ namespace CardTable.GameObjects
         /// <returns>The path to this image resource as a string</returns>
         private string FindCardImageSource()
         {
+            switch (this.Suit)
+            {
+                case Card.CardSuit.Clubs:
+                    switch (this.Face)
+                    {
+                        case Card.CardFace.Ace:
+                            return "Resources/Cards/AceClubs.bmp";
+                        case Card.CardFace.King:
+                            return "Resources/Cards/KingClubs.bmp";
+                        case Card.CardFace.Queen:
+                            return "Resources/Cards/QueenClubs.bmp";
+                        case Card.CardFace.Jack:
+                            return "Resources/Cards/JackClubs.bmp";
+                        case Card.CardFace.Ten:
+                            return "Resources/Cards/TenClubs.bmp";
+                        case Card.CardFace.Nine:
+                            return "Resources/Cards/NineClubs.bmp";
+                        case Card.CardFace.Eight:
+                            return "Resources/Cards/EightClubs.bmp";
+                        case Card.CardFace.Seven:
+                            return "Resources/Cards/SevenClubs.bmp";
+                        case Card.CardFace.Six:
+                            return "Resources/Cards/SixClubs.bmp";
+                        case Card.CardFace.Five:
+                            return "Resources/Cards/FiveClubs.bmp";
+                        case Card.CardFace.Four:
+                            return "Resources/Cards/FourClubs.bmp";
+                        case Card.CardFace.Three:
+                            return "Resources/Cards/ThreeClubs.bmp";
+                        case Card.CardFace.Two:
+                            return "Resources/Cards/TwoClubs.bmp";
+                    }
+
+                    break;
+                case Card.CardSuit.Diamonds:
+                    switch (this.Face)
+                    {
+                        case Card.CardFace.Ace:
+                            return "Resources/Cards/AceDiamonds.bmp";
+                        case Card.CardFace.King:
+                            return "Resources/Cards/KingDiamonds.bmp";
+                        case Card.CardFace.Queen:
+                            return "Resources/Cards/QueenDiamonds.bmp";
+                        case Card.CardFace.Jack:
+                            return "Resources/Cards/JackDiamonds.bmp";
+                        case Card.CardFace.Ten:
+                            return "Resources/Cards/TenDiamonds.bmp";
+                        case Card.CardFace.Nine:
+                            return "Resources/Cards/NineDiamonds.bmp";
+                        case Card.CardFace.Eight:
+                            return "Resources/Cards/EightDiamonds.bmp";
+                        case Card.CardFace.Seven:
+                            return "Resources/Cards/SevenDiamonds.bmp";
+                        case Card.CardFace.Six:
+                            return "Resources/Cards/SixDiamonds.bmp";
+                        case Card.CardFace.Five:
+                            return "Resources/Cards/FiveDiamonds.bmp";
+                        case Card.CardFace.Four:
+                            return "Resources/Cards/FourDiamonds.bmp";
+                        case Card.CardFace.Three:
+                            return "Resources/Cards/ThreeDiamonds.bmp";
+                        case Card.CardFace.Two:
+                            return "Resources/Cards/TwoDiamonds.bmp";
+                    }
+
+                    break;
+                case Card.CardSuit.Hearts:
+                    switch (this.Face)
+                    {
+                        case Card.CardFace.Ace:
+                            return "Resources/Cards/AceHearts.bmp";
+                        case Card.CardFace.King:
+                            return "Resources/Cards/KingHearts.bmp";
+                        case Card.CardFace.Queen:
+                            return "Resources/Cards/QueenHearts.bmp";
+                        case Card.CardFace.Jack:
+                            return "Resources/Cards/JackHearts.bmp";
+                        case Card.CardFace.Ten:
+                            return "Resources/Cards/TenHearts.bmp";
+                        case Card.CardFace.Nine:
+                            return "Resources/Cards/NineHearts.bmp";
+                        case Card.CardFace.Eight:
+                            return "Resources/Cards/EightHearts.bmp";
+                        case Card.CardFace.Seven:
+                            return "Resources/Cards/SevenHearts.bmp";
+                        case Card.CardFace.Six:
+                            return "Resources/Cards/SixHearts.bmp";
+                        case Card.CardFace.Five:
+                            return "Resources/Cards/FiveHearts.bmp";
+                        case Card.CardFace.Four:
+                            return "Resources/Cards/FourHearts.bmp";
+                        case Card.CardFace.Three:
+                            return "Resources/Cards/ThreeHearts.bmp";
+                        case Card.CardFace.Two:
+                            return "Resources/Cards/TwoHearts.bmp";
+                    }
+
+                    break;
+                case Card.CardSuit.Spades:
+                    switch (this.Face)
+                    {
+                        case Card.CardFace.Ace:
+                            return "Resources/Cards/AceSpades.bmp";
+                        case Card.CardFace.King:
+                            return "Resources/Cards/KingSpades.bmp";
+                        case Card.CardFace.Queen:
+                            return "Resources/Cards/QueenSpades.bmp";
+                        case Card.CardFace.Jack:
+                            return "Resources/Cards/JackSpades.bmp";
+                        case Card.CardFace.Ten:
+                            return "Resources/Cards/TenSpades.bmp";
+                        case Card.CardFace.Nine:
+                            return "Resources/Cards/NineSpades.bmp";
+                        case Card.CardFace.Eight:
+                            return "Resources/Cards/EightSpades.bmp";
+                        case Card.CardFace.Seven:
+                            return "Resources/Cards/SevenSpades.bmp";
+                        case Card.CardFace.Six:
+                            return "Resources/Cards/SixSpades.bmp";
+                        case Card.CardFace.Five:
+                            return "Resources/Cards/FiveSpades.bmp";
+                        case Card.CardFace.Four:
+                            return "Resources/Cards/FourSpades.bmp";
+                        case Card.CardFace.Three:
+                            return "Resources/Cards/ThreeSpades.bmp";
+                        case Card.CardFace.Two:
+                            return "Resources/Cards/TwoSpades.bmp";
+                    }
+
+                    break;
+            }
+
             return "Resources/CardBack.png";
         }
     }
