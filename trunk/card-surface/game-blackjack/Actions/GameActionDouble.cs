@@ -47,23 +47,23 @@ namespace GameBlackjack
             while (p.PlayerArea.Chips[0].Amount < targetBet)
             {
                 int needed = targetBet - p.PlayerArea.Chips[0].Amount;
-                if (needed >= 100)
+                if (needed >= 100 && p.BankPile.ChipExists(100))
                 {
                     game.MoveAction(p.BankPile.GetChip(100), p.PlayerArea.Chips[0].Id);
                 }
-                else if (needed >= 25)
+                else if (needed >= 25 && p.BankPile.ChipExists(25))
                 {
                     game.MoveAction(p.BankPile.GetChip(25), p.PlayerArea.Chips[0].Id);
                 }
-                else if (needed >= 10)
+                else if (needed >= 10 && p.BankPile.ChipExists(10))
                 {
                     game.MoveAction(p.BankPile.GetChip(10), p.PlayerArea.Chips[0].Id);
                 }
-                else if (needed >= 5)
+                else if (needed >= 5 && p.BankPile.ChipExists(5))
                 {
                     game.MoveAction(p.BankPile.GetChip(5), p.PlayerArea.Chips[0].Id);
                 }
-                else if (needed >= 1)
+                else if (needed >= 1 && p.BankPile.ChipExists(1))
                 {
                     game.MoveAction(p.BankPile.GetChip(1), p.PlayerArea.Chips[0].Id);
                 }
@@ -110,7 +110,7 @@ namespace GameBlackjack
                     {
                         // Make sure the player can take a hit and only has two cards and sufficient funds
                         GameActionHit hit = new GameActionHit();
-                        if (hit.IsExecutableByPlayer(game, player) && player.Hand.Cards.Count == 2 && player.PlayerArea.Chips[0].Amount <= player.Balance)
+                        if (hit.IsExecutableByPlayer(game, player) && player.Hand.Cards.Count == 2 && player.PlayerArea.Chips[0].Amount <= player.Balance + player.BankPile.Amount)
                         {
                             return true;
                         }

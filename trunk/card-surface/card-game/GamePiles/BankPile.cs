@@ -82,6 +82,24 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Tests whether the Chip exists.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>Whether the chip exists.</returns>
+        public bool ChipExists(int value)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if ((this.Items[i] as IChip).Amount.Equals(value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Updates the specified pile.
         /// This updates the Guid and open attributes.  It does not update the pile items.
         /// </summary>
