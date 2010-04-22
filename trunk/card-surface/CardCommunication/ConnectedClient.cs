@@ -115,6 +115,14 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// Leaves the game.
+        /// </summary>
+        internal void LeaveGame()
+        {
+            this.game.GameStateUpdated -= this.GameStateDidUpdateFromGame;
+        }
+
+        /// <summary>
         /// The game state updated and we should push a new game to the server.
         /// </summary>
         /// <param name="gameId">The game id that has been updated.</param>
@@ -127,7 +135,17 @@ namespace CardCommunication
                 BinaryFormatter bf = new BinaryFormatter();
                 Game gameObject = new GameMessage(this.game);
                 bf.Serialize(gameStream, gameObject);
-                this.serverStreamWriter.WriteLine("PUSH" + Convert.ToBase64String(gameStream.ToArray()));
+
+                try
+                {
+                    this.serverStreamWriter.WriteLine("PUSH" + Convert.ToBase64String(gameStream.ToArray()));
+                }
+                catch (IOException e)
+                {
+                    Debug.WriteLine("Connection terminated. " + e.ToString());
+                    this.LeaveGame();
+                }
+
                 this.serverStreamWriter.Flush();
             }
             else
