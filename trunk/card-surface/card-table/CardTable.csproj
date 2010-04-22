@@ -116,8 +116,8 @@
     <Compile Include="CardTableWindow.xaml.cs">
       <DependentUpon>CardTableWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SurfacePlayerArea.xaml.cs">
-      <DependentUpon>SurfacePlayerArea.xaml</DependentUpon>
+    <Compile Include="SurfacePlayer.xaml.cs">
+      <DependentUpon>SurfacePlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="SurfaceSeat.xaml.cs">
       <DependentUpon>SurfaceSeat.xaml</DependentUpon>
@@ -172,7 +172,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SurfacePlayerArea.xaml">
+    <Page Include="SurfacePlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

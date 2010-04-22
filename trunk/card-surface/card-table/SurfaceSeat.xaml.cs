@@ -126,7 +126,7 @@ namespace CardTable
                 this.JoinButton.Visibility = Visibility.Hidden;
             }
 
-            SurfacePlayerArea spa = new SurfacePlayerArea(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)));
+            SurfacePlayer spa = new SurfacePlayer(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)));
             spa.VerticalAlignment = VerticalAlignment.Bottom;
             spa.HorizontalAlignment = HorizontalAlignment.Center;
             spa.BindPiles();
