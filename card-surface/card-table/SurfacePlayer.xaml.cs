@@ -35,6 +35,11 @@ namespace CardTable
         private Player player;
 
         /// <summary>
+        /// This player's username.
+        /// </summary>
+        private string username;
+
+        /// <summary>
         /// The SurfacePlaying area that is contained within the player.
         /// </summary>
         private SurfacePlayingArea surfacePlayingArea;
@@ -43,11 +48,13 @@ namespace CardTable
         /// Initializes a new instance of the <see cref="SurfacePlayer"/> class.
         /// </summary>
         /// <param name="player">The player.</param>
-        public SurfacePlayer(Player player)
+        /// <param name="username">The username.</param>
+        public SurfacePlayer(Player player, string username)
         {
             InitializeComponent();
 
             this.player = player;
+            this.username = username;
 
             SurfacePlayingArea spa = new SurfacePlayingArea(player.PlayerArea);
             spa.HorizontalAlignment = HorizontalAlignment.Center;
