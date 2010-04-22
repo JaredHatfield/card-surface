@@ -1,7 +1,7 @@
-﻿// <copyright file="SurfacePlayerArea.xaml.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="SurfacePlayer.xaml.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
-// <summary>Interaction logic for SurfacePlayerArea.xaml</summary>
+// <summary>Interaction logic for SurfacePlayer.xaml</summary>
 namespace CardTable
 {
     using System;
@@ -24,20 +24,20 @@ namespace CardTable
     using Microsoft.Surface.Presentation.Controls;
 
     /// <summary>
-    /// Interaction logic for SurfacePlayerArea.xaml
+    /// Interaction logic for SurfacePlayer.xaml
     /// </summary>
-    public partial class SurfacePlayerArea : SurfaceUserControl
+    public partial class SurfacePlayer : SurfaceUserControl
     {
         /// <summary>
-        /// The Player that this SurfacePlayerArea represents
+        /// The Player that this SurfacePlayer represents
         /// </summary>
         private Player player;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SurfacePlayerArea"/> class.
+        /// Initializes a new instance of the <see cref="SurfacePlayer"/> class.
         /// </summary>
         /// <param name="player">The player.</param>
-        public SurfacePlayerArea(Player player)
+        public SurfacePlayer(Player player)
         {
             InitializeComponent();
 
