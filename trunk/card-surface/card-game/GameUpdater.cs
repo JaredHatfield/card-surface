@@ -6,6 +6,7 @@ namespace CardGame
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using CardGame.GameException;
@@ -179,7 +180,15 @@ namespace CardGame
                     Guid currentPileId = this.game.GetPileContaining(existing.Id).Id;
                     if (!pile.Id.Equals(currentPileId))
                     {
-                        this.game.MovePhysicalObject(existing.Id, pile.Id);
+                        try
+                        {
+                            this.game.MovePhysicalObject(existing.Id, pile.Id);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine("A chip was attempted to be moved in the update method.");
+                            Debug.WriteLine(e.ToString());
+                        }
                     }
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
@@ -216,7 +225,15 @@ namespace CardGame
                     Guid currentPileId = this.game.GetPileContaining(existing.Id).Id;
                     if (!pile.Id.Equals(currentPileId))
                     {
-                        this.game.MovePhysicalObject(existing.Id, pile.Id);
+                        try
+                        {
+                            this.game.MovePhysicalObject(existing.Id, pile.Id);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine("A chip was attempted to be moved in the update method.");
+                            Debug.WriteLine(e.ToString());
+                        }
                     }
                 }
                 catch (CardGamePhysicalObjectNotFoundException)
