@@ -10,6 +10,7 @@ namespace CardTable
     using System.Net;
     using System.Text;
     using CardCommunication;
+    using CardCommunication.CommunicationException;
     using CardGame.GameFactory;
     using CardTable.GameFactory;
 
@@ -53,7 +54,15 @@ namespace CardTable
         /// </summary>
         private TableManager()
         {
-            this.tableCommunicationController = new TableCommunicationController();
+            try
+            {
+                this.tableCommunicationController = new TableCommunicationController();
+            }
+            catch (SocketBindingException sbe)
+            {
+                throw new Exception("Invalid server address!", sbe);
+            }
+
             this.InitializeFactories();
             this.currentGame = null;
             this.serverIpAddress = Dns.GetHostName();
@@ -67,8 +76,15 @@ namespace CardTable
         /// <param name="ip">The ip address to connect to.</param>
         private TableManager(string ip)
         {
-            /* TODO: We should verify that the IP address passed to this constructor is valid! */
-            this.tableCommunicationController = new TableCommunicationController(ip);
+            try
+            {
+                this.tableCommunicationController = new TableCommunicationController(ip);
+            }
+            catch (SocketBindingException sbe)
+            {
+                throw new Exception("Invalid server address!", sbe);
+            }
+
             this.InitializeFactories();
             this.currentGame = null;
             this.serverIpAddress = ip;
@@ -155,8 +171,16 @@ namespace CardTable
         {
             if (TableManager.instance == null)
             {
-                TableManager.instance = new TableManager();
-                return TableManager.instance;
+                try
+                {
+                    TableManager.instance = new TableManager();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("TableManager: TableManager already Initialized!", e);
+                }
+
+                return TableManager.instance;   
             }
 
             throw new Exception("TableManager: TableManager already Initialized!");
@@ -171,7 +195,15 @@ namespace CardTable
         {
             if (TableManager.instance == null)
             {
-                TableManager.instance = new TableManager(ip);
+                try
+                {
+                    TableManager.instance = new TableManager(ip);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("TableManager: TableManager already Initialized!", e);
+                }
+
                 return TableManager.instance;
             }
 

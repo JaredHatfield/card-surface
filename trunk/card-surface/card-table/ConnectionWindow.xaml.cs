@@ -6,6 +6,7 @@ namespace CardTable
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -26,6 +27,11 @@ namespace CardTable
     /// </summary>
     public partial class ConnectionWindow : SurfaceWindow
     {
+        /// <summary>
+        /// The timer responsible for making the connection error label disappear
+        /// </summary>
+        private DispatcherTimer connectionErrorLabelDisplayTimer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionWindow"/> class.
         /// </summary>
@@ -104,28 +110,55 @@ namespace CardTable
         }
 
         /// <summary>
-        /// Handles the Click event of the LocalConnection control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
-        private void LocalConnection_Click(object sender, RoutedEventArgs e)
-        {
-            TableManager tm = TableManager.Initialize();
-            tm.GameSelectionWindow.Show();
-            this.Hide();
-        }
-
-        /// <summary>
         /// Handles the Click event of the RemoteConnection control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void RemoteConnection_Click(object sender, RoutedEventArgs e)
         {
-            /* TODO: Verify that the IP Address is valid. */
-            TableManager tm = TableManager.Initialize(ServerAddress.Text);
-            tm.GameSelectionWindow.Show();
-            this.Hide();
+            try
+            {
+                TableManager tm = TableManager.Initialize(ServerAddress.Text);
+                tm.GameSelectionWindow.Show();
+                this.Hide();
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("ConnectionWindow.xaml.cs: " + exception.Message);
+                this.ConnectionErrorLabel.Visibility = Visibility.Visible;
+                this.connectionErrorLabelDisplayTimer = new DispatcherTimer(new TimeSpan(0, 0, 5), DispatcherPriority.Normal, this.ConnectionErrorLabelDisplayTimeout, Dispatcher.CurrentDispatcher);
+            }
+        }
+
+        /// <summary>
+        /// Connections the error label display timeout.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void ConnectionErrorLabelDisplayTimeout(object sender, EventArgs e)
+        {
+            this.ConnectionErrorLabel.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Handles the MouseDown event of the BlackChipImage control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void BlackChipImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                TableManager tm = TableManager.Initialize();
+                tm.GameSelectionWindow.Show();
+                this.Hide();
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("ConnectionWindow.xaml.cs: " + exception.Message);
+                this.ConnectionErrorLabel.Visibility = Visibility.Visible;
+                this.connectionErrorLabelDisplayTimer = new DispatcherTimer(new TimeSpan(0, 0, 5), DispatcherPriority.Normal, this.ConnectionErrorLabelDisplayTimeout, Dispatcher.CurrentDispatcher);
+            }
         }
     }
 }
