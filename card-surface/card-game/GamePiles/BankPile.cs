@@ -165,7 +165,7 @@ namespace CardGame
         /// <param name="value">The value of the chip.</param>
         private void AddChipToPile(int value)
         {
-            if (this.player.Balance > value && !this.PileContainsChip(value))
+            if (this.player.Balance >= value && !this.PileContainsChip(value))
             {
                 this.Items.Add(this.GetNewChip(value));
                 this.player.Balance -= value;
