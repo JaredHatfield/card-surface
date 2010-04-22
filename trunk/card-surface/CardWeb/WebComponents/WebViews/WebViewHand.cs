@@ -129,7 +129,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "</head>\n";
             content += "<body>\n";
             content += "<table border=\"0\">\n";
-            content += "<tr><td>Game Balance:</td><td>$" + currentPlayer.Balance + "</td></tr>\n";
+            content += "<tr><td>Game Balance:</td><td>$" + currentPlayer.Money + "</td></tr>\n";
             content += "<tr><td>Account Balance:</td><td>$" + AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance + "</td></tr>\n";
             content += "</table><br/>\n";
 
