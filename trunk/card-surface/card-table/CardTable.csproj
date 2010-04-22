@@ -129,7 +129,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\GameSelectionBackground.jpg" />
     <Resource Include="Resources\CardSurfaceLogo.png" />
     <Resource Include="Resources\CardTableIcon.ico" />
     <Resource Include="Resources\chipBlack.png">
@@ -150,7 +149,7 @@
     <Resource Include="Resources\CardBack.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\ConnectionWindowBackground.jpg" />
+    <Resource Include="Resources\Felt.png" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -158,9 +157,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="CardTable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\WindowBackground.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="CardTableWindow.xaml">

@@ -6,38 +6,45 @@
     Icon="Resources/CardTableIcon.ico"
     WindowStartupLocation="CenterScreen"
     >
-  <s:SurfaceWindow.Resources>
-    <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/ConnectionWindowBackground.jpg"/>
-    <Style BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="Label"
-       x:Key="TitleLabel">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontSize" Value="25"/>
-    </Style>
-    <Style BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="Label"
-       x:Key="SubtitleLabel">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontSize" Value="18"/>
-    </Style>
+    <s:SurfaceWindow.Resources>
+        <ImageBrush x:Key="WindowBackground" Stretch="UniformToFill" ImageSource="pack://application:,,,/Resources/Felt.png"/>
+        <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="TitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="SubtitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="InstructionLabel">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="s:SurfaceButton">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="s:SurfaceTextBox">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="TextAlignment" Value="Center" />
         </Style>
     </s:SurfaceWindow.Resources>
-<Grid Background="{StaticResource WindowBackground}" >
-        <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!"/>
-        <Label Style="{StaticResource SubtitleLabel}" Content="Connect to Server" Height="33.94" Margin="414,51,414,0" VerticalAlignment="Top" />
-        <Label Style="{StaticResource InstructionLabel}" Content="Enter the IP address of the CardServer to which you would" Height="33.94" Margin="196,93,189,0" VerticalAlignment="Top" />
-        <Label Style="{StaticResource InstructionLabel}" Content="like to connect or choose to connect locally." Height="33.94" Margin="372,113,364,0" VerticalAlignment="Top" />
-        <s:SurfaceButton Content="Connect Locally" Margin="396,182,382,0" Height="50" VerticalAlignment="Top" x:Name="LocalConnection" Click="LocalConnection_Click"></s:SurfaceButton>
-        <s:SurfaceTextBox x:Name="ServerAddress" Margin="351.388,0,326.612,275" Height="50" VerticalAlignment="Bottom">
-        </s:SurfaceTextBox>
-        <s:SurfaceButton Content="Connect Remotely" Margin="396,0,382,215" Height="50" VerticalAlignment="Bottom" x:Name="RemoteConnection" Click="RemoteConnection_Click"></s:SurfaceButton>
-        <Image Source="Resources/CardSurfaceLogo.png" Margin="338,245,-338,256" />
-        <Image Source="Resources/CardSurfaceLogo.png" Margin="-338,245,338,256" />
-</Grid>
+    <Grid Background="{StaticResource WindowBackground}" >
+        <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!" Margin="0,19,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Label Style="{StaticResource SubtitleLabel}" Content="Connect to Server" Margin="0,65,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Label Style="{StaticResource InstructionLabel}" Content="Enter the IP address of the CardServer to which you would" Margin="0,104,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <Label Style="{StaticResource InstructionLabel}" Content="like to connect or choose to connect locally." Height="33.94" Margin="0,126,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <s:SurfaceButton Content="Connect Locally" Margin="0,182,0,0" Height="50" Width="200" x:Name="LocalConnection" Click="LocalConnection_Click"  VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <s:SurfaceTextBox x:Name="ServerAddress" Margin="0,300,0,0" Height="50" Width="400" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <s:SurfaceButton Content="Connect Remotely" Margin="0,370,0,0" Height="50" Width="200" x:Name="RemoteConnection" Click="RemoteConnection_Click"  VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Left"  Width="200" Margin="50,0,0,0" />
+        <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Margin="0,0,50,0" />
+    </Grid>
 </s:SurfaceWindow>

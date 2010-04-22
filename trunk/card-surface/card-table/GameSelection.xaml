@@ -7,29 +7,38 @@
     WindowStartupLocation="CenterScreen"
     >
 <s:SurfaceWindow.Resources>
-    <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/GameSelectionBackground.jpg"/>
-    <Style BasedOn="{StaticResource {x:Type Label}}"
-           TargetType="Label"
-           x:Key="TitleLabel">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontSize" Value="25"/>
-    </Style>
-    <Style BasedOn="{StaticResource {x:Type Label}}"
-           TargetType="Label"
-           x:Key="SubtitleLabel">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontSize" Value="18"/>
-    </Style>
+    <ImageBrush x:Key="WindowBackground" Stretch="UniformToFill" ImageSource="pack://application:,,,/Resources/Felt.png"/>
+    <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="TitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="SubtitleLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label" x:Key="InstructionLabel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="s:SurfaceButton">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
 </s:SurfaceWindow.Resources>
-<Grid Background="{StaticResource WindowBackground}">
-    <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!"/>
-    <Label Style="{StaticResource SubtitleLabel}" Content="Select Your Game" Height="33.94" Margin="410,55,418,0" VerticalAlignment="Top" />
-    <s:SurfaceScrollViewer Height="400" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="GameList">
-        <ItemsControl x:Name="Games"/>
-    </s:SurfaceScrollViewer>
-    <Image Source="Resources/CardSurfaceLogo.png" Margin="338,245,-338,256" />
-    <Image Source="Resources/CardSurfaceLogo.png" Margin="-338,245,338,256" />
-</Grid>
+    <Grid Background="{StaticResource WindowBackground}">
+        <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!" Margin="0,19,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Label Style="{StaticResource SubtitleLabel}" Content="Select Your Game" Height="33.94" Margin="410,55,418,0" VerticalAlignment="Top" />
+        <s:SurfaceScrollViewer Height="400" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="GameList">
+            <ItemsControl x:Name="Games"/>
+        </s:SurfaceScrollViewer>
+        <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Left"  Width="200" Margin="50,0,0,0" />
+        <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Margin="0,0,50,0" />
+    </Grid>
 </s:SurfaceWindow>

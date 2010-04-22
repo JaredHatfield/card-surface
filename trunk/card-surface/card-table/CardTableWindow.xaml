@@ -8,8 +8,12 @@
     Icon="Resources/CardTableIcon.ico"
     WindowStartupLocation="CenterScreen">
   <s:SurfaceWindow.Resources>
-    <ImageBrush x:Key="WindowBackground" Stretch="None" Opacity="0.6" ImageSource="pack://application:,,,/Resources/WindowBackground.jpg"/>
-  </s:SurfaceWindow.Resources>
+    <ImageBrush x:Key="WindowBackground" Stretch="UniformToFill" ImageSource="pack://application:,,,/Resources/Felt.png"/>
+        <Style TargetType="s:SurfaceButton">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </s:SurfaceWindow.Resources>
     <Grid Background="{StaticResource WindowBackground}" x:Name="GameGrid">
         <local:SurfaceSeat x:Name="PlayerSouth" SeatLocation="South" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
 
