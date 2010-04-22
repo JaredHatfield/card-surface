@@ -70,7 +70,16 @@ namespace CardCommunication
         public TableCommunicationController()
             : base()
         {
-            this.tcpClient = new TcpClient("localhost", CommunicationController.ServerListenerPortNumber);
+            try
+            {
+                this.tcpClient = new TcpClient("localhost", CommunicationController.ServerListenerPortNumber);
+            }
+            catch (SocketException se)
+            {
+                Debug.WriteLine("TableCommunicationController: Could not connect to the specified server (" + se.Message + ")");
+                throw new SocketBindingException("Could not connect to the specified server", se);
+            }
+
             Debug.WriteLine("Client: connected to the server.");
             NetworkStream clientSockStream = this.tcpClient.GetStream();
             this.clientStreamReader = new StreamReader(clientSockStream);
