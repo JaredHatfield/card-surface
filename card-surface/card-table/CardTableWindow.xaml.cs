@@ -51,12 +51,16 @@ namespace CardTable
             // Set up the game!
             this.game = game;
 
+            // Set up the gaming area
             this.surfaceGamingArea = new SurfacePlayingArea(this.game.GamingArea);
             this.surfaceGamingArea.HorizontalAlignment = HorizontalAlignment.Center;
             this.surfaceGamingArea.VerticalAlignment = VerticalAlignment.Center;
             this.GameGrid.Children.Add(this.surfaceGamingArea);
 
-            // Bind all of the seat passwords!
+            // Bind the update for the gaming area
+            TableManager.Instance().CurrentGame.GameStateDidFinishUpdate += new CardCommunication.GameNetworkClient.GameStateDidFinishUpdateDelegate(this.surfaceGamingArea.UpdatePlayingAreaPiles);
+
+            // Bind all of the seats!
             this.PlayerEast.BindSeat(game.GetSeat(Seat.SeatLocation.East));
             this.PlayerNorth.BindSeat(game.GetSeat(Seat.SeatLocation.North));
 
@@ -73,6 +77,11 @@ namespace CardTable
         }
 
         /// <summary>
+        /// Generic delegate utilized by Dispatcher invocations for methods containing no arugments and returning void
+        /// </summary>
+        private delegate void NoArgDelegate();
+
+        /// <summary>
         /// Occurs when the window is about to close. 
         /// </summary>
         /// <param name="e">Event arguments.</param>
@@ -82,6 +91,22 @@ namespace CardTable
 
             // Remove handlers for Application activation events
             this.RemoveActivationHandlers();
+        }
+
+        /// <summary>
+        /// Updates the gaming area.
+        /// </summary>
+        private void UpdateGamingArea()
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new NoArgDelegate(this.UpdateGamingAreaDispatched));
+        }
+
+        /// <summary>
+        /// Updates the gaming area dispatched.
+        /// </summary>
+        private void UpdateGamingAreaDispatched()
+        {
+            this.surfaceGamingArea.UpdatePlayingAreaPiles();
         }
 
         /// <summary>
