@@ -4,12 +4,27 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:CardTable" Height="220" Width="326">
     <Grid x:Name="MainGrid">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+            <Style TargetType="Label" x:Key="SeatCode">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+        </Grid.Resources>
         <Grid x:Name="JoinButton">
             <s:SurfaceButton Content="Join!" Width="100" Height="25" Click="SurfaceButton_Click"/>
         </Grid>
         <Grid x:Name="SeatPasswordGrid" Visibility="Hidden">
-            <Label x:Name="JoinDirections" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Please enter this seat code to join."/>
-            <Label x:Name="SeatPassword" Margin="0,100,0,0" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Invalid"/>
+            <Label x:Name="JoinDirections" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Please enter this seat code to join." Margin="0,20,0,0" VerticalAlignment="Top" />
+            <Label Style="{StaticResource SeatCode}" x:Name="SeatPassword" Content="Invalid"/>
         </Grid>
     </Grid>
 </s:SurfaceUserControl>
