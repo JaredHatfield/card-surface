@@ -57,6 +57,15 @@ namespace CardAccount
         }
 
         /// <summary>
+        /// Gets the accounts.
+        /// </summary>
+        /// <value>The accounts.</value>
+        public List<GameAccount> Accounts
+        {
+            get { return this.users; }
+        }
+
+        /// <summary>
         /// Authenticates the specified username.
         /// </summary>
         /// <param name="username">The username.</param>
@@ -142,6 +151,87 @@ namespace CardAccount
             return account;
         }
 
+        /// <summary>
+        /// Deposits a positive integer amount into the specified user account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="depositAmount">The deposit amount.</param>
+        /// <returns>whether or not the deposit was successful</returns>
+        public bool Deposit(string username, int depositAmount)
+        {
+            bool updated = false;
+
+            if (depositAmount < 0)
+            {
+                Debug.WriteLine("AccountController: Deposits must be made in positive amounts!");
+                return updated;
+            }
+
+            foreach (GameAccount account in this.users)
+            {
+                if (account.Username == username)
+                {
+                    updated = account.Deposit(depositAmount);
+                }
+            }
+
+            if (updated)
+            {
+                try
+                {
+                    updated = this.CreateFlatFile(this.file);
+                }
+                catch (CardAccountFileAccessException cafae)
+                {
+                    Debug.WriteLine("AccountController: " + cafae.Message);
+                    updated = false;
+                }
+            }
+
+            return updated;
+        }
+
+        /// <summary>
+        /// Withdraws an integer amount from the specified user account.
+        /// If the withdrawal amount is greater than the current account balance, the balance will be zero.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="withdrawalAmount">The withdrawal amount.</param>
+        /// <returns>whether or not the withdrawal was successful</returns>
+        public bool Withdraw(string username, int withdrawalAmount)
+        {
+            bool updated = false;
+
+            if (withdrawalAmount < 0)
+            {
+                Debug.WriteLine("AccountController: Withdrawals must be made in positive amounts!");
+                return updated;
+            }
+
+            foreach (GameAccount account in this.users)
+            {
+                if (account.Username == username)
+                {
+                    updated = account.Withdraw(withdrawalAmount);
+                }
+            }
+
+            if (updated)
+            {
+                try
+                {
+                    updated = this.CreateFlatFile(this.file);
+                }
+                catch (CardAccountFileAccessException cafae)
+                {
+                    Debug.WriteLine("AccountController: " + cafae.Message);
+                    updated = false;
+                }
+            }
+
+            return updated;
+        }
+        
         /// <summary>
         /// Updates the account.
         /// </summary>

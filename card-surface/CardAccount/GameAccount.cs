@@ -201,6 +201,42 @@ namespace CardAccount
         }
 
         /// <summary>
+        /// Deposits money into the account.
+        /// </summary>
+        /// <param name="depositAmount">The deposit amount.</param>
+        /// <returns>whether the deposit was successful</returns>
+        public bool Deposit(int depositAmount)
+        {
+            bool updated = false;
+            this.balance += depositAmount;
+            updated = true;
+
+            return updated;
+        }
+
+        /// <summary>
+        /// Withdraws money from the account.
+        /// </summary>
+        /// <param name="withdrawalAmount">The withdrawal amount.</param>
+        /// <returns>whether the withdrawal was successful</returns>
+        public bool Withdraw(int withdrawalAmount)
+        {
+            bool updated = false;
+            if (this.balance >= withdrawalAmount)
+            {
+                this.balance -= withdrawalAmount;
+            }
+            else
+            {
+                this.balance = 0;
+            }
+
+            updated = true;
+
+            return updated;
+        }
+
+        /// <summary>
         /// Updates the account.
         /// </summary>
         /// <param name="username">The username.</param>

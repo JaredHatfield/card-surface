@@ -11,6 +11,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using CardAccount;
     using CardGame;
     using CardWeb.WebComponents.WebViews;
     using WebExceptions;
@@ -112,21 +113,27 @@ namespace CardWeb.WebComponents.WebActions
             {
                 Game desiredGame = this.gameController.GetGame(this.gameId);
 
-                /* TODO: Verify that minimumStake is also <= account balance. */
                 if (this.minimumStake >= desiredGame.MinimumStake)
                 {
-                    /* The initial stake meet the game's minimum stake requirements; attempt to join the user to the game. */
-                    if (desiredGame.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode, this.minimumStake))
+                    if (this.minimumStake <= AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance)
                     {
-                        /* The user has successfully joined the game. */
-                        WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(desiredGame);
+                        /* The initial stake meet the game's minimum stake requirements; attempt to join the user to the game. */
+                        if (desiredGame.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode, this.minimumStake))
+                        {
+                            /* The user has successfully joined the game. */
+                            WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(desiredGame);
 
-                        responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
-                        responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                            responseBuffer += this.GetHeader() + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                            responseBuffer += "Refresh: 0; url=http://" + this.request.RequestHost + "/hand/" + WebUtilities.CarriageReturn + WebUtilities.LineFeed;
+                        }
+                        else
+                        {
+                            throw new WebServerException("Failed to join the game.");
+                        }
                     }
                     else
                     {
-                        throw new WebServerException("Failed to join the game.");
+                        throw new WebServerException("Insufficient account funds!");
                     }
                 }
                 else
