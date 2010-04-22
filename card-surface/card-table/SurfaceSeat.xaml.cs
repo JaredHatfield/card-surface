@@ -54,7 +54,7 @@ namespace CardTable
             InitializeComponent();
 
             /* TODO: This should actually show the Hostname of the Server!  This text is only valid if the server and table are running on the same machine. */
-            JoinDirections.Content = "Please visit http://" + Dns.GetHostName() + " and enter\nthe following seat code to join this game.";
+            JoinDirections.Content = "Please visit http://" + TableManager.Instance().ServerAddress + " and enter\nthe following seat code to join this game.";
 
             this.seatPasswordTimer = new DispatcherTimer(new TimeSpan(0, 1, 0), DispatcherPriority.Normal, this.PasswordExpiration, Dispatcher.CurrentDispatcher);
         }
