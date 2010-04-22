@@ -64,6 +64,11 @@ namespace CardWeb.WebComponents.WebActions
                 Debug.WriteLine("WebActionInitGame: " + e.Message + " @ " + WebUtilities.GetCurrentLine());
                 throw new WebServerException("Error determining minimum stake.");
             }
+            catch (FormatException fe)
+            {
+                Debug.WriteLine("WebActionInitGame: " + fe.Message + " @ " + WebUtilities.GetCurrentLine());
+                throw new WebServerException("Invalid initial game stake.");
+            }
 
             try
             {
