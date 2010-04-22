@@ -116,6 +116,7 @@
     <Compile Include="CardTableWindow.xaml.cs">
       <DependentUpon>CardTableWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SurfacePhysicalObject.cs" />
     <Compile Include="SurfacePlayer.xaml.cs">
       <DependentUpon>SurfacePlayer.xaml</DependentUpon>
     </Compile>

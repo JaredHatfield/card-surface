@@ -42,7 +42,7 @@ namespace CardTable
             InitializeComponent();
 
             this.playingArea = playingArea;
-
+            /*
             foreach (ChipPile chipPile in this.playingArea.Chips)
             {
                 Debug.WriteLine("SurfacePlayingArea.xaml.cs: Created a new ChipPile (as a LibraryStack) in the SurfacePlayingArea for " + chipPile.Id);
@@ -76,6 +76,7 @@ namespace CardTable
                     this.PlayingAreaGrid.Children.Add(surfaceCardPile);
                 }
             }
+             */
         }
     }
 }

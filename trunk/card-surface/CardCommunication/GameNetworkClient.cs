@@ -78,6 +78,16 @@ namespace CardCommunication
         }
 
         /// <summary>
+        /// The deleagete for when the game did finish updating.
+        /// </summary>
+        public delegate void GameStateDidFinishUpdateDelegate();
+
+        /// <summary>
+        /// Occurs when the game state did finish updating.
+        /// </summary>
+        public event GameStateDidFinishUpdateDelegate GameStateDidFinishUpdate;
+
+        /// <summary>
         /// Gets the name of the game.
         /// </summary>
         /// <value>The game's name.</value>
@@ -182,6 +192,12 @@ namespace CardCommunication
                 Console.WriteLine("Game State updated!");
 
                 Debug.WriteLine("Exited UpdateGameState");
+            }
+
+            // Tell everyone that the game finished updating.
+            if (this.GameStateDidFinishUpdate != null)
+            {
+                this.GameStateDidFinishUpdate();
             }
         }
     }
