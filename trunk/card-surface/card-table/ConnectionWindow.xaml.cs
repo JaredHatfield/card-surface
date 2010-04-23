@@ -171,8 +171,20 @@ namespace CardTable
             Credits credits = new Credits();
             credits.VerticalAlignment = VerticalAlignment.Center;
             credits.HorizontalAlignment = HorizontalAlignment.Center;
-
             this.MainGrid.Children.Add(credits);
+        }
+
+        /// <summary>
+        /// Handles the MouseDown event of the WhiteChipImageImage control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void WhiteChipImageImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            HelpInformation help = new HelpInformation();
+            help.VerticalAlignment = VerticalAlignment.Center;
+            help.HorizontalAlignment = HorizontalAlignment.Center;
+            this.MainGrid.Children.Add(help);
         }
     }
 }
