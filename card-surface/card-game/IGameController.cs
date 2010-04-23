@@ -70,6 +70,13 @@ namespace CardGame
         Guid CreateGame(string gameName);
 
         /// <summary>
+        /// Sets the action status.
+        /// </summary>
+        /// <param name="gameGuid">The game GUID.</param>
+        /// <param name="actionSuccess">if set to <c>true</c> [action success].</param>
+        void SetActionStatus(Guid gameGuid, bool actionSuccess);
+
+        /// <summary>
         /// Tests to see if the password is valid for any open seat in any game.
         /// </summary>
         /// <param name="password">The password.</param>

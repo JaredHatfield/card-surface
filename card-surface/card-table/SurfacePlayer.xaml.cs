@@ -210,7 +210,7 @@ namespace CardTable
 
             IPhysicalObject physicalObject = e.Cursor.Data as IPhysicalObject;
             Guid destination = new Guid(e.Cursor.CurrentTarget.Uid);
-            TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.Id.ToString(), destination.ToString());
+            bool actionSuccess = TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.Id.ToString(), destination.ToString()).ActionSuccessful;
         }
     }
 }

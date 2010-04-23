@@ -148,7 +148,7 @@ namespace CardCommunication
             this.UpdateGameState(game);
 
             // We always return false because we want to let the server update the game
-            return false;
+            return game.ActionSuccessful;
         }
 
         /// <summary>

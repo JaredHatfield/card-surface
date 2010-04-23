@@ -137,6 +137,22 @@ namespace CardServer
         }
 
         /// <summary>
+        /// Sets the action status.
+        /// </summary>
+        /// <param name="gameGuid">The game GUID.</param>
+        /// <param name="actionSuccess">if set to <c>true</c> [action success].</param>
+        public void SetActionStatus(Guid gameGuid, bool actionSuccess)
+        {
+            foreach (Game g in this.games)
+            {
+                if (g.Id == gameGuid)
+                {
+                    g.SetActionStatus(actionSuccess);
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds a game so that it can be created.
         /// </summary>
         /// <param name="gameType">Type of the game.</param>
