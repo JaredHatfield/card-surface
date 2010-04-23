@@ -66,11 +66,6 @@ namespace CardTable
             /* TODO: Implement dynamic pile bindings. */
             /*this.surfacePlayingArea = new SurfacePlayingArea(this.player.PlayerArea);
             this.PlayerGrid.Children.Add(this.surfacePlayingArea);*/
-            
-            // Data bind the actions
-            Binding actionBinding = new Binding("Action");
-            actionBinding.Source = this.action;
-            this.action.SetBinding(Label.ContentProperty, actionBinding);
 
             // We want to always assume objects are being moved
             // This insures that when we move out of a LibraryBar we do not get an inactive object left behind
@@ -123,28 +118,14 @@ namespace CardTable
                 foreach (string s in this.player.Actions)
                 {
                     ElementMenuItem e = new ElementMenuItem();
-                    e.Name = s;
-                    e.Click += new RoutedEventHandler(this.Click_ExecuteAction);
+                    e.Command = new SurfaceAction(this.username);
+                    e.CommandParameter = s;
                     e.Header = s;
-                    e.Visibility = Visibility.Visible;
-
-                    Binding actionBinding = new Binding(s);
-                    actionBinding.Source = e;
-                    this.action.SetBinding(Label.ContentProperty, actionBinding);
+                    e.Visibility = Visibility.Visible;               
 
                     this.action.Items.Add(e);
                 }
             }
-        }
-
-        /// <summary>
-        /// Handles the ExecuteAction event of the Click control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
-        private void Click_ExecuteAction(object sender, RoutedEventArgs e)
-        {
-            // TODO: This should send message to server.
         }
 
         /// <summary>
