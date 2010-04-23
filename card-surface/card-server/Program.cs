@@ -154,6 +154,11 @@ namespace CardServer
                     Console.WriteLine(" withdraw <name> <amount> - Withdraw money from this user's account");
                     Console.WriteLine(" listusers - Lists all the users with an account on this server");
                     Console.WriteLine(" listgames - Lists all the games currently being managed by this server");
+                    Console.WriteLine(" exit - Closes CardServer");
+                }
+                else if(cmdTokens[0] != string.Empty || nextCmd != string.Empty)
+                {
+                    Console.WriteLine("Invalid command");
                 }
 
                 Console.Write("CardServer> ");
