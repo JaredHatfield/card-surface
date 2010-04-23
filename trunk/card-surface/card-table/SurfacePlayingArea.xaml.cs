@@ -36,13 +36,19 @@ namespace CardTable
         private PlayingArea playingArea;
 
         /// <summary>
+        /// The dimension of the pile.
+        /// </summary>
+        private int pileDimension;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfacePlayingArea"/> class.
         /// </summary>
         /// <param name="playingArea">The playing area.</param>
-        public SurfacePlayingArea(PlayingArea playingArea)
+        /// <param name="pileDimension">The pile dimension.</param>
+        public SurfacePlayingArea(PlayingArea playingArea, int pileDimension)
         {
             InitializeComponent();
-
+            this.pileDimension = pileDimension;
             this.playingArea = playingArea;
             this.UpdatePlayingAreaPiles();
         }
@@ -167,8 +173,9 @@ namespace CardTable
         private LibraryStack NewLibraryStack()
         {
             LibraryStack libraryStack = new LibraryStack();
-            libraryStack.Width = 70;
-            libraryStack.Height = 70;
+            libraryStack.Width = this.pileDimension;
+            libraryStack.Height = this.pileDimension;
+            libraryStack.Margin = new Thickness(2);
             SurfaceDragDrop.AddPreviewDropHandler(libraryStack, this.OnPreviewDrop);
             return libraryStack;
         }
