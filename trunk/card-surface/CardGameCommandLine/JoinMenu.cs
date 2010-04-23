@@ -35,43 +35,24 @@ namespace CardGameCommandLine
         /// </summary>
         public JoinMenu()
         {
-            Console.WriteLine("Where would you like to connect to?");
-            Console.WriteLine("Enter 'auto' to have a server created for you or");
-            Console.WriteLine("Enter 'local' to connect to a server running on the same host or");
-            Console.WriteLine("Enter the IP address of the server you want to connect to.");
+            Console.WriteLine("Enter the IP address of the server you want to connect to:");
             bool loop = true;
             string input = string.Empty;
             while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase) && loop)
             {
                 Console.Write(" > ");
                 input = Console.ReadLine();
-                if (input.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    // Set up the server
-                    this.serverController = new ServerController();
-
-                    // Start communicating with the server
-                    this.tableCommunicationController = new TableCommunicationController();
-                    this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
-
-                    // We need to remove some of the checks that are present in the factory
-                    PhysicalObjectFactory.PreventDuplication = false;
-
-                    loop = false;
-                    this.MainLoop();
-                }
-                else if (input.Equals("local", StringComparison.CurrentCultureIgnoreCase))
+                if (input.Equals("local", StringComparison.CurrentCultureIgnoreCase) || input.Equals("localhost", StringComparison.CurrentCultureIgnoreCase) || input.Length == 0)
                 {
                     // Start communicating with the server
                     this.tableCommunicationController = new TableCommunicationController();
-                    this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
 
                     // Set up the factory!
                     PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
                     PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
                     PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
                     loop = false;
-                    this.MainLoop();
+                    this.GameList();
                 }
                 else
                 {
@@ -79,14 +60,13 @@ namespace CardGameCommandLine
                     {
                         // Start communicating with the server
                         this.tableCommunicationController = new TableCommunicationController(input);
-                        this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.DoNothing);
 
                         // Set up the factory!
                         PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
                         PhysicalObjectFactory.SubscribeChipFactory(ChipFactory.Instance());
                         PhysicalObjectFactory factory = PhysicalObjectFactory.Instance();
                         loop = false;
-                        this.MainLoop();
+                        this.GameList();
                     }
                     catch (Exception e)
                     {
@@ -95,60 +75,6 @@ namespace CardGameCommandLine
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// The main loop for joining a game.s
-        /// </summary>
-        private void MainLoop()
-        {
-            string input = string.Empty;
-            while (!input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Console.Clear();
-                Console.WriteLine("Commands: list");
-                Console.Write(" > ");
-                input = Console.ReadLine();
-                if (input.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    // We are all done.
-                }
-                else if (input.Equals("list", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    this.GameList();
-                }
-                else
-                {
-                    Console.WriteLine("Invalid command.");
-                    this.PrompForEnter();
-                }
-
-                // TODO: We need to add some more commands.
-            }
-        }
-
-        /// <summary>
-        /// Does the nothing.
-        /// </summary>
-        /// <param name="games">The games.</param>
-        private void DoNothing(Collection<string> games)
-        {
-        }
-
-        /// <summary>
-        /// Does the nothing.
-        /// </summary>
-        /// <param name="games">The games.</param>
-        private void DoNothing(Collection<ActiveGameStruct> games)
-        {
-        }
-
-        /// <summary>
-        /// Does the nothing.
-        /// </summary>
-        /// <param name="game">The game to do nothing with.</param>
-        private void DoNothing(Game game)
-        {
         }
 
         /// <summary>
