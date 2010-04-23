@@ -23,6 +23,11 @@ namespace CardGame
         private Guid id;
 
         /// <summary>
+        /// Whether the last action was successful.
+        /// </summary>
+        private bool actionSuccess;
+
+        /// <summary>
         /// The center shared area of the game for cards and chips.
         /// </summary>
         private PlayingArea gamingArea;
@@ -75,6 +80,7 @@ namespace CardGame
         protected Game(Game game)
         {
             this.id = game.id;
+            this.actionSuccess = game.actionSuccess;
             this.gamingArea = game.gamingArea;
             this.deckPile = game.deckPile;
             this.seats = game.seats;
@@ -143,6 +149,15 @@ namespace CardGame
         public Guid Id
         {
             get { return this.id; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether [action successful].
+        /// </summary>
+        /// <value><c>true</c> if [action successful]; otherwise, <c>false</c>.</value>
+        public bool ActionSuccessful
+        {
+            get { return this.actionSuccess; }
         }
 
         /// <summary>
@@ -449,6 +464,15 @@ namespace CardGame
 
             // Trigger the event that the player did leave the game.
             this.OnDidLeaveGame(s.Location);
+        }
+
+        /// <summary>
+        /// Sets the action status.
+        /// </summary>
+        /// <param name="success">if set to <c>true</c> [success].</param>
+        public void SetActionStatus(bool success)
+        {
+            this.actionSuccess = success;
         }
 
         /// <summary>

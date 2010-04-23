@@ -213,6 +213,7 @@ namespace CardCommunication
                 {
                     Collection<string> action;
                     MessageAction messageAction = new MessageAction();
+                    bool success = false;
 
                     messageAction.ProcessMessage(messageDoc);
                     action = messageAction.Action;
@@ -225,7 +226,7 @@ namespace CardCommunication
                         // Executes Move
                         try
                         {
-                            this.gameController.GetGame(cc.GameGuid).MoveAction(physicalObject, destinationPile);
+                            success = this.gameController.GetGame(cc.GameGuid).MoveAction(physicalObject, destinationPile);
                         }
                         catch (CardGameMoveToNonOpenPileException)
                         {
@@ -235,6 +236,10 @@ namespace CardCommunication
                         {
                             Debug.WriteLine(e);
                             throw new MessageProcessException("Error executing move action.", e);
+                        }
+                        finally
+                        {
+                            this.gameController.SetActionStatus(cc.GameGuid, success);
                         }
 
                         // This needs to send the game
@@ -267,6 +272,10 @@ namespace CardCommunication
 
                             // Something else very bad happened so we are going to throw another exception.
                             throw new MessageProcessException("Something else went wrong with the game.", e);
+                        }
+                        finally
+                        {
+                            this.gameController.SetActionStatus(cc.GameGuid, success);
                         }
                         
                         // This needs to send the game
