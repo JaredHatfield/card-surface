@@ -52,7 +52,7 @@ namespace CardTable
             this.game = game;
 
             // Set up the gaming area
-            this.surfaceGamingArea = new SurfacePlayingArea(this.game.GamingArea);
+            this.surfaceGamingArea = new SurfacePlayingArea(this.game.GamingArea, 150);
             this.surfaceGamingArea.HorizontalAlignment = HorizontalAlignment.Center;
             this.surfaceGamingArea.VerticalAlignment = VerticalAlignment.Center;
             this.GameGrid.Children.Add(this.surfaceGamingArea);

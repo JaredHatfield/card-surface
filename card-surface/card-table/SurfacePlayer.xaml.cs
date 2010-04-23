@@ -57,7 +57,7 @@ namespace CardTable
             this.player = player;
             this.username = username;
 
-            SurfacePlayingArea spa = new SurfacePlayingArea(player.PlayerArea);
+            SurfacePlayingArea spa = new SurfacePlayingArea(player.PlayerArea, 70);
             spa.HorizontalAlignment = HorizontalAlignment.Center;
             spa.VerticalAlignment = VerticalAlignment.Top;
             this.PlayerGrid.Children.Add(spa);
