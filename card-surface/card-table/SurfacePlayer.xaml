@@ -32,7 +32,7 @@
         <s:LibraryBar Name="hand" Height="70" Width="130" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Rows="1"/>
         <s:LibraryBar Name="bank" Height="70" Width="130" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Rows="1"/>
         
-        <Grid Name="Menu" Margin="0,0,0,25" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <Grid Name="Menu" Margin="0,0,0,25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Panel.ZIndex="100">
             <Label Content="Actions" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
             <s:ElementMenu Name="action" ActivationMode="AlwaysActive" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Grid>
