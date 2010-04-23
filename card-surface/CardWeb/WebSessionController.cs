@@ -64,6 +64,15 @@ namespace CardWeb
         }
 
         /// <summary>
+        /// Removes the session.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        public void RemoveSession(WebSession session)
+        {
+            this.sessions.Remove(session);
+        }
+
+        /// <summary>
         /// Finds the session.
         /// </summary>
         /// <param name="csid">The CardSurface Session ID as a GUID.</param>
