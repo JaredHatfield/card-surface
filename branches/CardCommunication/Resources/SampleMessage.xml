@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<action table="1">
-  <command action="Hit">
-    <param name="player" value="1" />
-    <param name="action" value="376"/>
-  </command>
-</action>
