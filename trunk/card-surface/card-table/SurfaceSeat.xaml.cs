@@ -47,6 +47,11 @@ namespace CardTable
         private Seat seat;
 
         /// <summary>
+        /// The surface player that will eventually sit in the seat.
+        /// </summary>
+        private SurfacePlayer surfacePlayer;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceSeat"/> class.
         /// </summary>
         public SurfaceSeat()
@@ -130,11 +135,12 @@ namespace CardTable
             this.JoinButton.Visibility = Visibility.Hidden;
             this.SeatPasswordGrid.Visibility = Visibility.Hidden;
 
-            SurfacePlayer spa = new SurfacePlayer(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)), this.seat.Username);
-            spa.VerticalAlignment = VerticalAlignment.Bottom;
-            spa.HorizontalAlignment = HorizontalAlignment.Center;
-            spa.BindPiles();
-            this.MainGrid.Children.Add(spa);
+            // Add the player to the seat
+            this.surfacePlayer = new SurfacePlayer(TableManager.Instance().CurrentGame.GetPlayer(Seat.ParseSeatLocation(this.seatLocation)), this.seat.Username);
+            this.surfacePlayer.VerticalAlignment = VerticalAlignment.Bottom;
+            this.surfacePlayer.HorizontalAlignment = HorizontalAlignment.Center;
+            this.surfacePlayer.BindPiles();
+            this.MainGrid.Children.Add(this.surfacePlayer);
         }
 
         /// <summary>
@@ -153,7 +159,16 @@ namespace CardTable
         /// </summary>
         private void ProcessPlayerLeft()
         {
-            // TODO: Remove the player from the seat!
+            // Remove the player from the seat
+            this.MainGrid.Children.Remove(this.surfacePlayer);
+            this.surfacePlayer = null;
+
+            // Make the join button and message visible again
+            this.JoinButton.Visibility = Visibility.Visible;
+
+            // Lets reset the seat password just for good measure
+            // TODO: this should not be necessary!
+            this.SeatPassword.Content = this.seat.Password;
         }
 
         /// <summary>
