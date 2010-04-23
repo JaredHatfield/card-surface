@@ -38,7 +38,10 @@ namespace CardGameCommandLine
             // Display all of the players
             for (int i = 0; i < game.Seats.Count; i++)
             {
-                CommandLineGraphics.Display(game.Seats[i]);
+                if (game.Seats[i].IsSittable)
+                {
+                    CommandLineGraphics.Display(game.Seats[i]);
+                }
             }
         }
 
