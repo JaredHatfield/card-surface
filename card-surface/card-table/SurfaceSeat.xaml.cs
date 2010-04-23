@@ -140,6 +140,13 @@ namespace CardTable
             this.surfacePlayer.VerticalAlignment = VerticalAlignment.Bottom;
             this.surfacePlayer.HorizontalAlignment = HorizontalAlignment.Center;
             this.surfacePlayer.BindPiles();
+
+            BitmapImage grav = new BitmapImage();
+            grav.BeginInit();
+            grav.UriSource = new Uri(this.seat.ProfileImageUri);
+            grav.EndInit();
+
+            this.surfacePlayer.GravatarImage.Source = grav;
             this.MainGrid.Children.Add(this.surfacePlayer);
         }
 
