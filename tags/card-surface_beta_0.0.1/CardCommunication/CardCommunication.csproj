@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CardCommunication</RootNamespace>
+    <AssemblyName>CardCommunication</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActiveGameStruct.cs" />
+    <Compile Include="CommunicationException\CardCommunicationException.cs" />
+    <Compile Include="CommunicationException\MessageDeserializationException.cs" />
+    <Compile Include="CommunicationException\MessageProcessException.cs" />
+    <Compile Include="CommunicationException\MessageTransportException.cs" />
+    <Compile Include="CommunicationException\SocketBindingException.cs" />
+    <Compile Include="CommunicationController.cs" />
+    <Compile Include="ConnectedClient.cs" />
+    <Compile Include="GameNetworkClient.cs" />
+    <Compile Include="GameObject\GameMessage.cs" />
+    <Compile Include="Messages\Message.cs" />
+    <Compile Include="Messages\MessageAction.cs" />
+    <Compile Include="Messages\MessageExistingGames.cs" />
+    <Compile Include="Messages\MessageFlipCard.cs" />
+    <Compile Include="Messages\MessageGameList.cs" />
+    <Compile Include="Messages\MessageGameState.cs" />
+    <Compile Include="Messages\MessageRequestCurrentGameState.cs" />
+    <Compile Include="Messages\MessageRequestGame.cs" />
+    <Compile Include="Messages\MessageRequestExistingGames.cs" />
+    <Compile Include="Messages\MessageRequestGameList.cs" />
+    <Compile Include="Messages\MessageRequestSeatCodeChange.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerCommunicationController.cs" />
+    <Compile Include="TableCommunicationController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CardCommunicationClassDiagram.cd" />
+    <None Include="Messages\MessageSchema.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SampleGameState.xml" />
+    <Content Include="Resources\SampleMessage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
