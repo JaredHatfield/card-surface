@@ -84,6 +84,9 @@
     <Compile Include="ConnectionWindow.xaml.cs">
       <DependentUpon>ConnectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Credits.xaml.cs">
+      <DependentUpon>Credits.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameFactory\SurfaceCardFactory.cs" />
     <Compile Include="GameFactory\SurfaceChipFactory.cs" />
     <Compile Include="GameObjects\SurfaceAction.cs" />
@@ -218,6 +221,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ConnectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Credits.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
