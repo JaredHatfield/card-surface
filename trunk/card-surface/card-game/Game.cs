@@ -410,7 +410,7 @@ namespace CardGame
                 Player player = this.GetPlayer(username);
                 player.Balance += amount;
                 player.BankPile.RefreshChipPile();
-                this.OnJoinGame(new PlayerJoinGameEventArgs(this.id, username));
+                this.OnJoinGame(new PlayerJoinGameEventArgs(this.id, username, amount));
                 return true;
             }
             else

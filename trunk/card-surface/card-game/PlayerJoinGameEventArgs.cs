@@ -25,14 +25,21 @@ namespace CardGame
         private string username;
 
         /// <summary>
+        /// The amount of money the player put down when they joined.
+        /// </summary>
+        private int amount;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PlayerJoinGameEventArgs"/> class.
         /// </summary>
         /// <param name="gameId">The game id.</param>
         /// <param name="username">The username of the player that left.</param>
-        internal PlayerJoinGameEventArgs(Guid gameId, string username)
+        /// <param name="amount">The amount of money the player added to the table.</param>
+        internal PlayerJoinGameEventArgs(Guid gameId, string username, int amount)
         {
             this.gameId = gameId;
             this.username = username;
+            this.amount = amount;
         }
 
         /// <summary>
@@ -51,6 +58,15 @@ namespace CardGame
         public string Username
         {
             get { return this.username; }
+        }
+
+        /// <summary>
+        /// Gets the amount of money added to the table.
+        /// </summary>
+        /// <value>The amount of money added to the table.</value>
+        public int Amount
+        {
+            get { return this.amount; }
         }
     }
 }
