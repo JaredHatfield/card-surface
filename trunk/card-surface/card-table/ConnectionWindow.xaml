@@ -53,10 +53,10 @@
         <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Left"  Width="200" Margin="50,0,0,0" />
         <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Margin="0,0,50,0" />
         <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,50" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipWhite.png" MouseDown="WhiteChipImageImage_MouseDown"/>
-            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipRed.png" MouseDown="RedChipImageImage_MouseDown"/>
-            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlue.png"/>
-            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipGreen.png"/>
+            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipWhite.png" MouseDown="WhiteChipImage_MouseDown"/>
+            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipRed.png" MouseDown="RedChipImage_MouseDown"/>
+            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlue.png" />
+            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipGreen.png" MouseDown="GreenChipImage_MouseDown"/>
             <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlack.png" MouseDown="BlackChipImage_MouseDown"/>
         </StackPanel>
     </Grid>

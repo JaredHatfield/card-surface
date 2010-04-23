@@ -166,7 +166,7 @@ namespace CardTable
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
-        private void RedChipImageImage_MouseDown(object sender, MouseButtonEventArgs e)
+        private void RedChipImage_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Credits credits = new Credits();
             credits.VerticalAlignment = VerticalAlignment.Center;
@@ -179,12 +179,27 @@ namespace CardTable
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
-        private void WhiteChipImageImage_MouseDown(object sender, MouseButtonEventArgs e)
+        private void WhiteChipImage_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HelpInformation help = new HelpInformation();
             help.VerticalAlignment = VerticalAlignment.Center;
             help.HorizontalAlignment = HorizontalAlignment.Center;
             this.MainGrid.Children.Add(help);
+        }
+
+        /// <summary>
+        /// Handles the MouseDown event of the GreenChipImage control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void GreenChipImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SlideDeck deck = new SlideDeck();
+            deck.VerticalAlignment = VerticalAlignment.Center;
+            deck.HorizontalAlignment = HorizontalAlignment.Center;
+            deck.MainGrid.Width = this.Width;
+            deck.MainGrid.Height = this.Height;
+            this.MainGrid.Children.Add(deck);
         }
     }
 }
