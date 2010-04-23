@@ -41,7 +41,7 @@
             <Setter Property="Margin" Value="25,0,25,0" />
         </Style>
     </s:SurfaceWindow.Resources>
-    <Grid Background="{StaticResource WindowBackground}" >
+    <Grid Background="{StaticResource WindowBackground}" Name="MainGrid">
         <Label Style="{StaticResource TitleLabel}" Content="Welcome to CardSurface!" Margin="0,19,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
         <Label Style="{StaticResource SubtitleLabel}" Content="Connect to Server" Margin="0,65,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
         <Label Style="{StaticResource InstructionLabel}" Content="Enter the IP address of the CardServer to which you would" Margin="0,104,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
@@ -53,7 +53,7 @@
         <Image Source="Resources/CardSurfaceLogo.png" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Margin="0,0,50,0" />
         <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,50" Orientation="Horizontal" HorizontalAlignment="Center">
             <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipWhite.png"/>
-            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipRed.png"/>
+            <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipRed.png" MouseDown="RedChipImageImage_MouseDown"/>
             <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlue.png"/>
             <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipGreen.png"/>
             <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlack.png" MouseDown="BlackChipImage_MouseDown"/>
