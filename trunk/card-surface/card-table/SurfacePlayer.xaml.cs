@@ -63,6 +63,8 @@ namespace CardTable
             this.PlayerGrid.Children.Add(spa);
             this.surfacePlayingArea = spa;
 
+            this.PlayerNameLabel.Content = username;
+
             /* TODO: Implement dynamic pile bindings. */
             /*this.surfacePlayingArea = new SurfacePlayingArea(this.player.PlayerArea);
             this.PlayerGrid.Children.Add(this.surfacePlayingArea);*/
