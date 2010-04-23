@@ -98,6 +98,7 @@ namespace CardTable
             {
                 ChipPile chipPile = this.playingArea.Chips[n];
                 LibraryStack chipStack = this.ChipPilesStack.Children[n] as LibraryStack;
+                chipStack.Uid = chipPile.Id.ToString();
 
                 for (int i = 0; i < chipPile.Chips.Count; i++)
                 {
@@ -130,6 +131,7 @@ namespace CardTable
             {
                 CardPile cardPile = this.playingArea.Cards[n];
                 LibraryStack cardStack = this.CardPilesStack.Children[n] as LibraryStack;
+                cardStack.Uid = cardPile.Id.ToString();
 
                 for (int i = 0; i < cardPile.Cards.Count; i++)
                 {
@@ -179,7 +181,13 @@ namespace CardTable
         /// <param name="e">The <see cref="Microsoft.Surface.Presentation.SurfaceDragDropEventArgs"/> instance containing the event data.</param>
         private void OnPreviewDrop(object sender, SurfaceDragDropEventArgs e)
         {
-            e.Effects = DragDropEffects.Move;
+            // e.Effects = DragDropEffects.Move;
+            e.Effects = DragDropEffects.None;
+
+            IPhysicalObject physicalObject = e.Cursor.Data as IPhysicalObject;
+            Guid destination = new Guid(e.Cursor.CurrentTarget.Uid);
+            TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.Id.ToString(), destination.ToString());
+            e.Effects = DragDropEffects.None;
         }
     }
 }

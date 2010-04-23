@@ -6,6 +6,7 @@ namespace CardTable
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -155,6 +156,7 @@ namespace CardTable
             {
                 // Update the players piles
                 BankPile currentBank = this.player.BankPile;
+                this.bank.Uid = currentBank.Id.ToString();
 
                 // Add all of the missing objects
                 for (int i = 0; i < currentBank.Chips.Count; i++)
@@ -182,7 +184,9 @@ namespace CardTable
                     this.bank.Items.Remove(chipsToRemove[i]);
                 }
 
+                // Update the hand
                 CardPile currentHand = this.player.Hand;
+                this.hand.Uid = currentHand.Id.ToString();
 
                 // Add all of the missing objects
                 for (int i = 0; i < currentHand.Cards.Count; i++)
@@ -220,7 +224,12 @@ namespace CardTable
         /// <param name="e">The <see cref="Microsoft.Surface.Presentation.SurfaceDragDropEventArgs"/> instance containing the event data.</param>
         private void OnPreviewDrop(object sender, SurfaceDragDropEventArgs e)
         {
-            e.Effects = DragDropEffects.Move;
+            // e.Effects = DragDropEffects.Move;
+            e.Effects = DragDropEffects.None;
+
+            IPhysicalObject physicalObject = e.Cursor.Data as IPhysicalObject;
+            Guid destination = new Guid(e.Cursor.CurrentTarget.Uid);
+            TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.Id.ToString(), destination.ToString());
         }
     }
 }
