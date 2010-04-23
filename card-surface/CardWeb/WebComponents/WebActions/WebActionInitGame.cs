@@ -112,13 +112,14 @@ namespace CardWeb.WebComponents.WebActions
             if (this.request.IsAuthenticated())
             {
                 Game desiredGame = this.gameController.GetGame(this.gameId);
+                GameAccount userAccount = AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username);
 
                 if (this.minimumStake >= desiredGame.MinimumStake)
                 {
-                    if (this.minimumStake <= AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username).Balance)
+                    if (this.minimumStake <= userAccount.Balance)
                     {
                         /* The initial stake meet the game's minimum stake requirements; attempt to join the user to the game. */
-                        if (desiredGame.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode, this.minimumStake))
+                        if (desiredGame.SitDown(userAccount.Username, this.seatCode, this.minimumStake, userAccount.ProfileImage))
                         {
                             /* The user has successfully joined the game. */
                             WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(desiredGame);

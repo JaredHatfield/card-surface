@@ -396,15 +396,18 @@ namespace CardGame
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <param name="amount">The amount of money the user will place on the table.</param>
-        /// <returns>True if the user was able to sit down; otherwise false.</returns>
-        public virtual bool SitDown(string username, string password, int amount)
+        /// <param name="userImagePath">The user image path.</param>
+        /// <returns>
+        /// True if the user was able to sit down; otherwise false.
+        /// </returns>
+        public virtual bool SitDown(string username, string password, int amount, string userImagePath)
         {
             if (amount < this.MinimumStake)
             {
                 // If the player did not provide the minimum stake, we thrown an exception
                 throw new CardGameMinimumStakeException();
             }
-            else if (this.SitDown(username, password))
+            else if (this.SitDown(username, password, userImagePath))
             {
                 // Get the player and add the money to their account
                 Player player = this.GetPlayer(username);
@@ -425,14 +428,17 @@ namespace CardGame
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        /// <returns>True if the user was able to sit down; otherwise false.</returns>
-        public virtual bool SitDown(string username, string password)
+        /// <param name="userImagePath">The user image path.</param>
+        /// <returns>
+        /// True if the user was able to sit down; otherwise false.
+        /// </returns>
+        public virtual bool SitDown(string username, string password, string userImagePath)
         {
             for (int i = 0; i < this.seats.Count; i++)
             {
                 if (this.seats[i].PasswordPeek(password))
                 {
-                    bool result = this.seats[i].SitDown(username, password);
+                    bool result = this.seats[i].SitDown(username, password, userImagePath);
                     if (result)
                     {
                         this.UpdatePlayerState();

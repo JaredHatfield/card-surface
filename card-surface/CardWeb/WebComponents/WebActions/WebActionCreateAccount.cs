@@ -11,6 +11,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
+    using System.Security.Cryptography;
     using System.Text;
     using CardAccount;
     using CardWeb.WebComponents.WebViews;
@@ -37,6 +38,11 @@ namespace CardWeb.WebComponents.WebActions
         private string verifiedPassword;
 
         /// <summary>
+        /// User's e-mail address
+        /// </summary>
+        private string emailAddress;
+
+        /// <summary>
         /// HTTP request
         /// </summary>
         private CardWeb.WebRequest request;
@@ -57,6 +63,7 @@ namespace CardWeb.WebComponents.WebActions
                     /* TODO: HTML Encode these strings? */
                     this.password = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePassword);
                     this.verifiedPassword = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNamePasswordVerification);
+                    this.emailAddress = this.request.GetUrlParameter(WebViewCreateAccount.FormFieldNameEmailAddress);
                 }
                 catch (WebServerUrlParameterNotFoundException wsupnfe)
                 {
@@ -88,8 +95,19 @@ namespace CardWeb.WebComponents.WebActions
             int numBytesSent = 0;
             string responseBuffer = String.Empty;
 
+            MD5CryptoServiceProvider emailHash = new MD5CryptoServiceProvider();
+            byte[] hash = Encoding.ASCII.GetBytes(this.emailAddress);
+            hash = emailHash.ComputeHash(hash);
+
+            string hashString = String.Empty;
+
+            foreach (byte b in hash)
+            {
+                hashString += b.ToString("x2");
+            }
+
             bool passwordsMatched = this.password.Equals(this.verifiedPassword);
-            bool accountDoesNotAlreadyExist = AccountController.Instance.CreateAccount(this.username, this.password);
+            bool accountDoesNotAlreadyExist = AccountController.Instance.CreateAccount(this.username, this.password, "http://www.gravatar.com/avatar/" + hashString);
 
             if (passwordsMatched && accountDoesNotAlreadyExist)
             {

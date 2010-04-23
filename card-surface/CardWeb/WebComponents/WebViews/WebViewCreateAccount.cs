@@ -28,9 +28,14 @@ namespace CardWeb.WebComponents.WebViews
         public const string FormFieldNamePassword = "password";
 
         /// <summary>
-        /// Name of HTML form field associated with the password verificatio nneeded for account creation
+        /// Name of HTML form field associated with the password verification needed for account creation
         /// </summary>
         public const string FormFieldNamePasswordVerification = "verifyPassword";
+
+        /// <summary>
+        /// Name of HTML form field associated with the e-mail address
+        /// </summary>
+        public const string FormFieldNameEmailAddress = "emailAddress";
 
         /// <summary>
         /// Name of the HTML form for account creation
@@ -146,6 +151,16 @@ namespace CardWeb.WebComponents.WebViews
             content += "alert(\"Passwords do not match!\");\n";
             content += "return false;\n";
             content += "}\n";
+            content += "else if(" + FormName + "." + FormFieldNameUsername + ".value == \"\")\n";
+            content += "{\n";
+            content += "alert(\"Username must not be blank!\");\n";
+            content += "return false;\n";
+            content += "}\n";
+            content += "else if(" + FormName + "." + FormFieldNamePassword + ".value == \"\")\n";
+            content += "{\n";
+            content += "alert(\"Password must not be blank!\");\n";
+            content += "return false;\n";
+            content += "}\n";
             content += "else\n";
             content += "{\n";
             content += "return true;\n";
@@ -165,6 +180,7 @@ namespace CardWeb.WebComponents.WebViews
             content += "<tr><td>Username:</td><td><input name=\"" + FormFieldNameUsername + "\" type=\"text\"/></td></tr>\n";
             content += "<tr><td>Password:</td><td><input name=\"" + FormFieldNamePassword + "\" type=\"password\"></td></tr>\n";
             content += "<tr><td>Verify Password:</td><td><input name=\"" + FormFieldNamePasswordVerification + "\" type=\"password\"></td></tr>\n";
+            content += "<tr><td>E-mail Address:</td><td><input name=\"" + FormFieldNameEmailAddress + "\" type=\"text\"/></td>";
             content += "<tr><td colspan=\"2\"><center><input type=\"submit\" value=\"Create Account\"/></center></td></tr>\n";
             content += "</table>\n";
             content += "</form>\n";

@@ -11,6 +11,7 @@ namespace CardWeb.WebComponents.WebActions
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using CardAccount;
     using CardGame;
     using WebExceptions;
     using WebViews;
@@ -87,8 +88,9 @@ namespace CardWeb.WebComponents.WebActions
                     }
                     else
                     {
+                        GameAccount userAccount = AccountController.Instance.LookUpUser(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username);
                         /* This game does not require a minimum stake; attempt to join the user to the game. */
-                        if (gameContainingSeat.SitDown(WebSessionController.Instance.GetSession(this.request.GetSessionId()).Username, this.seatCode))
+                        if (gameContainingSeat.SitDown(userAccount.Username, this.seatCode, userAccount.ProfileImage))
                         {
                             /* The user has successfully joined the game. */
                             WebSessionController.Instance.GetSession(this.request.GetSessionId()).JoinGame(gameContainingSeat);

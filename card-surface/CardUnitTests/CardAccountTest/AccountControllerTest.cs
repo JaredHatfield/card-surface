@@ -23,8 +23,9 @@ namespace CardUnitTests
             AccountController_Accessor target = new AccountController_Accessor(); // TODO: Initialize to an appropriate value
             string username = "Anybody"; // TODO: Initialize to an appropriate value
             string password = "anything"; // TODO: Initialize to an appropriate value
+            string imagePath = "http://www.gravatar.com/avatar/"; // TODO: Initialize to an appropriate value
             ////AccountController_Accessor expected = false; // TODO: Initialize to an appropriate value
-            target.CreateAccount(username, password);
+            target.CreateAccount(username, password, imagePath);
 
             target.CreateFlatFile("file");
             

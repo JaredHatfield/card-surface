@@ -161,12 +161,13 @@ namespace GameBlackjack
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
+        /// <param name="userImagePath">The user image path.</param>
         /// <returns>
         /// True if the user was able to sit down; otherwise false.
         /// </returns>
-        public override bool SitDown(string username, string password)
+        public override bool SitDown(string username, string password, string userImagePath)
         {
-            if (base.SitDown(username, password))
+            if (base.SitDown(username, password, userImagePath))
             {
                 this.InitializePlayer(username);
                 return true;

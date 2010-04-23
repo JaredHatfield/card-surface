@@ -94,8 +94,9 @@ namespace CardAccount
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
+        /// <param name="profileImage">The profile image URI.</param>
         /// <returns>whether account was created.</returns>
-        public bool CreateAccount(string username, string password)
+        public bool CreateAccount(string username, string password, string profileImage)
         {
             bool success = true;
 
@@ -115,7 +116,16 @@ namespace CardAccount
                 {
                     try
                     {
-                        GameAccount account = new GameAccount(username, password);
+                        GameAccount account;
+
+                        if (profileImage.Equals(string.Empty))
+                        {
+                            account = new GameAccount(username, password);
+                        }
+                        else
+                        {
+                            account = new GameAccount(username, password, profileImage);
+                        }
 
                         this.users.Add(account);
 

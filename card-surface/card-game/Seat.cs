@@ -48,6 +48,11 @@ namespace CardGame
         private string username;
 
         /// <summary>
+        /// A path to the user's image
+        /// </summary>
+        private string userImagePath;
+
+        /// <summary>
         /// The unique id for this seat.
         /// </summary>
         private Guid id;
@@ -63,6 +68,7 @@ namespace CardGame
             this.location = location;
             this.AssignSeatPassword();
             this.username = null;
+            this.userImagePath = string.Empty;
             this.id = Guid.NewGuid();
         }
 
@@ -295,6 +301,33 @@ namespace CardGame
 
             // 7) Indicate that everything was successful
             return true;
+        }
+
+        /// <summary>
+        /// Sits down.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="userImagePath">The user image path.</param>
+        /// <returns>True if the action was successful; otherwise false.</returns>
+        public bool SitDown(string username, string password, string userImagePath)
+        {
+            try
+            {
+                if (this.SitDown(username, password))
+                {
+                    this.userImagePath = userImagePath;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (CardGameSeatNotSittableException cgsnse)
+            {
+                throw cgsnse;
+            }
         }
 
         /// <summary>
