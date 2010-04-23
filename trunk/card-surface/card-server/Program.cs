@@ -53,7 +53,7 @@ namespace CardServer
                     }
                     else
                     {
-                        if (AccountController.Instance.CreateAccount(cmdTokens[1], cmdTokens[2]))
+                        if (AccountController.Instance.CreateAccount(cmdTokens[1], cmdTokens[2], String.Empty))
                         {
                             Console.WriteLine("Account created successfully!");
                         }
@@ -156,7 +156,7 @@ namespace CardServer
                     Console.WriteLine(" listgames - Lists all the games currently being managed by this server");
                     Console.WriteLine(" exit - Closes CardServer");
                 }
-                else if(cmdTokens[0] != string.Empty || nextCmd != string.Empty)
+                else if (cmdTokens[0] != string.Empty || nextCmd != string.Empty)
                 {
                     Console.WriteLine("Invalid command");
                 }
