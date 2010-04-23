@@ -140,6 +140,7 @@ namespace CardTable
                 // Update the players piles
                 BankPile currentBank = this.player.BankPile;
                 this.bank.Uid = currentBank.Id.ToString();
+                this.BankBalanceLabel.Content = "$" + this.player.Money.ToString();
 
                 // Add all of the missing objects
                 for (int i = 0; i < currentBank.Chips.Count; i++)

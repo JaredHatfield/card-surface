@@ -212,6 +212,15 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Gets the profile image URI.
+        /// </summary>
+        /// <value>The profile image URI.</value>
+        public string ProfileImageUri
+        {
+            get { return this.userImagePath; }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this instance is sittable.
         /// </summary>
         /// <value><c>true</c> if this instance is sittable; otherwise, <c>false</c>.</value>
@@ -364,6 +373,7 @@ namespace CardGame
             this.username = seat.username;
             this.password = seat.password;
             this.sittable = seat.sittable;
+            this.userImagePath = seat.userImagePath;
             if (this.player == null && seat.player != null)
             {
                 // A Player joined so lets add them
