@@ -127,7 +127,9 @@ namespace CardWeb.WebComponents.WebViews
                 }
 
                 content += "<a href=\"http://" + this.request.RequestHost + "/ManageAccount/\">Manage Account</a><br/>\n";
-                content += "Logout</a><br/>";
+                content += "<form name=\"logoutForm\" method=\"post\" action=\"/logout\">\n";
+                content += "<input type=\"submit\" value=\"Logout\"/>\n";
+                content += "</form><br/>\n";
             }
             catch (SocketException se)
             {

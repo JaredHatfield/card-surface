@@ -76,6 +76,7 @@ namespace CardWeb
             this.RegisterWebComponent(new WebComponentResource(gameController));
             this.RegisterWebComponent(new WebComponentInitGame(gameController));
             this.RegisterWebComponent(new WebComponentLeaveGame(gameController));
+            this.RegisterWebComponent(new WebComponentLogout(gameController));
 
             this.localaddr = IPAddress.Any;
 
