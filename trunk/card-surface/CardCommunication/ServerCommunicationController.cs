@@ -227,6 +227,10 @@ namespace CardCommunication
                         {
                             this.gameController.GetGame(cc.GameGuid).MoveAction(physicalObject, destinationPile);
                         }
+                        catch (CardGameMoveToNonOpenPileException)
+                        {
+                            // We don't want to crash if the destination pile is not open
+                        }
                         catch (Exception e)
                         {
                             Debug.WriteLine(e);
