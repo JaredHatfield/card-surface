@@ -2,9 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    Title="CardTable" Height="700" Width="1000"
+    Title="CardTable"
     Icon="Resources/CardTableIcon.ico"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     >
     <s:SurfaceWindow.Resources>
         <ImageBrush x:Key="WindowBackground" Stretch="UniformToFill" ImageSource="pack://application:,,,/Resources/Felt.png"/>

@@ -4,9 +4,11 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:CardTable"
     xmlns:g="clr-namespace:CardGame;assembly=CardGame"
-    Title="CardTable" Height="700" Width="1000"
+    Title="CardTable"
     Icon="Resources/CardTableIcon.ico"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    >
   <s:SurfaceWindow.Resources>
     <ImageBrush x:Key="WindowBackground" Stretch="UniformToFill" ImageSource="pack://application:,,,/Resources/Felt.png"/>
         <Style TargetType="s:SurfaceButton">
