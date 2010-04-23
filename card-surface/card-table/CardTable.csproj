@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="GameFactory\SurfaceCardFactory.cs" />
     <Compile Include="GameFactory\SurfaceChipFactory.cs" />
+    <Compile Include="GameObjects\SurfaceAction.cs" />
     <Compile Include="GameObjects\SurfaceCard.cs" />
     <Compile Include="GameObjects\SurfaceChip.cs" />
     <Compile Include="GameSelection.xaml.cs">
