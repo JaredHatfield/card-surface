@@ -123,6 +123,9 @@
     <Compile Include="CardTableWindow.xaml.cs">
       <DependentUpon>CardTableWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SlideDeck.xaml.cs">
+      <DependentUpon>SlideDeck.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SurfacePhysicalObject.cs" />
     <Compile Include="SurfacePlayer.xaml.cs">
       <DependentUpon>SurfacePlayer.xaml</DependentUpon>
@@ -236,6 +239,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HelpInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SlideDeck.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
