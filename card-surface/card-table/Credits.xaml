@@ -12,7 +12,7 @@
         </Grid.Resources>
         <Label Name="close" MouseDown="ClosePopup_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" FontSize="26" Margin="0,10,10,0" Foreground="Red">X</Label>
         <StackPanel Width="600" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
-            <Label FontSize="40" FontWeight="Bold">Card Surface</Label>
+            <Label FontSize="40" FontWeight="Bold">CardSurface</Label>
             <Label>University of Louisville</Label>
             <Label>Speed School of Engineering</Label>
             <Label>Computer Engineering and Computer Science Department</Label>
