@@ -205,12 +205,21 @@ namespace CardTable
         /// <param name="e">The <see cref="Microsoft.Surface.Presentation.SurfaceDragDropEventArgs"/> instance containing the event data.</param>
         private void OnPreviewDrop(object sender, SurfaceDragDropEventArgs e)
         {
-            // e.Effects = DragDropEffects.Move;
-            e.Effects = DragDropEffects.None;
+            // We don't want to duplicate object when we move out of a LibraryBar
+            e.Effects = DragDropEffects.Move;
 
-            IPhysicalObject physicalObject = e.Cursor.Data as IPhysicalObject;
+            // Get the information about the object that is being moved and the destination
+            Guid physicalObject = (e.Cursor.Data as IPhysicalObject).Id;
             Guid destination = new Guid(e.Cursor.CurrentTarget.Uid);
-            bool actionSuccess = TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.Id.ToString(), destination.ToString()).ActionSuccessful;
+
+            // Perform the move
+            bool actionSuccess = TableManager.Instance().TableCommunicationController.SendMoveActionMessage(physicalObject.ToString(), destination.ToString()).ActionSuccessful;
+
+            // If the move failed we don't want it to actually move the piece
+            if (!actionSuccess)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
