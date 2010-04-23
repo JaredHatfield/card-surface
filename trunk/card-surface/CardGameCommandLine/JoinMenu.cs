@@ -21,11 +21,6 @@ namespace CardGameCommandLine
     internal class JoinMenu : BaseMenu
     {
         /// <summary>
-        /// This should not be necessary, but lets just go with it.
-        /// </summary>
-        private ServerController serverController;
-
-        /// <summary>
         /// The communication controller that can access the server.
         /// </summary>
         private TableCommunicationController tableCommunicationController;
