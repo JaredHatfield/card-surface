@@ -881,6 +881,16 @@ namespace CardGame
         }
 
         /// <summary>
+        /// Sets the seat sittable property.
+        /// </summary>
+        /// <param name="location">The location to change.</param>
+        /// <param name="sittable">if set to <c>true</c> [sittable].</param>
+        protected void SetSeatSittable(Seat.SeatLocation location, bool sittable)
+        {
+            this.GetSeat(location).Sittable = sittable;
+        }
+
+        /// <summary>
         /// Raises the event that indicates a player is leaving the game.
         /// </summary>
         /// <param name="e">The <see cref="CardGame.PlayerLeaveGameEventArgs"/> instance containing the event data.</param>

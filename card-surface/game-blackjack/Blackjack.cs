@@ -73,6 +73,12 @@ namespace GameBlackjack
 
             // Subscribe the player left game event.
             this.PlayerWillLeaveGame += new PlayerWillLeaveGameEventHandler(this.PlayerLeftBlackjackGame);
+
+            // Set only certain seats as sittable
+            this.SetSeatSittable(Seat.SeatLocation.NorthEast, false);
+            this.SetSeatSittable(Seat.SeatLocation.NorthWest, false);
+            this.SetSeatSittable(Seat.SeatLocation.SouthEast, false);
+            this.SetSeatSittable(Seat.SeatLocation.SouthWest, false);
         }
 
         /// <summary>

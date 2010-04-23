@@ -25,6 +25,12 @@ namespace GameFreeplay
             destinationDeck.Open = true;
             CardPile sourceDeck = Deck.StandardDeck();
             this.EmptySpecifiedCardPileTo(sourceDeck, destinationDeck);
+
+            // Set only certain seats as sittable
+            this.SetSeatSittable(Seat.SeatLocation.NorthEast, false);
+            this.SetSeatSittable(Seat.SeatLocation.NorthWest, false);
+            this.SetSeatSittable(Seat.SeatLocation.SouthEast, false);
+            this.SetSeatSittable(Seat.SeatLocation.SouthWest, false);
         }
 
         /// <summary>
