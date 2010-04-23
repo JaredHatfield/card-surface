@@ -108,8 +108,14 @@ namespace CardCommunication
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public override void Close(object sender, EventArgs args)
         {
+            // Close down the server listener thread
             this.serverListenerLoopThread.Abort();
-            throw new NotImplementedException();
+
+            // Close down all of the client threads
+            for (int i = 0; i < this.connectedClients.Count; i++)
+            {
+                this.connectedClients[i].Abort();
+            }
         }
 
         /// <summary>

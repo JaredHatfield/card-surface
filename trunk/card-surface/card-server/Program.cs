@@ -26,7 +26,6 @@ namespace CardServer
             // TODO: Implement CardServer.
             ServerController serverController = new ServerController();
             GameController gameController = GameController.Instance();
-            System.Diagnostics.Process.GetCurrentProcess().Exited += new EventHandler(serverController.Close);
             Console.WriteLine();
             Console.WriteLine("Server IP: " + serverController.ServerCommunicationController.IP);
             Console.WriteLine();
@@ -161,6 +160,7 @@ namespace CardServer
             } 
             while (!(nextCmd = Console.ReadLine()).Equals("exit", StringComparison.CurrentCultureIgnoreCase));
 
+            serverController.Close(null, null);
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
     }

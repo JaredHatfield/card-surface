@@ -265,7 +265,8 @@ namespace CardAccount
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Close(object sender, EventArgs args)
         {
-            // TODO: Write the account information to disk because the application is about to close
+            // Write all of the changes to the file before we close
+            this.CreateFlatFile(this.file);
         }
 
         /// <summary>
