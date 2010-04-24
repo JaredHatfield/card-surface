@@ -29,7 +29,15 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Chip">
-    <Position X="8.5" Y="5" Width="2" />
+    <Position X="8.25" Y="5" Width="2" />
+    <InheritanceLine Type="CardGame.PhysicalObject" FixedToPoint="true">
+      <Path>
+        <Point X="7.875" Y="3.728" />
+        <Point X="7.875" Y="4.625" />
+        <Point X="9.062" Y="4.625" />
+        <Point X="9.062" Y="5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAACAAQEgAAAAACAAAAAgIAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Chip.cs</FileName>
@@ -37,53 +45,78 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Deck">
-    <Position X="20.5" Y="3" Width="1.5" />
+    <Position X="21.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAAAAAAAIAAA=</HashCode>
       <FileName>Deck.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Game">
-    <Position X="15.75" Y="0.75" Width="2" />
+    <Position X="19.25" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardGame.Game.PlayerWillLeaveGameEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardGame.Game.PlayerDidLeaveGameEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardGame.Game.PlayerJoinGameEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardGame.Game.GameStateUpdatedHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AQACAgABASCAACCAAgEAkAYAIgAABCICAoIhMBAAAkA=</HashCode>
+      <HashCode>AQ5CAgABQySAACCAAiFAkAYAIisABCICA4JhMBAEAkA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Player">
-    <Position X="11.5" Y="4.75" Width="2" />
+    <Position X="12.75" Y="0.5" Width="2" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>ASAAAgAAICAAhCIgBAgCEABIAAAAAAAAhAAAAAAgggA=</HashCode>
+      <HashCode>ASQQAgAAICAAhCIgBAgCEABIAAAAAAAAhAAAAAAgggA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardGame.Properties.Resources" Collapsed="true">
-    <Position X="20.5" Y="5" Width="1.5" />
+  <Class Name="CardGame.Properties.Resources">
+    <Position X="23.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CiMiCEQMIAlrRQYAgIoDWQQAIQABABQAGBQAMABACJA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardGame.Properties.Settings" Collapsed="true">
-    <Position X="20.5" Y="5.75" Width="1.5" />
+  <Class Name="CardGame.Properties.Settings">
+    <Position X="21.5" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAIAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.CardPile">
-    <Position X="0.5" Y="5.75" Width="2" />
+    <Position X="0.5" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAQEgAAABAEIEEAAAIBAAAQAAAAAEAA=</HashCode>
+      <HashCode>AAQAAAAAAAAABAQEggAABAEIEEAAAIBAAAQAAAAAEAA=</HashCode>
       <FileName>GamePiles\CardPile.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.ChipPile">
-    <Position X="2.75" Y="5.75" Width="2" />
+    <Position X="2.75" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQEgAAAAACAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAABQEgAAAAACAAAIAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>GamePiles\ChipPile.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -91,31 +124,42 @@
   <Class Name="CardGame.PhysicalObject">
     <Position X="6.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAQAAAAAAAAAAAAAAAAAgAAAAIAAAgA=</HashCode>
+      <HashCode>AAACAAAAAAAAAIQAAAAAAAAAgAAAAAAAgAAAAIAAAgA=</HashCode>
       <FileName>GameObjects\PhysicalObject.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.Pile">
-    <Position X="1.25" Y="0.5" Width="2" />
+    <Position X="1.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AQAiAAAAAAAAKAAgACIAAACAgAAAAAAEAAAAAAAAAgA=</HashCode>
+      <HashCode>AQQiAAAQAAAAKIAgACIAAACAgAAAAAAEAAAAAAAAAgA=</HashCode>
       <FileName>GamePiles\Pile.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.PlayingArea">
-    <Position X="11.5" Y="0.75" Width="2" />
+    <Position X="10.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AQAAA4AAEAAAhBAAAAgAEAAIAAAAAAAAgAAAAAAAggA=</HashCode>
+      <HashCode>AQQAA4AIEAAAhBAAAggAEAAIAAIAAAAAgAAAAAAAggA=</HashCode>
       <FileName>PlayingArea.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.Seat">
-    <Position X="13.75" Y="0.75" Width="1.75" />
+    <Position X="17.25" Y="0.5" Width="1.75" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
+      <Delegate Name="CardGame.Seat.PlayerLeaveSeatEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Seat.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardGame.Seat.PlayerJoinSeatEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Seat.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
       <Enum Name="CardGame.Seat.SeatLocation">
         <TypeIdentifier>
           <NewMemberFileName>Seat.cs</NewMemberFileName>
@@ -123,145 +167,187 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AABCAQCAAAAAAAQAAQIAAAEGIAAAAAADAAAgAwAAAgA=</HashCode>
+      <HashCode>AARiARCAAIAAAIQAAwIAAAEH4AMAAEADAABgAwAAEgA=</HashCode>
       <FileName>Seat.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CardGame.GameAction">
-    <Position X="20.5" Y="0.75" Width="1.5" />
+    <Position X="21.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>GameAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameFactory.PhysicalObjectFactory">
-    <Position X="18" Y="0.75" Width="2" />
+    <Position X="15" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAEAAAACAAAAAAAAAAAACAYAAABAAAAAQAAAAAAABIA=</HashCode>
+      <HashCode>AAEAAAACAAAAAAAAAAAACAYAAABAAAAAQAAAAACABoA=</HashCode>
       <FileName>GameFactory\PhysicalObjectFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameFactory.CardFactory">
-    <Position X="18" Y="4" Width="2" />
+    <Position X="15" Y="4.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAABAA=</HashCode>
       <FileName>GameFactory\CardFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameFactory.ChipFactory">
-    <Position X="18" Y="6.25" Width="2" />
+    <Position X="15" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
       <FileName>GameFactory\ChipFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameSeatNotFoundException">
-    <Position X="0.75" Y="17.75" Width="1.5" />
+    <Position X="3" Y="16.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameSeatNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameActionAccessDeniedException">
-    <Position X="5.25" Y="17.75" Width="1.5" />
+    <Position X="5.75" Y="16.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameActionAccessDeniedException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameActionNotFoundException">
-    <Position X="12" Y="17.75" Width="1.5" />
+    <Position X="9" Y="16.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameActionNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameDuplicatePhysicalObjectException">
-    <Position X="18.75" Y="17.75" Width="1.5" />
+    <Position X="17.75" Y="16.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameDuplicatePhysicalObjectException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameException">
-    <Position X="12" Y="14.75" Width="1.5" />
+    <Position X="11.5" Y="11" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
       <FileName>GameException\CardGameException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameFactoryException">
-    <Position X="7.5" Y="17.75" Width="1.5" />
+    <Position X="16.5" Y="13.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
       <FileName>GameException\CardGameFactoryException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameGameNotFoundException">
-    <Position X="14.25" Y="17.75" Width="1.5" />
+    <Position X="12" Y="16.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameGameNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameMinimumStakeException">
-    <Position X="21" Y="17.75" Width="1.5" />
+    <Position X="21.25" Y="16.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameMinimumStakeException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGameMoveToNonOpenPileException">
-    <Position X="3" Y="17.75" Width="1.5" />
+    <Position X="5.5" Y="13.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGameMoveToNonOpenPileException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGamePhysicalObjectNotFoundException">
-    <Position X="9.75" Y="17.75" Width="1.5" />
+    <Position X="8.75" Y="13.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGamePhysicalObjectNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGamePileNotFoundException">
-    <Position X="16.5" Y="17.75" Width="1.5" />
+    <Position X="15" Y="16.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGamePileNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardGame.GameException.CardGamePlayerNotFoundException">
-    <Position X="23.25" Y="17.75" Width="1.5" />
+    <Position X="13.25" Y="13.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>GameException\CardGamePlayerNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="CardGame.IGameController">
-    <Position X="15.75" Y="9.5" Width="2" />
+  <Class Name="CardGame.BankPile">
+    <Position X="3.75" Y="9.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>RAAACAAAAAAAAAAAAAACAAEAIABAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAABAAAAYhACAEACAAAACAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>GamePiles\BankPile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGame.GameUpdater">
+    <Position X="21.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAAAAgAAIAAAAAAAAAAAIAAAQIAAAAAAAAAAA=</HashCode>
+      <FileName>GameUpdater.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGame.PlayerJoinGameEventArgs">
+    <Position X="21.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQEAAAGBAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerJoinGameEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGame.PlayerLeaveGameEventArgs">
+    <Position X="15" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAQEAAAEBAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>PlayerLeaveGameEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGame.GameException.CardGameSeatNotSittableException">
+    <Position X="11.25" Y="8.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameException\CardGameSeatNotSittableException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CardGame.IGameController">
+    <Position X="10.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>RAAACAAAAAQAAAAAAAACAAEAIABAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IGameController.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="CardGame.IPhysicalObject">
-    <Position X="1.75" Y="10.5" Width="1.5" />
+    <Position X="1.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>GameObjects\IPhysicalObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="CardGame.ICard">
-    <Position X="0.5" Y="12.75" Width="1.5" />
+    <Position X="0.5" Y="13.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABEAAAAAAAAAAAABAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\ICard.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="CardGame.IChip">
-    <Position X="2.75" Y="12.75" Width="1.5" />
+    <Position X="2.75" Y="13.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\IChip.cs</FileName>

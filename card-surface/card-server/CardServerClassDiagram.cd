@@ -3,13 +3,13 @@
   <Class Name="CardServer.GameController" BaseTypeListCollapsed="true">
     <Position X="3.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>QAAACAAAAAAIAAAAAAAAAAAAIARAAAAAAAAAAEAAAAA=</HashCode>
+      <HashCode>REAACAAAAAQIAAAAAAICAAFAIABAAAAAQAAAAECAAAA=</HashCode>
       <FileName>GameController.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="CardServer.Program">
-    <Position X="5.5" Y="2.25" Width="1.5" />
+    <Position X="1" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
@@ -18,18 +18,18 @@
   <Class Name="CardServer.ServerController">
     <Position X="0.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIAAAQAAAAAAAAAAgAAAEAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAIAAAQAAAACAAAAAgAAAEAAAAAAACAAAA=</HashCode>
       <FileName>ServerController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardServer.Properties.Resources" Collapsed="true">
-    <Position X="5.5" Y="0.5" Width="1.5" />
+  <Class Name="CardServer.Properties.Resources">
+    <Position X="5.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="CardServer.Properties.Settings" Collapsed="true">
-    <Position X="5.5" Y="1.25" Width="1.5" />
+  <Class Name="CardServer.Properties.Settings">
+    <Position X="5.25" Y="3.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>

@@ -3,120 +3,358 @@
   <Class Name="CardWeb.WebController">
     <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>ARQQAAAAAAAAAAAQAAIAEAAACAQAEAAABAAAACAAAAI=</HashCode>
+      <HashCode>ARQAAAAAAAAAAAAQAAIAEAAACAQAEAAABAAAACCAAAI=</HashCode>
       <FileName>WebController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebRequest">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="3" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAwAAAAEAIEAEEAJAgCAACAAACAABAAQJEAAECAAAA=</HashCode>
+      <HashCode>AAAwAACAEAIkAEEIJAgSCgCgAACAABAAxJEAEMSAAQA=</HashCode>
       <FileName>WebRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebUtilities">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Position X="5.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAQAAAAAAAACA=</HashCode>
+      <HashCode>ACAAAAAAAAAAAAAABAAAAAQAAAAAgAAAQAAAAAAAACA=</HashCode>
       <FileName>WebUtilities.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebActions.WebAction">
-    <Position X="10.25" Y="4" Width="1.5" />
+    <Position X="6" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebActions\WebAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebActions.WebActionCreateAccount">
-    <Position X="9.25" Y="6.25" Width="2" />
+    <Position X="2.5" Y="9" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAQAAEAAAAGAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAQAAEAAAAGAAAAAAAACAAAAAgAAAAA=</HashCode>
       <FileName>WebComponents\WebActions\WebActionCreateAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebActions.WebActionJoinTable">
-    <Position X="11.5" Y="6.25" Width="1.75" />
+    <Position X="4.75" Y="9" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQQAEAAAACAAAAAAAAAAAAAEAAAAAA=</HashCode>
       <FileName>WebComponents\WebActions\WebActionJoinTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebActions.WebActionLogin">
-    <Position X="13.75" Y="6.25" Width="1.5" />
+    <Position X="7" Y="9" Width="1.5" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebActions.WebAction" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="8.296" />
+        <Point X="6.75" Y="8.808" />
+        <Point X="7.812" Y="8.808" />
+        <Point X="7.812" Y="9" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAEAAAAGAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>WebComponents\WebActions\WebActionLogin.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebActions.WebActionManageAccount">
-    <Position X="6.75" Y="6.25" Width="2.25" />
+    <Position X="4.25" Y="12.25" Width="2.25" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebActions.WebAction" ManuallyRouted="true">
+      <Path>
+        <Point X="6.75" Y="8.296" />
+        <Point X="6.75" Y="11.995" />
+        <Point X="5.375" Y="11.995" />
+        <Point X="5.375" Y="12.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebActions\WebActionManageAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebComponent">
-    <Position X="3" Y="6.5" Width="1.5" />
+    <Position X="14" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AQAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAIAAAAAAAAAI=</HashCode>
       <FileName>WebComponents\WebComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebComponentCreateAccount">
-    <Position X="0.75" Y="9" Width="2.5" />
+    <Position X="10.75" Y="9.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AQAgIAAAAAAAAAAAAAAgAAAAACAAAAAAAAAgAAAAAAI=</HashCode>
+      <HashCode>AQAgIAAAAAAAAAAAAAAgAAAAACAAAAAAIAAgAAAAAAI=</HashCode>
       <FileName>WebComponents\WebComponentCreateAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebComponentLogin">
-    <Position X="4" Y="9" Width="2" />
+    <Position X="11" Y="5.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AQAgIAAAAAAAAAAAAAAgAAAAACAgAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AQAgIAAAAAAAAAAAAAAgAAAAACAgAAAAIAAAAAAAAAI=</HashCode>
       <FileName>WebComponents\WebComponentLogin.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebView">
-    <Position X="20.5" Y="0.5" Width="1.5" />
+    <Position X="18.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAEAAAAAABAEBAACAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAABBAAEAQAAAABAEBAACAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebViews\WebView.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebViewCreateAccount">
-    <Position X="18.25" Y="4" Width="2" />
+    <Position X="18.25" Y="4.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABEAEAAgABABAEAAAACAAAAAAAAAACAAAAAAAAU=</HashCode>
+      <HashCode>AAAAABEAEAAgABABAEAAAACAAAAIAAAAACAAAAAAAAU=</HashCode>
       <FileName>WebComponents\WebViews\WebViewCreateAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebViewHand">
-    <Position X="22.75" Y="4" Width="1.5" />
+    <Position X="21.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAEAAAAAABAEAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAABAAEAAAAAARAEAAAACAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebViews\WebViewHand.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebViewJoinTable">
-    <Position X="25" Y="4" Width="1.75" />
+    <Position X="20.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAEAAAAAABAEAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAABEAEAAAAAARAEAAAQCAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebViews\WebViewJoinTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebViewLogin">
-    <Position X="16.25" Y="4" Width="1.5" />
+    <Position X="16" Y="4.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAABEAEAAgABABAEAAAACAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AQAAABEAEAAgABABAEAAAACAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebViews\WebViewLogin.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CardWeb.WebComponents.WebViews.WebViewManageAccount">
-    <Position X="20.5" Y="4" Width="2" />
+    <Position X="21" Y="7.25" Width="2" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebViews.WebView" ManuallyRouted="true">
+      <Path>
+        <Point X="19.25" Y="3.661" />
+        <Point X="19.25" Y="4.125" />
+        <Point X="20.926" Y="4.125" />
+        <Point X="20.926" Y="8.251" />
+        <Point X="21" Y="8.251" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAABAAEAAAAAABAEAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>WebComponents\WebViews\WebViewManageAccount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebActions.WebActionInitGame">
+    <Position X="8.75" Y="9" Width="1.75" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebActions.WebAction" FixedFromPoint="true">
+      <Path>
+        <Point X="6.75" Y="8.296" />
+        <Point X="6.75" Y="8.808" />
+        <Point X="9.625" Y="8.808" />
+        <Point X="9.625" Y="9" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQQAEAAAACBAAAAAAAAAAQAEAAAAAA=</HashCode>
+      <FileName>WebComponents\WebActions\WebActionInitGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebActions.WebActionLeaveGame">
+    <Position X="6.75" Y="12.25" Width="2" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebActions.WebAction" ManuallyRouted="true">
+      <Path>
+        <Point X="6.75" Y="8.296" />
+        <Point X="6.75" Y="11.995" />
+        <Point X="7.75" Y="11.995" />
+        <Point X="7.75" Y="12.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQQAEAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebComponents\WebActions\WebActionLeaveGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebActions.WebActionLogout">
+    <Position X="9" Y="12.25" Width="1.5" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebActions.WebAction" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="8.296" />
+        <Point X="6.75" Y="12.01" />
+        <Point X="9.75" Y="12.01" />
+        <Point X="9.75" Y="12.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQQAEAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebComponents\WebActions\WebActionLogout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentDefault">
+    <Position X="20.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAQAAAAAAgAAAAACAAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentDefault.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentHand">
+    <Position X="13" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAAAAQAAAgAAAAACAAAAAAIAAQAAAAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentHand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentInitGame">
+    <Position X="14.75" Y="13" Width="1.5" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebComponent" ManuallyRouted="true">
+      <Path>
+        <Point X="14.75" Y="8.132" />
+        <Point X="14.75" Y="9.127" />
+        <Point X="16.509" Y="9.127" />
+        <Point X="16.509" Y="12.846" />
+        <Point X="15.5" Y="12.846" />
+        <Point X="15.5" Y="13" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAAAAQAAAgAAAAACAAAAAAIAAAAAIAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentInitGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentJoinTable">
+    <Position X="16.5" Y="13" Width="1.5" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebComponent" ManuallyRouted="true">
+      <Path>
+        <Point X="14.75" Y="8.132" />
+        <Point X="14.75" Y="9.127" />
+        <Point X="16.478" Y="9.127" />
+        <Point X="16.478" Y="12.846" />
+        <Point X="17.25" Y="12.846" />
+        <Point X="17.25" Y="13" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAAAAQAAAgAAAAACAAAAAAIAAAAAAAACI=</HashCode>
+      <FileName>WebComponents\WebComponentJoinTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentLeaveGame">
+    <Position X="13.75" Y="9.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgIAEAAAAAAAAQAAAgAAAAACAAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentLeaveGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentLogout">
+    <Position X="16.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAAAAQAAAgAAAAACCAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentLogout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebComponentResource">
+    <Position X="18.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgIAAAAAAAABAQAAAgAAAAACAAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>WebComponents\WebComponentResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebViews.WebViewDefault">
+    <Position X="15.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAEAAAAAABAEAAAACAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>WebComponents\WebViews\WebViewDefault.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebViews.WebViewInitGame">
+    <Position X="23.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAhECEAAAAQARAEAAAACAAAAAAAAAACAAEAAAAgE=</HashCode>
+      <FileName>WebComponents\WebViews\WebViewInitGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebComponents.WebViews.WebViewResource">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <InheritanceLine Type="CardWeb.WebComponents.WebViews.WebView" FixedFromPoint="true">
+      <Path>
+        <Point X="19.25" Y="3.661" />
+        <Point X="19.25" Y="4.125" />
+        <Point X="22.76" Y="4.125" />
+        <Point X="22.76" Y="1.919" />
+        <Point X="23" Y="1.919" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAEAAAAAARAEAAAACAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>WebComponents\WebViews\WebViewResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebCookie">
+    <Position X="2.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIEAAAAAAAAAEAAAABAAAAAAA=</HashCode>
+      <FileName>WebCookie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebSession">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAgAAAAAAAAAgQkAAAkLBABgEoQQIAAAEAAAAgA=</HashCode>
+      <FileName>WebSession.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebSessionController">
+    <Position X="0.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAgAAgAAAAgIAAFAAQAAQAAAAAAAAAA=</HashCode>
+      <FileName>WebSessionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerActiveSessionAlreadyExistsException">
+    <Position X="9.25" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>WebExceptions\WebServerActiveSessionAlreadyExistsException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerActiveSessionNotFoundException">
+    <Position X="11.5" Y="0.5" Width="3.25" />
+    <InheritanceLine Type="CardWeb.WebExceptions.WebServerException" ManuallyRouted="true">
+      <Path>
+        <Point X="10.75" Y="1.568" />
+        <Point X="11.5" Y="1.568" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>WebExceptions\WebServerActiveSessionNotFoundException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerCouldNotLaunchException">
+    <Position X="7.75" Y="5.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>WebExceptions\WebServerCouldNotLaunchException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerException">
+    <Position X="8.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
+      <FileName>WebExceptions\WebServerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerSessionNotFoundException">
+    <Position X="13" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAgA=</HashCode>
+      <FileName>WebExceptions\WebServerSessionNotFoundException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardWeb.WebExceptions.WebServerUrlParameterNotFoundException">
+    <Position X="5.75" Y="3.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>WebExceptions\WebServerUrlParameterNotFoundException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
