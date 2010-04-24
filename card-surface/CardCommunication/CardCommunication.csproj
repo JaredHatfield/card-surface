@@ -81,7 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CardCommunicationClassDiagram.cd" />
-    <None Include="Messages\MessageSchema.xsd" />
+    <None Include="Messages\MessageSchema.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SampleGameState.xml" />
