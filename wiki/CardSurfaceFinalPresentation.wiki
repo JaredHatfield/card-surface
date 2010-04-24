@@ -1,0 +1,4 @@
+#summary The final presentation for the capstone project.
+#labels Featured
+
+<wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/final_presentation_gadget.xml" height="451" width="555" border="1"/>
