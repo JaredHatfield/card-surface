@@ -56,15 +56,7 @@ namespace CardCommunication.Messages
         internal Message()
         {
             string filePath = Directory.GetCurrentDirectory();
-            string parent = "card-surface\\card-surface\\";
-            int index = 0;
-
-            index = filePath.IndexOf(parent);
-            if (index != 0)
-            {
-                filePath = filePath.Remove(index + parent.Length);
-                filePath = filePath + "CardCommunication\\Messages\\MessageSchema.xsd";
-            }
+            filePath = filePath + "\\Messages\\MessageSchema.xsd";
 
             this.messageDoc = new XmlDocument();
             this.messageDoc.Schemas.Add(null, filePath);
