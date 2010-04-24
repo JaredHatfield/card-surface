@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CardCommunication.CommunicationController">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAgIAAAAAAAAAAAACAAIA=</HashCode>
+      <FileName>CommunicationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.ConnectedClient">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAQAAAAAAAAEEACAAAAAAIAAAEAAIAAAAUAAAAgA=</HashCode>
+      <FileName>ConnectedClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.GameNetworkClient">
+    <Position X="2.75" Y="9" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardCommunication.GameNetworkClient.GameStateDidFinishUpdateDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameNetworkClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAQAAAQAAAAFAAAAAAAQIAAAEBgAgAAQABAAIQAA=</HashCode>
+      <FileName>GameNetworkClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.ServerCommunicationController">
+    <Position X="2.75" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardCommunication.ServerCommunicationController.GameStateNeedsPushedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ServerCommunicationController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABAAQAAAQgAAAAAQQAAAAAAAIIAAAAAAAAAgAACAAAA=</HashCode>
+      <FileName>ServerCommunicationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.TableCommunicationController">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardCommunication.TableCommunicationController.UpdateGameStateHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TableCommunicationController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABAAAICAAAAACAAAAAABAAAAYAAAREABSABAAoCAAAA=</HashCode>
+      <FileName>TableCommunicationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.CommunicationException.CardCommunicationException">
+    <Position X="16" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommunicationException\CardCommunicationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.CommunicationException.MessageDeserializationException">
+    <Position X="15" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommunicationException\MessageDeserializationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.CommunicationException.MessageProcessException">
+    <Position X="17.75" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommunicationException\MessageProcessException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.CommunicationException.MessageTransportException">
+    <Position X="20" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommunicationException\MessageTransportException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.CommunicationException.SocketBindingException">
+    <Position X="12.75" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommunicationException\SocketBindingException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.GameObject.GameMessage">
+    <Position X="7" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObject\GameMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.Message">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="CardCommunication.Messages.Message.MessageType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Messages\Message.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAIBQAACAAQAAAQAAAAFAAAgEgAAIAABAAAAAEAA=</HashCode>
+      <FileName>Messages\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageAction">
+    <Position X="17.25" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="CardCommunication.Messages.MessageAction.ActionType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Messages\MessageAction.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAAABABgEAAAAAAEIAAAAACAAIAEAIAAAAAAAAAAEAQ=</HashCode>
+      <FileName>Messages\MessageAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageExistingGames">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIBBAAAAAAAAAAAAAgCAAAAEACAAgABgQAAAUQA=</HashCode>
+      <FileName>Messages\MessageExistingGames.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageFlipCard">
+    <Position X="6.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAABAAAAAAAAAAAAAAACAEIAEAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Messages\MessageFlipCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageGameList">
+    <Position X="10.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAACAAAAEACAAAIAAQACAEQE=</HashCode>
+      <FileName>Messages\MessageGameList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageGameState">
+    <Position X="13.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAABAAAAAQAAAAQACAAAAEAAAQAAAAAAAAEAA=</HashCode>
+      <FileName>Messages\MessageGameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageRequestCurrentGameState">
+    <Position X="19" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAABAAAAAAAAAIAAAAACAAAAEAAAAAAAAAAAAEgA=</HashCode>
+      <FileName>Messages\MessageRequestCurrentGameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageRequestExistingGames">
+    <Position X="22.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABCAAAAAAAAAAAAAACAAAAEAAAAAAACCAAAEAA=</HashCode>
+      <FileName>Messages\MessageRequestExistingGames.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageRequestGame">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAAAAAAAQAAQAGAAAAEAAAQAAAAAAAAEgA=</HashCode>
+      <FileName>Messages\MessageRequestGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageRequestGameList">
+    <Position X="12" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAACAAAAEAAAAAAAAAAAAEAg=</HashCode>
+      <FileName>Messages\MessageRequestGameList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardCommunication.Messages.MessageRequestSeatCodeChange">
+    <Position X="15.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAABACAAAQEAEAAAAAAEAAAEAA=</HashCode>
+      <FileName>Messages\MessageRequestSeatCodeChange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGame.Game">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardGame.Game.PlayerWillLeaveGameEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="CardGame.Game.PlayerDidLeaveGameEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="CardGame.Game.PlayerJoinGameEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="CardGame.Game.GameStateUpdatedHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Struct Name="CardCommunication.ActiveGameStruct">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAAAAAAAAAAAAAAEAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ActiveGameStruct.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Message">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="Header" type="HeaderType"></xs:element>
+        <xs:element name="Body" type="BodyType"></xs:element>
+      </xs:all>
+      <xs:attribute name="MessageType" type ="xs:string"></xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name ="HeaderType">
+    <xs:attribute name ="TimeStamp" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+  <xs:complexType name ="BodyType">
+    <xs:choice>
+      <xs:element name ="Action">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Move" type="ActionType"></xs:element>
+            <xs:element name="Custom" type="ActionType"></xs:element>
+          </xs:choice>
+          <xs:attribute name="game" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ExistingGames">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element name="Game">
+              <xs:complexType>
+                <xs:attribute name="type" type="xs:string"></xs:attribute>
+                <xs:attribute name="display" type="xs:string"></xs:attribute>
+                <xs:attribute name="id" type="xs:string"></xs:attribute>
+                <xs:attribute name="players" type="xs:string"></xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="ExistingGamesList" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FlipCard">
+        <xs:complexType>
+          <xs:attribute name="cardGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GameList">
+        <xs:complexType>
+          <xs:attribute name="NameList" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestGameList">
+        <xs:complexType>
+          <xs:attribute name="MessageType" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestGame">
+        <xs:complexType>
+          <xs:attribute name="GameType" type="xs:string"></xs:attribute>
+          <xs:attribute name="GameGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestExistingGames">
+        <xs:complexType>
+          <xs:attribute name="SelectedGame" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestCurrentGameState">
+        <xs:complexType>
+          <xs:attribute name="gameGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RequestSeatCodeChange">
+        <xs:complexType>
+          <xs:attribute name="seatGuid" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GameState">
+        <xs:complexType>
+          <xs:attribute name="gameObject" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="ActionType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="Param" type="ParamType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ParamType">
+    <xs:attribute name="value" type="xs:string"></xs:attribute>
+  </xs:complexType>
+</xs:schema>

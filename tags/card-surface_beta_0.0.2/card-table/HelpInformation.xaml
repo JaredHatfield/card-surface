@@ -1,0 +1,49 @@
+﻿<s:SurfaceUserControl x:Class="CardTable.HelpInformation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"  Height="600" Width="800">
+    <Grid Background="White" Opacity=".95">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            <Style x:Key="ChipMoneyAmount" TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="40"/>
+            </Style>
+            <Style x:Key="StackPanelImageStyle" TargetType="Image">
+                <Setter Property="Height" Value="80" />
+                <Setter Property="Width" Value="80" />
+                <Setter Property="Margin" Value="0,0,0,0" />
+            </Style>
+        </Grid.Resources>
+        <Label Name="close" MouseDown="ClosePopup_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" FontSize="26" Margin="0,10,10,0" Foreground="Red">X</Label>
+        <Label FontSize="40" FontWeight="Bold" Margin="0,10,0,0">Help</Label>
+        <StackPanel VerticalAlignment="Bottom" Margin="100,0,0,40" Orientation="Vertical" HorizontalAlignment="Left">
+            <Label Style="{StaticResource ChipMoneyAmount}">Chip Values</Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipWhite.png" />
+                <Label Style="{StaticResource ChipMoneyAmount}">$1</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipRed.png" />
+                <Label Style="{StaticResource ChipMoneyAmount}">$5</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlue.png" />
+                <Label Style="{StaticResource ChipMoneyAmount}">$10</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipGreen.png" />
+                <Label Style="{StaticResource ChipMoneyAmount}">$25</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <Image Style="{StaticResource StackPanelImageStyle}" Source="Resources/chipBlack.png" />
+                <Label Style="{StaticResource ChipMoneyAmount}">$100</Label>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</s:SurfaceUserControl>
