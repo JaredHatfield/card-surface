@@ -1,57 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="GameBlackjack.Properties.Resources" Collapsed="true">
-    <Position X="6" Y="0.5" Width="1.5" />
+  <Class Name="GameBlackjack.Properties.Resources">
+    <Position X="14.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameBlackjack.Properties.Settings" Collapsed="true">
-    <Position X="6" Y="1.25" Width="1.5" />
+  <Class Name="GameBlackjack.Properties.Settings">
+    <Position X="2.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.Blackjack">
-    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Position X="0.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAABAAAAAQBAAACAgBAAEIQAAgAABAASEAYhBAAAAgA=</HashCode>
       <FileName>Blackjack.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.GameActionHit">
-    <Position X="2.5" Y="0.5" Width="1.5" />
+    <Position X="2.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>GameActionHit.cs</FileName>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionHit.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.GameActionStand">
-    <Position X="0.5" Y="2.5" Width="1.5" />
+    <Position X="2.75" Y="4.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>GameActionStand.cs</FileName>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionStand.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.GameActionSplit">
-    <Position X="2.5" Y="2.5" Width="1.5" />
+    <Position X="2.75" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>GameActionSplit.cs</FileName>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionSplit.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.GameActionDouble">
-    <Position X="4.25" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="7" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>GameActionDouble.cs</FileName>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionDouble.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameBlackjack.GameActionDeal">
-    <Position X="4.25" Y="2.5" Width="1.5" />
+    <Position X="4.75" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>GameActionDeal.cs</FileName>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionDeal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.GameActionAwardChips">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAgBACAAAAAAAQAACAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionAwardChips.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.GameActionClearTable">
+    <Position X="10.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionClearTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.GameActionDealerHit">
+    <Position X="6.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionDealerHit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.GameActionNext">
+    <Position X="8.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Actions\GameActionNext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackRules">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="GameBlackjack.BlackjackRules.Result" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>BlackjackRules.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAgAAAAAAAgAAAA=</HashCode>
+      <FileName>BlackjackRules.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.GameState">
+    <Position X="14.75" Y="6" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="GameBlackjack.GameState.State" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameState.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.PlayerState">
+    <Position X="12.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAABgiAIpgAAwAAABUAAAARBAAJAAAAAAA=</HashCode>
+      <FileName>PlayerState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackActionNotAllowedException">
+    <Position X="8.5" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackActionNotAllowedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackException">
+    <Position X="8.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackInactivePlayerException">
+    <Position X="5" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackInactivePlayerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackInvalidPlayerStateException">
+    <Position X="5.25" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackInvalidPlayerStateException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackPlayerHasNotSplitException">
+    <Position X="7.75" Y="6.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackPlayerHasNotSplitException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameBlackjack.BlackjackExceptions.BlackjackPlayerNotDealtException">
+    <Position X="10.75" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlackjackExceptions\BlackjackPlayerNotDealtException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
