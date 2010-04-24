@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{357675F6-3B15-4D69-BECA-2D4C7D748020}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CardGameCommandLine</RootNamespace>
+    <AssemblyName>CardGameCommandLine</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseMenu.cs" />
+    <Compile Include="CommandLineGraphics.cs" />
+    <Compile Include="GameCommandLine.cs" />
+    <Compile Include="GameMenu.cs" />
+    <Compile Include="GameNetworkMenu.cs" />
+    <Compile Include="JoinMenu.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\card-server\CardServer.csproj">
+      <Project>{D9BAD776-FFA3-4E89-91FA-BAF464BC6F7C}</Project>
+      <Name>CardServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardCommunication\CardCommunication.csproj">
+      <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
+      <Name>CardCommunication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\game-blackjack\GameBlackjack.csproj">
+      <Project>{967623D1-5D3C-48B6-9C2F-FDF762F2FA82}</Project>
+      <Name>GameBlackjack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameFreeplay\GameFreeplay.csproj">
+      <Project>{A3F85FAE-CBB9-4AD9-8DA6-3A6594E1163A}</Project>
+      <Name>GameFreeplay</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CardGameCommandLineClassDiagram.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CardGameCommandLine.BaseMenu">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>BaseMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.CommandLineGraphics">
+    <Position X="4.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandLineGraphics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.GameCommandLine">
+    <Position X="2.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameCommandLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.GameMenu">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAAAABAAQAAEAEAAAgAAAAJAAAAAQAAAAA=</HashCode>
+      <FileName>GameMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.GameNetworkMenu">
+    <Position X="0.5" Y="6.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>GameNetworkMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.JoinMenu">
+    <Position X="2.75" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>JoinMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardGameCommandLine.Program">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
