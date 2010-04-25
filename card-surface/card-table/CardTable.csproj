@@ -126,7 +126,6 @@
     <Compile Include="SlideDeck.xaml.cs">
       <DependentUpon>SlideDeck.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SurfacePhysicalObject.cs" />
     <Compile Include="SurfacePlayer.xaml.cs">
       <DependentUpon>SurfacePlayer.xaml</DependentUpon>
     </Compile>
