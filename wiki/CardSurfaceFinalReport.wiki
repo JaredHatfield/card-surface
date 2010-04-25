@@ -1,4 +1,4 @@
 #summary The final report for the capstone project.
 #labels Featured
 
-<wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/final_report_gadget.xml" height="1000" width="700" border="1"/>
+<wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/final_report_gadget.xml" height="900" width="750" border="1"/>
