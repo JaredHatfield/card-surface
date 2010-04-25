@@ -15,6 +15,42 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0E154C9C50DCC50603E3E3FDEC7828AC"
+        "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0E154C9C50DCC50603E3E3FDEC7828AC"
+        "OwnerKey" = "8:_AC629820BE059F57C113BE455E7178A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0E154C9C50DCC50603E3E3FDEC7828AC"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0E154C9C50DCC50603E3E3FDEC7828AC"
+        "OwnerKey" = "8:_D07B2814E81471988126BC751E764364"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1CE0EBE1AF4F4BFC91ACFC6921C05C8E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_22753AB9CF76A66267A01EDBC3A27997"
+        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -27,158 +63,128 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_38AB10649295DB16C5AB7FD7F66630B5"
+        "MsmKey" = "8:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
         "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_38AB10649295DB16C5AB7FD7F66630B5"
+        "MsmKey" = "8:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
         "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_38AB10649295DB16C5AB7FD7F66630B5"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
+        "MsmKey" = "8:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4CFA7D3624D35CC75041D72E2D3A235F"
+        "MsmKey" = "8:_9BFD822EDB630F29B33C7A3D9BA13165"
         "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4CFA7D3624D35CC75041D72E2D3A235F"
+        "MsmKey" = "8:_9BFD822EDB630F29B33C7A3D9BA13165"
         "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4CFA7D3624D35CC75041D72E2D3A235F"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
+        "MsmKey" = "8:_9BFD822EDB630F29B33C7A3D9BA13165"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5E2252CF18C257B73CF6E8610C86AB3D"
+        "MsmKey" = "8:_A029933CC84284FD94A4540E10340D6B"
+        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AC629820BE059F57C113BE455E7178A3"
+        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
         "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5E2252CF18C257B73CF6E8610C86AB3D"
+        "MsmKey" = "8:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
         "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5E2252CF18C257B73CF6E8610C86AB3D"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
+        "MsmKey" = "8:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_621D345CFCA21D114944BC0500DED69F"
+        "MsmKey" = "8:_D07B2814E81471988126BC751E764364"
         "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7F708AA30A781E19412EF06577061AAF"
-        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
+        "MsmKey" = "8:_D07B2814E81471988126BC751E764364"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7F708AA30A781E19412EF06577061AAF"
-        "OwnerKey" = "8:_943A9A692D49986967F89BF199F30B7C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7F708AA30A781E19412EF06577061AAF"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
         "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_943A9A692D49986967F89BF199F30B7C"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_AC629820BE059F57C113BE455E7178A3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
         "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_4CFA7D3624D35CC75041D72E2D3A235F"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_38AB10649295DB16C5AB7FD7F66630B5"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_621D345CFCA21D114944BC0500DED69F"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_D07B2814E81471988126BC751E764364"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_86009B56422E9863506C43B4977E7D37"
-        "OwnerKey" = "8:_5E2252CF18C257B73CF6E8610C86AB3D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_943A9A692D49986967F89BF199F30B7C"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_943A9A692D49986967F89BF199F30B7C"
-        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
-        "OwnerKey" = "8:_314D997D0EC4434787A7E85E90A873C0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CA657819EB10DE101024476B9808CBBE"
-        "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CA657819EB10DE101024476B9808CBBE"
-        "OwnerKey" = "8:_621D345CFCA21D114944BC0500DED69F"
+        "MsmKey" = "8:_E608009046359BE0F617E66341261301"
+        "OwnerKey" = "8:_9BFD822EDB630F29B33C7A3D9BA13165"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -190,7 +196,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_86009B56422E9863506C43B4977E7D37"
+        "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,55 +208,55 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_95EFA2A45991E4283A3E8D7E0F414C7B"
+        "OwnerKey" = "8:_AC629820BE059F57C113BE455E7178A3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_943A9A692D49986967F89BF199F30B7C"
+        "OwnerKey" = "8:_A029933CC84284FD94A4540E10340D6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7F708AA30A781E19412EF06577061AAF"
+        "OwnerKey" = "8:_22753AB9CF76A66267A01EDBC3A27997"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_293166DDA0194328A2A71FD0548B7852"
+        "OwnerKey" = "8:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4CFA7D3624D35CC75041D72E2D3A235F"
+        "OwnerKey" = "8:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_38AB10649295DB16C5AB7FD7F66630B5"
+        "OwnerKey" = "8:_D07B2814E81471988126BC751E764364"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_621D345CFCA21D114944BC0500DED69F"
+        "OwnerKey" = "8:_9BFD822EDB630F29B33C7A3D9BA13165"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5E2252CF18C257B73CF6E8610C86AB3D"
+        "OwnerKey" = "8:_0E154C9C50DCC50603E3E3FDEC7828AC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CA657819EB10DE101024476B9808CBBE"
+        "OwnerKey" = "8:_E608009046359BE0F617E66341261301"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -271,6 +277,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -287,6 +301,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -316,20 +338,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_38AB10649295DB16C5AB7FD7F66630B5"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0E154C9C50DCC50603E3E3FDEC7828AC"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:GameBlackjack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CardAccount, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_38AB10649295DB16C5AB7FD7F66630B5"
+                    "_0E154C9C50DCC50603E3E3FDEC7828AC"
                     {
-                    "Name" = "8:GameBlackjack.dll"
+                    "Name" = "8:CardAccount.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:GameBlackjack.dll"
+            "SourcePath" = "8:CardAccount.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
@@ -347,14 +369,65 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4CFA7D3624D35CC75041D72E2D3A235F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1CE0EBE1AF4F4BFC91ACFC6921C05C8E"
+            {
+            "SourcePath" = "8:..\\CardCommunication\\Messages\\MessageSchema.xsd"
+            "TargetName" = "8:MessageSchema.xsd"
+            "Tag" = "8:"
+            "Folder" = "8:_541194C2BE544DF795F510D039C067F1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_22753AB9CF76A66267A01EDBC3A27997"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CardAccount, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_22753AB9CF76A66267A01EDBC3A27997"
+                    {
+                    "Name" = "8:CardAccount.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CardAccount.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:GameFreeplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4CFA7D3624D35CC75041D72E2D3A235F"
+                    "_5095D6107D0F37B1E7BCB8E1CBFDFCB7"
                     {
                     "Name" = "8:GameFreeplay.dll"
                     "Attributes" = "3:512"
@@ -378,14 +451,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5E2252CF18C257B73CF6E8610C86AB3D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9BFD822EDB630F29B33C7A3D9BA13165"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CardCommunication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5E2252CF18C257B73CF6E8610C86AB3D"
+                    "_9BFD822EDB630F29B33C7A3D9BA13165"
                     {
                     "Name" = "8:CardCommunication.dll"
                     "Attributes" = "3:512"
@@ -409,138 +482,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_621D345CFCA21D114944BC0500DED69F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_621D345CFCA21D114944BC0500DED69F"
-                    {
-                    "Name" = "8:CardWeb.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CardWeb.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F708AA30A781E19412EF06577061AAF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardAccount, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_7F708AA30A781E19412EF06577061AAF"
-                    {
-                    "Name" = "8:CardAccount.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CardAccount.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_86009B56422E9863506C43B4977E7D37"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_86009B56422E9863506C43B4977E7D37"
-                    {
-                    "Name" = "8:CardGame.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CardGame.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_943A9A692D49986967F89BF199F30B7C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_943A9A692D49986967F89BF199F30B7C"
-                    {
-                    "Name" = "8:CardWeb.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CardWeb.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_95EFA2A45991E4283A3E8D7E0F414C7B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A029933CC84284FD94A4540E10340D6B"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CardServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_95EFA2A45991E4283A3E8D7E0F414C7B"
+                    "_A029933CC84284FD94A4540E10340D6B"
                     {
                     "Name" = "8:CardServer.exe"
                     "Attributes" = "3:512"
@@ -564,20 +513,113 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CA657819EB10DE101024476B9808CBBE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AC629820BE059F57C113BE455E7178A3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardAccount, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CardWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CA657819EB10DE101024476B9808CBBE"
+                    "_AC629820BE059F57C113BE455E7178A3"
                     {
-                    "Name" = "8:CardAccount.dll"
+                    "Name" = "8:CardWeb.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:CardAccount.dll"
+            "SourcePath" = "8:CardWeb.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BB9C2F40BC45ABFC25AD5FABA6FA048D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:GameBlackjack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BB9C2F40BC45ABFC25AD5FABA6FA048D"
+                    {
+                    "Name" = "8:GameBlackjack.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:GameBlackjack.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D07B2814E81471988126BC751E764364"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CardWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D07B2814E81471988126BC751E764364"
+                    {
+                    "Name" = "8:CardWeb.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CardWeb.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E608009046359BE0F617E66341261301"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CardGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E608009046359BE0F617E66341261301"
+                    {
+                    "Name" = "8:CardGame.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CardGame.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
@@ -631,6 +673,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_541194C2BE544DF795F510D039C067F1"
+                    {
+                    "Name" = "8:Messages"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_06D56DC747D34BDA9200C19975C8CFD6"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_D46C5589984F46D7ABE31FD63F289A7F"
@@ -1217,7 +1270,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_293166DDA0194328A2A71FD0548B7852"
             {
-            "SourcePath" = "8:..\\card-server\\obj\\Debug\\CardServer.exe"
+            "SourcePath" = "8:..\\card-server\\obj\\Release\\CardServer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"
@@ -1245,7 +1298,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_314D997D0EC4434787A7E85E90A873C0"
             {
-            "SourcePath" = "8:..\\CardGameCommandLine\\obj\\Debug\\CardGameCommandLine.exe"
+            "SourcePath" = "8:..\\CardGameCommandLine\\obj\\Release\\CardGameCommandLine.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BE58734D7AAE4A609BCE2C43587CF3F2"

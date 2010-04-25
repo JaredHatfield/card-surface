@@ -16,12 +16,6 @@
         "Entry"
         {
         "MsmKey" = "8:_083F40BEA801C590FC7A15A313BAAC3B"
-        "OwnerKey" = "8:_44604157526DE1BBEE9E5F6D0C901A38"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_083F40BEA801C590FC7A15A313BAAC3B"
         "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -29,6 +23,12 @@
         {
         "MsmKey" = "8:_083F40BEA801C590FC7A15A313BAAC3B"
         "OwnerKey" = "8:_488040CC1EFEB0A8EFD4AE0123921C68"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_083F40BEA801C590FC7A15A313BAAC3B"
+        "OwnerKey" = "8:_44604157526DE1BBEE9E5F6D0C901A38"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -117,14 +117,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_531EFA3AF8B427C8FAC48F6E8DC8F7A7"
+        "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_603D42EE1E068147960C3AC629AB25D2"
         "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_787F630A861DEB66B9D7CB3275CB829B"
+        "MsmKey" = "8:_6627F259B05F45D39E61F8523536CC61"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7E4FD61485A6405352B23D02F511B800"
         "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7E4FD61485A6405352B23D02F511B800"
+        "OwnerKey" = "8:_531EFA3AF8B427C8FAC48F6E8DC8F7A7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -137,18 +155,6 @@
         {
         "MsmKey" = "8:_80199746037F99E60CEB49E37FCF8785"
         "OwnerKey" = "8:_DD634106E80B911E6D28A3E2F43AB5C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_95C60CB8012CB21063804E851FBB7BE3"
-        "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_95C60CB8012CB21063804E851FBB7BE3"
-        "OwnerKey" = "8:_787F630A861DEB66B9D7CB3275CB829B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,12 +172,6 @@
         "Entry"
         {
         "MsmKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
-        "OwnerKey" = "8:_44604157526DE1BBEE9E5F6D0C901A38"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
         "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -179,6 +179,12 @@
         {
         "MsmKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
         "OwnerKey" = "8:_488040CC1EFEB0A8EFD4AE0123921C68"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
+        "OwnerKey" = "8:_44604157526DE1BBEE9E5F6D0C901A38"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -208,19 +214,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_787F630A861DEB66B9D7CB3275CB829B"
+        "OwnerKey" = "8:_531EFA3AF8B427C8FAC48F6E8DC8F7A7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_95C60CB8012CB21063804E851FBB7BE3"
+        "OwnerKey" = "8:_7E4FD61485A6405352B23D02F511B800"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -271,12 +283,6 @@
         "OwnerKey" = "8:_44604157526DE1BBEE9E5F6D0C901A38"
         "MsmSig" = "8:_UNDEFINED"
         }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BC30F834FBB4D40C274EE1CC46CE6F25"
-        "MsmSig" = "8:_UNDEFINED"
-        }
     }
     "Configurations"
     {
@@ -295,6 +301,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -311,6 +325,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -515,6 +537,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_531EFA3AF8B427C8FAC48F6E8DC8F7A7"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CardCommunication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_531EFA3AF8B427C8FAC48F6E8DC8F7A7"
+                    {
+                    "Name" = "8:CardCommunication.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CardCommunication.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D65EB7DC8B6840658C535905A3F2CDF9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_603D42EE1E068147960C3AC629AB25D2"
             {
             "AssemblyRegister" = "3:1"
@@ -546,20 +599,40 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_787F630A861DEB66B9D7CB3275CB829B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6627F259B05F45D39E61F8523536CC61"
+            {
+            "SourcePath" = "8:..\\CardCommunication\\Messages\\MessageSchema.xsd"
+            "TargetName" = "8:MessageSchema.xsd"
+            "Tag" = "8:"
+            "Folder" = "8:_74A37F2F317F4B9F9F198D273DC9A2DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7E4FD61485A6405352B23D02F511B800"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardCommunication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CardGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_787F630A861DEB66B9D7CB3275CB829B"
+                    "_7E4FD61485A6405352B23D02F511B800"
                     {
-                    "Name" = "8:CardCommunication.dll"
+                    "Name" = "8:CardGame.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:CardCommunication.dll"
+            "SourcePath" = "8:CardGame.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D65EB7DC8B6840658C535905A3F2CDF9"
@@ -591,37 +664,6 @@
                     }
                 }
             "SourcePath" = "8:Microsoft.Windows.Design.Extensibility.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D65EB7DC8B6840658C535905A3F2CDF9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_95C60CB8012CB21063804E851FBB7BE3"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CardGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_95C60CB8012CB21063804E851FBB7BE3"
-                    {
-                    "Name" = "8:CardGame.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CardGame.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D65EB7DC8B6840658C535905A3F2CDF9"
@@ -821,6 +863,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_74A37F2F317F4B9F9F198D273DC9A2DB"
+                    {
+                    "Name" = "8:Messages"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_5F7785A0ED78430EB33168A219E61377"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -1374,7 +1427,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4DD5BC4E0D1B45B2B7CB77F2C067D2C7"
             {
-            "SourcePath" = "8:..\\card-table\\obj\\Debug\\CardTable.exe"
+            "SourcePath" = "8:..\\card-table\\obj\\Release\\CardTable.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D65EB7DC8B6840658C535905A3F2CDF9"
