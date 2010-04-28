@@ -53,7 +53,7 @@ The goal is to create an interactive touch based version of Blackjack that utili
     `2.4.3.` Mobile Clients shall include a browser in order to be compatible with Card Surface.<br/>
   ==2.5. Dependencies==
     `2.5.1.` This product shall require a TCP/IP network to function.<br/>
-    `2.5.2.` This product shall use XNA libraries for the client application.<br/>
+    `2.5.2.` ~~This product shall use XNA libraries for the client application.~~<br/>
     `2.5.3.` This product shall use the Microsoft Surface SDK.<br/>
     `2.5.4.` This product shall require Microsoft .NET 3.5.<br/>
  
