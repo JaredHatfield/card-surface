@@ -73,8 +73,7 @@ The goal is to create an interactive touch based version of Blackjack that utili
       `3.2.1.8.` The client application shall transmit a player’s proposed actions to the server for validation.<br/>
       `3.2.1.9.` The client application shall support seven players and a dealer.<br/>
       `3.2.1.10.` The client application shall contain default graphics needed for standard game play.<br/>
-      `3.2.1.11.` Based on Microsoft’s Surface SDK SP1 minimum requirements, the client application shall require
-Microsoft Windows Vista or newer to run.<br/>
+      `3.2.1.11.` Based on Microsoft’s Surface SDK SP1 minimum requirements, the client application shall require Microsoft Windows Vista or newer to run.<br/>
     `3.2.2.` Server Application<br/>
       `3.2.2.1.` The server application shall perform all game logic.<br/>
       `3.2.2.2.` The server application shall contain all components required by a client to play a game (excluding mobile clients).<br/>
