@@ -28,6 +28,7 @@ namespace CardTable.GameObjects
         public SurfaceAction(string username)
         {
             this.username = username;
+            this.CanExecuteChanged += new EventHandler(this.DoNothing);
         }
 
         /// <summary>
@@ -61,6 +62,15 @@ namespace CardTable.GameObjects
         public void Execute(object o)
         {
             TableManager.Instance().TableCommunicationController.SendCustomActionMessage((string)o, this.username);
+        }
+
+        /// <summary>
+        /// Does the nothing.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="message">The message.</param>
+        private void DoNothing(object source, object message)
+        {
         }
     }
 }
