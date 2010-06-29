@@ -6,6 +6,7 @@ namespace CardCommunication.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -18,7 +19,7 @@ namespace CardCommunication.Messages
     /// <summary>
     /// An abstract message that is sent between the server and table communication controllers.
     /// </summary>
-    public abstract class Message
+    public class Message
     {
         /// <summary>
         /// Document containing xml message.
@@ -49,6 +50,11 @@ namespace CardCommunication.Messages
         /////// game object
         /////// </summary>
         ////private GameMessage gameObject;
+
+        /// <summary>
+        /// Collection of parameters that are read from a message.
+        /// </summary>
+        private Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
@@ -158,16 +164,47 @@ namespace CardCommunication.Messages
         }
 
         /// <summary>
+        /// Gets the parameters.
+        /// </summary>
+        /// <value>The parameters.</value>
+        public Collection<ParameterStruct> Parameters
+        {
+            get { return this.parameters; }
+        }
+
+        /// <summary>
         /// Processes the message.
         /// </summary>
         /// <param name="messageDoc">The message document.</param>
-        public abstract void ProcessMessage(XmlDocument messageDoc);
+        public virtual void ProcessMessage(XmlDocument messageDoc)
+        {
+            this.messageDoc = messageDoc;
+
+            XmlElement message = messageDoc.DocumentElement;
+
+            foreach (XmlNode node in message.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+
+                switch (node.Name)
+                {
+                    case "Header":
+                        this.ProcessHeader(element);
+                        break;
+                    case "Body":
+                        this.ProcessBody(element);
+                        break;
+                }
+            }
+        }
 
         /// <summary>
         /// Builds the message.
         /// </summary>
+        /// <param name="messageName">Name of the message.</param>
+        /// <param name="parameters">The parameters.</param>
         /// <returns>whether the Message was built.</returns>
-        protected bool BuildM()
+        public bool BuildMessage(string messageName, Collection<ParameterStruct> parameters)
         {
             XmlElement message = this.MessageDocument.CreateElement("Message");
             bool success = true;
@@ -178,7 +215,7 @@ namespace CardCommunication.Messages
 
                 message.SetAttribute("MessageType", this.messageTypeName);
                 this.BuildHeader(ref message);
-                this.BuildBody(ref message);
+                this.BuildBody(ref message, messageName, parameters);
 
                 this.messageDoc.InnerXml = message.OuterXml;
                 this.messageDoc.Validate(veh);
@@ -187,7 +224,7 @@ namespace CardCommunication.Messages
             {
                 Debug.WriteLine("Error Building Message" + e.ToString());
                 success = false;
-                throw new MessageTransportException("BuildM Exception.", e);
+                throw new MessageTransportException("Build Message Exception.", e);
             }
 
             return success;
@@ -230,12 +267,61 @@ namespace CardCommunication.Messages
         /// Builds the body.
         /// </summary>
         /// <param name="message">The message to be built.</param>
-        protected abstract void BuildBody(ref XmlElement message);
+        /// <param name="type">The type of message.</param>
+        /// <param name="parameters">The parameters.</param>
+        protected virtual void BuildBody(ref XmlElement message, string type, Collection<ParameterStruct> parameters)
+        {
+            XmlElement body = this.messageDoc.CreateElement("Body");
+            
+            body.SetAttribute("Type", type);
+
+            this.BuildParameters(ref message, parameters);
+
+            message.AppendChild(body);
+        }
 
         /// <summary>
         /// Processes the body.
         /// </summary>
-        /// <param name="element">The element to be processed.</param>
-        protected abstract void ProcessBody(XmlElement element);
+        /// <param name="body">The body of the message.</param>
+        protected virtual void ProcessBody(XmlElement body)
+        {
+            this.messageTypeName = body.Attributes.GetNamedItem("Type").Value;
+
+            this.ProcessParameters((XmlElement)body.FirstChild);
+        }
+
+        /// <summary>
+        /// Builds the parameters.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ps">The parameter struct.</param>
+        private void BuildParameters(ref XmlElement message, Collection<ParameterStruct> ps)
+        {
+            XmlElement parameters = this.messageDoc.CreateElement("Parameters");
+
+            foreach (ParameterStruct p in ps)
+            {
+                message.SetAttribute(p.Name, p.Value);
+            }
+
+            message.AppendChild(parameters);
+        }
+
+        /// <summary>
+        /// Processes the parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        private void ProcessParameters(XmlElement parameters)
+        {
+            foreach (XmlAttribute a in parameters.Attributes)
+            {
+                ParameterStruct ps = new ParameterStruct();
+                ps.Name = a.Name;
+                ps.Value = a.Value;
+
+                this.parameters.Add(ps);
+            }
+        }
     }
 }

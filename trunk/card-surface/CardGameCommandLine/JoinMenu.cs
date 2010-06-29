@@ -23,7 +23,7 @@ namespace CardGameCommandLine
         /// <summary>
         /// The communication controller that can access the server.
         /// </summary>
-        private TableCommunicationController tableCommunicationController;
+        private ClientCommunicationController clientCommunicationController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinMenu"/> class.
@@ -40,7 +40,7 @@ namespace CardGameCommandLine
                 if (input.Equals("local", StringComparison.CurrentCultureIgnoreCase) || input.Equals("localhost", StringComparison.CurrentCultureIgnoreCase) || input.Length == 0)
                 {
                     // Start communicating with the server
-                    this.tableCommunicationController = new TableCommunicationController();
+                    this.clientCommunicationController = new ClientCommunicationController();
 
                     // Set up the factory!
                     PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
@@ -54,7 +54,7 @@ namespace CardGameCommandLine
                     try
                     {
                         // Start communicating with the server
-                        this.tableCommunicationController = new TableCommunicationController(input);
+                        this.clientCommunicationController = new ClientCommunicationController(input);
 
                         // Set up the factory!
                         PhysicalObjectFactory.SubscribeCardFactory(CardFactory.Instance());
@@ -84,7 +84,7 @@ namespace CardGameCommandLine
             // Get the list of games from the server.  Danger, danger!
             try
             {
-                Collection<string> games = this.tableCommunicationController.SendRequestGameListMessage();
+                Collection<string> games = this.clientCommunicationController.SendRequestGameListMessage();
 
                 // Print out that list that we hopefully retreived.
                 Console.WriteLine("Games:");
@@ -144,7 +144,7 @@ namespace CardGameCommandLine
 
             try
             {
-                Collection<ActiveGameStruct> games = this.tableCommunicationController.SendRequestExistingGames(gameName);
+                Collection<ActiveGameStruct> games = this.clientCommunicationController.SendRequestExistingGames(gameName);
 
                 for (int i = 0; i < games.Count; i++)
                 {
@@ -191,8 +191,8 @@ namespace CardGameCommandLine
             // THIS REALLY, REALLY, REALLY SHOULD NOT BE HERE!
             try
             {
-                GameCommandLine game = new GameCommandLine(this.tableCommunicationController, selected);
-                GameMenu gameMenu = new GameNetworkMenu(game, this.tableCommunicationController);
+                GameCommandLine game = new GameCommandLine(this.clientCommunicationController, selected);
+                GameMenu gameMenu = new GameNetworkMenu(game, this.clientCommunicationController);
                 gameMenu.Start();
             }
             catch (Exception e)

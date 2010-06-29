@@ -68,19 +68,11 @@
     <Compile Include="CardGameTest\ChipTest.cs" />
     <Compile Include="CardGameTest\DeckTest.cs" />
     <Compile Include="CardGameTest\PileTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageActionTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageGameListTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageRequestExistingGamesTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageRequestGameListTest.cs" />
     <Compile Include="CardGameTest\PhysicalObjectTest.cs" />
     <Compile Include="CardGameTest\PlayerTest.cs" />
     <Compile Include="CardGameTest\PlayingAreaTest.cs" />
     <Compile Include="CardGameTest\GameActionTest.cs" />
     <Compile Include="CardGameTest\GameTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageExistingGamesTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageFlipCardTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageRequestGameTest.cs" />
-    <Compile Include="CardCommunicationTest\MessageRequestSeatCodeChangeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardWebTests\WebActionCreateAccountTest.cs" />
     <Compile Include="CardWebTests\WebActionInitGameTest.cs" />
@@ -130,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\CardAccount.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CardCommunicationTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

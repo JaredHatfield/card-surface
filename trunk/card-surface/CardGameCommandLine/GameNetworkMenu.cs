@@ -19,17 +19,17 @@ namespace CardGameCommandLine
         /// <summary>
         /// The table communication controller.
         /// </summary>
-        private TableCommunicationController tableCommunicationController;
+        private ClientCommunicationController clientCommunicationController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameNetworkMenu"/> class.
         /// </summary>
         /// <param name="game">The local game.</param>
         /// <param name="tableCommunicationController">The table communication controller.</param>
-        public GameNetworkMenu(Game game, TableCommunicationController tableCommunicationController)
+        public GameNetworkMenu(Game game, ClientCommunicationController tableCommunicationController)
             : base(game)
         {
-            this.tableCommunicationController = tableCommunicationController;
+            this.clientCommunicationController = tableCommunicationController;
         }
 
         /// <summary>

@@ -18,10 +18,10 @@ namespace CardGameCommandLine
         /// <summary>
         /// Initializes a new instance of the <see cref="GameCommandLine"/> class.
         /// </summary>
-        /// <param name="tableCommunicationController">The table communication controller.</param>
+        /// <param name="clientCommunicationController">The table communication controller.</param>
         /// <param name="game">The game to join.</param>
-        internal GameCommandLine(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
-            : base(tableCommunicationController, game)
+        internal GameCommandLine(ClientCommunicationController clientCommunicationController, ActiveGameStruct game)
+            : base(clientCommunicationController, game)
         {
         }
     }
