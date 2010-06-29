@@ -6,6 +6,7 @@ namespace CardCommunication
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -55,5 +56,21 @@ namespace CardCommunication
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public abstract void Close(object sender, EventArgs args);
+
+        /// <summary>
+        /// Adds the parameter.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="value">The value of the parameter.</param>
+        protected void AddParameter(ref Collection<ParameterStruct> parameters, string name, string value)
+        {
+            ParameterStruct parameter = new ParameterStruct();
+
+            parameter.Name = name;
+            parameter.Value = value;
+
+            parameters.Add(parameter);
+        }
     }
 }

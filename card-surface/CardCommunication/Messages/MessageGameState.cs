@@ -64,27 +64,27 @@ namespace CardCommunication.Messages
             }
         }
 
-        /// <summary>
-        /// Builds the message.
-        /// </summary>
-        /// <param name="serializedGame">The serialized game.</param>
-        /// <returns>whether the message was built.</returns>
-        public bool BuildMessage(string serializedGame)
-        {
-            bool success = true;
+        /////// <summary>
+        /////// Builds the message.
+        /////// </summary>
+        /////// <param name="serializedGame">The serialized game.</param>
+        /////// <returns>whether the message was built.</returns>
+        ////public bool BuildMessage(string serializedGame)
+        ////{
+        ////    bool success = true;
 
-            this.serializedGame = serializedGame;
+        ////    this.serializedGame = serializedGame;
 
-            success = BuildM();
+        ////    success = base.BuildMessage();
 
-            return success;
-        }
+        ////    return success;
+        ////}
 
         /// <summary>
         /// Builds the body.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected override void BuildBody(ref XmlElement message)
+        protected void BuildBody(ref XmlElement message)
         {
             XmlElement body = this.MessageDocument.CreateElement("Body");
 

@@ -18,10 +18,10 @@ namespace CardTable
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSurface"/> class.
         /// </summary>
-        /// <param name="tableCommunicationController">The table communication controller.</param>
+        /// <param name="clientCommunicationController">The table communication controller.</param>
         /// <param name="game">The game to join.</param>
-        public GameSurface(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
-            : base(tableCommunicationController, game)
+        public GameSurface(ClientCommunicationController clientCommunicationController, ActiveGameStruct game)
+            : base(clientCommunicationController, game)
         {
         }
     }

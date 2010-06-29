@@ -24,7 +24,7 @@ namespace CardCommunication
         /// <summary>
         /// This talks to the server.
         /// </summary>
-        private TableCommunicationController tableCommunicationController;
+        private ClientCommunicationController tableCommunicationController;
 
         /// <summary>
         /// list of all games that can be played on the server.
@@ -56,7 +56,7 @@ namespace CardCommunication
         /// </summary>
         /// <param name="tableCommunicationController">The table communication controller.</param>
         /// <param name="game">The game to join.</param>
-        public GameNetworkClient(TableCommunicationController tableCommunicationController, ActiveGameStruct game)
+        public GameNetworkClient(ClientCommunicationController tableCommunicationController, ActiveGameStruct game)
         {
             this.updateSemaphore = new object();
             this.gameUpdater = new GameUpdater(this);
@@ -110,7 +110,7 @@ namespace CardCommunication
         /// </summary>
         protected void SubscribeEvents()
         {
-            this.tableCommunicationController.OnUpdateGameState += new TableCommunicationController.UpdateGameStateHandler(this.UpdateGameState);
+            this.tableCommunicationController.OnUpdateGameState += new ClientCommunicationController.UpdateGameStateHandler(this.UpdateGameState);
         }
 
         /// <summary>

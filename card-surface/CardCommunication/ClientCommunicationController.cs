@@ -1,4 +1,4 @@
-﻿// <copyright file="TableCommunicationController.cs" company="University of Louisville Speed School of Engineering">
+﻿// <copyright file="ClientCommunicationController.cs" company="University of Louisville Speed School of Engineering">
 // GNU General Public License v3
 // </copyright>
 // <summary>The controller that the table uses for communication with the server.</summary>
@@ -26,7 +26,7 @@ namespace CardCommunication
     /// <summary>
     /// The controller that the table uses for communication with the server.
     /// </summary>
-    public class TableCommunicationController : CommunicationController
+    public class ClientCommunicationController : CommunicationController
     {
         /// <summary>
         /// The stream that reads data from the server.
@@ -65,9 +65,9 @@ namespace CardCommunication
         private string receivedMessage;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
+        /// Initializes a new instance of the <see cref="ClientCommunicationController"/> class.
         /// </summary>
-        public TableCommunicationController()
+        public ClientCommunicationController()
             : base()
         {
             try
@@ -98,10 +98,10 @@ namespace CardCommunication
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TableCommunicationController"/> class.
+        /// Initializes a new instance of the <see cref="ClientCommunicationController"/> class.
         /// </summary>
         /// <param name="address">The ip address.</param>
-        public TableCommunicationController(string address)
+        public ClientCommunicationController(string address)
             : base()
         {
             this.tcpClient = new TcpClient(address, CommunicationController.ServerListenerPortNumber);
@@ -223,9 +223,9 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendRequestGameListMessage");
 
                 // Send the message to the server
-                MessageRequestGameList message = new MessageRequestGameList();
-                message.BuildMessage();
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                Message messageRequestGameList = new Message();
+                messageRequestGameList.BuildMessage(Message.MessageType.RequestGameList.ToString(), null);
+                this.clientStreamWriter.WriteLine(messageRequestGameList.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendRequestGameListMessage Message Sent waiting for response");
 
@@ -243,10 +243,19 @@ namespace CardCommunication
 
                 if (mt == Message.MessageType.GameList.ToString())
                 {
-                    MessageGameList messageGameList = new MessageGameList();
+                    Message messageGameList = new Message();
+                    Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
+                    Collection<string> gameNameList = new Collection<string>();
                     messageGameList.ProcessMessage(messageDoc);
                     Debug.WriteLine("Client: End of SendRequestGameListMessage");
-                    return messageGameList.GameNameList;
+                    parameters = messageGameList.Parameters;
+
+                    foreach (ParameterStruct p in parameters)
+                    {
+                        gameNameList.Add(p.Value);
+                    }
+
+                    return gameNameList;
                 }
                 else
                 {
@@ -267,9 +276,15 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendRequestExistingGames");
 
                 // Send the message to the server
-                MessageRequestExistingGames message = new MessageRequestExistingGames();
-                message.BuildMessage(selectedGame);
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                Message messageRequestExistingGames = new Message();
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
+                ParameterStruct newPs = new ParameterStruct();
+                newPs.Name = "selectedGame";
+                newPs.Value = selectedGame;
+                parameters.Add(newPs);
+
+                messageRequestExistingGames.BuildMessage(Message.MessageType.RequestExistingGames.ToString(), parameters);
+                this.clientStreamWriter.WriteLine(messageRequestExistingGames.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendRequestExistingGames Message Sent waiting for response");
 
@@ -286,10 +301,25 @@ namespace CardCommunication
 
                 if (mt == Message.MessageType.ExistingGames.ToString())
                 {
-                    MessageExistingGames messageExistingGames = new MessageExistingGames();
+                    Message messageExistingGames = new Message();
+                    Collection<ActiveGameStruct> activeGames = new Collection<ActiveGameStruct>();
                     messageExistingGames.ProcessMessage(messageDoc);
+
+                    foreach (ParameterStruct ps in messageExistingGames.Parameters)
+                    {
+                        ActiveGameStruct ags = new ActiveGameStruct();
+                        char[] separater = new char[0];
+                        separater[0] = ';';
+                        string[] segments = ps.Value.Split(separater);
+                        ags.DisplayString = segments[0];
+                        ags.GameType = segments[1];
+                        ags.Id = new Guid(segments[2]);
+                        ags.Players = segments[3];
+                        activeGames.Add(ags);
+                    }
+
                     Debug.WriteLine("Client: End of SendRequestExistingGames");
-                    return messageExistingGames.ActiveGames;
+                    return activeGames;
                 }
                 else
                 {
@@ -312,19 +342,22 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendRequestGameMessage");
 
                 // Send the message to the server
-                MessageRequestGame message = new MessageRequestGame();
-                if (game.Id != Guid.Empty)
-                {
-                    // The table is requesting an existing game
-                    message.BuildMessage(game.Id);
-                }
-                else
-                {
-                    // The table is requesting a new game
-                    message.BuildMessage(game.GameType);
-                }
+                Message messageRequestGame = new Message();
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
 
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                ParameterStruct newPs = new ParameterStruct();
+                newPs.Name = "gameType";
+                newPs.Value = game.GameType;
+                parameters.Add(newPs);
+
+                newPs = new ParameterStruct();
+                newPs.Name = "gameGuid";
+                newPs.Value = game.Id.ToString();
+                parameters.Add(newPs);
+
+                messageRequestGame.BuildMessage(Message.MessageType.RequestGame.ToString(), parameters);
+
+                this.clientStreamWriter.WriteLine(messageRequestGame.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendRequestGame Message Sent waiting for response");
 
@@ -341,14 +374,25 @@ namespace CardCommunication
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
-                    MessageGameState messageGameState = new MessageGameState();
+                    Message messageGameState = new Message();
                     messageGameState.ProcessMessage(messageDoc);
                     Debug.WriteLine("Client: End of SendRequestGame Message");
+                    string serializedGame = string.Empty;
+
+                    foreach (ParameterStruct ps in messageGameState.Parameters)
+                    {
+                        switch (ps.Name)
+                        {
+                            case "gameState":
+                                serializedGame = ps.Value;
+                                break;
+                        }
+                    }
 
                     try
                     {
                         BinaryFormatter bf = new BinaryFormatter();
-                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(serializedGame));
                         gameObject = (GameMessage)bf.Deserialize(memstream);
                     }
                     catch (SerializationException e)
@@ -380,11 +424,16 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendRequestSeatCodeChangeMessage");
 
                 // Send the message to the server
-                MessageRequestSeatCodeChange message = new MessageRequestSeatCodeChange();
+                Message messageRequestSeatCodeChange = new Message();
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
 
-                message.BuildMessage(seatGuid);
+                ParameterStruct newPs = new ParameterStruct();
+                newPs.Name = "seatGuid";
+                newPs.Value = seatGuid.ToString();
 
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                messageRequestSeatCodeChange.BuildMessage(Message.MessageType.RequestSeatCodeChange.ToString(), parameters);
+
+                this.clientStreamWriter.WriteLine(messageRequestSeatCodeChange.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendRequestSeatCodeChange Message Sent waiting for response");
 
@@ -401,14 +450,25 @@ namespace CardCommunication
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
-                    MessageGameState messageGameState = new MessageGameState();
+                    Message messageGameState = new Message();
                     messageGameState.ProcessMessage(messageDoc);
                     Debug.WriteLine("Client: End of SendRequestSeatCodeChange Message");
+                    string serializedGame = string.Empty;
+
+                    foreach (ParameterStruct ps in messageGameState.Parameters)
+                    {
+                        switch (ps.Name)
+                        {
+                            case "gameState":
+                                serializedGame = ps.Value;
+                                break;
+                        }
+                    }
 
                     try
                     {
                         BinaryFormatter bf = new BinaryFormatter();
-                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(messageGameState.SerializedGame));
+                        MemoryStream memstream = new MemoryStream(Convert.FromBase64String(serializedGame));
                         gameObject = (GameMessage)bf.Deserialize(memstream);
                     }
                     catch (SerializationException e)
@@ -440,14 +500,27 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendMoveActionMessage");
 
                 // Send the message to the server
-                MessageAction message = new MessageAction();
-                Collection<string> action = new Collection<string>();
-                action.Add("Move");
-                action.Add(guidObject);
-                action.Add(pile);
+                Message messageAction = new Message();
+                string action = guidObject + ";" + pile;
 
-                message.BuildMessage(action);
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
+                ParameterStruct parameter = new ParameterStruct();
+                parameter.Name = "Action";
+                parameter.Value = "Move";
+                parameters.Add(parameter);
+
+                parameter = new ParameterStruct();
+                parameter.Name = "param1";
+                parameter.Value = guidObject;
+                parameters.Add(parameter);
+
+                parameter = new ParameterStruct();
+                parameter.Name = "param2";
+                parameter.Value = pile;
+                parameters.Add(parameter);
+
+                messageAction.BuildMessage(Message.MessageType.Action.ToString(), parameters);
+                this.clientStreamWriter.WriteLine(messageAction.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendMoveActionMessage Message Sent waiting for response");
 
@@ -506,14 +579,26 @@ namespace CardCommunication
                 Debug.WriteLine("Client: Start of SendCustomActionMessage");
 
                 // Send the message to the server
-                MessageAction message = new MessageAction();
-                Collection<string> actions = new Collection<string>();
-                actions.Add("Custom");
-                actions.Add(action);
-                actions.Add(player);
+                Message messageAction = new Message();
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
+                ParameterStruct parameter = new ParameterStruct();
+                parameter.Name = "Action";
+                parameter.Value = "Custom";
+                parameters.Add(parameter);
 
-                message.BuildMessage(actions);
-                this.clientStreamWriter.WriteLine(message.MessageDocument.InnerXml);
+                parameter = new ParameterStruct();
+                parameter.Name = "param1";
+                parameter.Value = action;
+                parameters.Add(parameter);
+
+                parameter = new ParameterStruct();
+                parameter.Name = "param2";
+                parameter.Value = player;
+                parameters.Add(parameter);
+
+                messageAction.BuildMessage(Message.MessageType.Action.ToString(), parameters);
+
+                this.clientStreamWriter.WriteLine(messageAction.MessageDocument.InnerXml);
                 this.clientStreamWriter.Flush();
                 Debug.WriteLine("Client: SendCustomActionMessage Message Sent waiting for response");
 

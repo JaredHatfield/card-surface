@@ -32,7 +32,7 @@ namespace CardTable
         /// <summary>
         /// The TableCommunicationController.
         /// </summary>
-        private TableCommunicationController tableCommunicationController;
+        private ClientCommunicationController clientCommunicationController;
 
         /// <summary>
         /// The current game being played on this table.
@@ -56,7 +56,7 @@ namespace CardTable
         {
             try
             {
-                this.tableCommunicationController = new TableCommunicationController();
+                this.clientCommunicationController = new ClientCommunicationController();
             }
             catch (SocketBindingException sbe)
             {
@@ -78,7 +78,7 @@ namespace CardTable
         {
             try
             {
-                this.tableCommunicationController = new TableCommunicationController(ip);
+                this.clientCommunicationController = new ClientCommunicationController(ip);
             }
             catch (SocketBindingException sbe)
             {
@@ -131,9 +131,9 @@ namespace CardTable
         /// Gets the table communication controller.
         /// </summary>
         /// <value>The table communication controller.</value>
-        internal TableCommunicationController TableCommunicationController
+        internal ClientCommunicationController TableCommunicationController
         {
-            get { return this.tableCommunicationController; }
+            get { return this.clientCommunicationController; }
         }
 
         /// <summary>

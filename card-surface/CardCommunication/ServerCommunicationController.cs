@@ -174,30 +174,56 @@ namespace CardCommunication
                 MemoryStream ms = new MemoryStream(byteArray);
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
+                
+                XmlElement messageElement = messageDoc.DocumentElement;
+                string mt = messageElement.Attributes[0].Value;
 
-                XmlElement message = messageDoc.DocumentElement;
-                string mt = message.Attributes[0].Value;
+                Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
 
                 if (mt == Message.MessageType.RequestGameList.ToString())
                 {
-                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
-                    MessageRequestGameList messageRequestGameList = new MessageRequestGameList();
+                    Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameList Message");
+                    Message messageRequestGameList = new Message();
                     messageRequestGameList.ProcessMessage(messageDoc);
-                    MessageGameList messageGameList = new MessageGameList();
-                    messageGameList.BuildMessage(this.gameController.GameTypes);
+                    Message messageGameList = new Message();
+                    
+                    int index = 0;
+                    //// this may need a counter to pass as attributes.
+                    foreach (string s in this.gameController.GameTypes)
+                    {
+                        AddParameter(ref parameters, "GameType" + index, s);
+                        index++;
+                    }
+
+                    messageGameList.BuildMessage(Message.MessageType.GameList.ToString(), parameters);
                     Debug.WriteLine("Server: Client " + cc.Id + " returned the list of game types");
                     cc.SendMessage(HeaderMessage + messageGameList.MessageDocument.InnerXml);
                 }
                 else if (mt == Message.MessageType.RequestGame.ToString())
                 {
+                    string gameType = string.Empty;
+                    Guid gameGuid = Guid.Empty;
+
                     // This actually indicates that the table joined the game!
                     Debug.WriteLine("Server: Client " + cc.Id + " has a RequestGameListMessage");
-                    MessageRequestGame messageRequestGame = new MessageRequestGame();
+                    Message messageRequestGame = new Message();
                     messageRequestGame.ProcessMessage(messageDoc);
 
-                    if (messageRequestGame.GameType != null)
+                    foreach (ParameterStruct ps in messageRequestGame.Parameters)
                     {
-                        string gameType = messageRequestGame.GameType;
+                        switch (ps.Name)
+                        {
+                            case "gameType":
+                                gameType = ps.Value;
+                                break;
+                            case "gameGuid":
+                                gameGuid = new Guid(ps.Value);
+                                break;
+                        }
+                    }
+
+                    if (gameType != null)
+                    {
                         Guid newGame = this.gameController.CreateGame(gameType);
                         cc.JoinGame(this.gameController.GetGame(newGame));
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
@@ -207,8 +233,7 @@ namespace CardCommunication
                     }
                     else
                     {
-                        Guid selectedGameGuid = messageRequestGame.GameGuid;
-                        cc.JoinGame(this.gameController.GetGame(selectedGameGuid));
+                        cc.JoinGame(this.gameController.GetGame(gameGuid));
                         Debug.WriteLine("Server: Client " + cc.Id + " returned the game state.");
 
                         // This needs to send the game
@@ -217,17 +242,39 @@ namespace CardCommunication
                 }
                 else if (mt == Message.MessageType.Action.ToString())
                 {
-                    Collection<string> action;
-                    MessageAction messageAction = new MessageAction();
+                    Message messageAction = new Message();
                     bool success = false;
+                    string actionType = string.Empty;
 
                     messageAction.ProcessMessage(messageDoc);
-                    action = messageAction.Action;
 
-                    if (action[0] == MessageAction.ActionType.Move.ToString())
+                    foreach (ParameterStruct ps in messageAction.Parameters)
                     {
-                        Guid physicalObject = new Guid(action[1]);
-                        Guid destinationPile = new Guid(action[2]);
+                        switch (ps.Name)
+                        {
+                            case "actionType":
+                                actionType = ps.Value;
+                                break;
+                        }
+                    }
+
+                    if (actionType == "Move")
+                    {
+                        Guid physicalObject = Guid.Empty;
+                        Guid destinationPile = Guid.Empty;
+
+                        foreach (ParameterStruct ps in messageAction.Parameters)
+                        {
+                            switch (ps.Name)
+                            {
+                                case "param1":
+                                    physicalObject = new Guid(ps.Value);
+                                    break;
+                                case "param2":
+                                    destinationPile = new Guid(ps.Value);
+                                    break;
+                            }
+                        }
 
                         // Executes Move
                         try
@@ -254,10 +301,23 @@ namespace CardCommunication
                         // Push the updates to all of the games
                         this.GameStateNeedsPushed(cc.GameGuid);
                     }
-                    else if (action[0] == MessageAction.ActionType.Custom.ToString())
+                    else if (actionType == "Custom")
                     {
-                        string actionName = action[1];
-                        string playerName = action[2];
+                        string actionName = string.Empty;
+                        string playerName = string.Empty;
+
+                        foreach (ParameterStruct ps in messageAction.Parameters)
+                        {
+                            switch (ps.Name)
+                            {
+                                case "param1":
+                                    actionName = ps.Value;
+                                    break;
+                                case "param2":
+                                    playerName = ps.Value;
+                                    break;
+                            }
+                        }
 
                         // Executes Custum Action
                         try
@@ -293,24 +353,46 @@ namespace CardCommunication
                 }
                 else if (mt == Message.MessageType.FlipCard.ToString())
                 {
-                    MessageFlipCard messageFlipCard = new MessageFlipCard();
+                    Message messageFlipCard = new Message();
                     messageFlipCard.ProcessMessage(messageDoc);
-                    Guid cardGuid = messageFlipCard.CardGuid;
+                    Guid cardGuid = Guid.Empty;
+
+                    foreach (ParameterStruct ps in messageFlipCard.Parameters)
+                    {
+                        switch (ps.Name)
+                        {
+                            case "cardGuid":
+                                cardGuid = new Guid(ps.Value);
+                                break;
+                        }
+                    }
+
                     this.gameController.GetGame(cc.GameGuid).FlipCard(cardGuid);
-                                       
+                    
                     // This needs to send the game
                     cc.SendMessage(HeaderGame + this.SerializeGameToMessage(this.gameController.GetGame(cc.GameGuid)));
                 }
                 else if (mt == Message.MessageType.RequestExistingGames.ToString())
                 {
                     Debug.WriteLine("Server: Client " + cc.Id + " has a ExistingGames");
-                    MessageRequestExistingGames messageRequestExistingGames = new MessageRequestExistingGames();
+                    Message messageRequestExistingGames = new Message();
                     messageRequestExistingGames.ProcessMessage(messageDoc);
-                    MessageExistingGames messageExistingGames = new MessageExistingGames();
+                    Message messageExistingGames = new Message();
                     Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
                     Collection<string> newGame = new Collection<string>();
+                    string selectedGame = string.Empty;
 
-                    newGame.Add(messageRequestExistingGames.SelectedGame);
+                    foreach (ParameterStruct ps in messageRequestExistingGames.Parameters)
+                    {
+                        switch (ps.Name)
+                        {
+                            case "selectedGame":
+                                selectedGame = ps.Value;
+                                break;
+                        }
+                    }
+
+                    newGame.Add(selectedGame);
                     newGame.Add("New Game");
                     newGame.Add(Guid.Empty.ToString());
                     newGame.Add(String.Empty);
@@ -321,7 +403,7 @@ namespace CardCommunication
                     {
                         Collection<string> gameObject = new Collection<string>();
 
-                        if (game.Name == messageRequestExistingGames.SelectedGame)
+                        if (game.Name == selectedGame)
                         {
                             // Element 1 - Type, 2 - Display, 3 - ID, 4 - #Players
                             gameObject.Add(game.Name);
@@ -334,15 +416,22 @@ namespace CardCommunication
                         existingGames.Add(gameObject);
                     }
 
-                    messageExistingGames.BuildMessage(existingGames);
-                    
+                    int index = 0;
+                    //// this may need a counter to pass as attributes.
+                    foreach (string s in this.gameController.GameTypes)
+                    {
+                        AddParameter(ref parameters, "GameType" + index, s);
+                        index++;
+                    }
+
+                    messageExistingGames.BuildMessage(Message.MessageType.GameList.ToString(), parameters);                   
                     Debug.WriteLine("Server: Client " + cc.Id + " returned the list of exiting games");
                     cc.SendMessage(HeaderMessage + messageExistingGames.MessageDocument.InnerXml);
                 }                
                 else if (mt == Message.MessageType.RequestCurrentGameState.ToString())
                 {
                     Debug.WriteLine("Server: Client " + cc.Id + " has a RequestCurrentGameState");
-                    MessageRequestCurrentGameState messageRequestCurrentGameState = new MessageRequestCurrentGameState();
+                    Message messageRequestCurrentGameState = new Message();
                     messageRequestCurrentGameState.ProcessMessage(messageDoc);
 
                     Debug.WriteLine("Server: Client " + cc.Id + " returned the game state");
@@ -353,10 +442,21 @@ namespace CardCommunication
                 else if (mt == Message.MessageType.RequestSeatCodeChange.ToString())
                 {
                     Debug.WriteLine("Server: Client " + cc.Id + " has a RequestSeatCodeChange");
-                    MessageRequestSeatCodeChange mrscc = new MessageRequestSeatCodeChange();
+                    Message mrscc = new Message();
                     mrscc.ProcessMessage(messageDoc);
+                    Guid seatGuid = Guid.Empty;
 
-                    bool success = this.gameController.GetGame(cc.GameGuid).RegenerateSeatCode(mrscc.SeatGuid);
+                    foreach (ParameterStruct ps in mrscc.Parameters)
+                    {
+                        switch (ps.Name)
+                        {
+                            case "seatGuid":
+                                seatGuid = new Guid(ps.Value);
+                                break;
+                        }
+                    }
+
+                    bool success = this.gameController.GetGame(cc.GameGuid).RegenerateSeatCode(seatGuid);
 
                     if (!success)
                     {
@@ -380,15 +480,22 @@ namespace CardCommunication
         /// <returns>the string representation of the serialized game.</returns>
         private string SerializeGameToMessage(Game game)
         {
-            MessageGameState messageGameState = new MessageGameState();
+            Message messageGameState = new Message();
             MemoryStream gameStream = new MemoryStream();
             BinaryFormatter bf = new BinaryFormatter();
             Game gameObject = new GameMessage(game);
+            Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
                         
             bf.Serialize(gameStream, gameObject);
             string str = Convert.ToBase64String(gameStream.ToArray());
 
-            messageGameState.BuildMessage(str);
+            ParameterStruct ps = new ParameterStruct();
+            ps.Name = "gameState";
+            ps.Value = str;
+
+            parameters.Add(ps);
+
+            messageGameState.BuildMessage(Message.MessageType.GameState.ToString(), parameters);
 
             return messageGameState.MessageDocument.InnerXml;
         }
