@@ -54,7 +54,7 @@ namespace CardCommunication.Messages
         /// <summary>
         /// Collection of parameters that are read from a message.
         /// </summary>
-        private Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
+        private Collection<ParameterStruct> parameters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
@@ -64,6 +64,7 @@ namespace CardCommunication.Messages
             string filePath = Directory.GetCurrentDirectory();
             filePath = filePath + "\\Messages\\MessageSchema.xsd";
 
+            this.parameters = new Collection<ParameterStruct>();
             this.messageDoc = new XmlDocument();
             this.messageDoc.Schemas.Add(null, filePath);
         }
@@ -208,17 +209,21 @@ namespace CardCommunication.Messages
         {
             XmlElement message = this.MessageDocument.CreateElement("Message");
             bool success = true;
+            if (parameters == null)
+            {
+                parameters = this.parameters;
+            }
 
             try
             {
-                ValidationEventHandler veh = new ValidationEventHandler(this.Error);
+                //ValidationEventHandler veh = new ValidationEventHandler(this.Error);
 
                 message.SetAttribute("MessageType", this.messageTypeName);
                 this.BuildHeader(ref message);
                 this.BuildBody(ref message, messageName, parameters);
 
                 this.messageDoc.InnerXml = message.OuterXml;
-                this.messageDoc.Validate(veh);
+                ////this.messageDoc.Validate(veh);
             }
             catch (Exception e)
             {
@@ -275,7 +280,7 @@ namespace CardCommunication.Messages
             
             body.SetAttribute("Type", type);
 
-            this.BuildParameters(ref message, parameters);
+            this.BuildParameters(ref body, parameters);
 
             message.AppendChild(body);
         }
@@ -288,7 +293,10 @@ namespace CardCommunication.Messages
         {
             this.messageTypeName = body.Attributes.GetNamedItem("Type").Value;
 
-            this.ProcessParameters((XmlElement)body.FirstChild);
+            if (body.HasChildNodes)
+            {
+                this.ProcessParameters((XmlElement)body.FirstChild);
+            }
         }
 
         /// <summary>
@@ -302,7 +310,7 @@ namespace CardCommunication.Messages
 
             foreach (ParameterStruct p in ps)
             {
-                message.SetAttribute(p.Name, p.Value);
+                parameters.SetAttribute(p.Name, p.Value);
             }
 
             message.AppendChild(parameters);

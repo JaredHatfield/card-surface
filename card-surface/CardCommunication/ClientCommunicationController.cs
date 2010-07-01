@@ -238,8 +238,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.GameList.ToString())
                 {
@@ -296,8 +297,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.ExistingGames.ToString())
                 {
@@ -308,11 +310,11 @@ namespace CardCommunication
                     foreach (ParameterStruct ps in messageExistingGames.Parameters)
                     {
                         ActiveGameStruct ags = new ActiveGameStruct();
-                        char[] separater = new char[0];
+                        char[] separater = new char[1];
                         separater[0] = ';';
                         string[] segments = ps.Value.Split(separater);
-                        ags.DisplayString = segments[0];
-                        ags.GameType = segments[1];
+                        ags.GameType = segments[0];
+                        ags.DisplayString = segments[1];
                         ags.Id = new Guid(segments[2]);
                         ags.Players = segments[3];
                         activeGames.Add(ags);
@@ -369,8 +371,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
@@ -445,8 +448,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
@@ -533,8 +537,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
@@ -611,8 +616,9 @@ namespace CardCommunication
                 XmlDocument messageDoc = new XmlDocument();
                 messageDoc.Load(ms);
 
-                XmlElement messageResponse = messageDoc.DocumentElement;
-                string mt = messageResponse.Attributes[0].Value;
+                XmlElement messageElement = messageDoc.DocumentElement;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 if (mt == Message.MessageType.GameState.ToString())
                 {
