@@ -509,7 +509,7 @@ namespace CardCommunication
 
                 Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
                 ParameterStruct parameter = new ParameterStruct();
-                parameter.Name = "Action";
+                parameter.Name = "actionType";
                 parameter.Value = "Move";
                 parameters.Add(parameter);
 
@@ -587,7 +587,7 @@ namespace CardCommunication
                 Message messageAction = new Message();
                 Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
                 ParameterStruct parameter = new ParameterStruct();
-                parameter.Name = "Action";
+                parameter.Name = "actionType";
                 parameter.Value = "Custom";
                 parameters.Add(parameter);
 

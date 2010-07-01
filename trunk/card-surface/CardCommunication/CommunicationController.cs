@@ -63,7 +63,7 @@ namespace CardCommunication
         /// <param name="parameters">The parameters.</param>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="value">The value of the parameter.</param>
-        protected void AddParameter(ref Collection<ParameterStruct> parameters, string name, string value)
+        protected void AddParameter(Collection<ParameterStruct> parameters, string name, string value)
         {
             ParameterStruct parameter = new ParameterStruct();
 

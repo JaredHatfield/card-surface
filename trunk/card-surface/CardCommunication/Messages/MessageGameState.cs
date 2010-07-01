@@ -130,7 +130,7 @@ namespace CardCommunication.Messages
 
                 switch (node.Name)
                 {
-                    case "gameObject":
+                    case "gameState":
                         this.serializedGame = a.Value;
                         break;
                 }
