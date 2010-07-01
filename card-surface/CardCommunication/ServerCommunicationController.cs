@@ -192,7 +192,7 @@ namespace CardCommunication
                     //// this may need a counter to pass as attributes.
                     foreach (string s in this.gameController.GameTypes)
                     {
-                        AddParameter(ref parameters, "GameType" + index, s);
+                        AddParameter(parameters, "GameType" + index, s);
                         index++;
                     }
 
@@ -404,7 +404,7 @@ namespace CardCommunication
                         if (game.Name == selectedGame)
                         {
                             // Element 1 - Type, 2 - Display, 3 - ID, 4 - #Players
-                            gameObject1 = game.Name + game.Name + game.Id.ToString() + game.NumberOfPlayers + "/" + game.NumberOfSeats;
+                            gameObject1 = game.Name + ";" + game.Name + ";" + game.Id.ToString() + ";" + game.NumberOfPlayers + "/" + game.NumberOfSeats;
                         }
 
                         existingGames.Add(gameObject1);
@@ -413,7 +413,7 @@ namespace CardCommunication
                     int index = 0;
                     foreach (string s in existingGames)
                     {
-                        AddParameter(ref parameters, "Game" + index, existingGames[index]);
+                        AddParameter(parameters, "Game" + index, existingGames[index]);
                         index++;
                     }
 

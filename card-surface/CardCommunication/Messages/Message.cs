@@ -216,14 +216,11 @@ namespace CardCommunication.Messages
 
             try
             {
-                //ValidationEventHandler veh = new ValidationEventHandler(this.Error);
-
                 message.SetAttribute("MessageType", this.messageTypeName);
                 this.BuildHeader(ref message);
                 this.BuildBody(ref message, messageName, parameters);
 
                 this.messageDoc.InnerXml = message.OuterXml;
-                ////this.messageDoc.Validate(veh);
             }
             catch (Exception e)
             {
