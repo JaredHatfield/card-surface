@@ -176,7 +176,8 @@ namespace CardCommunication
                 messageDoc.Load(ms);
                 
                 XmlElement messageElement = messageDoc.DocumentElement;
-                string mt = messageElement.Attributes[0].Value;
+                XmlElement bodyElement = (XmlElement)messageElement.LastChild;
+                string mt = bodyElement.Attributes[0].Value;
 
                 Collection<ParameterStruct> parameters = new Collection<ParameterStruct>();
 
@@ -378,8 +379,8 @@ namespace CardCommunication
                     Message messageRequestExistingGames = new Message();
                     messageRequestExistingGames.ProcessMessage(messageDoc);
                     Message messageExistingGames = new Message();
-                    Collection<Collection<string>> existingGames = new Collection<Collection<string>>();
-                    Collection<string> newGame = new Collection<string>();
+                    Collection<string> existingGames = new Collection<string>();
+                    string newGame = string.Empty;
                     string selectedGame = string.Empty;
 
                     foreach (ParameterStruct ps in messageRequestExistingGames.Parameters)
@@ -392,39 +393,31 @@ namespace CardCommunication
                         }
                     }
 
-                    newGame.Add(selectedGame);
-                    newGame.Add("New Game");
-                    newGame.Add(Guid.Empty.ToString());
-                    newGame.Add(String.Empty);
+                    newGame = selectedGame + ";New Game;" + Guid.Empty.ToString() + ";";
 
                     existingGames.Add(newGame);
                     
                     foreach (Game game in this.gameController.Games)
                     {
                         Collection<string> gameObject = new Collection<string>();
-
+                        string gameObject1 = string.Empty;
                         if (game.Name == selectedGame)
                         {
                             // Element 1 - Type, 2 - Display, 3 - ID, 4 - #Players
-                            gameObject.Add(game.Name);
-                            gameObject.Add(game.Name);
-                            gameObject.Add(game.Id.ToString());
-                            gameObject.Add(game.NumberOfPlayers + "/" + game.NumberOfSeats);
-                            //// gameObject.Add(game.location);
+                            gameObject1 = game.Name + game.Name + game.Id.ToString() + game.NumberOfPlayers + "/" + game.NumberOfSeats;
                         }
 
-                        existingGames.Add(gameObject);
+                        existingGames.Add(gameObject1);
                     }
 
                     int index = 0;
-                    //// this may need a counter to pass as attributes.
-                    foreach (string s in this.gameController.GameTypes)
+                    foreach (string s in existingGames)
                     {
-                        AddParameter(ref parameters, "GameType" + index, s);
+                        AddParameter(ref parameters, "Game" + index, existingGames[index]);
                         index++;
                     }
 
-                    messageExistingGames.BuildMessage(Message.MessageType.GameList.ToString(), parameters);                   
+                    messageExistingGames.BuildMessage(Message.MessageType.ExistingGames.ToString(), parameters);                   
                     Debug.WriteLine("Server: Client " + cc.Id + " returned the list of exiting games");
                     cc.SendMessage(HeaderMessage + messageExistingGames.MessageDocument.InnerXml);
                 }                
