@@ -223,7 +223,7 @@ namespace CardCommunication
                         }
                     }
 
-                    if (gameType != null)
+                    if (gameGuid == Guid.Empty)
                     {
                         Guid newGame = this.gameController.CreateGame(gameType);
                         cc.JoinGame(this.gameController.GetGame(newGame));
