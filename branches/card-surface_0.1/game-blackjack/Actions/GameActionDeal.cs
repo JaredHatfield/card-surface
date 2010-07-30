@@ -49,8 +49,8 @@ namespace GameBlackjack
             blackjack.House.Open = true;
             blackjack.MoveAction(deck.TopItem.Id, blackjack.House.Id);
             blackjack.MoveAction(deck.TopItem.Id, blackjack.House.Id);
-            (blackjack.House.Cards[0] as ICard).Status = Card.CardStatus.FaceDown;
-            (blackjack.House.Cards[1] as ICard).Status = Card.CardStatus.FaceUp;
+            (blackjack.House.Cards[0] as ICard).Status = Card.CardStatus.FaceUp;
+            (blackjack.House.Cards[1] as ICard).Status = Card.CardStatus.FaceDown;
 
             // Deal the cards to the player
             for (int i = 0; i < blackjack.Seats.Count; i++)
