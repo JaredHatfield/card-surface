@@ -1,0 +1,273 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5B0718D-8526-4568-983A-DB09C6464007}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <RootNamespace>CardTable</RootNamespace>
+    <AssemblyName>CardTable</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <OutputType>winexe</OutputType>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <ApplicationVersion>1.0.0.*</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>Publish\</PublishUrl>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ApplicationIcon>Resources\CardTableIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Windows.Design, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Windows.Design.Extensibility, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Windows.Design.Interaction, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Windows.Design.Markup, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Microsoft.Surface" />
+    <Reference Include="Microsoft.Surface.Presentation" />
+    <Reference Include="Microsoft.Surface.Presentation.Generic" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConnectionWindow.xaml.cs">
+      <DependentUpon>ConnectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Credits.xaml.cs">
+      <DependentUpon>Credits.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameFactory\SurfaceCardFactory.cs" />
+    <Compile Include="GameFactory\SurfaceChipFactory.cs" />
+    <Compile Include="GameObjects\SurfaceAction.cs" />
+    <Compile Include="GameObjects\SurfaceCard.cs" />
+    <Compile Include="GameObjects\SurfaceChip.cs" />
+    <Compile Include="GameSelection.xaml.cs">
+      <DependentUpon>GameSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameSurface.cs" />
+    <Compile Include="HelpInformation.xaml.cs">
+      <DependentUpon>HelpInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="CardTableClassDiagram.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="CardTableWindow.xaml.cs">
+      <DependentUpon>CardTableWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SlideDeck.xaml.cs">
+      <DependentUpon>SlideDeck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurfacePhysicalObject.cs" />
+    <Compile Include="SurfacePlayer.xaml.cs">
+      <DependentUpon>SurfacePlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurfacePlayingArea.xaml.cs">
+      <DependentUpon>SurfacePlayingArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurfaceSeat.xaml.cs">
+      <DependentUpon>SurfaceSeat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TableManager.cs" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CardSurfaceLogo.png" />
+    <Resource Include="Resources\CardTableIcon.ico" />
+    <Resource Include="Resources\chipBlack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipGreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipRed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chipWhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\CardBack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Felt.png" />
+    <Resource Include="Resources\Cards\AceClubs.bmp" />
+    <Resource Include="Resources\Cards\AceDiamonds.bmp" />
+    <Resource Include="Resources\Cards\AceHearts.bmp" />
+    <Resource Include="Resources\Cards\AceSpades.bmp" />
+    <Resource Include="Resources\Cards\EightClubs.bmp" />
+    <Resource Include="Resources\Cards\EightDiamonds.bmp" />
+    <Resource Include="Resources\Cards\EightHearts.bmp" />
+    <Resource Include="Resources\Cards\EightSpades.bmp" />
+    <Resource Include="Resources\Cards\FiveClubs.bmp" />
+    <Resource Include="Resources\Cards\FiveDiamonds.bmp" />
+    <Resource Include="Resources\Cards\FiveHearts.bmp" />
+    <Resource Include="Resources\Cards\FiveSpades.bmp" />
+    <Resource Include="Resources\Cards\FourClubs.bmp" />
+    <Resource Include="Resources\Cards\FourDiamonds.bmp" />
+    <Resource Include="Resources\Cards\FourHearts.bmp" />
+    <Resource Include="Resources\Cards\FourSpades.bmp" />
+    <Resource Include="Resources\Cards\JackClubs.bmp" />
+    <Resource Include="Resources\Cards\JackDiamonds.bmp" />
+    <Resource Include="Resources\Cards\JackHearts.bmp" />
+    <Resource Include="Resources\Cards\JackSpades.bmp" />
+    <Resource Include="Resources\Cards\KingClubs.bmp" />
+    <Resource Include="Resources\Cards\KingDiamonds.bmp" />
+    <Resource Include="Resources\Cards\KingHearts.bmp" />
+    <Resource Include="Resources\Cards\KingSpades.bmp" />
+    <Resource Include="Resources\Cards\NineClubs.bmp" />
+    <Resource Include="Resources\Cards\NineDiamonds.bmp" />
+    <Resource Include="Resources\Cards\NineHearts.bmp" />
+    <Resource Include="Resources\Cards\NineSpades.bmp" />
+    <Resource Include="Resources\Cards\QueenClubs.bmp" />
+    <Resource Include="Resources\Cards\QueenDiamonds.bmp" />
+    <Resource Include="Resources\Cards\QueenHearts.bmp" />
+    <Resource Include="Resources\Cards\QueenSpades.bmp" />
+    <Resource Include="Resources\Cards\SevenClubs.bmp" />
+    <Resource Include="Resources\Cards\SevenDiamonds.bmp" />
+    <Resource Include="Resources\Cards\SevenHearts.bmp" />
+    <Resource Include="Resources\Cards\SevenSpades.bmp" />
+    <Resource Include="Resources\Cards\SixClubs.bmp" />
+    <Resource Include="Resources\Cards\SixDiamonds.bmp" />
+    <Resource Include="Resources\Cards\SixHearts.bmp" />
+    <Resource Include="Resources\Cards\SixSpades.bmp" />
+    <Resource Include="Resources\Cards\TenClubs.bmp" />
+    <Resource Include="Resources\Cards\TenDiamonds.bmp" />
+    <Resource Include="Resources\Cards\TenHearts.bmp" />
+    <Resource Include="Resources\Cards\TenSpades.bmp" />
+    <Resource Include="Resources\Cards\ThreeClubs.bmp" />
+    <Resource Include="Resources\Cards\ThreeDiamonds.bmp" />
+    <Resource Include="Resources\Cards\ThreeHearts.bmp" />
+    <Resource Include="Resources\Cards\ThreeSpades.bmp" />
+    <Resource Include="Resources\Cards\TwoClubs.bmp" />
+    <Resource Include="Resources\Cards\TwoDiamonds.bmp" />
+    <Resource Include="Resources\Cards\TwoHearts.bmp" />
+    <Resource Include="Resources\Cards\TwoSpades.bmp" />
+    <Content Include="Resources\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iconPreview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="CardTable.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CardTableWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Credits.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HelpInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SlideDeck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurfacePlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurfacePlayingArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurfaceSeat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardCommunication\CardCommunication.csproj">
+      <Project>{F98D1D32-B24B-4D10-BF0A-D4F4234B8CC5}</Project>
+      <Name>CardCommunication</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
