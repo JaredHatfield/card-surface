@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EAADF0BE-508A-414F-B37C-B5BA632998AC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CardWeb</RootNamespace>
+    <AssemblyName>CardWeb</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebComponents\WebActions\WebAction.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionCreateAccount.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionInitGame.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionJoinTable.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionLeaveGame.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionLogin.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionLogout.cs" />
+    <Compile Include="WebComponents\WebActions\WebActionManageAccount.cs" />
+    <Compile Include="WebComponents\WebComponent.cs" />
+    <Compile Include="WebComponents\WebComponentCreateAccount.cs" />
+    <Compile Include="WebComponents\WebComponentDefault.cs" />
+    <Compile Include="WebComponents\WebComponentHand.cs" />
+    <Compile Include="WebComponents\WebComponentInitGame.cs" />
+    <Compile Include="WebComponents\WebComponentJoinTable.cs" />
+    <Compile Include="WebComponents\WebComponentLeaveGame.cs" />
+    <Compile Include="WebComponents\WebComponentLogin.cs" />
+    <Compile Include="WebComponents\WebComponentLogout.cs" />
+    <Compile Include="WebComponents\WebComponentResource.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewDefault.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewInitGame.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewResource.cs" />
+    <Compile Include="WebController.cs" />
+    <Compile Include="WebComponents\WebViews\WebView.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewCreateAccount.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewHand.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewJoinTable.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewLogin.cs" />
+    <Compile Include="WebComponents\WebViews\WebViewManageAccount.cs" />
+    <Compile Include="WebCookie.cs" />
+    <Compile Include="WebExceptions\WebServerActiveSessionAlreadyExistsException.cs" />
+    <Compile Include="WebExceptions\WebServerActiveSessionNotFoundException.cs" />
+    <Compile Include="WebExceptions\WebServerCouldNotLaunchException.cs" />
+    <Compile Include="WebExceptions\WebServerException.cs" />
+    <Compile Include="WebExceptions\WebServerSessionNotFoundException.cs" />
+    <Compile Include="WebExceptions\WebServerUrlParameterNotFoundException.cs" />
+    <Compile Include="WebRequest.cs" />
+    <Compile Include="WebSession.cs" />
+    <Compile Include="WebSessionController.cs" />
+    <Compile Include="WebUtilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CardWebClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\card-game\CardGame.csproj">
+      <Project>{7FFCC8EF-BF93-4EAC-BEB5-D6B260C4AD0C}</Project>
+      <Name>CardGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardAccount\CardAccount.csproj">
+      <Project>{A1B0F52B-2F60-4BE3-B21B-D3597AF688B1}</Project>
+      <Name>CardAccount</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

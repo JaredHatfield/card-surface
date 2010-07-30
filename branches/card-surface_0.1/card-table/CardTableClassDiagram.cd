@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CardTable.App">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.CardTableWindow">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardTable.CardTableWindow.NoArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CardTableWindow.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAgAAAgAIAAAAAAIIEAAAIAACAE=</HashCode>
+      <FileName>CardTableWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.Properties.Resources">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.Properties.Settings">
+    <Position X="16" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.ConnectionWindow">
+    <Position X="3.25" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAEIAAAgAAAAgCgAAIEAAAIAgCAE=</HashCode>
+      <FileName>ConnectionWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.Credits">
+    <Position X="13.75" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Credits.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameSelection">
+    <Position X="6.25" Y="0.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardTable.GameSelection.ActiveGameStructDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameSelection.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardTable.GameSelection.OneArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameSelection.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CardTable.GameSelection.NoArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameSelection.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAQAgEIgAAABAACAAAAgAAAAIAAAAIUAAgoAACAA=</HashCode>
+      <FileName>GameSelection.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameSurface">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameSurface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.HelpInformation">
+    <Position X="6.25" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HelpInformation.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.SlideDeck">
+    <Position X="8.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SlideDeck.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.SurfacePhysicalObject">
+    <Position X="11.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAgAAAAAAAAgA=</HashCode>
+      <FileName>SurfacePhysicalObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.SurfacePlayer">
+    <Position X="0.75" Y="0.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardTable.SurfacePlayer.NoArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SurfacePlayer.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAEAAAAAAAAAAAAEAAAAAECADAABAAAAAAAA=</HashCode>
+      <FileName>SurfacePlayer.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.SurfacePlayingArea">
+    <Position X="11" Y="5.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardTable.SurfacePlayingArea.NoArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SurfacePlayingArea.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAEgAAAAAAAAAAAAAAAEAQBAAAAAAAAAAAAA=</HashCode>
+      <FileName>SurfacePlayingArea.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.SurfaceSeat">
+    <Position X="9.25" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="CardTable.SurfaceSeat.NoArgDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SurfaceSeat.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAIAAQEBAAEAAgAAAACAAAAAQgAAAQAAAAAQ=</HashCode>
+      <FileName>SurfaceSeat.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.TableManager">
+    <Position X="0.5" Y="4.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAEAAQAAAQMAAAACAAAYIABAAAAAQAAAAABAAAA=</HashCode>
+      <FileName>TableManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameFactory.SurfaceCardFactory">
+    <Position X="13.75" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAABAA=</HashCode>
+      <FileName>GameFactory\SurfaceCardFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameFactory.SurfaceChipFactory">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>GameFactory\SurfaceChipFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameObjects.SurfaceAction" BaseTypeListCollapsed="true">
+    <Position X="13" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\SurfaceAction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CardTable.GameObjects.SurfaceCard">
+    <Position X="11.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\SurfaceCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CardTable.GameObjects.SurfaceChip">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAgAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\SurfaceChip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
