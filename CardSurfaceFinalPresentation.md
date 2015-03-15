@@ -1,0 +1,1 @@
+&lt;wiki:gadget url="http://card-surface.googlecode.com/svn/trunk/final\_presentation\_gadget.xml" height="451" width="555" border="1"/&gt;
